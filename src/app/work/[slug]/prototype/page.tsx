@@ -3436,131 +3436,622 @@ function EHRPrototype() {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   IOT DASHBOARD PROTOTYPE
+   IOT DASHBOARD PROTOTYPE — CPCB Ambient Air Quality Monitoring
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+type AQICategory = "good"|"satisfactory"|"moderate"|"poor"|"very-poor"|"severe";
+type PCBModule = "dashboard"|"stations"|"map"|"pollutants"|"alerts"|"compliance"|"machines"|"reports";
+
+const aqiColor = (cat:AQICategory)=>({good:"#22C55E",satisfactory:"#84CC16","moderate":"#EAB308",poor:"#F97316","very-poor":"#EF4444",severe:"#7F1D1D"}[cat]);
+const aqiBg = (cat:AQICategory)=>({good:"bg-green-500/15 text-green-300 border-green-500/30",satisfactory:"bg-lime-500/15 text-lime-300 border-lime-500/30","moderate":"bg-yellow-500/15 text-yellow-300 border-yellow-500/30",poor:"bg-orange-500/15 text-orange-300 border-orange-500/30","very-poor":"bg-red-500/15 text-red-300 border-red-500/30",severe:"bg-red-900/30 text-red-200 border-red-800/40"}[cat]);
+
+const stations = [
+  { id:"MPCB-MH-001", name:"Andheri (W) — Mumbai", state:"Maharashtra", city:"Mumbai", lat:19.136, lng:72.835, aqi:142, cat:"moderate" as AQICategory, pm25:58.3, pm10:112, so2:14.2, no2:38.7, co:1.2, o3:42.1, nh3:18.4, pb:0.32, benzene:2.8, temp:33.2, humidity:72, windSpeed:8.4, windDir:"SW", uptime:99.2, lastSync:"2 min ago", machineStatus:"online" as const },
+  { id:"KSPCB-KA-014", name:"Peenya Industrial — Bengaluru", state:"Karnataka", city:"Bengaluru", lat:13.032, lng:77.519, aqi:198, cat:"poor" as AQICategory, pm25:89.2, pm10:168, so2:22.8, no2:52.3, co:2.1, o3:28.4, nh3:32.1, pb:0.48, benzene:5.2, temp:28.6, humidity:58, windSpeed:4.2, windDir:"NE", uptime:97.8, lastSync:"1 min ago", machineStatus:"online" as const },
+  { id:"DPCC-DL-007", name:"Anand Vihar — Delhi", state:"Delhi", city:"Delhi", lat:28.646, lng:77.316, aqi:312, cat:"very-poor" as AQICategory, pm25:186.4, pm10:298, so2:18.9, no2:78.2, co:3.8, o3:18.2, nh3:42.8, pb:0.72, benzene:8.4, temp:38.4, humidity:42, windSpeed:3.1, windDir:"NW", uptime:96.4, lastSync:"3 min ago", machineStatus:"warning" as const },
+  { id:"GPCB-GJ-009", name:"Vatva GIDC — Ahmedabad", state:"Gujarat", city:"Ahmedabad", lat:22.972, lng:72.613, aqi:224, cat:"poor" as AQICategory, pm25:98.6, pm10:192, so2:34.2, no2:44.8, co:1.8, o3:32.6, nh3:28.9, pb:0.56, benzene:6.1, temp:36.8, humidity:38, windSpeed:6.8, windDir:"W", uptime:98.6, lastSync:"1 min ago", machineStatus:"online" as const },
+  { id:"TNPCB-TN-022", name:"Manali Industrial — Chennai", state:"Tamil Nadu", city:"Chennai", lat:13.167, lng:80.262, aqi:178, cat:"poor" as AQICategory, pm25:72.4, pm10:148, so2:28.4, no2:42.1, co:1.6, o3:38.2, nh3:26.4, pb:0.44, benzene:4.8, temp:34.2, humidity:78, windSpeed:12.2, windDir:"SE", uptime:99.8, lastSync:"1 min ago", machineStatus:"online" as const },
+  { id:"WBPCB-WB-011", name:"Howrah Industrial — Kolkata", state:"West Bengal", city:"Kolkata", lat:22.593, lng:88.318, aqi:268, cat:"very-poor" as AQICategory, pm25:142.8, pm10:238, so2:24.6, no2:62.4, co:2.8, o3:22.8, nh3:38.2, pb:0.64, benzene:7.2, temp:35.6, humidity:82, windSpeed:5.4, windDir:"S", uptime:94.2, lastSync:"8 min ago", machineStatus:"warning" as const },
+  { id:"RSPCB-RJ-005", name:"Sanganer — Jaipur", state:"Rajasthan", city:"Jaipur", lat:26.827, lng:75.808, aqi:92, cat:"satisfactory" as AQICategory, pm25:34.2, pm10:78, so2:8.4, no2:22.8, co:0.8, o3:48.2, nh3:12.4, pb:0.18, benzene:1.8, temp:39.4, humidity:28, windSpeed:14.2, windDir:"W", uptime:99.6, lastSync:"2 min ago", machineStatus:"online" as const },
+  { id:"MPPCB-MP-003", name:"Mandideep — Bhopal", state:"Madhya Pradesh", city:"Bhopal", lat:23.086, lng:77.505, aqi:168, cat:"moderate" as AQICategory, pm25:68.4, pm10:138, so2:18.2, no2:36.4, co:1.4, o3:44.8, nh3:22.1, pb:0.38, benzene:3.4, temp:37.2, humidity:44, windSpeed:7.2, windDir:"NW", uptime:98.2, lastSync:"2 min ago", machineStatus:"online" as const },
+  { id:"HSPCB-HR-008", name:"IMT Manesar — Gurugram", state:"Haryana", city:"Gurugram", lat:28.359, lng:76.935, aqi:288, cat:"very-poor" as AQICategory, pm25:162.8, pm10:268, so2:22.4, no2:72.8, co:3.2, o3:16.4, nh3:44.2, pb:0.68, benzene:7.8, temp:37.8, humidity:46, windSpeed:4.8, windDir:"NW", uptime:95.8, lastSync:"5 min ago", machineStatus:"online" as const },
+  { id:"OSPCB-OR-006", name:"Talcher — Angul", state:"Odisha", city:"Angul", lat:20.949, lng:85.234, aqi:348, cat:"severe" as AQICategory, pm25:218.4, pm10:342, so2:48.2, no2:84.6, co:4.2, o3:12.8, nh3:52.4, pb:0.88, benzene:9.6, temp:36.4, humidity:62, windSpeed:3.8, windDir:"E", uptime:88.4, lastSync:"12 min ago", machineStatus:"critical" as const },
+  { id:"CPCB-UP-018", name:"Noida Sec-62 — Noida", state:"Uttar Pradesh", city:"Noida", lat:28.627, lng:77.365, aqi:256, cat:"very-poor" as AQICategory, pm25:148.2, pm10:242, so2:16.8, no2:68.4, co:2.6, o3:18.8, nh3:38.6, pb:0.58, benzene:6.8, temp:38.2, humidity:44, windSpeed:3.4, windDir:"NW", uptime:97.2, lastSync:"3 min ago", machineStatus:"online" as const },
+  { id:"APPCB-AP-012", name:"Gajuwaka — Visakhapatnam", state:"Andhra Pradesh", city:"Visakhapatnam", lat:17.704, lng:83.210, aqi:48, cat:"good" as AQICategory, pm25:18.2, pm10:42, so2:6.2, no2:14.8, co:0.4, o3:52.4, nh3:8.2, pb:0.12, benzene:0.8, temp:30.8, humidity:74, windSpeed:16.8, windDir:"SE", uptime:99.9, lastSync:"1 min ago", machineStatus:"online" as const },
+];
+
+const naaqs = [
+  { pollutant:"PM2.5", unit:"µg/m³", limit24h:60, limitAnnual:40, method:"BAM / Gravimetric" },
+  { pollutant:"PM10", unit:"µg/m³", limit24h:100, limitAnnual:60, method:"BAM / Gravimetric" },
+  { pollutant:"SO₂", unit:"µg/m³", limit24h:80, limitAnnual:50, method:"UV Fluorescence" },
+  { pollutant:"NO₂", unit:"µg/m³", limit24h:80, limitAnnual:40, method:"Chemiluminescence" },
+  { pollutant:"CO", unit:"mg/m³", limit24h:4, limitAnnual:2, method:"NDIR" },
+  { pollutant:"O₃", unit:"µg/m³", limit24h:100, limitAnnual:0, method:"UV Photometry" },
+  { pollutant:"NH₃", unit:"µg/m³", limit24h:400, limitAnnual:100, method:"Chemiluminescence" },
+  { pollutant:"Pb", unit:"µg/m³", limit24h:1, limitAnnual:0.5, method:"AAS / ICP-MS" },
+  { pollutant:"Benzene", unit:"µg/m³", limit24h:0, limitAnnual:5, method:"GC-FID" },
+];
+
+const machineInventory = [
+  { id:"BAM-1020-A", type:"PM2.5 Beta Attenuation Monitor", make:"Met One / BAM 1020", station:"Andheri (W)", calibDue:"2026-06-15", status:"operational" as const, uptime:99.4, lastService:"2026-02-10", firmware:"v3.2.1" },
+  { id:"TEOM-1400-B", type:"PM10 TEOM Analyzer", make:"Thermo Fisher TEOM 1400ab", station:"Andheri (W)", calibDue:"2026-05-22", status:"operational" as const, uptime:98.8, lastService:"2026-01-18", firmware:"v2.8.4" },
+  { id:"API-100E-C", type:"SO₂ UV Fluorescence Analyzer", make:"Teledyne API 100E", station:"Peenya Industrial", calibDue:"2026-04-12", status:"calib-due" as const, uptime:97.2, lastService:"2025-12-08", firmware:"v4.1.0" },
+  { id:"API-200E-D", type:"NO₂ Chemiluminescence Analyzer", make:"Teledyne API 200E", station:"Anand Vihar", calibDue:"2026-07-01", status:"operational" as const, uptime:96.8, lastService:"2026-03-05", firmware:"v3.6.2" },
+  { id:"API-300E-E", type:"CO NDIR Analyzer", make:"Teledyne API 300E", station:"Anand Vihar", calibDue:"2026-05-18", status:"operational" as const, uptime:95.4, lastService:"2026-02-22", firmware:"v2.4.1" },
+  { id:"API-400E-F", type:"O₃ UV Photometry Analyzer", make:"Teledyne API 400E", station:"Vatva GIDC", calibDue:"2026-06-30", status:"operational" as const, uptime:98.2, lastService:"2026-01-28", firmware:"v3.0.5" },
+  { id:"MET-200-G", type:"Meteorological Sensor Suite", make:"Enviro Technology AWS", station:"Talcher", calibDue:"2026-04-08", status:"fault" as const, uptime:88.4, lastService:"2025-11-14", firmware:"v1.9.3" },
+  { id:"DAS-500-H", type:"Data Acquisition System", make:"Envidas DAS", station:"Howrah Industrial", calibDue:"N/A", status:"sync-issue" as const, uptime:92.6, lastService:"2026-03-18", firmware:"v5.2.0" },
+  { id:"BAM-1020-I", type:"PM2.5 Beta Attenuation Monitor", make:"Met One / BAM 1020", station:"IMT Manesar", calibDue:"2026-08-10", status:"operational" as const, uptime:97.8, lastService:"2026-02-28", firmware:"v3.2.1" },
+  { id:"GC-FID-J", type:"Benzene GC-FID Analyzer", make:"Synspec Alpha 115", station:"Talcher", calibDue:"2026-04-20", status:"fault" as const, uptime:84.2, lastService:"2025-10-22", firmware:"v2.1.8" },
+  { id:"CAAQMS-K", type:"Continuous AAQ Monitoring System", make:"Acoem Serinus 30", station:"Gajuwaka — Visakhapatnam", calibDue:"2026-09-01", status:"operational" as const, uptime:99.8, lastService:"2026-03-12", firmware:"v6.0.2" },
+  { id:"BAM-1020-L", type:"PM2.5 Beta Attenuation Monitor", make:"Met One / BAM 1020", station:"Noida Sec-62", calibDue:"2026-05-28", status:"operational" as const, uptime:97.6, lastService:"2026-02-14", firmware:"v3.2.1" },
+];
+
+const complianceAlerts = [
+  { id:"CMP-001", station:"Talcher — Angul", pollutant:"PM2.5", value:218.4, limit:60, exceedance:"264%", severity:"critical" as const, since:"72h", action:"SPCB Odisha notified, GRAP Stage-IV equivalent recommended" },
+  { id:"CMP-002", station:"Anand Vihar — Delhi", pollutant:"PM2.5", value:186.4, limit:60, exceedance:"211%", severity:"critical" as const, since:"48h", action:"DPCC notified, CAQM GRAP Stage-III activated" },
+  { id:"CMP-003", station:"IMT Manesar — Gurugram", pollutant:"NO₂", value:72.8, limit:80, exceedance:"Near limit", severity:"warning" as const, since:"6h", action:"Monitor closely, industrial emission check advisory issued" },
+  { id:"CMP-004", station:"Howrah Industrial — Kolkata", pollutant:"PM10", value:238, limit:100, exceedance:"138%", severity:"critical" as const, since:"36h", action:"WBPCB show-cause notice to 3 industries, water sprinkling ordered" },
+  { id:"CMP-005", station:"Peenya Industrial — Bengaluru", pollutant:"Benzene", value:5.2, limit:5, exceedance:"4%", severity:"warning" as const, since:"2h", action:"Source monitoring ordered — suspected solvent unit in KIADB area" },
+  { id:"CMP-006", station:"Vatva GIDC — Ahmedabad", pollutant:"SO₂", value:34.2, limit:80, exceedance:"OK", severity:"info" as const, since:"—", action:"Within limits. Seasonal trend tracking enabled" },
+];
+
 function IoTPrototype() {
-  const [selectedZone, setSelectedZone] = useState("All Zones");
+  const [activeModule, setActiveModule] = useState<PCBModule>("dashboard");
+  const [selectedStation, setSelectedStation] = useState(stations[0]);
+  const [stationFilter, setStationFilter] = useState("All States");
+  const [expandedMachine, setExpandedMachine] = useState<string|null>(null);
+  const [machineActions, setMachineActions] = useState<Record<string,string>>({});
+  const [alertAcknowledged, setAlertAcknowledged] = useState<Record<string,boolean>>({});
+  const [reportGenerated, setReportGenerated] = useState(false);
+  const [toast, setToast] = useState<{msg:string;type?:"success"|"info"|"warn"}|null>(null);
 
-  const devices = [
-    { id: "SN-001", name: "Temp Sensor A1", zone: "Zone A", value: "23.4°C", status: "online" },
-    { id: "SN-002", name: "Pressure Valve B3", zone: "Zone B", value: "2.1 bar", status: "online" },
-    { id: "SN-003", name: "Humidity Ctrl A2", zone: "Zone A", value: "45%", status: "warning" },
-    { id: "SN-004", name: "Motor RPM C1", zone: "Zone C", value: "1450", status: "online" },
-    { id: "SN-005", name: "Flow Meter B1", zone: "Zone B", value: "12.8 L/s", status: "offline" },
-    { id: "SN-006", name: "Vibration C2", zone: "Zone C", value: "0.3g", status: "online" },
-    { id: "SN-007", name: "Power Meter A3", zone: "Zone A", value: "4.2 kW", status: "online" },
-    { id: "SN-008", name: "Gas Detector B2", zone: "Zone B", value: "OK", status: "online" },
+  const showToast = (msg:string, type:"success"|"info"|"warn"="info")=>{setToast({msg,type});setTimeout(()=>setToast(null),2500);};
+
+  const stateList = ["All States",...[...new Set(stations.map(s=>s.state))].sort()];
+  const filteredStations = stationFilter==="All States"?stations:stations.filter(s=>s.state===stationFilter);
+
+  const modules:{key:PCBModule;label:string;badge?:number}[] = [
+    { key:"dashboard", label:"Dashboard" },
+    { key:"stations", label:"Stations", badge:stations.length },
+    { key:"pollutants", label:"Pollutant Data" },
+    { key:"alerts", label:"Compliance Alerts", badge:complianceAlerts.filter(a=>a.severity==="critical").length },
+    { key:"machines", label:"Machine Health", badge:machineInventory.filter(m=>m.status==="fault"||m.status==="calib-due").length },
+    { key:"compliance", label:"NAAQS Standards" },
+    { key:"reports", label:"Reports" },
   ];
 
-  const alerts = [
-    { severity: "critical", msg: "Flow Meter B1 — No data for 15 min", time: "2m ago" },
-    { severity: "warning", msg: "Humidity Ctrl A2 — Reading above threshold (45%)", time: "8m ago" },
-    { severity: "info", msg: "Motor RPM C1 — Scheduled maintenance in 2 days", time: "1h ago" },
+  const catCounts:{cat:AQICategory;label:string;count:number}[] = [
+    { cat:"good", label:"Good (0–50)", count:stations.filter(s=>s.aqi<=50).length },
+    { cat:"satisfactory", label:"Satisfactory (51–100)", count:stations.filter(s=>s.aqi>50&&s.aqi<=100).length },
+    { cat:"moderate", label:"Moderate (101–200)", count:stations.filter(s=>s.aqi>100&&s.aqi<=200).length },
+    { cat:"poor", label:"Poor (201–300)", count:stations.filter(s=>s.aqi>200&&s.aqi<=300).length },
+    { cat:"very-poor", label:"Very Poor (301–400)", count:stations.filter(s=>s.aqi>300&&s.aqi<=400).length },
+    { cat:"severe", label:"Severe (400+)", count:stations.filter(s=>s.aqi>400).length },
   ];
-
-  const zones = ["All Zones", "Zone A", "Zone B", "Zone C"];
-  const filteredDevices = selectedZone === "All Zones" ? devices : devices.filter((d) => d.zone === selectedZone);
 
   return (
-    <PrototypeShell title="iot-command.center">
+    <PrototypeShell title="cpcb-caaqms.gov.in">
+      {/* Toast */}
+      <AnimatePresence>{toast&&(
+        <motion.div initial={{opacity:0,y:-20}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-20}} className={`fixed top-14 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-lg text-[10px] font-medium border shadow-lg backdrop-blur-sm ${toast.type==="success"?"bg-green-500/20 text-green-300 border-green-500/30":toast.type==="warn"?"bg-amber-500/20 text-amber-300 border-amber-500/30":"bg-cyan-500/20 text-cyan-300 border-cyan-500/30"}`}>{toast.msg}</motion.div>
+      )}</AnimatePresence>
+
       <div className="flex h-[calc(100vh-48px)]">
-        {/* Sidebar */}
-        <aside className="w-56 shrink-0 border-r border-white/10 bg-[#0D1525] overflow-y-auto">
-          <div className="p-3">
-            <p className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Zones</p>
-            {zones.map((z) => (
-              <button
-                key={z}
-                onClick={() => setSelectedZone(z)}
-                className={`w-full text-left text-xs px-3 py-2 rounded-lg transition-colors ${selectedZone === z ? "bg-cyan-500/15 text-cyan-300" : "text-white/50 hover:text-white/80 hover:bg-white/5"}`}
-              >
-                {z}
+        {/* ── Left Navigation ── */}
+        <aside className="w-52 shrink-0 border-r border-white/10 bg-[#0D1525] overflow-y-auto hidden md:block">
+          <div className="p-3 border-b border-white/10">
+            <p className="text-[8px] font-mono text-emerald-400 uppercase tracking-widest">Central Pollution Control Board</p>
+            <p className="text-[10px] text-white/40 mt-0.5">CAAQMS Network — India</p>
+          </div>
+          <div className="p-2 space-y-0.5">
+            {modules.map((m)=>(
+              <button key={m.key} onClick={()=>setActiveModule(m.key)}
+                className={`w-full text-left text-[10px] px-2.5 py-2 rounded-lg transition-colors flex items-center justify-between ${activeModule===m.key?"bg-emerald-500/15 text-emerald-300":"text-white/50 hover:text-white/80 hover:bg-white/5"}`}>
+                <span>{m.label}</span>
+                {m.badge!==undefined&&<span className={`text-[8px] px-1.5 py-0.5 rounded-full ${activeModule===m.key?"bg-emerald-500/20":"bg-white/10"}`}>{m.badge}</span>}
               </button>
             ))}
           </div>
+          {/* State filter */}
           <div className="p-3 border-t border-white/10">
-            <p className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Alerts</p>
-            <div className="space-y-2">
-              {alerts.map((a, i) => (
-                <div key={i} className={`p-2 rounded-lg border text-[10px] ${a.severity === "critical" ? "bg-red-500/10 border-red-500/30 text-red-300" : a.severity === "warning" ? "bg-amber-500/10 border-amber-500/30 text-amber-300" : "bg-white/5 border-white/10 text-white/50"}`}>
-                  <p className="leading-relaxed">{a.msg}</p>
-                  <p className="text-white/30 mt-1">{a.time}</p>
+            <p className="text-[8px] font-mono text-emerald-400 uppercase tracking-widest mb-2">Filter by State</p>
+            <div className="space-y-0.5 max-h-48 overflow-y-auto">
+              {stateList.map((s)=>(
+                <button key={s} onClick={()=>setStationFilter(s)} className={`w-full text-left text-[9px] px-2 py-1.5 rounded-lg transition-colors ${stationFilter===s?"bg-white/10 text-white/80":"text-white/40 hover:text-white/60"}`}>{s}</button>
+              ))}
+            </div>
+          </div>
+          {/* Mini alert panel */}
+          <div className="p-3 border-t border-white/10">
+            <p className="text-[8px] font-mono text-red-400 uppercase tracking-widest mb-2">Active Alerts</p>
+            <div className="space-y-1.5">
+              {complianceAlerts.filter(a=>a.severity==="critical").slice(0,3).map((a)=>(
+                <div key={a.id} onClick={()=>{setActiveModule("alerts");showToast(`Viewing alert ${a.id}`);}} className="p-2 rounded-lg bg-red-500/10 border border-red-500/20 cursor-pointer hover:border-red-500/30 transition-colors">
+                  <p className="text-[9px] text-red-300 font-medium truncate">{a.station}</p>
+                  <p className="text-[8px] text-white/30">{a.pollutant} — {a.exceedance} over limit</p>
                 </div>
               ))}
             </div>
           </div>
         </aside>
 
-        {/* Main */}
-        <div className="flex-1 overflow-auto p-6">
-          {/* Stats Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            {[
-              { label: "Total Devices", value: "1,247", sub: "+12 this week" },
-              { label: "Online", value: "1,189", sub: "95.3%" },
-              { label: "Warnings", value: "43", sub: "3.4%" },
-              { label: "Offline", value: "15", sub: "1.2%" },
-            ].map((s) => (
-              <div key={s.label} className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <p className="text-[10px] text-white/40 mb-1">{s.label}</p>
-                <p className="text-2xl font-bold">{s.value}</p>
-                <p className="text-[10px] text-cyan-400/60">{s.sub}</p>
+        {/* ── Main Content ── */}
+        <div className="flex-1 overflow-y-auto">
+          <AnimatePresence mode="wait">
+            <motion.div key={activeModule} initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-8}} transition={{duration:0.2}} className="p-4 lg:p-6">
+
+              {/* ════════ DASHBOARD ════════ */}
+              {activeModule==="dashboard" && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-sm font-semibold text-white/90">National Ambient Air Quality — Live Dashboard</h2>
+                    <p className="text-[9px] text-white/40 mt-0.5">CAAQMS Network • {stations.length} stations • Last updated: 06 April 2026, {new Date().getHours()}:{String(new Date().getMinutes()).padStart(2,"0")} IST</p>
+                  </div>
+
+                  {/* AQI Category Distribution */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                    {catCounts.map((c)=>(
+                      <div key={c.cat} onClick={()=>{setActiveModule("stations");showToast(`Filtered: ${c.label}`);}} className={`p-3 rounded-xl border cursor-pointer transition-all hover:scale-[1.02] ${aqiBg(c.cat)}`}>
+                        <div className="flex items-center gap-2 mb-1">
+                          <div className="w-3 h-3 rounded-full" style={{backgroundColor:aqiColor(c.cat)}}/>
+                          <p className="text-[8px] text-white/40 uppercase">{c.cat}</p>
+                        </div>
+                        <p className="text-2xl font-bold">{c.count}</p>
+                        <p className="text-[8px] text-white/30">{c.label}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Top Stats */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {[
+                      { label:"Network Uptime", value:`${(stations.reduce((s,st)=>s+st.uptime,0)/stations.length).toFixed(1)}%`, sub:"Across all stations", color:"text-emerald-400" },
+                      { label:"Critical Alerts", value:String(complianceAlerts.filter(a=>a.severity==="critical").length), sub:"Require immediate action", color:"text-red-400" },
+                      { label:"Machines Faulty", value:String(machineInventory.filter(m=>m.status==="fault").length), sub:"Need service / repair", color:"text-amber-400" },
+                      { label:"Avg National AQI", value:String(Math.round(stations.reduce((s,st)=>s+st.aqi,0)/stations.length)), sub:"Across monitored cities", color:"text-cyan-400" },
+                    ].map((s)=>(
+                      <div key={s.label} className="p-3 rounded-xl bg-white/5 border border-white/10">
+                        <p className="text-[8px] text-white/40 uppercase mb-1">{s.label}</p>
+                        <p className={`text-xl font-bold ${s.color}`}>{s.value}</p>
+                        <p className="text-[8px] text-white/30 mt-0.5">{s.sub}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Worst 5 stations */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-red-400 uppercase tracking-widest mb-3">Top 5 Most Polluted Stations</h3>
+                    <div className="space-y-2">
+                      {[...stations].sort((a,b)=>b.aqi-a.aqi).slice(0,5).map((s,i)=>(
+                        <div key={s.id} onClick={()=>{setSelectedStation(s);setActiveModule("pollutants");showToast(`Viewing ${s.name}`);}} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer hover:bg-white/8 transition-colors">
+                          <span className="text-lg font-bold text-white/20 w-6">{i+1}</span>
+                          <div className="w-4 h-4 rounded-full" style={{backgroundColor:aqiColor(s.cat)}}/>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[10px] text-white/80 font-medium truncate">{s.name}</p>
+                            <p className="text-[8px] text-white/30">{s.state} • {s.lastSync}</p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="text-lg font-bold" style={{color:aqiColor(s.cat)}}>{s.aqi}</p>
+                            <p className="text-[8px] text-white/30">AQI</p>
+                          </div>
+                          <span className={`px-2 py-0.5 rounded-full text-[8px] border ${aqiBg(s.cat)}`}>{s.cat}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* PM2.5 bar chart across all stations */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest mb-3">PM2.5 Levels — All Stations (µg/m³)</h3>
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                      <div className="flex items-end gap-2 h-36">
+                        {stations.map((s)=>{
+                          const pct = Math.min((s.pm25/220)*100,100);
+                          const exceeds = s.pm25>60;
+                          return (
+                            <div key={s.id} onClick={()=>{setSelectedStation(s);setActiveModule("pollutants");}} className="flex-1 flex flex-col items-center cursor-pointer group">
+                              <span className="text-[7px] text-white/40 mb-1 opacity-0 group-hover:opacity-100 transition-opacity">{s.pm25}</span>
+                              <div className="w-full rounded-t transition-all group-hover:opacity-80" style={{height:`${pct}%`,backgroundColor:exceeds?aqiColor(s.cat)+"90":"#22C55E60"}}/>
+                              <p className="text-[6px] text-white/30 mt-1 truncate w-full text-center">{s.city}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="mt-2 flex items-center gap-2">
+                        <div className="flex-1 h-px bg-red-500/30 border-t border-dashed border-red-500/40"/>
+                        <span className="text-[8px] text-red-400">NAAQS Limit: 60 µg/m³</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ STATIONS ════════ */}
+              {activeModule==="stations" && (
+                <div className="space-y-4">
+                  <h2 className="text-sm font-semibold text-white/90">Monitoring Stations — {stationFilter}</h2>
+                  <p className="text-[9px] text-white/40">Click any station to view detailed pollutant data</p>
+                  <div className="rounded-xl border border-white/10 overflow-hidden">
+                    <table className="w-full text-[10px]">
+                      <thead><tr className="bg-white/5">
+                        <th className="text-left p-3 text-white/40 font-medium">Station</th>
+                        <th className="text-left p-3 text-white/40 font-medium">State</th>
+                        <th className="text-left p-3 text-white/40 font-medium">AQI</th>
+                        <th className="text-left p-3 text-white/40 font-medium">PM2.5</th>
+                        <th className="text-left p-3 text-white/40 font-medium hidden lg:table-cell">PM10</th>
+                        <th className="text-left p-3 text-white/40 font-medium hidden lg:table-cell">NO₂</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Uptime</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Status</th>
+                      </tr></thead>
+                      <tbody>
+                        {filteredStations.map((s,i)=>(
+                          <motion.tr key={s.id} initial={{opacity:0,x:-10}} animate={{opacity:1,x:0}} transition={{delay:i*0.03}}
+                            onClick={()=>{setSelectedStation(s);setActiveModule("pollutants");showToast(`Loaded ${s.name}`);}}
+                            className="border-t border-white/5 cursor-pointer hover:bg-white/5 transition-colors">
+                            <td className="p-3">
+                              <p className="text-white/80 font-medium">{s.name}</p>
+                              <p className="text-[8px] text-white/30 font-mono">{s.id}</p>
+                            </td>
+                            <td className="p-3 text-white/50">{s.state}</td>
+                            <td className="p-3"><span className="text-sm font-bold" style={{color:aqiColor(s.cat)}}>{s.aqi}</span></td>
+                            <td className={`p-3 font-mono ${s.pm25>60?"text-red-300":"text-white/60"}`}>{s.pm25}</td>
+                            <td className={`p-3 font-mono hidden lg:table-cell ${s.pm10>100?"text-red-300":"text-white/60"}`}>{s.pm10}</td>
+                            <td className={`p-3 font-mono hidden lg:table-cell ${s.no2>80?"text-red-300":"text-white/60"}`}>{s.no2}</td>
+                            <td className="p-3"><span className={`text-[10px] font-mono ${s.uptime>=99?"text-green-400":s.uptime>=95?"text-amber-400":"text-red-400"}`}>{s.uptime}%</span></td>
+                            <td className="p-3"><span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] ${s.machineStatus==="online"?"bg-green-500/20 text-green-300":s.machineStatus==="warning"?"bg-amber-500/20 text-amber-300":"bg-red-500/20 text-red-300"}`}><span className={`w-1.5 h-1.5 rounded-full ${s.machineStatus==="online"?"bg-green-400":s.machineStatus==="warning"?"bg-amber-400":"bg-red-400"}`}/>{s.machineStatus}</span></td>
+                          </motion.tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ POLLUTANT DATA (Station Detail) ════════ */}
+              {activeModule==="pollutants" && (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{backgroundColor:aqiColor(selectedStation.cat)+"20",border:`1px solid ${aqiColor(selectedStation.cat)}40`}}>
+                      <span className="text-sm font-bold" style={{color:aqiColor(selectedStation.cat)}}>{selectedStation.aqi}</span>
+                    </div>
+                    <div>
+                      <h2 className="text-sm font-semibold text-white/90">{selectedStation.name}</h2>
+                      <p className="text-[9px] text-white/40">{selectedStation.id} • {selectedStation.state} • Last sync: {selectedStation.lastSync}</p>
+                    </div>
+                    <span className={`ml-auto px-3 py-1 rounded-full text-[9px] border ${aqiBg(selectedStation.cat)}`}>{selectedStation.cat.toUpperCase()}</span>
+                  </div>
+
+                  {/* Pollutant cards */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                    {[
+                      { label:"PM2.5", value:selectedStation.pm25, unit:"µg/m³", limit:60 },
+                      { label:"PM10", value:selectedStation.pm10, unit:"µg/m³", limit:100 },
+                      { label:"SO₂", value:selectedStation.so2, unit:"µg/m³", limit:80 },
+                      { label:"NO₂", value:selectedStation.no2, unit:"µg/m³", limit:80 },
+                      { label:"CO", value:selectedStation.co, unit:"mg/m³", limit:4 },
+                      { label:"O₃", value:selectedStation.o3, unit:"µg/m³", limit:100 },
+                      { label:"NH₃", value:selectedStation.nh3, unit:"µg/m³", limit:400 },
+                      { label:"Pb", value:selectedStation.pb, unit:"µg/m³", limit:1 },
+                      { label:"Benzene", value:selectedStation.benzene, unit:"µg/m³", limit:5 },
+                      { label:"AQI", value:selectedStation.aqi, unit:"Index", limit:100 },
+                    ].map((p)=>{
+                      const exceeds = p.value>p.limit;
+                      return (
+                      <div key={p.label} className={`p-3 rounded-xl border ${exceeds?"bg-red-500/10 border-red-500/20":"bg-white/5 border-white/10"}`}>
+                        <p className="text-[8px] text-white/40 mb-0.5">{p.label}</p>
+                        <p className={`text-lg font-bold font-mono ${exceeds?"text-red-400":"text-white"}`}>{p.value}</p>
+                        <p className="text-[7px] text-white/30">{p.unit}</p>
+                        <div className="mt-1.5 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                          <div className="h-full rounded-full transition-all" style={{width:`${Math.min((p.value/p.limit)*100,100)}%`,backgroundColor:exceeds?"#EF4444":p.value>(p.limit*0.8)?"#F59E0B":"#22C55E"}}/>
+                        </div>
+                        <p className="text-[7px] text-white/20 mt-0.5">Limit: {p.limit} {p.unit}</p>
+                      </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Meteorological data */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest mb-3">Meteorological Data</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {[
+                        { label:"Temperature", value:`${selectedStation.temp}°C`, icon:"🌡️" },
+                        { label:"Humidity", value:`${selectedStation.humidity}%`, icon:"💧" },
+                        { label:"Wind Speed", value:`${selectedStation.windSpeed} km/h`, icon:"🌬️" },
+                        { label:"Wind Direction", value:selectedStation.windDir, icon:"🧭" },
+                      ].map((m)=>(
+                        <div key={m.label} className="p-3 rounded-xl bg-white/5 border border-white/10">
+                          <p className="text-[8px] text-white/40">{m.label}</p>
+                          <p className="text-base font-bold text-white/80 mt-0.5">{m.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 24h simulated trend */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest mb-3">PM2.5 — 24 Hour Trend</h3>
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                      <div className="flex items-end gap-1 h-32">
+                        {Array.from({length:24},(_,i)=>{
+                          const base = selectedStation.pm25;
+                          const val = Math.max(10,base + Math.sin(i*0.4)*base*0.3 + (Math.random()-0.5)*base*0.2);
+                          const pct = Math.min((val/250)*100,100);
+                          const exceeds = val>60;
+                          return (
+                            <div key={i} className="flex-1 flex flex-col items-center group">
+                              <span className="text-[6px] text-white/30 mb-0.5 opacity-0 group-hover:opacity-100">{val.toFixed(0)}</span>
+                              <div className="w-full rounded-t transition-all group-hover:opacity-80" style={{height:`${pct}%`,backgroundColor:exceeds?"#EF444480":"#22C55E60"}}/>
+                              <span className="text-[5px] text-white/20 mt-0.5">{String(i).padStart(2,"0")}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="mt-2 flex items-center gap-2">
+                        <div className="flex-1 h-px border-t border-dashed border-red-500/40"/>
+                        <span className="text-[8px] text-red-400">NAAQS 24h: 60 µg/m³</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Station metadata */}
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+                      <p className="text-[8px] text-white/30 font-mono uppercase mb-1">Station Details</p>
+                      <div className="space-y-1">
+                        <p className="text-[10px] text-white/60"><strong className="text-white/80">ID:</strong> {selectedStation.id}</p>
+                        <p className="text-[10px] text-white/60"><strong className="text-white/80">Location:</strong> {selectedStation.lat.toFixed(3)}°N, {selectedStation.lng.toFixed(3)}°E</p>
+                        <p className="text-[10px] text-white/60"><strong className="text-white/80">Type:</strong> CAAQMS (Continuous)</p>
+                        <p className="text-[10px] text-white/60"><strong className="text-white/80">Regulatory Body:</strong> {selectedStation.id.split("-")[0]}</p>
+                      </div>
+                    </div>
+                    <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+                      <p className="text-[8px] text-white/30 font-mono uppercase mb-1">System Health</p>
+                      <div className="space-y-1">
+                        <p className="text-[10px] text-white/60"><strong className="text-white/80">Uptime:</strong> <span className={selectedStation.uptime>=99?"text-green-400":selectedStation.uptime>=95?"text-amber-400":"text-red-400"}>{selectedStation.uptime}%</span></p>
+                        <p className="text-[10px] text-white/60"><strong className="text-white/80">Last Sync:</strong> {selectedStation.lastSync}</p>
+                        <p className="text-[10px] text-white/60"><strong className="text-white/80">Machine Status:</strong> <span className={selectedStation.machineStatus==="online"?"text-green-400":"text-amber-400"}>{selectedStation.machineStatus}</span></p>
+                        <p className="text-[10px] text-white/60"><strong className="text-white/80">Data Availability:</strong> 96.2% (30d rolling)</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ COMPLIANCE ALERTS ════════ */}
+              {activeModule==="alerts" && (
+                <div className="space-y-4">
+                  <h2 className="text-sm font-semibold text-white/90">NAAQS Compliance Alerts</h2>
+                  <p className="text-[9px] text-white/40">Exceedance alerts based on 24-hour NAAQS standards • Click to acknowledge</p>
+                  <div className="space-y-3">
+                    {complianceAlerts.map((a)=>{
+                      const acked = alertAcknowledged[a.id];
+                      return (
+                      <motion.div key={a.id} initial={{opacity:0,x:-10}} animate={{opacity:1,x:0}} className={`p-4 rounded-xl border ${a.severity==="critical"?"bg-red-500/5 border-red-500/20":a.severity==="warning"?"bg-amber-500/5 border-amber-500/20":"bg-white/3 border-white/10"} ${acked?"opacity-50":""}`}>
+                        <div className="flex items-start gap-3">
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${a.severity==="critical"?"bg-red-500/20":"bg-amber-500/20"}`}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={a.severity==="critical"?"#EF4444":"#F59E0B"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className={`px-2 py-0.5 rounded-full text-[8px] border uppercase font-medium ${a.severity==="critical"?"bg-red-500/20 text-red-300 border-red-500/30":a.severity==="warning"?"bg-amber-500/20 text-amber-300 border-amber-500/30":"bg-green-500/20 text-green-300 border-green-500/30"}`}>{a.severity}</span>
+                              <span className="text-[8px] font-mono text-white/30">{a.id}</span>
+                              <span className="text-[8px] text-white/30">Since {a.since}</span>
+                            </div>
+                            <p className="text-[10px] text-white/80 font-medium">{a.station}</p>
+                            <p className="text-[10px] text-white/50 mt-0.5"><strong>{a.pollutant}:</strong> {a.value} µg/m³ — NAAQS limit {a.limit} µg/m³ — <span className={a.severity==="critical"?"text-red-300":"text-amber-300"}>{a.exceedance}</span></p>
+                            <p className="text-[9px] text-white/40 mt-1"><strong className="text-white/60">Action:</strong> {a.action}</p>
+                          </div>
+                          <div className="shrink-0">
+                            {acked?(
+                              <span className="text-[9px] text-green-400">✓ Acknowledged</span>
+                            ):(
+                              <button onClick={()=>{setAlertAcknowledged(prev=>({...prev,[a.id]:true}));showToast(`Alert ${a.id} acknowledged`,"success");}} className="px-3 py-1.5 rounded-lg text-[9px] bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 transition-colors">Acknowledge</button>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ MACHINE HEALTH ════════ */}
+              {activeModule==="machines" && (
+                <div className="space-y-4">
+                  <h2 className="text-sm font-semibold text-white/90">Machine Health & Calibration Tracker</h2>
+                  <p className="text-[9px] text-white/40">Click any machine to expand details • Track calibration schedules and firmware</p>
+                  <div className="rounded-xl border border-white/10 overflow-hidden">
+                    <table className="w-full text-[10px]">
+                      <thead><tr className="bg-white/5">
+                        <th className="text-left p-3 text-white/40 font-medium">Machine ID</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Type</th>
+                        <th className="text-left p-3 text-white/40 font-medium hidden lg:table-cell">Station</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Uptime</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Calib Due</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Status</th>
+                      </tr></thead>
+                      <tbody>
+                        {machineInventory.map((m,i)=>(
+                          <React.Fragment key={m.id}>
+                          <motion.tr initial={{opacity:0,x:-10}} animate={{opacity:1,x:0}} transition={{delay:i*0.03}}
+                            onClick={()=>setExpandedMachine(expandedMachine===m.id?null:m.id)}
+                            className={`border-t border-white/5 cursor-pointer transition-colors hover:bg-white/5 ${expandedMachine===m.id?"bg-white/5":""} ${m.status==="fault"?"bg-red-500/5":""}`}>
+                            <td className="p-3 font-mono text-white/60">{m.id}</td>
+                            <td className="p-3 text-white/80">{m.type}</td>
+                            <td className="p-3 text-white/50 hidden lg:table-cell">{m.station}</td>
+                            <td className="p-3"><span className={`font-mono ${m.uptime>=99?"text-green-400":m.uptime>=95?"text-amber-400":"text-red-400"}`}>{m.uptime}%</span></td>
+                            <td className="p-3 font-mono text-white/50">{m.calibDue}</td>
+                            <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-[9px] border ${m.status==="operational"?"bg-green-500/20 text-green-300 border-green-500/30":m.status==="calib-due"?"bg-amber-500/20 text-amber-300 border-amber-500/30":m.status==="sync-issue"?"bg-yellow-500/20 text-yellow-300 border-yellow-500/30":"bg-red-500/20 text-red-300 border-red-500/30"}`}>{m.status}</span></td>
+                          </motion.tr>
+                          {expandedMachine===m.id&&(
+                            <tr><td colSpan={6} className="p-0">
+                              <motion.div initial={{height:0,opacity:0}} animate={{height:"auto",opacity:1}} className="p-4 bg-white/3 border-t border-white/5 space-y-3">
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                  <div><p className="text-[7px] text-white/30 font-mono uppercase">Make / Model</p><p className="text-[10px] text-white/70">{m.make}</p></div>
+                                  <div><p className="text-[7px] text-white/30 font-mono uppercase">Firmware</p><p className="text-[10px] text-white/70 font-mono">{m.firmware}</p></div>
+                                  <div><p className="text-[7px] text-white/30 font-mono uppercase">Last Service</p><p className="text-[10px] text-white/70">{m.lastService}</p></div>
+                                  <div><p className="text-[7px] text-white/30 font-mono uppercase">Data Uptime</p><p className={`text-[10px] font-mono ${m.uptime>=99?"text-green-400":m.uptime>=95?"text-amber-400":"text-red-400"}`}>{m.uptime}%</p></div>
+                                </div>
+                                <div className="flex gap-2">
+                                  {!machineActions[m.id]?(
+                                    <>
+                                    {m.status==="calib-due"&&<button onClick={(e)=>{e.stopPropagation();setMachineActions(prev=>({...prev,[m.id]:"calib-scheduled"}));showToast(`Calibration scheduled for ${m.id}`,"success");}} className="px-3 py-1.5 rounded-lg text-[9px] bg-amber-500/10 text-amber-300 border border-amber-500/20 hover:bg-amber-500/20 transition-colors">Schedule Calibration</button>}
+                                    {m.status==="fault"&&<button onClick={(e)=>{e.stopPropagation();setMachineActions(prev=>({...prev,[m.id]:"service-requested"}));showToast(`Service request raised for ${m.id}`,"success");}} className="px-3 py-1.5 rounded-lg text-[9px] bg-red-500/10 text-red-300 border border-red-500/20 hover:bg-red-500/20 transition-colors">Raise Service Request</button>}
+                                    {m.status==="sync-issue"&&<button onClick={(e)=>{e.stopPropagation();setMachineActions(prev=>({...prev,[m.id]:"resynced"}));showToast(`Re-sync triggered for ${m.id}`,"success");}} className="px-3 py-1.5 rounded-lg text-[9px] bg-yellow-500/10 text-yellow-300 border border-yellow-500/20 hover:bg-yellow-500/20 transition-colors">Force Re-Sync</button>}
+                                    {m.status==="operational"&&<span className="text-[9px] text-green-400">✓ All systems normal</span>}
+                                    </>
+                                  ):(
+                                    <span className="text-[9px] text-green-400">✓ {machineActions[m.id]}</span>
+                                  )}
+                                </div>
+                              </motion.div>
+                            </td></tr>
+                          )}
+                          </React.Fragment>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ NAAQS STANDARDS ════════ */}
+              {activeModule==="compliance" && (
+                <div className="space-y-4">
+                  <h2 className="text-sm font-semibold text-white/90">National Ambient Air Quality Standards (NAAQS)</h2>
+                  <p className="text-[9px] text-white/40">CPCB Notification dated 18 November 2009 • Industrial, Residential, Rural, and Other Areas</p>
+                  <div className="rounded-xl border border-white/10 overflow-hidden">
+                    <table className="w-full text-[10px]">
+                      <thead><tr className="bg-white/5">
+                        <th className="text-left p-3 text-white/40 font-medium">Pollutant</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Unit</th>
+                        <th className="text-left p-3 text-white/40 font-medium">24h Standard</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Annual Standard</th>
+                        <th className="text-left p-3 text-white/40 font-medium hidden lg:table-cell">Method</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Current ({selectedStation.city})</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Status</th>
+                      </tr></thead>
+                      <tbody>
+                        {naaqs.map((n)=>{
+                          const valMap:Record<string,number> = {"PM2.5":selectedStation.pm25,"PM10":selectedStation.pm10,"SO₂":selectedStation.so2,"NO₂":selectedStation.no2,"CO":selectedStation.co,"O₃":selectedStation.o3,"NH₃":selectedStation.nh3,"Pb":selectedStation.pb,"Benzene":selectedStation.benzene};
+                          const val = valMap[n.pollutant]??0;
+                          const exceeds = n.limit24h>0 && val>n.limit24h;
+                          return (
+                          <tr key={n.pollutant} className={`border-t border-white/5 ${exceeds?"bg-red-500/5":""}`}>
+                            <td className="p-3 text-white/80 font-medium">{n.pollutant}</td>
+                            <td className="p-3 text-white/50">{n.unit}</td>
+                            <td className="p-3 font-mono text-white/60">{n.limit24h||"—"}</td>
+                            <td className="p-3 font-mono text-white/60">{n.limitAnnual||"—"}</td>
+                            <td className="p-3 text-white/40 hidden lg:table-cell">{n.method}</td>
+                            <td className={`p-3 font-mono font-bold ${exceeds?"text-red-400":"text-green-400"}`}>{val}</td>
+                            <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-[9px] border ${exceeds?"bg-red-500/20 text-red-300 border-red-500/30":"bg-green-500/20 text-green-300 border-green-500/30"}`}>{exceeds?"EXCEEDS":"Compliant"}</span></td>
+                          </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="p-3 rounded-xl bg-blue-500/5 border border-blue-500/20">
+                    <p className="text-[9px] text-blue-300"><strong>AQI Methodology:</strong> Indian AQI is calculated per sub-index for each pollutant, and the highest sub-index determines overall AQI. Category: Good (0–50), Satisfactory (51–100), Moderate (101–200), Poor (201–300), Very Poor (301–400), Severe (401–500).</p>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ REPORTS ════════ */}
+              {activeModule==="reports" && (
+                <div className="space-y-6">
+                  <h2 className="text-sm font-semibold text-white/90">Report Generation</h2>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {[
+                      { title:"Daily Air Quality Bulletin", desc:"24-hour average AQI, pollutant breakdown, exceedance summary for all stations", format:"PDF" },
+                      { title:"Monthly Compliance Report", desc:"NAAQS compliance status, exceedance days, trend analysis per station per pollutant", format:"Excel + PDF" },
+                      { title:"Machine Health Report", desc:"Uptime statistics, calibration status, pending service requests, firmware inventory", format:"PDF" },
+                      { title:"GRAP Activation Report", desc:"Graded Response Action Plan status for NCR stations — stage-wise trigger analysis", format:"PDF" },
+                      { title:"Source Apportionment", desc:"Pollutant source contribution (vehicular, industrial, construction, biomass) based on receptor modelling", format:"PDF" },
+                      { title:"Annual Environmental Report", desc:"Year-on-year trend, seasonal analysis, NAAQS compliance rate, policy recommendations", format:"PDF + PPT" },
+                    ].map((r)=>(
+                      <div key={r.title} className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/30 transition-colors">
+                        <p className="text-[10px] font-medium text-white/80 mb-1">{r.title}</p>
+                        <p className="text-[9px] text-white/40 mb-3">{r.desc}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-[8px] px-2 py-0.5 rounded bg-white/10 text-white/40">{r.format}</span>
+                          <button onClick={()=>{setReportGenerated(true);showToast(`${r.title} generated`,"success");}} className="px-3 py-1.5 rounded-lg text-[9px] bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 hover:bg-emerald-500/20 transition-colors">{reportGenerated?"✓ Generated":"Generate"}</button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-[10px] font-medium text-white/70 mb-2">Export Data</p>
+                    <p className="text-[9px] text-white/40 mb-3">Download raw CAAQMS data for custom analysis — supports CPCB prescribed format, SAFAR format, and WHO AirQ+ compatible CSV</p>
+                    <div className="flex gap-2">
+                      {["CPCB Format (.csv)","WHO AirQ+ (.csv)","JSON API"].map((f)=>(
+                        <button key={f} onClick={()=>showToast(`${f} export started`,"success")} className="px-3 py-1.5 rounded-lg text-[9px] bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 transition-colors">{f}</button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* ── Right Panel — Selected Station Quick View ── */}
+        <aside className="w-52 shrink-0 border-l border-white/10 bg-[#0D1525] overflow-y-auto hidden lg:block">
+          <div className="p-3 border-b border-white/10">
+            <p className="text-[8px] font-mono text-emerald-400 uppercase tracking-widest mb-1">Selected Station</p>
+            <p className="text-[10px] text-white/70">{selectedStation.name}</p>
+            <div className="flex items-center gap-2 mt-2">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{backgroundColor:aqiColor(selectedStation.cat)+"20"}}>
+                <span className="text-xs font-bold" style={{color:aqiColor(selectedStation.cat)}}>{selectedStation.aqi}</span>
               </div>
-            ))}
-          </div>
-
-          {/* Devices Table */}
-          <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">
-            Devices — {selectedZone}
-          </h2>
-          <div className="rounded-xl border border-white/10 overflow-hidden">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className="bg-white/5">
-                  <th className="text-left p-3 text-white/40 font-medium">ID</th>
-                  <th className="text-left p-3 text-white/40 font-medium">Device</th>
-                  <th className="text-left p-3 text-white/40 font-medium">Zone</th>
-                  <th className="text-left p-3 text-white/40 font-medium">Value</th>
-                  <th className="text-left p-3 text-white/40 font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredDevices.map((d) => (
-                  <tr key={d.id} className="border-t border-white/5 hover:bg-white/2 transition-colors">
-                    <td className="p-3 font-mono text-white/40">{d.id}</td>
-                    <td className="p-3">{d.name}</td>
-                    <td className="p-3 text-white/50">{d.zone}</td>
-                    <td className="p-3 font-mono">{d.value}</td>
-                    <td className="p-3">
-                      <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] ${d.status === "online" ? "bg-green-500/20 text-green-300" : d.status === "warning" ? "bg-amber-500/20 text-amber-300" : "bg-red-500/20 text-red-300"}`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${d.status === "online" ? "bg-green-400" : d.status === "warning" ? "bg-amber-400" : "bg-red-400"}`} />
-                        {d.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mock Chart */}
-          <div className="mt-6">
-            <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Sensor Readings — Last 24h</h2>
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10 h-48 flex items-end gap-1">
-              {Array.from({ length: 24 }, (_, i) => {
-                const h = 20 + Math.sin(i * 0.5) * 30 + Math.random() * 30;
-                return (
-                  <div
-                    key={i}
-                    className="flex-1 bg-cyan-500/40 hover:bg-cyan-400/60 rounded-t transition-colors"
-                    style={{ height: `${h}%` }}
-                    title={`${String(i).padStart(2, "0")}:00`}
-                  />
-                );
-              })}
+              <div>
+                <span className={`px-2 py-0.5 rounded-full text-[8px] border ${aqiBg(selectedStation.cat)}`}>{selectedStation.cat}</span>
+              </div>
             </div>
           </div>
-        </div>
+          <div className="p-2 space-y-1.5">
+            {[
+              {l:"PM2.5",v:`${selectedStation.pm25}`,lim:60},{l:"PM10",v:`${selectedStation.pm10}`,lim:100},
+              {l:"SO₂",v:`${selectedStation.so2}`,lim:80},{l:"NO₂",v:`${selectedStation.no2}`,lim:80},
+              {l:"CO",v:`${selectedStation.co}`,lim:4},{l:"O₃",v:`${selectedStation.o3}`,lim:100},
+            ].map((p)=>{
+              const exceeds = Number(p.v)>p.lim;
+              return (
+              <div key={p.l} className={`p-2 rounded-lg border ${exceeds?"bg-red-500/10 border-red-500/20":"bg-white/5 border-white/10"}`}>
+                <div className="flex justify-between items-center">
+                  <span className="text-[8px] text-white/40">{p.l}</span>
+                  <span className={`text-[10px] font-mono font-bold ${exceeds?"text-red-400":"text-green-400"}`}>{p.v}</span>
+                </div>
+                <div className="mt-1 h-1 rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-full rounded-full" style={{width:`${Math.min((Number(p.v)/p.lim)*100,100)}%`,backgroundColor:exceeds?"#EF4444":"#22C55E"}}/>
+                </div>
+              </div>
+              );
+            })}
+          </div>
+          {/* All stations quick list */}
+          <div className="p-3 border-t border-white/10">
+            <p className="text-[8px] font-mono text-emerald-400 uppercase tracking-widest mb-2">All Stations</p>
+            <div className="space-y-1">
+              {stations.map((s)=>(
+                <button key={s.id} onClick={()=>setSelectedStation(s)}
+                  className={`w-full text-left p-1.5 rounded-lg transition-colors ${selectedStation.id===s.id?"bg-emerald-500/10 border border-emerald-500/20":"hover:bg-white/5 border border-transparent"}`}>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full shrink-0" style={{backgroundColor:aqiColor(s.cat)}}/>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[8px] text-white/60 truncate">{s.city}</p>
+                    </div>
+                    <span className="text-[8px] font-mono font-bold" style={{color:aqiColor(s.cat)}}>{s.aqi}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </aside>
       </div>
     </PrototypeShell>
   );
