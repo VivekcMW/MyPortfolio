@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -1730,243 +1730,1706 @@ function NoCodePrototype() {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   EHR PLATFORM PROTOTYPE
+   EHR PLATFORM PROTOTYPE — Indian Daycare Specialities
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+type EHRModule = "dashboard"|"registration"|"opd"|"daycare"|"procedure"|"nursing"|"pharmacy"|"lab"|"billing"|"discharge"|"mis"|"consultation";
+
+/* ── Sample data ── */
+const ehrSpecialties = [
+  { key:"ophthalmology", label:"Ophthalmology", color:"#8B5CF6", icon:"eye" },
+  { key:"ent", label:"ENT", color:"#F97316", icon:"ear" },
+  { key:"ortho", label:"Orthopedics", color:"#F97316", icon:"bone" },
+  { key:"cardio", label:"Cardiology", color:"#EF4444", icon:"heart" },
+  { key:"gastro", label:"Gastroenterology", color:"#EAB308", icon:"stomach" },
+  { key:"urology", label:"Urology", color:"#3B82F6", icon:"kidney" },
+  { key:"gynec", label:"Gynecology", color:"#EC4899", icon:"female" },
+  { key:"dental", label:"Dental Surgery", color:"#14B8A6", icon:"tooth" },
+  { key:"onco", label:"Oncology", color:"#EC4899", icon:"cell" },
+  { key:"nephro", label:"Nephrology", color:"#14B8A6", icon:"dialysis" },
+  { key:"pulmo", label:"Pulmonology", color:"#06B6D4", icon:"lung" },
+  { key:"pain", label:"Pain Management", color:"#F59E0B", icon:"nerve" },
+  { key:"pedia", label:"Pediatrics", color:"#A78BFA", icon:"child" },
+  { key:"gensurg", label:"General Surgery", color:"#10B981", icon:"scalpel" },
+  { key:"derm", label:"Dermatology", color:"#F472B6", icon:"skin" },
+  { key:"radiology", label:"Interventional Radiology", color:"#64748B", icon:"scan" },
+];
+
+const ehrPatients = [
+  { id:"P-240001", name:"Rajesh Kumar Sharma", abha:"91-2847-1920-3845", age:58, gender:"M", blood:"B+", phone:"98765 43210", allergy:["Sulfa drugs","Iodine contrast"], insurance:"Star Health — Gold", pmjay:false, specialty:"ophthalmology", status:"admitted", doctor:"Dr. Priya Mehta", procedure:"Phaco + IOL (Left Eye)", bay:"Bay 3", uhid:"UHID-00284719" },
+  { id:"P-240002", name:"Sunita Devi Patil", abha:"91-3928-4720-1938", age:42, gender:"F", blood:"O+", phone:"87654 32109", allergy:["Penicillin"], insurance:"PMJAY", pmjay:true, specialty:"gynec", status:"pre-auth", doctor:"Dr. Kavitha Reddy", procedure:"Hysteroscopy", bay:"—", uhid:"UHID-00284720" },
+  { id:"P-240003", name:"Mohammad Arif Khan", abha:"91-4839-2710-5839", age:65, gender:"M", blood:"A+", phone:"76543 21098", allergy:[], insurance:"CGHS", pmjay:false, specialty:"cardio", status:"in-procedure", doctor:"Dr. Aman Gupta", procedure:"Coronary Angiography", bay:"Cath Lab", uhid:"UHID-00284721" },
+  { id:"P-240004", name:"Lakshmi Narayanan", abha:"91-5720-3841-9274", age:35, gender:"F", blood:"AB+", phone:"65432 10987", allergy:["Latex"], insurance:"Self Pay", pmjay:false, specialty:"ent", status:"scheduled", doctor:"Dr. Suresh Nair", procedure:"FESS (Bilateral)", bay:"—", uhid:"UHID-00284722" },
+  { id:"P-240005", name:"Vikram Singh Chauhan", abha:"91-6831-4920-3847", age:48, gender:"M", blood:"O-", phone:"54321 09876", allergy:[], insurance:"ICICI Lombard", pmjay:false, specialty:"ortho", status:"recovery", doctor:"Dr. Rajat Chopra", procedure:"Knee Arthroscopy (Right)", bay:"Recovery 2", uhid:"UHID-00284723" },
+  { id:"P-240006", name:"Anita Kumari", abha:"91-7942-5031-4928", age:52, gender:"F", blood:"B-", phone:"43210 98765", allergy:["Aspirin"], insurance:"PMJAY", pmjay:true, specialty:"onco", status:"admitted", doctor:"Dr. Meena Iyer", procedure:"IV Chemotherapy — Cycle 4", bay:"Chemo Bay 1", uhid:"UHID-00284724" },
+  { id:"P-240007", name:"Ravi Prasad Joshi", abha:"91-8053-6142-5039", age:70, gender:"M", blood:"A-", phone:"32109 87654", allergy:["Metformin"], insurance:"ECHS", pmjay:false, specialty:"nephro", status:"in-procedure", doctor:"Dr. Alok Verma", procedure:"Hemodialysis Session", bay:"Dialysis 3", uhid:"UHID-00284725" },
+  { id:"P-240008", name:"Priya Chakraborty", abha:"91-9164-7253-6140", age:28, gender:"F", blood:"O+", phone:"21098 76543", allergy:[], insurance:"Self Pay", pmjay:false, specialty:"derm", status:"scheduled", doctor:"Dr. Sneha Das", procedure:"Laser Scar Revision", bay:"—", uhid:"UHID-00284726" },
+  { id:"P-240009", name:"Harish Menon", abha:"91-0275-8364-7251", age:32, gender:"M", blood:"A+", phone:"10987 65432", allergy:["Lignocaine (mild)"], insurance:"Niva Bupa", pmjay:false, specialty:"dental", status:"admitted", doctor:"Dr. Arun Shetty", procedure:"Surgical Extraction #38 (Impacted)", bay:"Dental OT", uhid:"UHID-00284727" },
+];
+
+/* ── Specialty-specific clinical data ── */
+const ophthalmologyExam = {
+  visualAcuity: {
+    right: { ucva:"6/9", bcva:"6/6", near:"N6", pinhole:"6/6" },
+    left:  { ucva:"6/36", bcva:"6/18", near:"N12", pinhole:"6/12" },
+  },
+  iop: { right:"14 mmHg", left:"16 mmHg", method:"Goldmann Applanation", time:"09:15" },
+  aScan: {
+    eye:"Left",
+    axialLength:"23.42 mm",
+    acd:"3.12 mm",
+    lensThickness:"4.68 mm",
+    kReadings:"K1: 43.50D @ 90° / K2: 44.25D @ 180°",
+    formula:"SRK/T",
+    targetRefraction:"-0.25D",
+    iolPower:"+21.0D",
+  },
+  slitLamp: [
+    { part:"Lids", right:"NAD", left:"NAD" },
+    { part:"Conjunctiva", right:"Clear", left:"Mild congestion" },
+    { part:"Cornea", right:"Clear", left:"Clear, arcus senilis" },
+    { part:"Anterior Chamber", right:"Deep, quiet", left:"Deep, quiet" },
+    { part:"Iris", right:"Normal pattern", left:"Normal pattern" },
+    { part:"Lens", right:"Early NS — NO2 NC2", left:"Dense NS — NO4 NC4 (Significant)" },
+    { part:"Fundus", right:"CDR 0.3, healthy disc", left:"Hazy view — CDR ~0.3" },
+  ],
+  iol: {
+    manufacturer:"Alcon",
+    model:"AcrySof IQ SN60WF",
+    power:"+21.0D",
+    type:"Foldable Hydrophobic Acrylic",
+    batch:"ACR-2026-0412",
+    expiry:"Mar 2028",
+    barcode:"7681234567890",
+  },
+  phacoTemplate: [
+    { step:"Anaesthesia", detail:"Topical (Proparacaine 0.5%) + Peribulbar (2% Lignocaine + 0.5% Bupivacaine)" },
+    { step:"Incision", detail:"2.8mm Clear Corneal — Temporal, Side port at 6 o'clock" },
+    { step:"Capsulorhexis", detail:"Continuous Curvilinear ~5.5mm, well-centered" },
+    { step:"Hydrodissection", detail:"Fluid wave complete, nucleus rotated freely" },
+    { step:"Phacoemulsification", detail:"Divide & Conquer, Phaco time: 42 sec, CDE: 8.2, Avg power: 32%" },
+    { step:"Cortex Aspiration", detail:"I/A bimanual, thorough cortical clean-up, posterior capsule intact" },
+    { step:"IOL Implantation", detail:"Alcon AcrySof IQ SN60WF +21.0D — in-the-bag, well-centered" },
+    { step:"Wound Closure", detail:"Stromal hydration, self-sealing, Seidel negative" },
+    { step:"Post-Op", detail:"Subconjunctival Dexamethasone + Gentamicin, Eye pad applied" },
+  ],
+  postOp: [
+    { check:"Vision (Day 0)", value:"6/18 (L Eye)", status:"expected" as const },
+    { check:"IOP (Day 0)", value:"12 mmHg", status:"normal" as const },
+    { check:"Wound", value:"Self-sealed, Seidel -ve", status:"normal" as const },
+    { check:"IOL Position", value:"In-the-bag, well-centered", status:"normal" as const },
+    { check:"Cornea", value:"Mild stromal edema (expected)", status:"expected" as const },
+    { check:"AC", value:"Formed, mild cells 1+", status:"expected" as const },
+  ],
+};
+
+type ToothStatus = "present"|"missing"|"decayed"|"restored"|"root-canal"|"implant"|"treatment";
+const dentalChart: {num:number; status:ToothStatus; note?:string}[] = [
+  // Upper Right (18-11)
+  {num:18,status:"present"},{num:17,status:"restored",note:"MOD Composite"},{num:16,status:"present"},{num:15,status:"present"},{num:14,status:"present"},{num:13,status:"present"},{num:12,status:"present"},{num:11,status:"present"},
+  // Upper Left (21-28)
+  {num:21,status:"present"},{num:22,status:"present"},{num:23,status:"present"},{num:24,status:"decayed",note:"Occlusal caries"},{num:25,status:"present"},{num:26,status:"root-canal",note:"RCT + PFM Crown"},{num:27,status:"present"},{num:28,status:"missing",note:"Previously extracted"},
+  // Lower Left (38-31)
+  {num:38,status:"treatment",note:"Mesioangular impaction — Surgical extraction planned"},{num:37,status:"present"},{num:36,status:"restored",note:"MO Amalgam"},{num:35,status:"present"},{num:34,status:"present"},{num:33,status:"present"},{num:32,status:"present"},{num:31,status:"present"},
+  // Lower Right (41-48)
+  {num:41,status:"present"},{num:42,status:"present"},{num:43,status:"present"},{num:44,status:"present"},{num:45,status:"present"},{num:46,status:"decayed",note:"Distal caries — monitor"},{num:47,status:"present"},{num:48,status:"treatment",note:"Partially erupted — monitor"},
+];
+
+const dentalProcedure = {
+  tooth:38,
+  diagnosis:"Mesioangular Impaction — Class II, Position B (Winter's Classification)",
+  ianProximity:"IAN canal 2.1mm inferior — CBCT confirmed safe distance",
+  anesthesia:"IANB + Long Buccal (2% Lignocaine with 1:80,000 Adrenaline) — 3.6mL",
+  steps:[
+    { step:"Incision", detail:"Ward's incision — envelope flap raised, mucoperiosteal flap reflected" },
+    { step:"Bone Removal", detail:"Buccal bone guttering with surgical handpiece (Lindemann bur), saline irrigation" },
+    { step:"Tooth Sectioning", detail:"Crown sectioned at CEJ with fissure bur, distal half elevated first" },
+    { step:"Extraction", detail:"Coupland elevator + Warwick-James — tooth delivered in 2 pieces, follicle curetted" },
+    { step:"Socket", detail:"Socket irrigated with Betadine + Saline, sharp bony edges smoothed" },
+    { step:"Suturing", detail:"3-0 Vicryl — 3 interrupted sutures, hemostasis achieved" },
+  ],
+  postOp:[
+    "Bite on gauze pack for 30 minutes",
+    "Ice pack: 10min on / 10min off for 24 hours",
+    "Soft diet for 3 days, avoid hot food for 24hrs",
+    "NO spitting, sucking (straw), or rinsing for 24hrs",
+    "Tab. Amoxicillin 500mg TDS × 5 days",
+    "Tab. Ibuprofen 400mg + Paracetamol 500mg TDS × 3 days (after food)",
+    "0.2% Chlorhexidine mouthwash BD from Day 2",
+    "Suture removal: Day 7 (13 April 2026)",
+  ],
+};
+
+const gynecWorkup = {
+  menstrualHistory: {
+    lmp:"22 March 2026",
+    cycleLength:"28-30 days",
+    regularity:"Regular",
+    flowDuration:"5-6 days",
+    flow:"Moderate → Heavy (last 6 months)",
+    dysmenorrhea:"Moderate (VAS 5/10)",
+    gravida:2, para:1, abortion:1, living:1,
+    intermenstrualBleeding:"Occasional spotting × 3 months",
+  },
+  upt: { result:"Negative", date:"06 Apr 2026, 07:30", verifiedBy:"Staff Nurse Priya", method:"Urine hCG card test" },
+  pcpndt: {
+    required:true,
+    formF:"Auto-generated",
+    purpose:"Pre-hysteroscopy TVS for endometrial assessment",
+    sonologist:"Dr. Meena Kulkarni (Reg: MH-USG-2847)",
+    declaration:"No sex determination performed or communicated. PCPNDT Act 1994 compliant.",
+  },
+  papSmear: { lastDate:"15 Jan 2026", result:"NILM (Negative for Intraepithelial Lesion)", bethesda:"Satisfactory", hpv:"Not tested", nextDue:"Jan 2029" },
+  investigations: [
+    { test:"TVS Ultrasound", result:"Endometrial polyp 12×8mm — fundal, ET: 14mm", status:"abnormal" as const },
+    { test:"Hb", result:"10.2 g/dL", status:"low" as const },
+    { test:"Blood Group", result:"O+", status:"normal" as const },
+    { test:"Coagulation Screen", result:"PT/INR: 1.0 — Normal", status:"normal" as const },
+    { test:"TSH", result:"3.8 mU/L", status:"normal" as const },
+  ],
+  hysteroscopyFindings: {
+    cervicalCanal:"Normal, no polyps or stenosis",
+    uterineShape:"Normal cavity — no septum or anomaly",
+    endometrium:"Proliferative, ET ~14mm",
+    polyp:"Single pedunculated polyp 12×8mm at fundus — Removed by cold snare polypectomy",
+    tubalOstia:"Bilateral ostia visualized — patent",
+    biopsyTaken:true,
+    specimenSent:"Endometrial polyp → Histopathology (Specimen: GYN-2026-04-001)",
+    distensionMedia:"Normal saline, deficit < 500mL",
+    bloodLoss:"Minimal (~30mL)",
+    duration:"18 min",
+    complications:"None",
+  },
+  postOp:[
+    "Expect mild cramping and spotting for 2-3 days",
+    "Tab. Mefenamic Acid 500mg SOS for cramps",
+    "Tab. Doxycycline 100mg BD × 5 days (prophylaxis)",
+    "Avoid intercourse and tampon use for 1 week",
+    "Follow-up: 13 April 2026 with Dr. Kavitha Reddy",
+    "Biopsy report expected: 10-12 April 2026",
+    "Red flags: Heavy bleeding (>2 pads/hr), fever >101°F, foul discharge",
+  ],
+};
+
+const ehrOPDQueue = [
+  { token:"A-001", name:"Meera Jain", time:"09:00", doctor:"Dr. Priya Mehta", dept:"Ophthalmology", status:"in-consultation" as const },
+  { token:"A-002", name:"Suresh Yadav", time:"09:15", doctor:"Dr. Priya Mehta", dept:"Ophthalmology", status:"waiting" as const },
+  { token:"B-001", name:"Kavita Deshmukh", time:"09:00", doctor:"Dr. Kavitha Reddy", dept:"Gynecology", status:"vitals" as const },
+  { token:"C-001", name:"Ramesh Patel", time:"09:30", doctor:"Dr. Aman Gupta", dept:"Cardiology", status:"waiting" as const },
+  { token:"D-001", name:"Fatima Begum", time:"09:00", doctor:"Dr. Suresh Nair", dept:"ENT", status:"completed" as const },
+  { token:"A-003", name:"Anil Tiwari", time:"09:30", doctor:"Dr. Priya Mehta", dept:"Ophthalmology", status:"waiting" as const },
+  { token:"E-001", name:"Pooja Sharma", time:"09:15", doctor:"Dr. Rajat Chopra", dept:"Orthopedics", status:"in-consultation" as const },
+  { token:"F-001", name:"Deepak Mishra", time:"09:30", doctor:"Dr. Meena Iyer", dept:"Oncology", status:"vitals" as const },
+  { token:"G-001", name:"Harish Menon", time:"10:00", doctor:"Dr. Arun Shetty", dept:"Dental Surgery", status:"in-consultation" as const },
+];
+
+const ehrVitals = [
+  { label:"Heart Rate", value:"78", unit:"bpm", status:"normal" as const, trend:[72,74,78,76,79,78] },
+  { label:"Blood Pressure", value:"138/88", unit:"mmHg", status:"elevated" as const, trend:[132,136,140,138,142,138] },
+  { label:"Temperature", value:"98.4", unit:"°F", status:"normal" as const, trend:[98.2,98.4,98.6,98.4,98.3,98.4] },
+  { label:"SpO₂", value:"97", unit:"%", status:"normal" as const, trend:[96,97,97,98,97,97] },
+  { label:"Resp Rate", value:"18", unit:"/min", status:"normal" as const, trend:[16,17,18,17,18,18] },
+  { label:"BSL (Fasting)", value:"156", unit:"mg/dL", status:"elevated" as const, trend:[120,135,148,155,160,156] },
+];
+
+const ehrLabResults = [
+  { test:"CBC — Hemoglobin", result:"12.8 g/dL", range:"12.0–16.0", status:"normal" as const },
+  { test:"CBC — WBC", result:"8,200 /μL", range:"4,000–11,000", status:"normal" as const },
+  { test:"CBC — Platelets", result:"2.4 L/μL", range:"1.5–4.0", status:"normal" as const },
+  { test:"Serum Creatinine", result:"1.4 mg/dL", range:"0.7–1.3", status:"high" as const },
+  { test:"Blood Urea", result:"42 mg/dL", range:"15–40", status:"borderline" as const },
+  { test:"Fasting Glucose", result:"156 mg/dL", range:"70–110", status:"high" as const },
+  { test:"HbA1c", result:"7.8%", range:"<5.7%", status:"high" as const },
+  { test:"Total Cholesterol", result:"198 mg/dL", range:"<200", status:"normal" as const },
+  { test:"TSH", result:"3.2 mU/L", range:"0.5–4.5", status:"normal" as const },
+  { test:"PT/INR", result:"1.1", range:"0.8–1.2", status:"normal" as const },
+  { test:"ECG", result:"Normal Sinus Rhythm", range:"—", status:"normal" as const },
+  { test:"Chest X-ray", result:"NAD", range:"—", status:"normal" as const },
+];
+
+const ehrProcedureBoard = [
+  { time:"08:00", patient:"Rajesh Kumar Sharma", procedure:"Phaco + IOL (L)", doctor:"Dr. Priya Mehta", room:"OT-1", status:"completed" as const },
+  { time:"09:30", patient:"Mohammad Arif Khan", procedure:"Coronary Angiography", doctor:"Dr. Aman Gupta", room:"Cath Lab", status:"in-progress" as const },
+  { time:"10:00", patient:"Vikram Singh Chauhan", procedure:"Knee Arthroscopy (R)", doctor:"Dr. Rajat Chopra", room:"OT-2", status:"recovery" as const },
+  { time:"11:00", patient:"Anita Kumari", procedure:"IV Chemo — Cycle 4", doctor:"Dr. Meena Iyer", room:"Chemo Bay", status:"in-progress" as const },
+  { time:"11:30", patient:"Ravi Prasad Joshi", procedure:"Hemodialysis", doctor:"Dr. Alok Verma", room:"Dialysis", status:"in-progress" as const },
+  { time:"13:00", patient:"Lakshmi Narayanan", procedure:"FESS (Bilateral)", doctor:"Dr. Suresh Nair", room:"OT-1", status:"scheduled" as const },
+  { time:"14:00", patient:"Sunita Devi Patil", procedure:"Hysteroscopy", doctor:"Dr. Kavitha Reddy", room:"OT-2", status:"pre-auth" as const },
+  { time:"15:00", patient:"Priya Chakraborty", procedure:"Laser Scar Revision", doctor:"Dr. Sneha Das", room:"Procedure", status:"scheduled" as const },
+  { time:"16:00", patient:"Harish Menon", procedure:"Surg. Extraction #38", doctor:"Dr. Arun Shetty", room:"Dental OT", status:"in-progress" as const },
+];
+
+const ehrMedications = [
+  { name:"Tab. Timolol 0.5%", dose:"1 drop", route:"Eye (L)", freq:"BD", time:"08:00 / 20:00", patient:"Rajesh K.", status:"active" as const, schedule:"H" },
+  { name:"Tab. Clopidogrel 75mg", dose:"75mg", route:"Oral", freq:"OD", time:"08:00", patient:"Arif K.", status:"active" as const, schedule:"H" },
+  { name:"Inj. Paclitaxel 175mg/m²", dose:"280mg", route:"IV", freq:"3-weekly", time:"11:00", patient:"Anita K.", status:"active" as const, schedule:"H1" },
+  { name:"Tab. Metformin 500mg", dose:"500mg", route:"Oral", freq:"BD", time:"08:00 / 20:00", patient:"Rajesh K.", status:"active" as const, schedule:"—" },
+  { name:"Inj. Heparin 5000 IU", dose:"5000 IU", route:"IV", freq:"Stat", time:"09:30", patient:"Arif K.", status:"given" as const, schedule:"H" },
+  { name:"Tab. Ondansetron 4mg", dose:"4mg", route:"Oral", freq:"TDS", time:"Pre-chemo", patient:"Anita K.", status:"active" as const, schedule:"H" },
+  { name:"Cap. Pantoprazole 40mg", dose:"40mg", route:"Oral", freq:"OD (AC)", time:"07:30", patient:"Vikram S.", status:"active" as const, schedule:"H" },
+  { name:"Tab. Aspirin 81mg", dose:"81mg", route:"Oral", freq:"OD", time:"08:00", patient:"Arif K.", status:"discontinued" as const, schedule:"—" },
+];
+
+const ehrBillingItems = [
+  { desc:"Phaco + IOL — Package (L Eye)", amount:25000, type:"package" as const, dept:"Ophthalmology" },
+  { desc:"IOL Lens — Alcon AcrySof IQ", amount:8500, type:"implant" as const, dept:"Ophthalmology" },
+  { desc:"Coronary Angiography — CGHS Rate", amount:12000, type:"package" as const, dept:"Cardiology" },
+  { desc:"Stent — DES Xience Sierra", amount:28000, type:"implant" as const, dept:"Cardiology" },
+  { desc:"Knee Arthroscopy Package", amount:35000, type:"package" as const, dept:"Orthopedics" },
+  { desc:"IV Chemotherapy (Paclitaxel)", amount:18000, type:"package" as const, dept:"Oncology" },
+  { desc:"Hemodialysis Session — PMJAY", amount:1500, type:"package" as const, dept:"Nephrology" },
+  { desc:"FESS Bilateral — Package", amount:45000, type:"package" as const, dept:"ENT" },
+  { desc:"Pharmacy — Consumables", amount:3200, type:"consumable" as const, dept:"Pharmacy" },
+  { desc:"Lab — Pre-op Panel", amount:2800, type:"investigation" as const, dept:"Laboratory" },
+];
+
+const ehrInsuranceClaims = [
+  { id:"CLM-40001", patient:"Rajesh Kumar Sharma", tpa:"Star Health", amount:33500, status:"approved" as const, submitted:"05 Apr", tat:"4h" },
+  { id:"CLM-40002", patient:"Sunita Devi Patil", tpa:"PMJAY (NHA)", amount:18000, status:"pending" as const, submitted:"06 Apr", tat:"—" },
+  { id:"CLM-40003", patient:"Mohammad Arif Khan", tpa:"CGHS", amount:40000, status:"query" as const, submitted:"05 Apr", tat:"18h" },
+  { id:"CLM-40004", patient:"Vikram Singh Chauhan", tpa:"ICICI Lombard", amount:35000, status:"approved" as const, submitted:"04 Apr", tat:"6h" },
+  { id:"CLM-40005", patient:"Anita Kumari", tpa:"PMJAY (NHA)", amount:18000, status:"approved" as const, submitted:"03 Apr", tat:"2h" },
+  { id:"CLM-40006", patient:"Ravi Prasad Joshi", tpa:"ECHS", amount:1500, status:"settled" as const, submitted:"01 Apr", tat:"48h" },
+];
+
 function EHRPrototype() {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeModule, setActiveModule] = useState<EHRModule>("dashboard");
+  const [selectedPatient, setSelectedPatient] = useState(ehrPatients[0]);
+  const [whoChecklist, setWhoChecklist] = useState({signIn:false,timeOut:false,signOut:false});
+  const [consentSigned, setConsentSigned] = useState(false);
+  const [searchQ, setSearchQ] = useState("");
+  const [selectedTooth, setSelectedTooth] = useState<number>(38);
+  /* ── Interactive state ── */
+  const [toast, setToast] = useState<{msg:string;type:"success"|"info"|"warn"}|null>(null);
+  const [expandedProcRow, setExpandedProcRow] = useState<number|null>(null);
+  const [editingVital, setEditingVital] = useState<string|null>(null);
+  const [vitalOverrides, setVitalOverrides] = useState<Record<string,string>>({});
+  const [medStatuses, setMedStatuses] = useState<Record<string,string>>({});
+  const [labVerified, setLabVerified] = useState<Record<string,boolean>>({});
+  const [selectedPayment, setSelectedPayment] = useState<string|null>(null);
+  const [invoiceGenerated, setInvoiceGenerated] = useState(false);
+  const [dischargePrinted, setDischargePrinted] = useState(false);
+  const [abhaPushed, setAbhaPushed] = useState(false);
+  const [misDateRange, setMisDateRange] = useState<"today"|"week"|"month">("month");
+  const [opdStatuses, setOpdStatuses] = useState<Record<string,string>>({});
+  const [nurseNote, setNurseNote] = useState("");
+  const [addedNotes, setAddedNotes] = useState<{time:string;nurse:string;note:string}[]>([]);
+  const [checklistOverrides, setChecklistOverrides] = useState<Record<string,boolean>>({});
+  const [phacoStepsDone, setPhacoStepsDone] = useState<Record<number,boolean>>({});
+  const [dentalStepsDone, setDentalStepsDone] = useState<Record<number,boolean>>({});
+  const [gynecStepsDone, setGynecStepsDone] = useState<Record<number,boolean>>({});
+  const [claimActions, setClaimActions] = useState<Record<string,string>>({});
+  const [regEditing, setRegEditing] = useState<string|null>(null);
+  const [regOverrides, setRegOverrides] = useState<Record<string,string>>({});
 
-  const vitals = [
-    { label: "Heart Rate", value: "72", unit: "bpm", status: "normal", trend: [65, 68, 72, 70, 73, 72] },
-    { label: "Blood Pressure", value: "120/80", unit: "mmHg", status: "normal", trend: [118, 122, 119, 120, 121, 120] },
-    { label: "Temperature", value: "98.6", unit: "°F", status: "normal", trend: [98.4, 98.5, 98.6, 98.7, 98.6, 98.6] },
-    { label: "SpO2", value: "98", unit: "%", status: "normal", trend: [97, 98, 98, 99, 98, 98] },
-    { label: "Resp Rate", value: "16", unit: "/min", status: "normal", trend: [15, 16, 15, 17, 16, 16] },
-    { label: "Glucose", value: "142", unit: "mg/dL", status: "elevated", trend: [110, 125, 138, 145, 142, 142] },
+  const showToast = (msg:string, type:"success"|"info"|"warn"="success") => {
+    setToast({msg,type});
+    setTimeout(()=>setToast(null),2500);
+  };
+
+  const goToPatient = (name:string, module:EHRModule="consultation") => {
+    const p = ehrPatients.find(pt=>pt.name===name);
+    if(p){ setSelectedPatient(p); setActiveModule(module); showToast(`Navigated to ${p.name.split(" ")[0]}`,"info"); }
+  };
+
+  const modules: {key:EHRModule; label:string; badge?:number}[] = [
+    { key:"dashboard", label:"Dashboard" },
+    { key:"registration", label:"Registration" },
+    { key:"opd", label:"OPD Queue", badge:ehrOPDQueue.filter(q=>q.status==="waiting").length },
+    { key:"daycare", label:"Daycare Admission" },
+    { key:"procedure", label:"Procedure Board" },
+    { key:"nursing", label:"Nursing Station" },
+    { key:"pharmacy", label:"Pharmacy", badge:ehrMedications.filter(m=>m.status==="active").length },
+    { key:"lab", label:"Laboratory" },
+    { key:"billing", label:"Billing & Insurance" },
+    { key:"discharge", label:"Discharge" },
+    { key:"mis", label:"MIS Dashboard" },
+    { key:"consultation", label:"Consultation" },
   ];
 
-  const medications = [
-    { name: "Metformin", dose: "500mg", frequency: "2x daily", time: "08:00 / 20:00", status: "active" },
-    { name: "Lisinopril", dose: "10mg", frequency: "1x daily", time: "08:00", status: "active" },
-    { name: "Atorvastatin", dose: "20mg", frequency: "1x daily", time: "21:00", status: "active" },
-    { name: "Aspirin", dose: "81mg", frequency: "1x daily", time: "08:00", status: "discontinued" },
-  ];
+  const activeSpecialty = ehrSpecialties.find(s=>s.key===selectedPatient.specialty);
+  const accentColor = activeSpecialty?.color||"#06B6D4";
 
-  const tabs = ["overview", "vitals", "medications", "notes", "labs"];
+  const statusColor = (s:string) => {
+    switch(s){
+      case "admitted": case "in-consultation": case "in-progress": return "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
+      case "pre-auth": case "pending": case "vitals": return "bg-amber-500/20 text-amber-300 border-amber-500/30";
+      case "in-procedure": return "bg-purple-500/20 text-purple-300 border-purple-500/30";
+      case "recovery": case "approved": case "settled": return "bg-green-500/20 text-green-300 border-green-500/30";
+      case "scheduled": return "bg-blue-500/20 text-blue-300 border-blue-500/30";
+      case "completed": return "bg-white/10 text-white/50 border-white/10";
+      case "query": return "bg-red-500/20 text-red-300 border-red-500/30";
+      case "given": return "bg-green-500/20 text-green-300 border-green-500/30";
+      case "discontinued": return "bg-red-500/15 text-red-300/60 border-red-500/20";
+      default: return "bg-white/10 text-white/50 border-white/10";
+    }
+  };
 
   return (
-    <PrototypeShell title="ehr-dashboard.health">
-      <div className="flex h-[calc(100vh-48px)]">
-        {/* Left sidebar — Patient Nav */}
-        <aside className="w-56 shrink-0 border-r border-white/10 bg-[#0D1525] overflow-y-auto">
-          <div className="p-4 border-b border-white/10">
-            <div className="w-12 h-12 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-lg mb-3">JD</div>
-            <p className="text-sm font-semibold">John Doe</p>
-            <p className="text-[10px] text-white/40 font-mono">MRN: 00284719</p>
-            <p className="text-[10px] text-white/40 mt-1">Male • 54 yrs • A+</p>
+    <PrototypeShell title="daycare-ehr.health.in">
+      {/* Toast notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div initial={{opacity:0,y:-20}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-20}} className="fixed top-16 left-1/2 -translate-x-1/2 z-50">
+            <div className={`px-4 py-2 rounded-xl border text-[10px] font-medium shadow-xl backdrop-blur-sm ${toast.type==="success"?"bg-green-500/20 text-green-300 border-green-500/30":toast.type==="warn"?"bg-amber-500/20 text-amber-300 border-amber-500/30":"bg-cyan-500/20 text-cyan-300 border-cyan-500/30"}`}>
+              {toast.type==="success"?"✓ ":toast.type==="warn"?"⚠ ":"→ "}{toast.msg}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="flex h-[calc(100vh-48px-64px)] lg:h-[calc(100vh-48px-80px)]">
+        {/* ── Left Navigation ── */}
+        <aside className="w-48 shrink-0 border-r border-white/10 bg-[#0D1525] flex flex-col min-h-0">
+          <div className="p-3 border-b border-white/10 shrink-0">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-7 h-7 rounded-lg bg-cyan-500/20 flex items-center justify-center">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              </div>
+              <div>
+                <p className="text-[10px] font-bold text-white/90">DayCare EHR</p>
+                <p className="text-[8px] text-white/30 font-mono">ABDM Certified</p>
+              </div>
+            </div>
           </div>
-          <nav className="p-2">
-            {tabs.map((t) => (
-              <button
-                key={t}
-                onClick={() => setActiveTab(t)}
-                className={`w-full text-left text-xs px-3 py-2 rounded-lg capitalize transition-colors ${activeTab === t ? "bg-cyan-500/15 text-cyan-300" : "text-white/50 hover:text-white/80 hover:bg-white/5"}`}
-              >
-                {t}
+          <nav className="flex-1 overflow-y-auto p-1.5 space-y-0.5">
+            {modules.map((m) => (
+              <button key={m.key} onClick={() => setActiveModule(m.key)}
+                className={`w-full text-left text-[10px] px-2.5 py-2 rounded-lg transition-colors flex items-center justify-between ${activeModule === m.key ? "bg-cyan-500/15 text-cyan-300" : "text-white/50 hover:text-white/80 hover:bg-white/5"}`}>
+                <span>{m.label}</span>
+                {m.badge && <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono">{m.badge}</span>}
               </button>
             ))}
           </nav>
-          <div className="p-3 border-t border-white/10 mt-auto">
-            <p className="text-[10px] text-white/30 font-mono mb-2">Allergies</p>
-            <span className="px-2 py-0.5 bg-red-500/20 text-red-300 text-[10px] rounded-full border border-red-500/30">Penicillin</span>
+          <div className="p-2 border-t border-white/10 shrink-0">
+            <div className="flex items-center gap-2 px-2 py-1.5">
+              <div className="w-6 h-6 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-[8px] font-bold text-cyan-400">PM</div>
+              <div>
+                <p className="text-[9px] text-white/70">Dr. Priya Mehta</p>
+                <p className="text-[7px] text-white/30">Ophthalmology</p>
+              </div>
+            </div>
           </div>
         </aside>
 
-        {/* Main Content */}
-        <div className="flex-1 overflow-auto p-6">
-          {activeTab === "overview" && (
-            <div className="space-y-6">
-              {/* Quick vitals strip */}
-              <div>
-                <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Current Vitals</h2>
-                <div className="grid grid-cols-3 lg:grid-cols-6 gap-3">
-                  {vitals.map((v) => (
-                    <div key={v.label} className={`p-3 rounded-xl border ${v.status === "elevated" ? "bg-amber-500/10 border-amber-500/30" : "bg-white/5 border-white/10"}`}>
-                      <p className="text-[10px] text-white/40 mb-1">{v.label}</p>
-                      <p className={`text-xl font-bold ${v.status === "elevated" ? "text-amber-400" : "text-white"}`}>{v.value}</p>
-                      <p className="text-[9px] text-white/30">{v.unit}</p>
-                      {/* Mini sparkline */}
-                      <svg viewBox="0 0 60 20" className="w-full h-4 mt-1">
-                        <polyline
-                          fill="none"
-                          stroke={v.status === "elevated" ? "#F59E0B" : "#06B6D4"}
-                          strokeWidth="1.5"
-                          points={v.trend.map((val, i) => {
-                            const min = Math.min(...v.trend);
-                            const max = Math.max(...v.trend);
-                            const range = max - min || 1;
-                            return `${i * 12},${20 - ((val - min) / range) * 16}`;
-                          }).join(" ")}
-                        />
-                      </svg>
-                    </div>
-                  ))}
-                </div>
-              </div>
+        {/* ── Main Content ── */}
+        <div className="flex-1 overflow-auto">
+          <AnimatePresence mode="wait">
+            <motion.div key={activeModule} initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-8}} transition={{duration:0.2}} className="p-4 lg:p-6">
 
-              {/* Recent activity + Medications side by side */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Active Medications</h2>
-                  <div className="space-y-2">
-                    {medications.filter((m) => m.status === "active").map((m) => (
-                      <div key={m.name} className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-medium">{m.name}</p>
-                          <p className="text-[10px] text-white/40">{m.dose} • {m.frequency}</p>
+              {/* ════════ DASHBOARD ════════ */}
+              {activeModule === "dashboard" && (
+                <div className="space-y-6">
+                  {/* Today's Stats */}
+                  <div>
+                    <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Today — 06 April 2026</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+                      {[
+                        {label:"OPD Patients",value:"42",delta:"+8",color:"text-cyan-400",nav:"opd" as EHRModule},
+                        {label:"Daycare Admissions",value:"8",delta:"+2",color:"text-green-400",nav:"daycare" as EHRModule},
+                        {label:"Procedures Today",value:"8",delta:"",color:"text-purple-400",nav:"procedure" as EHRModule},
+                        {label:"Pending Pre-Auth",value:"2",delta:"",color:"text-amber-400",nav:"billing" as EHRModule},
+                        {label:"Discharged",value:"3",delta:"",color:"text-green-400",nav:"discharge" as EHRModule},
+                        {label:"Revenue (Today)",value:"₹4.82L",delta:"+₹1.2L",color:"text-cyan-400",nav:"mis" as EHRModule},
+                      ].map((s) => (
+                        <div key={s.label} onClick={()=>{setActiveModule(s.nav);showToast(`Opened ${s.label}`,"info");}} className="p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer hover:border-cyan-500/30 hover:bg-white/8 transition-all group">
+                          <p className="text-[9px] text-white/40 mb-1 group-hover:text-white/60">{s.label}</p>
+                          <p className={`text-xl font-bold ${s.color}`}>{s.value}</p>
+                          {s.delta && <p className="text-[9px] text-green-400 mt-0.5">{s.delta} vs yesterday</p>}
                         </div>
-                        <span className="text-[10px] font-mono text-white/30">{m.time}</span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Recent Notes</h2>
-                  <div className="space-y-2">
-                    {[
-                      { author: "Dr. Smith", time: "Today, 09:15", note: "Patient reports improved glucose control. Continue current regimen." },
-                      { author: "RN Johnson", time: "Today, 07:30", note: "Morning vitals within normal limits. Patient ambulating independently." },
-                      { author: "Dr. Smith", time: "Yesterday, 14:00", note: "Lab results reviewed. Adjusted Metformin dosage per protocol." },
-                    ].map((n, i) => (
-                      <div key={i} className="p-3 rounded-xl bg-white/5 border border-white/10">
-                        <div className="flex justify-between mb-1">
-                          <span className="text-xs font-medium">{n.author}</span>
-                          <span className="text-[10px] text-white/30">{n.time}</span>
+
+                  {/* Procedure Board (mini) */}
+                  <div>
+                    <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Procedure Board</h2>
+                    <div className="rounded-xl border border-white/10 overflow-hidden">
+                      <table className="w-full text-[10px]">
+                        <thead><tr className="bg-white/5">
+                          <th className="text-left p-2.5 text-white/40 font-medium">Time</th>
+                          <th className="text-left p-2.5 text-white/40 font-medium">Patient</th>
+                          <th className="text-left p-2.5 text-white/40 font-medium hidden sm:table-cell">Procedure</th>
+                          <th className="text-left p-2.5 text-white/40 font-medium hidden lg:table-cell">Doctor</th>
+                          <th className="text-left p-2.5 text-white/40 font-medium hidden sm:table-cell">Room</th>
+                          <th className="text-left p-2.5 text-white/40 font-medium">Status</th>
+                        </tr></thead>
+                        <tbody>
+                          {ehrProcedureBoard.map((p,i)=>(
+                            <tr key={i} onClick={()=>goToPatient(p.patient,"procedure")} className="border-t border-white/5 hover:bg-white/5 transition-colors cursor-pointer">
+                              <td className="p-2.5 font-mono text-white/60">{p.time}</td>
+                              <td className="p-2.5 text-white/80">{p.patient}</td>
+                              <td className="p-2.5 text-white/50 hidden sm:table-cell">{p.procedure}</td>
+                              <td className="p-2.5 text-white/50 hidden lg:table-cell">{p.doctor}</td>
+                              <td className="p-2.5 font-mono text-white/40 hidden sm:table-cell">{p.room}</td>
+                              <td className="p-2.5"><span className={`px-2 py-0.5 rounded-full text-[9px] border ${statusColor(p.status)}`}>{p.status}</span></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Specialty-wise split */}
+                  <div>
+                    <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Active by Specialty</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+                      {ehrSpecialties.slice(0,8).map((sp)=>{
+                        const count = ehrPatients.filter(p=>p.specialty===sp.key).length;
+                        return (
+                          <div key={sp.key} onClick={()=>{const pt=ehrPatients.find(p=>p.specialty===sp.key);if(pt){setSelectedPatient(pt);setActiveModule("consultation");showToast(`${sp.label} — ${pt.name.split(" ")[0]}`,'info');}else{showToast(`No patients in ${sp.label}`,"warn");}}} className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-center cursor-pointer hover:border-cyan-500/30 hover:bg-white/8 transition-all">
+                            <div className="w-8 h-8 rounded-full mx-auto mb-1.5 flex items-center justify-center" style={{backgroundColor:sp.color+"20",border:`1px solid ${sp.color}40`}}>
+                              <span className="text-xs font-bold" style={{color:sp.color}}>{count}</span>
+                            </div>
+                            <p className="text-[8px] text-white/50 leading-tight">{sp.label}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Insurance Claims */}
+                  <div>
+                    <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Insurance & Pre-Auth Tracker</h2>
+                    <div className="space-y-2">
+                      {ehrInsuranceClaims.slice(0,4).map((c)=>(
+                        <div key={c.id} onClick={()=>{setActiveModule("billing");showToast(`Viewing ${c.id}`,'info');}} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer hover:border-cyan-500/30 hover:bg-white/8 transition-all">
+                          <div className="flex items-center gap-3">
+                            <span className="text-[9px] font-mono text-white/30">{c.id}</span>
+                            <div>
+                              <p className="text-[10px] text-white/80">{c.patient}</p>
+                              <p className="text-[8px] text-white/40">{c.tpa} • Submitted {c.submitted}</p>
+                            </div>
+                          </div>
+                          <div className="text-right flex items-center gap-3">
+                            <span className="text-[10px] font-mono text-white/60">₹{c.amount.toLocaleString("en-IN")}</span>
+                            <span className={`px-2 py-0.5 rounded-full text-[9px] border ${statusColor(c.status)}`}>{c.status}</span>
+                          </div>
                         </div>
-                        <p className="text-[10px] text-white/50 leading-relaxed">{n.note}</p>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
+              )}
 
-          {activeTab === "vitals" && (
-            <div>
-              <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-4">Vitals History</h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {vitals.map((v) => (
-                  <div key={v.label} className={`p-4 rounded-xl border ${v.status === "elevated" ? "bg-amber-500/10 border-amber-500/30" : "bg-white/5 border-white/10"}`}>
-                    <div className="flex justify-between items-start mb-3">
-                      <p className="text-xs text-white/60">{v.label}</p>
-                      <span className={`text-[9px] px-2 py-0.5 rounded-full ${v.status === "elevated" ? "bg-amber-500/20 text-amber-300" : "bg-green-500/20 text-green-300"}`}>{v.status}</span>
-                    </div>
-                    <p className={`text-3xl font-bold ${v.status === "elevated" ? "text-amber-400" : "text-white"}`}>{v.value}</p>
-                    <p className="text-[10px] text-white/30 mb-3">{v.unit}</p>
-                    <svg viewBox="0 0 120 40" className="w-full h-8">
-                      <polyline fill="none" stroke={v.status === "elevated" ? "#F59E0B" : "#06B6D4"} strokeWidth="2"
-                        points={v.trend.map((val, i) => {
-                          const min = Math.min(...v.trend);
-                          const max = Math.max(...v.trend);
-                          const range = max - min || 1;
-                          return `${i * 24},${36 - ((val - min) / range) * 30}`;
-                        }).join(" ")}
-                      />
-                    </svg>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "medications" && (
-            <div>
-              <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-4">Medication Schedule</h2>
-              <div className="space-y-2">
-                {medications.map((m) => (
-                  <div key={m.name} className={`p-4 rounded-xl border flex items-center justify-between ${m.status === "discontinued" ? "bg-white/2 border-white/5 opacity-50" : "bg-white/5 border-white/10"}`}>
-                    <div className="flex items-center gap-4">
-                      <div className={`w-2 h-2 rounded-full ${m.status === "active" ? "bg-green-400" : "bg-red-400"}`} />
+              {/* ════════ REGISTRATION ════════ */}
+              {activeModule === "registration" && (
+                <div className="space-y-6 max-w-3xl">
+                  <h2 className="text-sm font-semibold text-white/90">Patient Registration — ABHA Linked</h2>
+                  {/* ABHA Verification */}
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="8" cy="15" r="1"/></svg>
+                      </div>
                       <div>
-                        <p className="text-sm font-medium">{m.name}</p>
-                        <p className="text-[10px] text-white/40">{m.dose} • {m.frequency} • {m.time}</p>
+                        <p className="text-xs font-medium text-white/80">ABHA Verification</p>
+                        <p className="text-[9px] text-white/40">Ayushman Bharat Health Account</p>
+                      </div>
+                      <span className="ml-auto px-2.5 py-1 text-[9px] rounded-full bg-green-500/20 text-green-300 border border-green-500/30">Verified ✓</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      {[
+                        {label:"ABHA ID",value:selectedPatient.abha},
+                        {label:"UHID",value:selectedPatient.uhid},
+                        {label:"Full Name",value:selectedPatient.name},
+                        {label:"Age / Gender",value:`${selectedPatient.age} yrs / ${selectedPatient.gender==="M"?"Male":"Female"}`},
+                        {label:"Blood Group",value:selectedPatient.blood},
+                        {label:"Mobile",value:selectedPatient.phone},
+                      ].map((f)=>(
+                        <div key={f.label} onClick={()=>{setRegEditing(regEditing===f.label?null:f.label);}} className="p-2.5 rounded-lg bg-white/3 border border-white/5 cursor-pointer hover:border-cyan-500/20 transition-colors">
+                          <p className="text-[8px] text-white/30 font-mono uppercase mb-0.5">{f.label}</p>
+                          {regEditing===f.label ? (
+                            <input autoFocus className="bg-transparent text-[10px] text-cyan-300 outline-none w-full border-b border-cyan-500/30 font-mono" defaultValue={regOverrides[f.label]||f.value} onBlur={(e)=>{setRegOverrides(p=>({...p,[f.label]:e.target.value}));setRegEditing(null);showToast(`${f.label} updated`);}} onKeyDown={(e)=>{if(e.key==="Enter"){(e.target as HTMLInputElement).blur();}}}/>
+                          ) : (
+                            <p className="text-[10px] text-white/80">{regOverrides[f.label]||f.value}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Insurance */}
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs font-medium text-white/80 mb-3">Insurance Details</p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="p-2.5 rounded-lg bg-white/3 border border-white/5">
+                        <p className="text-[8px] text-white/30 font-mono uppercase mb-0.5">Provider</p>
+                        <p className="text-[10px] text-white/80">{selectedPatient.insurance}</p>
+                      </div>
+                      <div className="p-2.5 rounded-lg bg-white/3 border border-white/5">
+                        <p className="text-[8px] text-white/30 font-mono uppercase mb-0.5">PMJAY Beneficiary</p>
+                        <p className={`text-[10px] ${selectedPatient.pmjay?"text-green-400":"text-white/50"}`}>{selectedPatient.pmjay?"Yes — Eligible":"No"}</p>
                       </div>
                     </div>
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full ${m.status === "active" ? "bg-green-500/20 text-green-300" : "bg-red-500/20 text-red-300"}`}>{m.status}</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "notes" && (
-            <div>
-              <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-4">Clinical Notes</h2>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 mb-4">
-                <div className="h-20 border border-dashed border-white/10 rounded-lg flex items-center justify-center text-xs text-white/30">
-                  Click to add a new note...
+                  {/* Allergies */}
+                  <div className="p-4 rounded-xl bg-red-500/5 border border-red-500/20">
+                    <p className="text-xs font-medium text-red-300 mb-2">Allergies & Alerts</p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedPatient.allergy.length > 0 ? selectedPatient.allergy.map((a)=>(
+                        <span key={a} className="px-2.5 py-1 text-[10px] rounded-full bg-red-500/20 text-red-300 border border-red-500/30">{a}</span>
+                      )) : <span className="text-[10px] text-white/40">No known allergies (NKDA)</span>}
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="space-y-3">
-                {[
-                  { author: "Dr. Smith", time: "Jun 12, 2025 09:15", title: "Follow-up Visit", note: "Patient reports improved glucose control with adjusted Metformin regimen. A1C target of <7% within reach. Continue current treatment plan. Schedule follow-up in 3 months." },
-                  { author: "RN Johnson", time: "Jun 12, 2025 07:30", title: "Morning Assessment", note: "Patient ambulating independently. Vitals within normal limits. No complaints of pain. Appetite improved. Continue monitoring glucose levels per protocol." },
-                  { author: "Dr. Smith", time: "Jun 11, 2025 14:00", title: "Lab Review", note: "Reviewed comprehensive metabolic panel. Glucose trending down — 142 from 165 last month. Kidney function stable. LDL slightly elevated at 132 — monitor with next draw." },
-                ].map((n, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/10">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <p className="text-sm font-medium">{n.title}</p>
-                        <p className="text-[10px] text-white/40">{n.author}</p>
-                      </div>
-                      <span className="text-[10px] text-white/30 font-mono">{n.time}</span>
-                    </div>
-                    <p className="text-xs text-white/50 leading-relaxed">{n.note}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+              )}
 
-          {activeTab === "labs" && (
-            <div>
-              <h2 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-4">Lab Results</h2>
-              <div className="rounded-xl border border-white/10 overflow-hidden">
-                <table className="w-full text-xs">
-                  <thead>
-                    <tr className="bg-white/5">
-                      <th className="text-left p-3 text-white/40 font-medium">Test</th>
-                      <th className="text-left p-3 text-white/40 font-medium">Result</th>
-                      <th className="text-left p-3 text-white/40 font-medium">Range</th>
-                      <th className="text-left p-3 text-white/40 font-medium">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+              {/* ════════ OPD QUEUE ════════ */}
+              {activeModule === "opd" && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-semibold text-white/90">OPD Queue — Token System</h2>
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/10">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/30"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                      <input type="text" placeholder="Search patient..." value={searchQ} onChange={(e)=>setSearchQ(e.target.value)} className="bg-transparent text-[10px] text-white/80 placeholder:text-white/30 outline-none w-32"/>
+                    </div>
+                  </div>
+                  <div className="grid gap-2">
+                    {ehrOPDQueue.filter(q=>!searchQ || q.name.toLowerCase().includes(searchQ.toLowerCase())).map((q)=>{
+                      const currentStatus = opdStatuses[q.token]||q.status;
+                      const nextStatus = currentStatus==="waiting"?"vitals":currentStatus==="vitals"?"in-consultation":currentStatus==="in-consultation"?"completed":"waiting";
+                      return (
+                      <div key={q.token} className={`flex items-center gap-4 p-3 rounded-xl border transition-colors ${currentStatus==="in-consultation"?"bg-cyan-500/5 border-cyan-500/20":currentStatus==="vitals"?"bg-amber-500/5 border-amber-500/20":currentStatus==="completed"?"bg-white/3 border-white/5 opacity-60":"bg-white/5 border-white/10"}`}>
+                        <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xs font-bold font-mono text-white/60">{q.token}</div>
+                        <div className="flex-1 min-w-0 cursor-pointer" onClick={()=>{const pt=ehrPatients.find(p=>p.name.includes(q.name.split(" ")[0]));if(pt){setSelectedPatient(pt);setActiveModule("consultation");showToast(`Viewing ${pt.name.split(" ")[0]}`, "info");}else{showToast(`${q.name} — OPD patient`,"info");}}}>
+                          <p className="text-[11px] font-medium text-white/80 truncate hover:text-cyan-300 transition-colors">{q.name}</p>
+                          <p className="text-[9px] text-white/40">{q.doctor} • {q.dept}</p>
+                        </div>
+                        <span className="text-[9px] font-mono text-white/30">{q.time}</span>
+                        <button onClick={()=>{setOpdStatuses(prev=>({...prev,[q.token]:nextStatus}));showToast(`${q.name}: ${currentStatus} → ${nextStatus}`);}} className={`px-2 py-0.5 rounded-full text-[9px] border shrink-0 cursor-pointer hover:scale-105 transition-transform ${statusColor(currentStatus)}`}>{currentStatus.replace("-"," ")}</button>
+                      </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ DAYCARE ADMISSION ════════ */}
+              {activeModule === "daycare" && (
+                <div className="space-y-6 max-w-4xl">
+                  <h2 className="text-sm font-semibold text-white/90">Daycare Admission — {selectedPatient.name}</h2>
+                  {/* Patient strip */}
+                  <div className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/10">
+                    <div className="w-10 h-10 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-[10px] font-bold text-cyan-400">{selectedPatient.name.split(" ").map(n=>n[0]).join("").slice(0,2)}</div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium text-white/80">{selectedPatient.name} <span className="text-white/30 font-mono ml-1">{selectedPatient.uhid}</span></p>
+                      <p className="text-[9px] text-white/40">{selectedPatient.age}y / {selectedPatient.gender} • {selectedPatient.blood} • ABHA: {selectedPatient.abha}</p>
+                    </div>
+                    {selectedPatient.allergy.length > 0 && <div className="flex gap-1">{selectedPatient.allergy.map(a=><span key={a} className="px-2 py-0.5 text-[8px] rounded-full bg-red-500/20 text-red-300 border border-red-500/30">{a}</span>)}</div>}
+                  </div>
+
+                  {/* Procedure & Doctor */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                      <p className="text-[8px] font-mono text-white/30 uppercase mb-1">Planned Procedure</p>
+                      <p className="text-sm font-semibold text-white/90">{selectedPatient.procedure}</p>
+                      <p className="text-[9px] text-white/40 mt-1">{selectedPatient.doctor} • {ehrSpecialties.find(s=>s.key===selectedPatient.specialty)?.label}</p>
+                    </div>
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                      <p className="text-[8px] font-mono text-white/30 uppercase mb-1">Insurance / Pre-Auth</p>
+                      <p className="text-sm font-semibold text-white/90">{selectedPatient.insurance}</p>
+                      <p className={`text-[9px] mt-1 ${selectedPatient.pmjay?"text-green-400":"text-amber-400"}`}>{selectedPatient.pmjay?"PMJAY — Auto-approved":"Pre-auth submitted — awaiting"}</p>
+                    </div>
+                  </div>
+
+                  {/* Pre-procedure checklist */}
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs font-medium text-white/80 mb-3">Pre-Procedure Checklist</p>
+                    <div className="grid sm:grid-cols-2 gap-2">
+                      {[
+                        {label:"Identity verified (2-ID check)",done:true,key:"id"},
+                        {label:"Consent signed (Procedure + Anesthesia)",done:consentSigned,key:"consent"},
+                        {label:"NPO > 6 hours confirmed",done:true,key:"npo"},
+                        {label:"Pre-op investigations reviewed",done:true,key:"preop"},
+                        {label:"Anticoagulant hold verified",done:true,key:"anticoag"},
+                        {label:"Site marking done (laterality)",done:true,key:"site"},
+                        {label:"Allergy wristband applied",done:selectedPatient.allergy.length>0,key:"allergy"},
+                        {label:"Blood group confirmed",done:true,key:"blood"},
+                        {label:"Anesthesia PAC completed (ASA II)",done:true,key:"pac"},
+                        {label:"Bay/Bed allocated",done:selectedPatient.bay!=="—",key:"bay"},
+                      ].map((c)=>{
+                        const isDone = checklistOverrides[c.key]!==undefined?checklistOverrides[c.key]:c.done;
+                        return (
+                        <div key={c.label} onClick={()=>{setChecklistOverrides(prev=>({...prev,[c.key]:!isDone}));showToast(isDone?`Unchecked: ${c.label.slice(0,30)}…`:`Checked: ${c.label.slice(0,30)}…`);}} className={`flex items-center gap-2.5 p-2.5 rounded-lg transition-colors cursor-pointer ${isDone?"bg-green-500/5 border border-green-500/15 hover:border-green-500/30":"bg-white/3 border border-white/5 hover:border-amber-500/30"}`}>
+                          <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 ${isDone?"bg-green-500/20 text-green-400":"bg-white/10 text-white/20"}`}>
+                            {isDone&&<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </div>
+                          <span className={`text-[10px] ${isDone?"text-white/70":"text-white/40"}`}>{c.label}</span>
+                        </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Consent */}
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs font-medium text-white/80 mb-3">Digital Consent</p>
+                    <div className="grid sm:grid-cols-3 gap-2 mb-4">
+                      {["Procedure Consent","Anesthesia Consent","High-Risk Consent"].map((c)=>(
+                        <div key={c} className={`p-3 rounded-lg border text-center cursor-pointer transition-colors ${consentSigned?"bg-green-500/10 border-green-500/20":"bg-white/3 border-white/10 hover:border-cyan-500/30"}`} onClick={()=>setConsentSigned(true)}>
+                          <p className="text-[10px] text-white/60 mb-1">{c}</p>
+                          <p className={`text-[9px] font-mono ${consentSigned?"text-green-400":"text-white/30"}`}>{consentSigned?"Signed ✓":"Tap to sign"}</p>
+                        </div>
+                      ))}
+                    </div>
+                    {consentSigned && <p className="text-[9px] text-green-400/70 font-mono">Consent captured — {selectedPatient.name} — {new Date().toLocaleString("en-IN")} — Digital Signature on file</p>}
+                  </div>
+
+                  {/* WHO Surgical Safety Checklist */}
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs font-medium text-white/80 mb-3">WHO Surgical Safety Checklist</p>
+                    <div className="grid sm:grid-cols-3 gap-3">
+                      {([["signIn","Sign In","Before Anesthesia"],["timeOut","Time Out","Before Incision"],["signOut","Sign Out","Before Exit"]] as const).map(([key,title,sub])=>(
+                        <button key={key} onClick={()=>setWhoChecklist(prev=>({...prev,[key]:!prev[key]}))}
+                          className={`p-4 rounded-xl border text-center transition-all ${whoChecklist[key]?"bg-green-500/10 border-green-500/30":"bg-white/3 border-white/10 hover:border-cyan-500/30"}`}>
+                          <div className={`w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center text-sm font-bold ${whoChecklist[key]?"bg-green-500/20 text-green-400":"bg-white/10 text-white/30"}`}>
+                            {whoChecklist[key]?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>:"?"}
+                          </div>
+                          <p className="text-[10px] font-semibold text-white/80">{title}</p>
+                          <p className="text-[8px] text-white/30">{sub}</p>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ PROCEDURE BOARD ════════ */}
+              {activeModule === "procedure" && (
+                <div className="space-y-4">
+                  <h2 className="text-sm font-semibold text-white/90">OT / Procedure Board — Today</h2>
+                  <p className="text-[9px] text-white/40">Click any row to expand details • Click patient name to navigate</p>
+                  <div className="rounded-xl border border-white/10 overflow-hidden">
+                    <table className="w-full text-[10px]">
+                      <thead><tr className="bg-white/5">
+                        <th className="text-left p-3 text-white/40 font-medium w-16">Time</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Patient</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Procedure</th>
+                        <th className="text-left p-3 text-white/40 font-medium hidden lg:table-cell">Surgeon</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Room</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Status</th>
+                      </tr></thead>
+                      <tbody>
+                        {ehrProcedureBoard.map((p,i)=>(
+                          <React.Fragment key={i}>
+                          <motion.tr initial={{opacity:0,x:-10}} animate={{opacity:1,x:0}} transition={{delay:i*0.05}}
+                            onClick={()=>setExpandedProcRow(expandedProcRow===i?null:i)}
+                            className={`border-t border-white/5 transition-colors cursor-pointer ${p.status==="in-progress"?"bg-cyan-500/5":"hover:bg-white/5"} ${expandedProcRow===i?"bg-white/5":""}`}>
+                            <td className="p-3 font-mono font-bold text-white/70">{p.time}</td>
+                            <td className="p-3">
+                              <p className="text-cyan-300 hover:underline cursor-pointer" onClick={(e)=>{e.stopPropagation();goToPatient(p.patient,"consultation");}}>{p.patient}</p>
+                            </td>
+                            <td className="p-3 text-white/60">{p.procedure}</td>
+                            <td className="p-3 text-white/50 hidden lg:table-cell">{p.doctor}</td>
+                            <td className="p-3"><span className="px-2 py-0.5 rounded bg-white/10 text-[9px] font-mono text-white/50">{p.room}</span></td>
+                            <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-[9px] border ${statusColor(p.status)}`}>{p.status}</span></td>
+                          </motion.tr>
+                          {expandedProcRow===i&&(
+                            <tr><td colSpan={6} className="p-0">
+                              <motion.div initial={{height:0,opacity:0}} animate={{height:"auto",opacity:1}} exit={{height:0,opacity:0}} className="p-4 bg-white/3 border-t border-white/5 space-y-3">
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                  <div><p className="text-[7px] text-white/30 font-mono uppercase">WHO Sign-In</p><p className="text-[10px] text-green-400">✓ Done</p></div>
+                                  <div><p className="text-[7px] text-white/30 font-mono uppercase">Anesthesia</p><p className="text-[10px] text-white/60">{p.status==="completed"?"General":"Topical + Peribulbar"}</p></div>
+                                  <div><p className="text-[7px] text-white/30 font-mono uppercase">Start Time</p><p className="text-[10px] text-white/60 font-mono">{p.time}</p></div>
+                                  <div><p className="text-[7px] text-white/30 font-mono uppercase">Est. Duration</p><p className="text-[10px] text-white/60">45 min</p></div>
+                                </div>
+                                <div className="flex gap-2">
+                                  <button onClick={(e)=>{e.stopPropagation();goToPatient(p.patient,"nursing");}} className="px-3 py-1.5 rounded-lg text-[9px] bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20 transition-colors">View Nursing Notes</button>
+                                  <button onClick={(e)=>{e.stopPropagation();goToPatient(p.patient,"billing");}} className="px-3 py-1.5 rounded-lg text-[9px] bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 transition-colors">View Billing</button>
+                                  <button onClick={(e)=>{e.stopPropagation();showToast(`WHO Time-Out confirmed for ${p.patient}`,"success");}} className="px-3 py-1.5 rounded-lg text-[9px] bg-green-500/10 text-green-300 border border-green-500/20 hover:bg-green-500/20 transition-colors">Confirm WHO Time-Out</button>
+                                </div>
+                              </motion.div>
+                            </td></tr>
+                          )}
+                          </React.Fragment>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ NURSING STATION ════════ */}
+              {activeModule === "nursing" && (
+                <div className="space-y-6">
+                  <h2 className="text-sm font-semibold text-white/90">Nursing Station — {selectedPatient.name}</h2>
+                  {/* Vitals */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Current Vitals <span className="text-white/30 normal-case">(click to edit)</span></h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                      {ehrVitals.map((v)=>{
+                        const isEditing = editingVital===v.label;
+                        const displayVal = vitalOverrides[v.label]??v.value;
+                        return (
+                        <div key={v.label} onClick={()=>{if(!isEditing)setEditingVital(v.label);}} className={`p-3 rounded-xl border cursor-pointer transition-colors ${v.status==="elevated"?"bg-amber-500/10 border-amber-500/30 hover:border-amber-500/50":"bg-white/5 border-white/10 hover:border-cyan-500/30"} ${isEditing?"ring-1 ring-cyan-400":""}`}>
+                          <p className="text-[9px] text-white/40 mb-1">{v.label}</p>
+                          {isEditing?(
+                            <input autoFocus defaultValue={String(displayVal)} className="bg-transparent text-lg font-bold text-cyan-300 w-full outline-none border-b border-cyan-500/30" onKeyDown={(e)=>{if(e.key==="Enter"){setVitalOverrides(prev=>({...prev,[v.label]:(e.target as HTMLInputElement).value}));setEditingVital(null);showToast(`${v.label} updated to ${(e.target as HTMLInputElement).value}`,"success");}}} onBlur={(e)=>{setVitalOverrides(prev=>({...prev,[v.label]:e.target.value}));setEditingVital(null);showToast(`${v.label} updated`);}}/>
+                          ):(
+                            <p className={`text-lg font-bold ${v.status==="elevated"?"text-amber-400":"text-white"}`}>{displayVal}</p>
+                          )}
+                          <p className="text-[8px] text-white/30">{v.unit}</p>
+                          <svg viewBox="0 0 60 20" className="w-full h-4 mt-1">
+                            <polyline fill="none" stroke={v.status==="elevated"?"#F59E0B":"#06B6D4"} strokeWidth="1.5"
+                              points={v.trend.map((val,i)=>{const min=Math.min(...v.trend);const max=Math.max(...v.trend);const r=max-min||1;return`${i*12},${18-((val-min)/r)*14}`;}).join(" ")}/>
+                          </svg>
+                        </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  {/* MAR */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Medication Administration Record (MAR)</h3>
+                    <div className="space-y-2">
+                      {ehrMedications.filter(m=>m.patient.includes(selectedPatient.name.split(" ")[0])).map((m,i)=>{
+                        const mKey = `${m.name}-${m.patient}`;
+                        const curStatus = medStatuses[mKey]??m.status;
+                        return (
+                        <div key={i} className={`flex items-center gap-3 p-3 rounded-xl border ${curStatus==="discontinued"?"bg-white/2 border-white/5 opacity-50":"bg-white/5 border-white/10"}`}>
+                          <div className={`w-2 h-2 rounded-full shrink-0 ${curStatus==="given"?"bg-green-400":curStatus==="active"?"bg-cyan-400":"bg-red-400"}`}/>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[10px] font-medium text-white/80">{m.name}</p>
+                            <p className="text-[8px] text-white/40">{m.dose} • {m.route} • {m.freq} • {m.time}</p>
+                          </div>
+                          {m.schedule!=="—"&&<span className="text-[8px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">Sch.{m.schedule}</span>}
+                          {curStatus==="active"&&(
+                            <button onClick={()=>{setMedStatuses(prev=>({...prev,[mKey]:"given"}));showToast(`${m.name} marked as administered`,"success");}} className="px-2 py-1 rounded-lg text-[8px] bg-green-500/10 text-green-300 border border-green-500/20 hover:bg-green-500/20 transition-colors">Administer</button>
+                          )}
+                          <span className={`px-2 py-0.5 rounded-full text-[9px] border ${statusColor(curStatus)}`}>{curStatus}</span>
+                        </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  {/* Nursing observations */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Observation Notes</h3>
+                    <div className="space-y-2">
+                      {[
+                        {time:"07:30",nurse:"Sr. Nurse Rekha",note:"Patient received. Identity verified. NPO > 8hrs confirmed. Allergy wristband (RED) applied. Pre-op vitals recorded. Patient anxious — reassured."},
+                        {time:"08:15",nurse:"OT Nurse Shilpa",note:"Shifted to OT-1. WHO Sign-In completed. IV line secured (18G — left dorsum). Timolol 0.5% instilled as per PAC order."},
+                        {time:"09:00",nurse:"PACU Nurse Anjali",note:"Post-op — shifted to Recovery Bay 3. Aldrete score 8/10. Eye pad intact. No complaints of pain. SpO₂ 97%. Vitals stable."},
+                        {time:"10:30",nurse:"Sr. Nurse Rekha",note:"Aldrete 10/10. Tolerated sips of water. Vision check: 6/18 (L eye). Discharge criteria met. Awaiting doctor clearance."},
+                        ...addedNotes,
+                      ].map((n,i)=>(
+                        <div key={i} className="p-3 rounded-xl bg-white/5 border border-white/10">
+                          <div className="flex justify-between mb-1">
+                            <span className="text-[10px] font-medium text-white/70">{n.nurse}</span>
+                            <span className="text-[9px] font-mono text-white/30">{n.time}</span>
+                          </div>
+                          <p className="text-[10px] text-white/50 leading-relaxed">{n.note}</p>
+                        </div>
+                      ))}
+                    </div>
+                    {/* Add note form */}
+                    <div className="mt-3 p-3 rounded-xl bg-white/3 border border-dashed border-white/10">
+                      <textarea value={nurseNote} onChange={(e)=>setNurseNote(e.target.value)} placeholder="Type observation note here…" className="w-full bg-transparent text-[10px] text-white/70 placeholder:text-white/20 outline-none resize-none h-14"/>
+                      <div className="flex justify-end mt-1">
+                        <button disabled={!nurseNote.trim()} onClick={()=>{const now=new Date();setAddedNotes(prev=>[...prev,{time:`${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`,nurse:"Nurse (You)",note:nurseNote.trim()}]);setNurseNote("");showToast("Observation note added","success");}} className="px-3 py-1.5 rounded-lg text-[9px] bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">Add Note</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ PHARMACY ════════ */}
+              {activeModule === "pharmacy" && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-semibold text-white/90">Pharmacy — Drug Dispensing</h2>
+                    <div className="flex gap-2">
+                      <span className="text-[9px] px-2 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">Sch.H — Prescription Required</span>
+                      <span className="text-[9px] px-2 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">Sch.H1 — Restricted</span>
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-white/10 overflow-hidden">
+                    <table className="w-full text-[10px]">
+                      <thead><tr className="bg-white/5">
+                        <th className="text-left p-2.5 text-white/40 font-medium">Drug</th>
+                        <th className="text-left p-2.5 text-white/40 font-medium">Dose</th>
+                        <th className="text-left p-2.5 text-white/40 font-medium">Route</th>
+                        <th className="text-left p-2.5 text-white/40 font-medium hidden sm:table-cell">Freq</th>
+                        <th className="text-left p-2.5 text-white/40 font-medium">Patient</th>
+                        <th className="text-left p-2.5 text-white/40 font-medium">Sch</th>
+                        <th className="text-left p-2.5 text-white/40 font-medium">Status</th>
+                        <th className="text-left p-2.5 text-white/40 font-medium">Action</th>
+                      </tr></thead>
+                      <tbody>
+                        {ehrMedications.map((m,i)=>{
+                          const mKey = `${m.name}-${m.patient}`;
+                          const curStatus = medStatuses[mKey]??m.status;
+                          return (
+                          <tr key={i} className={`border-t border-white/5 ${curStatus==="discontinued"?"opacity-40":""}`}>
+                            <td className="p-2.5 text-white/80 font-medium">{m.name}</td>
+                            <td className="p-2.5 font-mono text-white/60">{m.dose}</td>
+                            <td className="p-2.5 text-white/50">{m.route}</td>
+                            <td className="p-2.5 text-white/50 hidden sm:table-cell">{m.freq}</td>
+                            <td className="p-2.5"><span className="text-cyan-300 hover:underline cursor-pointer" onClick={()=>goToPatient(m.patient,"nursing")}>{m.patient}</span></td>
+                            <td className="p-2.5">{m.schedule!=="—"&&<span className={`px-1.5 py-0.5 rounded text-[8px] font-mono ${m.schedule==="H1"?"bg-red-500/20 text-red-300":"bg-amber-500/20 text-amber-300"}`}>{m.schedule}</span>}</td>
+                            <td className="p-2.5"><span className={`px-2 py-0.5 rounded-full text-[9px] border ${statusColor(curStatus)}`}>{curStatus}</span></td>
+                            <td className="p-2.5">
+                              {curStatus==="active"&&(
+                                <button onClick={()=>{setMedStatuses(prev=>({...prev,[mKey]:"given"}));showToast(`${m.name} dispensed for ${m.patient}`,"success");}} className="px-2 py-1 rounded-lg text-[8px] bg-green-500/10 text-green-300 border border-green-500/20 hover:bg-green-500/20 transition-colors">Dispense</button>
+                              )}
+                              {curStatus==="given"&&<span className="text-[8px] text-green-400">✓ Dispensed</span>}
+                            </td>
+                          </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="p-3 rounded-xl bg-blue-500/5 border border-blue-500/20">
+                    <p className="text-[9px] text-blue-300">💊 <strong>Jan Aushadhi Alert:</strong> Generic alternative available for Clopidogrel — ₹2.8/tab vs ₹12/tab (branded). Switch recommended per NMC generic mandate.</p>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ LABORATORY ════════ */}
+              {activeModule === "lab" && (
+                <div className="space-y-4">
+                  <h2 className="text-sm font-semibold text-white/90">Laboratory — Pre-Op Panel</h2>
+                  <p className="text-[9px] text-white/40">{selectedPatient.name} • {selectedPatient.uhid} • Ordered by {selectedPatient.doctor}</p>
+                  <div className="rounded-xl border border-white/10 overflow-hidden">
+                    <table className="w-full text-[10px]">
+                      <thead><tr className="bg-white/5">
+                        <th className="text-left p-3 text-white/40 font-medium">Test</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Result</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Reference Range</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Status</th>
+                        <th className="text-left p-3 text-white/40 font-medium">Verify</th>
+                      </tr></thead>
+                      <tbody>
+                        {ehrLabResults.map((l)=>{
+                          const isVerified = labVerified[l.test]===true;
+                          return (
+                          <tr key={l.test} className="border-t border-white/5">
+                            <td className="p-3 text-white/80">{l.test}</td>
+                            <td className={`p-3 font-mono ${l.status==="high"?"text-red-300":l.status==="borderline"?"text-amber-300":"text-white/70"}`}>{l.result}</td>
+                            <td className="p-3 text-white/40">{l.range}</td>
+                            <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-[9px] ${l.status==="high"?"bg-red-500/20 text-red-300":l.status==="borderline"?"bg-amber-500/20 text-amber-300":"bg-green-500/20 text-green-300"}`}>{l.status}</span></td>
+                            <td className="p-3">
+                              {isVerified?(
+                                <span className="text-[9px] text-green-400">✓ Verified</span>
+                              ):(
+                                <button onClick={()=>{setLabVerified(prev=>({...prev,[l.test]:true}));showToast(`${l.test} result verified`,"success");}} className="px-2 py-1 rounded-lg text-[8px] bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20 transition-colors">Verify</button>
+                              )}
+                            </td>
+                          </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex-1">
+                      <p className="text-[8px] font-mono text-white/30 uppercase mb-1">Sample Status</p>
+                      <p className="text-[10px] text-green-400">All samples processed • Barcode: SMP-240006-RKS</p>
+                    </div>
+                    <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex-1">
+                      <p className="text-[8px] font-mono text-white/30 uppercase mb-1">Report Status</p>
+                      <p className="text-[10px] text-cyan-300">{Object.values(labVerified).filter(Boolean).length===ehrLabResults.length?"All results verified ✓":"Verified by Dr. Patil (Pathologist) • NABL Accredited"}</p>
+                    </div>
+                  </div>
+                  <button onClick={()=>{const allVerified:Record<string,boolean>={};ehrLabResults.forEach(l=>{allVerified[l.test]=true;});setLabVerified(allVerified);showToast("All lab results verified & report generated","success");}} className="w-full py-2.5 rounded-xl text-[10px] font-medium bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20 transition-colors">
+                    {Object.values(labVerified).filter(Boolean).length===ehrLabResults.length?"✓ Report Generated — Print":"Verify All & Generate Report"}
+                  </button>
+                </div>
+              )}
+
+              {/* ════════ BILLING & INSURANCE ════════ */}
+              {activeModule === "billing" && (
+                <div className="space-y-6">
+                  <h2 className="text-sm font-semibold text-white/90">Billing & Insurance</h2>
+                  {/* Billing table */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Today&apos;s Billing</h3>
+                    <div className="rounded-xl border border-white/10 overflow-hidden">
+                      <table className="w-full text-[10px]">
+                        <thead><tr className="bg-white/5">
+                          <th className="text-left p-2.5 text-white/40 font-medium">Description</th>
+                          <th className="text-left p-2.5 text-white/40 font-medium hidden sm:table-cell">Type</th>
+                          <th className="text-left p-2.5 text-white/40 font-medium hidden sm:table-cell">Department</th>
+                          <th className="text-right p-2.5 text-white/40 font-medium">Amount (₹)</th>
+                        </tr></thead>
+                        <tbody>
+                          {ehrBillingItems.map((b,i)=>(
+                            <tr key={i} className="border-t border-white/5">
+                              <td className="p-2.5 text-white/80">{b.desc}</td>
+                              <td className="p-2.5 hidden sm:table-cell"><span className={`px-1.5 py-0.5 rounded text-[8px] font-mono ${b.type==="package"?"bg-cyan-500/20 text-cyan-300":b.type==="implant"?"bg-purple-500/20 text-purple-300":b.type==="investigation"?"bg-blue-500/20 text-blue-300":"bg-amber-500/20 text-amber-300"}`}>{b.type}</span></td>
+                              <td className="p-2.5 text-white/50 hidden sm:table-cell">{b.dept}</td>
+                              <td className="p-2.5 text-right font-mono text-white/80">₹{b.amount.toLocaleString("en-IN")}</td>
+                            </tr>
+                          ))}
+                          <tr className="border-t-2 border-white/10 bg-white/5">
+                            <td className="p-2.5 font-semibold text-white/90" colSpan={3}>Total</td>
+                            <td className="p-2.5 text-right font-mono font-bold text-cyan-400">₹{ehrBillingItems.reduce((s,b)=>s+b.amount,0).toLocaleString("en-IN")}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  {/* Payment modes */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Payment Mode</h3>
+                    <div className="grid sm:grid-cols-4 gap-3">
+                      {["UPI / QR","Card","Net Banking","Cash"].map((m)=>(
+                        <div key={m} onClick={()=>{setSelectedPayment(m);showToast(`Payment mode: ${m}`);}} className={`p-3 rounded-xl border text-center cursor-pointer transition-all ${selectedPayment===m?"bg-cyan-500/15 border-cyan-500/30 ring-1 ring-cyan-400/30 scale-[1.02]":"bg-white/5 border-white/10 hover:border-cyan-500/30"}`}>
+                          <p className={`text-[10px] ${selectedPayment===m?"text-cyan-300 font-medium":"text-white/60"}`}>{m}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Generate Invoice */}
+                  <button disabled={!selectedPayment} onClick={()=>{setInvoiceGenerated(true);showToast(`Invoice generated — ₹${ehrBillingItems.reduce((s,b)=>s+b.amount,0).toLocaleString("en-IN")} via ${selectedPayment}`,"success");}} className={`w-full py-3 rounded-xl text-[11px] font-medium transition-all ${invoiceGenerated?"bg-green-500/15 text-green-300 border border-green-500/30":selectedPayment?"bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20":"bg-white/5 text-white/30 border border-white/10 cursor-not-allowed"}`}>
+                    {invoiceGenerated?"✓ Invoice INV-2026-04-001 Generated — Download PDF":"Generate Invoice"}
+                  </button>
+                  {/* Insurance Claims */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Insurance Claims Tracker</h3>
+                    <div className="space-y-2">
+                      {ehrInsuranceClaims.map((c)=>{
+                        const action = claimActions[c.id];
+                        return (
+                        <div key={c.id} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="text-[9px] font-mono text-white/30">{c.id}</span>
+                            <div className="min-w-0">
+                              <p className="text-[10px] text-cyan-300 hover:underline cursor-pointer truncate" onClick={()=>goToPatient(c.patient,"registration")}>{c.patient}</p>
+                              <p className="text-[8px] text-white/40">{c.tpa} • Submitted {c.submitted} • TAT: {c.tat}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <span className="text-[10px] font-mono text-white/60">₹{c.amount.toLocaleString("en-IN")}</span>
+                            <span className={`px-2 py-0.5 rounded-full text-[9px] border ${statusColor(c.status)}`}>{c.status}</span>
+                            {!action&&c.status!=="approved"&&(
+                              <button onClick={()=>{setClaimActions(prev=>({...prev,[c.id]:"followed-up"}));showToast(`Follow-up sent for claim ${c.id}`);}} className="px-2 py-1 rounded-lg text-[8px] bg-amber-500/10 text-amber-300 border border-amber-500/20 hover:bg-amber-500/20 transition-colors">Follow Up</button>
+                            )}
+                            {action&&<span className="text-[8px] text-green-400">✓ {action}</span>}
+                          </div>
+                        </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ DISCHARGE ════════ */}
+              {activeModule === "discharge" && (
+                <div className="space-y-6 max-w-3xl">
+                  <h2 className="text-sm font-semibold text-white/90">Discharge Summary — Bilingual</h2>
+                  <div className="p-5 rounded-xl bg-white/5 border border-white/10 space-y-4">
+                    <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                      <div>
+                        <p className="text-xs font-bold text-white/90">DayCare Hospital — Discharge Summary</p>
+                        <p className="text-[8px] text-white/40">NABH Accredited • ABDM Health Record</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[8px] font-mono text-white/30">DC/2026/04/001</p>
+                        <p className="text-[8px] text-white/30">06 April 2026</p>
+                      </div>
+                    </div>
+                    {/* Patient details */}
+                    <div className="grid grid-cols-3 gap-3">
+                      {[
+                        {l:"Patient",v:selectedPatient.name},{l:"UHID",v:selectedPatient.uhid},{l:"ABHA",v:selectedPatient.abha},
+                        {l:"Age/Gender",v:`${selectedPatient.age}y / ${selectedPatient.gender==="M"?"Male":"Female"}`},{l:"Blood Group",v:selectedPatient.blood},{l:"Admission",v:"06 Apr 2026, 07:00"},
+                      ].map(f=>(
+                        <div key={f.l}>
+                          <p className="text-[8px] text-white/30 uppercase">{f.l}</p>
+                          <p className="text-[10px] text-white/70">{f.v}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="space-y-3 pt-3 border-t border-white/10">
+                      <div><p className="text-[8px] text-white/30 uppercase mb-0.5">Diagnosis (ICD-11)</p><p className="text-[10px] text-white/70">H25.1 — Age-related nuclear cataract, Left Eye</p></div>
+                      <div><p className="text-[8px] text-white/30 uppercase mb-0.5">Procedure Performed</p><p className="text-[10px] text-white/70">Phacoemulsification with Posterior Chamber IOL Implantation (Left Eye) — Alcon AcrySof IQ SN60WF, +21.0D, Lot: ACR-2026-0412</p></div>
+                      <div><p className="text-[8px] text-white/30 uppercase mb-0.5">Surgeon / Anesthetist</p><p className="text-[10px] text-white/70">Dr. Priya Mehta (Ophthalmology) / Dr. Raman Nair (Topical + Peribulbar)</p></div>
+                      <div><p className="text-[8px] text-white/30 uppercase mb-0.5">Condition at Discharge</p><p className="text-[10px] text-green-400">Stable. Vision: 6/18 (L Eye). No complications. Eye pad in situ.</p></div>
+                    </div>
+                    {/* Discharge medications table */}
+                    <div className="pt-3 border-t border-white/10">
+                      <p className="text-[8px] text-white/30 uppercase mb-2">Discharge Medications</p>
+                      <div className="rounded-lg border border-white/10 overflow-hidden">
+                        <table className="w-full text-[9px]">
+                          <thead><tr className="bg-white/5"><th className="text-left p-2 text-white/40">Drug</th><th className="p-2 text-white/40">Dose</th><th className="p-2 text-white/40">Freq</th><th className="p-2 text-white/40">Duration</th></tr></thead>
+                          <tbody>
+                            {[
+                              {d:"Moxifloxacin 0.5% Eye Drops",dose:"1 drop (L)",freq:"4x/day",dur:"2 weeks"},
+                              {d:"Prednisolone 1% Eye Drops",dose:"1 drop (L)",freq:"6x/day → taper",dur:"6 weeks"},
+                              {d:"Nepafenac 0.1% Eye Drops",dose:"1 drop (L)",freq:"3x/day",dur:"4 weeks"},
+                              {d:"Tab. Paracetamol 500mg",dose:"500mg",freq:"SOS",dur:"3 days"},
+                            ].map((r,i)=>(
+                              <tr key={i} className="border-t border-white/5"><td className="p-2 text-white/70">{r.d}</td><td className="p-2 text-white/50 text-center">{r.dose}</td><td className="p-2 text-white/50 text-center">{r.freq}</td><td className="p-2 text-white/50 text-center">{r.dur}</td></tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div className="pt-3 border-t border-white/10">
+                      <p className="text-[8px] text-white/30 uppercase mb-1">Follow-up Instructions</p>
+                      <ul className="text-[10px] text-white/60 space-y-1 list-disc list-inside">
+                        <li>Remove eye pad after 24 hours</li>
+                        <li>Wear dark glasses outdoors for 2 weeks</li>
+                        <li>Do NOT rub the eye or lift heavy objects for 2 weeks</li>
+                        <li>Follow-up: 08 April 2026 (Day 2) with Dr. Priya Mehta</li>
+                        <li>Emergency: Call 1800-XXX-XXXX if sudden pain, redness, or vision loss</li>
+                      </ul>
+                    </div>
+                    <div className="pt-3 border-t border-white/10 flex justify-between items-end">
+                      <div>
+                        <p className="text-[8px] text-white/30">Digitally Signed</p>
+                        <p className="text-[10px] text-cyan-400 font-mono">Dr. Priya Mehta — MCI Reg: MH-12345</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[8px] text-white/30">ABDM Health Record</p>
+                        <p className="text-[9px] text-green-400 font-mono">{abhaPushed?"Pushed to ABHA PHR ✓":"Pending ABHA Push"}</p>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Action buttons */}
+                  <div className="flex gap-3">
+                    <button onClick={()=>{setDischargePrinted(true);showToast("Discharge summary printed","success");}} className={`flex-1 py-2.5 rounded-xl text-[10px] font-medium transition-all ${dischargePrinted?"bg-green-500/15 text-green-300 border border-green-500/30":"bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20"}`}>
+                      {dischargePrinted?"✓ Printed — Download PDF":"Print Discharge Summary"}
+                    </button>
+                    <button onClick={()=>{setAbhaPushed(true);showToast("Health record pushed to ABHA PHR","success");}} className={`flex-1 py-2.5 rounded-xl text-[10px] font-medium transition-all ${abhaPushed?"bg-green-500/15 text-green-300 border border-green-500/30":"bg-purple-500/10 text-purple-300 border border-purple-500/20 hover:bg-purple-500/20"}`}>
+                      {abhaPushed?"✓ Pushed to ABHA":"Push to ABHA PHR"}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ MIS DASHBOARD ════════ */}
+              {activeModule === "mis" && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-semibold text-white/90">MIS Dashboard — Management View</h2>
+                    <div className="flex gap-1 p-0.5 rounded-lg bg-white/5 border border-white/10">
+                      {(["today","week","month"] as const).map((r)=>(
+                        <button key={r} onClick={()=>{setMisDateRange(r);showToast(`Showing ${r} data`);}} className={`px-3 py-1.5 rounded-md text-[9px] transition-colors capitalize ${misDateRange===r?"bg-cyan-500/20 text-cyan-300":"text-white/40 hover:text-white/60"}`}>{r}</button>
+                      ))}
+                    </div>
+                  </div>
+                  {/* KPIs */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                     {[
-                      { test: "Glucose (Fasting)", result: "142 mg/dL", range: "70-100", status: "high" },
-                      { test: "HbA1c", result: "7.2%", range: "<5.7%", status: "high" },
-                      { test: "Total Cholesterol", result: "210 mg/dL", range: "<200", status: "borderline" },
-                      { test: "LDL", result: "132 mg/dL", range: "<100", status: "high" },
-                      { test: "HDL", result: "52 mg/dL", range: ">40", status: "normal" },
-                      { test: "Creatinine", result: "0.9 mg/dL", range: "0.7-1.3", status: "normal" },
-                      { test: "eGFR", result: "92 mL/min", range: ">60", status: "normal" },
-                      { test: "TSH", result: "2.1 mU/L", range: "0.5-4.5", status: "normal" },
-                    ].map((lab) => (
-                      <tr key={lab.test} className="border-t border-white/5">
-                        <td className="p-3">{lab.test}</td>
-                        <td className="p-3 font-mono">{lab.result}</td>
-                        <td className="p-3 text-white/40">{lab.range}</td>
-                        <td className="p-3">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] ${lab.status === "high" ? "bg-red-500/20 text-red-300" : lab.status === "borderline" ? "bg-amber-500/20 text-amber-300" : "bg-green-500/20 text-green-300"}`}>{lab.status}</span>
-                        </td>
-                      </tr>
+                      {label:"Monthly Revenue",value:"₹38.4L",delta:"+12%",color:"text-cyan-400"},
+                      {label:"Procedures (MTD)",value:"142",delta:"+18",color:"text-purple-400"},
+                      {label:"OT Utilization",value:"78%",delta:"+5%",color:"text-green-400"},
+                      {label:"Avg Turnaround",value:"4.2h",delta:"-0.3h",color:"text-cyan-400"},
+                      {label:"Insurance Collection",value:"92%",delta:"+3%",color:"text-green-400"},
+                      {label:"NABH Compliance",value:"96%",delta:"+1%",color:"text-green-400"},
+                    ].map((k)=>(
+                      <div key={k.label} className="p-3 rounded-xl bg-white/5 border border-white/10">
+                        <p className="text-[9px] text-white/40 mb-1">{k.label}</p>
+                        <p className={`text-lg font-bold ${k.color}`}>{k.value}</p>
+                        <p className="text-[9px] text-green-400 mt-0.5">{k.delta}</p>
+                      </div>
                     ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+                  </div>
+                  {/* Revenue by specialty */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Revenue by Specialty (MTD)</h3>
+                    <div className="space-y-2">
+                      {[
+                        {dept:"Ophthalmology",rev:980000,pct:25,color:"#8B5CF6"},
+                        {dept:"Cardiology",rev:840000,pct:22,color:"#EF4444"},
+                        {dept:"Orthopedics",rev:720000,pct:19,color:"#F97316"},
+                        {dept:"Oncology (Chemo)",rev:560000,pct:15,color:"#EC4899"},
+                        {dept:"ENT",rev:380000,pct:10,color:"#06B6D4"},
+                        {dept:"Others",rev:360000,pct:9,color:"#64748B"},
+                      ].map((d)=>(
+                        <div key={d.dept} className="flex items-center gap-3">
+                          <span className="text-[10px] text-white/60 w-32 shrink-0">{d.dept}</span>
+                          <div className="flex-1 h-5 bg-white/5 rounded-full overflow-hidden">
+                            <motion.div initial={{width:0}} animate={{width:`${d.pct}%`}} transition={{duration:0.8,delay:0.1}} className="h-full rounded-full" style={{backgroundColor:d.color+"90"}}/>
+                          </div>
+                          <span className="text-[10px] font-mono text-white/50 w-20 text-right">₹{(d.rev/100000).toFixed(1)}L</span>
+                          <span className="text-[9px] text-white/30 w-10 text-right">{d.pct}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Payer mix */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">Payer Mix</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                      {[
+                        {label:"Self Pay / Cash",pct:32,color:"#06B6D4"},
+                        {label:"TPA / Insurance",pct:28,color:"#8B5CF6"},
+                        {label:"PMJAY",pct:22,color:"#10B981"},
+                        {label:"CGHS / ECHS",pct:12,color:"#F59E0B"},
+                        {label:"Corporate",pct:6,color:"#3B82F6"},
+                      ].map((p)=>(
+                        <div key={p.label} className="p-3 rounded-xl bg-white/5 border border-white/10 text-center">
+                          <div className="w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center" style={{backgroundColor:p.color+"20",border:`1px solid ${p.color}40`}}>
+                            <span className="text-xs font-bold" style={{color:p.color}}>{p.pct}%</span>
+                          </div>
+                          <p className="text-[8px] text-white/50">{p.label}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* NABH Quality Indicators */}
+                  <div>
+                    <h3 className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-3">NABH Quality Indicators</h3>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                      {[
+                        {label:"Surgical Site Infection Rate",value:"0.8%",target:"<2%",ok:true},
+                        {label:"Unplanned Re-admission (48h)",value:"0.3%",target:"<1%",ok:true},
+                        {label:"WHO Checklist Compliance",value:"98%",target:">95%",ok:true},
+                        {label:"Consent Documentation",value:"100%",target:"100%",ok:true},
+                        {label:"Hand Hygiene Compliance",value:"91%",target:">90%",ok:true},
+                        {label:"Medication Error Rate",value:"0.1%",target:"<0.5%",ok:true},
+                        {label:"Patient Fall Rate",value:"0.0%",target:"0%",ok:true},
+                        {label:"ADR Reporting Rate",value:"2.1%",target:">1%",ok:true},
+                        {label:"Patient Satisfaction (NPS)",value:"72",target:">60",ok:true},
+                      ].map((q)=>(
+                        <div key={q.label} className={`p-3 rounded-xl border ${q.ok?"bg-green-500/5 border-green-500/15":"bg-red-500/5 border-red-500/15"}`}>
+                          <p className="text-[9px] text-white/50 mb-1">{q.label}</p>
+                          <div className="flex items-baseline justify-between">
+                            <p className={`text-lg font-bold ${q.ok?"text-green-400":"text-red-400"}`}>{q.value}</p>
+                            <p className="text-[8px] text-white/30">Target: {q.target}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ════════ CONSULTATION — SPECIALTY VIEW ════════ */}
+              {activeModule === "consultation" && (
+                <div className="space-y-6">
+                  {/* Specialty header */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{backgroundColor:accentColor+"20",border:`1px solid ${accentColor}40`}}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={accentColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <div>
+                      <h2 className="text-sm font-semibold text-white/90">{activeSpecialty?.label} Consultation</h2>
+                      <p className="text-[9px] text-white/40">{selectedPatient.name} • {selectedPatient.uhid} • {selectedPatient.doctor}</p>
+                    </div>
+                    <span className="ml-auto px-3 py-1 rounded-full text-[9px] border" style={{backgroundColor:accentColor+"15",color:accentColor,borderColor:accentColor+"30"}}>{selectedPatient.procedure}</span>
+                  </div>
+
+                  {/* ───── OPHTHALMOLOGY ───── */}
+                  {selectedPatient.specialty === "ophthalmology" && (
+                    <div className="space-y-5">
+                      {/* Visual Acuity */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Visual Acuity</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          {(["right","left"] as const).map((eye)=>{
+                            const va = ophthalmologyExam.visualAcuity[eye];
+                            return (
+                              <div key={eye} className={`p-4 rounded-xl border ${eye==="left"?"bg-purple-500/5 border-purple-500/20":"bg-white/5 border-white/10"}`}>
+                                <div className="flex items-center justify-between mb-3">
+                                  <span className="text-xs font-semibold text-white/80">{eye==="right"?"OD (Right Eye)":"OS (Left Eye)"}</span>
+                                  {eye==="left"&&<span className="text-[8px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">Surgical Eye</span>}
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                  {[{l:"UCVA",v:va.ucva},{l:"BCVA",v:va.bcva},{l:"Near",v:va.near},{l:"Pinhole",v:va.pinhole}].map((f)=>(
+                                    <div key={f.l} className="p-2 rounded-lg bg-white/3 border border-white/5">
+                                      <p className="text-[7px] text-white/30 font-mono uppercase">{f.l}</p>
+                                      <p className="text-sm font-bold text-white/80">{f.v}</p>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* IOP */}
+                      <div className="grid sm:grid-cols-3 gap-3">
+                        <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+                          <p className="text-[8px] text-white/30 font-mono uppercase mb-0.5">IOP — Right (OD)</p>
+                          <p className="text-lg font-bold text-white/80">{ophthalmologyExam.iop.right}</p>
+                        </div>
+                        <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+                          <p className="text-[8px] text-white/30 font-mono uppercase mb-0.5">IOP — Left (OS)</p>
+                          <p className="text-lg font-bold text-white/80">{ophthalmologyExam.iop.left}</p>
+                        </div>
+                        <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+                          <p className="text-[8px] text-white/30 font-mono uppercase mb-0.5">Method / Time</p>
+                          <p className="text-[10px] text-white/60">{ophthalmologyExam.iop.method}</p>
+                          <p className="text-[9px] font-mono text-white/30">{ophthalmologyExam.iop.time}</p>
+                        </div>
+                      </div>
+
+                      {/* A-Scan Biometry */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>A-Scan Biometry — {ophthalmologyExam.aScan.eye} Eye</h3>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {[
+                            {l:"Axial Length",v:ophthalmologyExam.aScan.axialLength},{l:"ACD",v:ophthalmologyExam.aScan.acd},
+                            {l:"Lens Thickness",v:ophthalmologyExam.aScan.lensThickness},{l:"K Readings",v:ophthalmologyExam.aScan.kReadings},
+                            {l:"Formula",v:ophthalmologyExam.aScan.formula},{l:"Target Refraction",v:ophthalmologyExam.aScan.targetRefraction},
+                          ].map((f)=>(
+                            <div key={f.l} className="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                              <p className="text-[7px] text-white/30 font-mono uppercase mb-0.5">{f.l}</p>
+                              <p className="text-[10px] text-white/70">{f.v}</p>
+                            </div>
+                          ))}
+                          <div className="p-2.5 rounded-lg border col-span-2" style={{backgroundColor:accentColor+"10",borderColor:accentColor+"30"}}>
+                            <p className="text-[7px] font-mono uppercase mb-0.5" style={{color:accentColor+"80"}}>Recommended IOL Power</p>
+                            <p className="text-xl font-bold" style={{color:accentColor}}>{ophthalmologyExam.aScan.iolPower}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Slit Lamp */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Slit Lamp Examination</h3>
+                        <div className="rounded-xl border border-white/10 overflow-hidden">
+                          <table className="w-full text-[10px]">
+                            <thead><tr className="bg-white/5">
+                              <th className="text-left p-2.5 text-white/40 font-medium w-28">Structure</th>
+                              <th className="text-left p-2.5 text-white/40 font-medium">OD (Right)</th>
+                              <th className="text-left p-2.5 text-white/40 font-medium">OS (Left)</th>
+                            </tr></thead>
+                            <tbody>
+                              {ophthalmologyExam.slitLamp.map((r)=>(
+                                <tr key={r.part} className="border-t border-white/5">
+                                  <td className="p-2.5 font-medium text-white/60">{r.part}</td>
+                                  <td className="p-2.5 text-white/50">{r.right}</td>
+                                  <td className={`p-2.5 ${r.left.includes("NO4")||r.left.includes("Hazy")?"text-amber-300":"text-white/50"}`}>{r.left}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      {/* IOL Details Card */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>IOL Implant Details</h3>
+                        <div className="p-4 rounded-xl border" style={{backgroundColor:accentColor+"08",borderColor:accentColor+"25"}}>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
+                            {[
+                              {l:"Manufacturer",v:ophthalmologyExam.iol.manufacturer},{l:"Model",v:ophthalmologyExam.iol.model},
+                              {l:"Power",v:ophthalmologyExam.iol.power},{l:"Type",v:ophthalmologyExam.iol.type},
+                              {l:"Batch / Lot",v:ophthalmologyExam.iol.batch},{l:"Expiry",v:ophthalmologyExam.iol.expiry},
+                            ].map((f)=>(
+                              <div key={f.l}>
+                                <p className="text-[7px] text-white/30 font-mono uppercase mb-0.5">{f.l}</p>
+                                <p className="text-[10px] text-white/80">{f.v}</p>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex items-center gap-2 pt-2 border-t border-white/10">
+                            <div className="flex gap-0.5">{ophthalmologyExam.iol.barcode.split("").map((d,i)=><div key={i} className="w-[2px] bg-white/40" style={{height:i%2===0?12:8}}/>)}</div>
+                            <span className="text-[8px] font-mono text-white/30">{ophthalmologyExam.iol.barcode}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Phaco Procedure Template */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Phacoemulsification — Operative Record <span className="text-white/30 normal-case">(click steps to mark done)</span></h3>
+                        <div className="space-y-1.5">
+                          {ophthalmologyExam.phacoTemplate.map((s,i)=>{
+                            const isDone = phacoStepsDone[i]===true;
+                            return (
+                            <div key={i} onClick={()=>{setPhacoStepsDone(prev=>({...prev,[i]:!isDone}));showToast(isDone?`Step ${i+1} unmarked`:`Step ${i+1}: ${s.step} — Done`,"success");}} className={`flex gap-3 p-3 rounded-xl border cursor-pointer transition-all ${isDone?"bg-green-500/5 border-green-500/20":"bg-white/5 border-white/10 hover:border-white/20"}`}>
+                              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 transition-colors ${isDone?"bg-green-500/20 text-green-400":""}`} style={isDone?{}:{backgroundColor:accentColor+"20",color:accentColor}}>{isDone?"✓":i+1}</div>
+                              <div>
+                                <p className={`text-[10px] font-semibold ${isDone?"text-green-300 line-through":"text-white/80"}`}>{s.step}</p>
+                                <p className="text-[9px] text-white/50 leading-relaxed">{s.detail}</p>
+                              </div>
+                            </div>
+                            );
+                          })}
+                        </div>
+                        {Object.values(phacoStepsDone).filter(Boolean).length===ophthalmologyExam.phacoTemplate.length&&(
+                          <div className="mt-3 p-3 rounded-xl bg-green-500/10 border border-green-500/20 text-center">
+                            <p className="text-[10px] text-green-300 font-medium">✓ All procedure steps completed — Operative record ready</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Post-Op */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Post-Operative Assessment (Day 0)</h3>
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                          {ophthalmologyExam.postOp.map((p)=>(
+                            <div key={p.check} className={`p-3 rounded-xl border ${p.status==="normal"?"bg-green-500/5 border-green-500/15":"bg-amber-500/5 border-amber-500/15"}`}>
+                              <p className="text-[9px] text-white/40 mb-0.5">{p.check}</p>
+                              <p className={`text-[10px] font-medium ${p.status==="normal"?"text-green-400":"text-amber-300"}`}>{p.value}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ───── DENTAL SURGERY ───── */}
+                  {selectedPatient.specialty === "dental" && (
+                    <div className="space-y-5">
+                      {/* Interactive Dental Chart */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Dental Chart — FDI Notation</h3>
+                        <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                          {/* Upper teeth */}
+                          <div className="mb-1 text-center"><span className="text-[8px] text-white/20 font-mono">UPPER</span></div>
+                          <div className="flex justify-center gap-1 mb-1">
+                            {/* Upper Right 18-11 */}
+                            {dentalChart.filter(t=>t.num>=11&&t.num<=18).sort((a,b)=>b.num-a.num).map((t)=>{
+                              const col = t.status==="missing"?"bg-white/5 text-white/15 border-white/5":t.status==="decayed"?"bg-red-500/20 text-red-300 border-red-500/30":t.status==="restored"?"bg-blue-500/20 text-blue-300 border-blue-500/30":t.status==="root-canal"?"bg-amber-500/20 text-amber-300 border-amber-500/30":t.status==="treatment"?"bg-purple-500/20 text-purple-300 border-purple-500/30":"bg-white/8 text-white/60 border-white/10";
+                              return <button key={t.num} onClick={()=>setSelectedTooth(t.num)} className={`w-8 h-9 rounded-lg border text-[9px] font-mono transition-all ${col} ${selectedTooth===t.num?"ring-2 ring-cyan-400 scale-110":""}`}>{t.num}</button>;
+                            })}
+                            <div className="w-px bg-white/10 mx-1"/>
+                            {/* Upper Left 21-28 */}
+                            {dentalChart.filter(t=>t.num>=21&&t.num<=28).sort((a,b)=>a.num-b.num).map((t)=>{
+                              const col = t.status==="missing"?"bg-white/5 text-white/15 border-white/5":t.status==="decayed"?"bg-red-500/20 text-red-300 border-red-500/30":t.status==="restored"?"bg-blue-500/20 text-blue-300 border-blue-500/30":t.status==="root-canal"?"bg-amber-500/20 text-amber-300 border-amber-500/30":t.status==="treatment"?"bg-purple-500/20 text-purple-300 border-purple-500/30":"bg-white/8 text-white/60 border-white/10";
+                              return <button key={t.num} onClick={()=>setSelectedTooth(t.num)} className={`w-8 h-9 rounded-lg border text-[9px] font-mono transition-all ${col} ${selectedTooth===t.num?"ring-2 ring-cyan-400 scale-110":""}`}>{t.num}</button>;
+                            })}
+                          </div>
+                          {/* Midline labels */}
+                          <div className="flex justify-center items-center gap-1 my-1">
+                            <span className="text-[7px] text-white/20 font-mono">R</span>
+                            <div className="flex-1 max-w-[300px] border-t border-dashed border-white/10"/>
+                            <span className="text-[7px] text-white/20 font-mono">L</span>
+                          </div>
+                          {/* Lower teeth */}
+                          <div className="flex justify-center gap-1 mt-1">
+                            {/* Lower Right 48-41 */}
+                            {dentalChart.filter(t=>t.num>=41&&t.num<=48).sort((a,b)=>b.num-a.num).map((t)=>{
+                              const col = t.status==="missing"?"bg-white/5 text-white/15 border-white/5":t.status==="decayed"?"bg-red-500/20 text-red-300 border-red-500/30":t.status==="restored"?"bg-blue-500/20 text-blue-300 border-blue-500/30":t.status==="root-canal"?"bg-amber-500/20 text-amber-300 border-amber-500/30":t.status==="treatment"?"bg-purple-500/20 text-purple-300 border-purple-500/30":"bg-white/8 text-white/60 border-white/10";
+                              return <button key={t.num} onClick={()=>setSelectedTooth(t.num)} className={`w-8 h-9 rounded-lg border text-[9px] font-mono transition-all ${col} ${selectedTooth===t.num?"ring-2 ring-cyan-400 scale-110":""}`}>{t.num}</button>;
+                            })}
+                            <div className="w-px bg-white/10 mx-1"/>
+                            {/* Lower Left 31-38 */}
+                            {dentalChart.filter(t=>t.num>=31&&t.num<=38).sort((a,b)=>a.num-b.num).map((t)=>{
+                              const col = t.status==="missing"?"bg-white/5 text-white/15 border-white/5":t.status==="decayed"?"bg-red-500/20 text-red-300 border-red-500/30":t.status==="restored"?"bg-blue-500/20 text-blue-300 border-blue-500/30":t.status==="root-canal"?"bg-amber-500/20 text-amber-300 border-amber-500/30":t.status==="treatment"?"bg-purple-500/20 text-purple-300 border-purple-500/30":"bg-white/8 text-white/60 border-white/10";
+                              return <button key={t.num} onClick={()=>setSelectedTooth(t.num)} className={`w-8 h-9 rounded-lg border text-[9px] font-mono transition-all ${col} ${selectedTooth===t.num?"ring-2 ring-cyan-400 scale-110":""}`}>{t.num}</button>;
+                            })}
+                          </div>
+                          <div className="mb-1 text-center mt-1"><span className="text-[8px] text-white/20 font-mono">LOWER</span></div>
+                          {/* Legend */}
+                          <div className="flex flex-wrap justify-center gap-3 mt-3 pt-3 border-t border-white/10">
+                            {([["Present","bg-white/8 border-white/10"],["Decayed","bg-red-500/20 border-red-500/30"],["Restored","bg-blue-500/20 border-blue-500/30"],["RCT","bg-amber-500/20 border-amber-500/30"],["Treatment","bg-purple-500/20 border-purple-500/30"],["Missing","bg-white/5 border-white/5"]] as const).map(([label,cls])=>(
+                              <div key={label} className="flex items-center gap-1.5">
+                                <div className={`w-3 h-3 rounded border ${cls}`}/>
+                                <span className="text-[8px] text-white/40">{label}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tooth Detail Panel */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>
+                          Tooth #{selectedTooth} — Detail
+                        </h3>
+                        {(()=>{
+                          const tooth = dentalChart.find(t=>t.num===selectedTooth);
+                          if(!tooth) return null;
+                          return (
+                            <div className="p-4 rounded-xl border" style={{backgroundColor:accentColor+"08",borderColor:accentColor+"25"}}>
+                              <div className="grid sm:grid-cols-3 gap-3">
+                                <div><p className="text-[7px] text-white/30 font-mono uppercase mb-0.5">FDI Number</p><p className="text-lg font-bold" style={{color:accentColor}}>#{tooth.num}</p></div>
+                                <div><p className="text-[7px] text-white/30 font-mono uppercase mb-0.5">Status</p><p className="text-[11px] text-white/80 capitalize">{tooth.status.replace("-"," ")}</p></div>
+                                <div><p className="text-[7px] text-white/30 font-mono uppercase mb-0.5">Notes</p><p className="text-[10px] text-white/60">{tooth.note||"No remarks"}</p></div>
+                              </div>
+                              {tooth.num===38&&(
+                                <div className="mt-3 pt-3 border-t border-white/10">
+                                  <p className="text-[9px] text-white/50"><strong className="text-white/70">Diagnosis:</strong> {dentalProcedure.diagnosis}</p>
+                                  <p className="text-[9px] text-white/50 mt-1"><strong className="text-white/70">IAN Proximity:</strong> {dentalProcedure.ianProximity}</p>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })()}
+                      </div>
+
+                      {/* OPG / Imaging */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Imaging — OPG & CBCT</h3>
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <div className="h-24 rounded-lg bg-white/3 border border-dashed border-white/10 flex flex-col items-center justify-center mb-2">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={accentColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mb-1 opacity-40"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8" cy="8" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+                              <span className="text-[8px] text-white/20">OPG Panoramic View</span>
+                            </div>
+                            <p className="text-[9px] text-white/50"><strong className="text-white/70">Findings:</strong> Mesioangular impaction #38, Class II Position B. Distal caries #46. #28 absent.</p>
+                          </div>
+                          <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <div className="h-24 rounded-lg bg-white/3 border border-dashed border-white/10 flex flex-col items-center justify-center mb-2">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={accentColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mb-1 opacity-40"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8"/><path d="m7.5 4.27 9 5.15"/></svg>
+                              <span className="text-[8px] text-white/20">CBCT Cross-Section</span>
+                            </div>
+                            <p className="text-[9px] text-white/50"><strong className="text-white/70">CBCT #38:</strong> IAN canal 2.1mm inferior. Lingual cortex intact. Buccal approach recommended.</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Procedure Template */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Surgical Extraction #38 — Operative Record <span className="text-white/30 normal-case">(click steps to mark done)</span></h3>
+                        <div className="p-3 rounded-xl bg-white/5 border border-white/10 mb-3">
+                          <p className="text-[9px] text-white/50"><strong className="text-white/70">Anesthesia:</strong> {dentalProcedure.anesthesia}</p>
+                        </div>
+                        <div className="space-y-1.5">
+                          {dentalProcedure.steps.map((s,i)=>{
+                            const isDone = dentalStepsDone[i]===true;
+                            return (
+                            <div key={i} onClick={()=>{setDentalStepsDone(prev=>({...prev,[i]:!isDone}));showToast(isDone?`Step ${i+1} unmarked`:`Step ${i+1}: ${s.step} — Done`,"success");}} className={`flex gap-3 p-3 rounded-xl border cursor-pointer transition-all ${isDone?"bg-green-500/5 border-green-500/20":"bg-white/5 border-white/10 hover:border-white/20"}`}>
+                              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 transition-colors ${isDone?"bg-green-500/20 text-green-400":""}`} style={isDone?{}:{backgroundColor:accentColor+"20",color:accentColor}}>{isDone?"✓":i+1}</div>
+                              <div>
+                                <p className={`text-[10px] font-semibold ${isDone?"text-green-300 line-through":"text-white/80"}`}>{s.step}</p>
+                                <p className="text-[9px] text-white/50 leading-relaxed">{s.detail}</p>
+                              </div>
+                            </div>
+                            );
+                          })}
+                        </div>
+                        {Object.values(dentalStepsDone).filter(Boolean).length===dentalProcedure.steps.length&&(
+                          <div className="mt-3 p-3 rounded-xl bg-green-500/10 border border-green-500/20 text-center">
+                            <p className="text-[10px] text-green-300 font-medium">✓ All extraction steps completed — Operative record ready</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Post-Op Instructions */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Post-Operative Instructions</h3>
+                        <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                          <ul className="space-y-1.5">
+                            {dentalProcedure.postOp.map((p,i)=>(
+                              <li key={i} className="flex items-start gap-2.5">
+                                <div className="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0 mt-0.5" style={{backgroundColor:accentColor+"20",color:accentColor}}>{i+1}</div>
+                                <p className="text-[10px] text-white/60 leading-relaxed">{p}</p>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ───── GYNECOLOGY ───── */}
+                  {selectedPatient.specialty === "gynec" && (
+                    <div className="space-y-5">
+                      {/* Menstrual History */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Menstrual History</h3>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <div className="grid grid-cols-2 gap-2">
+                              {[
+                                {l:"LMP",v:gynecWorkup.menstrualHistory.lmp},{l:"Cycle Length",v:gynecWorkup.menstrualHistory.cycleLength},
+                                {l:"Regularity",v:gynecWorkup.menstrualHistory.regularity},{l:"Flow Duration",v:gynecWorkup.menstrualHistory.flowDuration},
+                                {l:"Flow Pattern",v:gynecWorkup.menstrualHistory.flow},{l:"Dysmenorrhea",v:gynecWorkup.menstrualHistory.dysmenorrhea},
+                              ].map((f)=>(
+                                <div key={f.l} className="p-2 rounded-lg bg-white/3 border border-white/5">
+                                  <p className="text-[7px] text-white/30 font-mono uppercase">{f.l}</p>
+                                  <p className="text-[10px] text-white/70">{f.v}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                            <p className="text-[10px] font-medium text-white/70 mb-3">Obstetric History</p>
+                            <div className="flex gap-3">
+                              {[
+                                {l:"G (Gravida)",v:gynecWorkup.menstrualHistory.gravida},
+                                {l:"P (Para)",v:gynecWorkup.menstrualHistory.para},
+                                {l:"A (Abortion)",v:gynecWorkup.menstrualHistory.abortion},
+                                {l:"L (Living)",v:gynecWorkup.menstrualHistory.living},
+                              ].map((f)=>(
+                                <div key={f.l} className="text-center flex-1">
+                                  <p className="text-2xl font-bold" style={{color:accentColor}}>{f.v}</p>
+                                  <p className="text-[7px] text-white/30 font-mono">{f.l}</p>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="mt-3 pt-3 border-t border-white/10">
+                              <p className="text-[9px] text-amber-300"><strong>Chief Complaint:</strong> {gynecWorkup.menstrualHistory.intermenstrualBleeding}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* UPT — Mandatory */}
+                      <div className="p-4 rounded-xl border" style={{backgroundColor:"#10B98110",borderColor:"#10B98130"}}>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-green-500/20 border border-green-500/30 flex items-center justify-center">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-xs font-medium text-green-400">Urine Pregnancy Test — NEGATIVE</p>
+                            <p className="text-[9px] text-white/40">{gynecWorkup.upt.method} • {gynecWorkup.upt.date} • Verified by {gynecWorkup.upt.verifiedBy}</p>
+                          </div>
+                          <span className="px-2.5 py-1 text-[9px] rounded-full bg-green-500/20 text-green-300 border border-green-500/30">Mandatory Pre-Procedure ✓</span>
+                        </div>
+                      </div>
+
+                      {/* PCPNDT Compliance Banner */}
+                      <div className="p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center shrink-0">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                          </div>
+                          <div>
+                            <p className="text-xs font-medium text-amber-300">PCPNDT Act 1994 — Form F Compliance</p>
+                            <p className="text-[9px] text-white/50 mt-1"><strong className="text-white/60">Purpose:</strong> {gynecWorkup.pcpndt.purpose}</p>
+                            <p className="text-[9px] text-white/50 mt-0.5"><strong className="text-white/60">Registered Sonologist:</strong> {gynecWorkup.pcpndt.sonologist}</p>
+                            <p className="text-[9px] text-amber-400/70 mt-2 italic">&quot;{gynecWorkup.pcpndt.declaration}&quot;</p>
+                            <p className="text-[8px] font-mono text-white/30 mt-1">Form F: Auto-generated • Patient + Doctor signed digitally</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Pap Smear / HPV */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Cervical Screening</h3>
+                        <div className="grid sm:grid-cols-4 gap-2">
+                          {[
+                            {l:"Last Pap Smear",v:gynecWorkup.papSmear.lastDate},{l:"Result",v:gynecWorkup.papSmear.result},
+                            {l:"Bethesda Adequacy",v:gynecWorkup.papSmear.bethesda},{l:"HPV Status",v:gynecWorkup.papSmear.hpv},
+                          ].map((f)=>(
+                            <div key={f.l} className="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                              <p className="text-[7px] text-white/30 font-mono uppercase mb-0.5">{f.l}</p>
+                              <p className="text-[10px] text-white/70">{f.v}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Investigations */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Pre-Procedure Investigations</h3>
+                        <div className="rounded-xl border border-white/10 overflow-hidden">
+                          <table className="w-full text-[10px]">
+                            <thead><tr className="bg-white/5">
+                              <th className="text-left p-2.5 text-white/40 font-medium">Test</th>
+                              <th className="text-left p-2.5 text-white/40 font-medium">Result</th>
+                              <th className="text-left p-2.5 text-white/40 font-medium">Status</th>
+                            </tr></thead>
+                            <tbody>
+                              {gynecWorkup.investigations.map((t)=>(
+                                <tr key={t.test} className="border-t border-white/5">
+                                  <td className="p-2.5 text-white/70">{t.test}</td>
+                                  <td className={`p-2.5 ${t.status==="abnormal"?"text-amber-300":t.status==="low"?"text-red-300":"text-white/60"}`}>{t.result}</td>
+                                  <td className="p-2.5"><span className={`px-2 py-0.5 rounded-full text-[9px] ${t.status==="normal"?"bg-green-500/20 text-green-300":t.status==="low"?"bg-red-500/20 text-red-300":"bg-amber-500/20 text-amber-300"}`}>{t.status}</span></td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      {/* Hysteroscopy Findings */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Hysteroscopy — Operative Findings</h3>
+                        <div className="p-4 rounded-xl border" style={{backgroundColor:accentColor+"08",borderColor:accentColor+"25"}}>
+                          <div className="grid sm:grid-cols-2 gap-3">
+                            {[
+                              {l:"Cervical Canal",v:gynecWorkup.hysteroscopyFindings.cervicalCanal},
+                              {l:"Uterine Cavity",v:gynecWorkup.hysteroscopyFindings.uterineShape},
+                              {l:"Endometrium",v:gynecWorkup.hysteroscopyFindings.endometrium},
+                              {l:"Polyp / Finding",v:gynecWorkup.hysteroscopyFindings.polyp},
+                              {l:"Tubal Ostia",v:gynecWorkup.hysteroscopyFindings.tubalOstia},
+                              {l:"Distension Media",v:gynecWorkup.hysteroscopyFindings.distensionMedia},
+                            ].map((f)=>(
+                              <div key={f.l} className="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                                <p className="text-[7px] text-white/30 font-mono uppercase mb-0.5">{f.l}</p>
+                                <p className={`text-[10px] ${f.l.includes("Polyp")?"text-amber-300":"text-white/70"}`}>{f.v}</p>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="grid grid-cols-3 gap-3 mt-3 pt-3 border-t border-white/10">
+                            {[
+                              {l:"Biopsy",v:gynecWorkup.hysteroscopyFindings.biopsyTaken?"Yes — Specimen sent":"No"},
+                              {l:"Blood Loss",v:gynecWorkup.hysteroscopyFindings.bloodLoss},
+                              {l:"Duration",v:gynecWorkup.hysteroscopyFindings.duration},
+                            ].map((f)=>(
+                              <div key={f.l}>
+                                <p className="text-[7px] text-white/30 font-mono uppercase">{f.l}</p>
+                                <p className="text-[10px] text-white/70">{f.v}</p>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="mt-3 pt-3 border-t border-white/10">
+                            <p className="text-[9px] text-white/50"><strong className="text-white/70">Specimen:</strong> {gynecWorkup.hysteroscopyFindings.specimenSent}</p>
+                            <p className="text-[9px] text-green-400 mt-1">Complications: {gynecWorkup.hysteroscopyFindings.complications}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Post-Op & Follow-up */}
+                      <div>
+                        <h3 className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{color:accentColor}}>Post-Procedure Instructions & Follow-Up <span className="text-white/30 normal-case">(click to mark counselled)</span></h3>
+                        <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                          <ul className="space-y-1.5">
+                            {gynecWorkup.postOp.map((p,i)=>{
+                              const isDone = gynecStepsDone[i]===true;
+                              return (
+                              <li key={i} onClick={()=>{setGynecStepsDone(prev=>({...prev,[i]:!isDone}));showToast(isDone?`Item ${i+1} unmarked`:`Counselled: ${p.slice(0,40)}…`,"success");}} className={`flex items-start gap-2.5 cursor-pointer p-1.5 rounded-lg transition-colors ${isDone?"bg-green-500/5":"hover:bg-white/3"}`}>
+                                <div className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0 mt-0.5 transition-colors ${isDone?"bg-green-500/20 text-green-400":""}`} style={isDone?{}:{backgroundColor:accentColor+"20",color:accentColor}}>{isDone?"✓":i+1}</div>
+                                <p className={`text-[10px] leading-relaxed ${isDone?"text-green-300/70 line-through":p.includes("Red flags")?"text-red-300":"text-white/60"}`}>{p}</p>
+                              </li>
+                              );
+                            })}
+                          </ul>
+                          {Object.values(gynecStepsDone).filter(Boolean).length===gynecWorkup.postOp.length&&(
+                            <div className="mt-3 pt-3 border-t border-white/10 text-center">
+                              <p className="text-[10px] text-green-300 font-medium">✓ All post-op instructions counselled — Patient ready for discharge</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ───── NON-SUPPORTED SPECIALTY ───── */}
+                  {!["ophthalmology","dental","gynec"].includes(selectedPatient.specialty) && (
+                    <div className="p-8 rounded-xl bg-white/5 border border-white/10 text-center">
+                      <div className="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center" style={{backgroundColor:accentColor+"20",border:`1px solid ${accentColor}40`}}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={accentColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                      </div>
+                      <p className="text-sm font-semibold text-white/70 mb-1">{activeSpecialty?.label} Consultation</p>
+                      <p className="text-[10px] text-white/40">Detailed consultation template for {activeSpecialty?.label} is coming soon.</p>
+                      <p className="text-[9px] text-white/30 mt-2">Select an Ophthalmology, Dental, or Gynecology patient from the right panel to view specialty workflow.</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+            </motion.div>
+          </AnimatePresence>
         </div>
+
+        {/* ── Right Panel — Patient Context ── */}
+        <aside className="w-52 shrink-0 border-l border-white/10 bg-[#0D1525] overflow-y-auto hidden lg:block">
+          <div className="p-3 border-b border-white/10">
+            <p className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-2">Active Patients</p>
+          </div>
+          <div className="p-2 space-y-1">
+            {ehrPatients.map((p)=>(
+              <button key={p.id} onClick={()=>setSelectedPatient(p)}
+                className={`w-full text-left p-2 rounded-lg transition-colors ${selectedPatient.id===p.id?"bg-cyan-500/10 border border-cyan-500/20":"hover:bg-white/5 border border-transparent"}`}>
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center text-[7px] font-bold shrink-0" style={{backgroundColor:(ehrSpecialties.find(s=>s.key===p.specialty)?.color||"#06B6D4")+"20",color:ehrSpecialties.find(s=>s.key===p.specialty)?.color||"#06B6D4"}}>
+                    {p.name.split(" ").map(n=>n[0]).join("").slice(0,2)}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[9px] text-white/70 truncate">{p.name.split(" ").slice(0,2).join(" ")}</p>
+                    <p className="text-[7px] text-white/30 truncate">{p.procedure}</p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between mt-1">
+                  <span className="text-[7px] text-white/20 font-mono">{p.bay}</span>
+                  <span className={`px-1.5 py-0.5 rounded-full text-[7px] border ${statusColor(p.status)}`}>{p.status}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </aside>
       </div>
     </PrototypeShell>
   );
