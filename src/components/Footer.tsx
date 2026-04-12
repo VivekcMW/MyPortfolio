@@ -13,9 +13,8 @@ const footerLinks = {
       href: "https://www.linkedin.com/in/vivekanand-choudhari-817829118/",
       label: "LinkedIn",
     },
-    { href: "https://twitter.com", label: "Twitter / X" },
-    { href: "https://dribbble.com", label: "Dribbble" },
-    { href: "https://github.com", label: "GitHub" },
+    { href: "https://dribbble.com/vivekanand", label: "Dribbble" },
+    { href: "https://github.com/vivekanandchoudhari", label: "GitHub" },
   ],
 };
 

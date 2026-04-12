@@ -4,8 +4,10 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CursorGlow from "@/components/CursorGlow";
-import CommandPalette from "@/components/CommandPalette";
 import PageTransition from "@/components/PageTransition";
+import ScrollProgress from "@/components/ScrollProgress";
+import SmoothScroll from "@/components/SmoothScroll";
+import StatusBar from "@/components/StatusBar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -71,13 +73,15 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col grain">
+        <SmoothScroll />
+        <ScrollProgress />
         <CursorGlow />
-        <CommandPalette />
         <Navbar />
         <main className="flex-1">
           <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
+        <StatusBar />
       </body>
     </html>
   );

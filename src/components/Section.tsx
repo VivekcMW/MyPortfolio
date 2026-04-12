@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { motion, useInView } from "framer-motion";
+import { ReactNode, useRef } from "react";
 
 interface SectionProps {
   children: ReactNode;
@@ -33,34 +33,46 @@ export function SectionHeader({
   title: string;
   description?: string;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  const titleWords = title.split(" ");
+
   return (
-    <div className="mb-12 md:mb-16 lg:mb-20">
+    <div ref={ref} className="mb-12 md:mb-16 lg:mb-20">
       {eyebrow && (
         <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.5 }}
           className="text-accent font-mono text-sm mb-4 uppercase tracking-widest"
         >
           {eyebrow}
         </motion.p>
       )}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight"
-      >
-        {title}
-      </motion.h2>
+      <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+        {titleWords.map((word, i) => (
+          <span key={`${word}-${i}`} className="inline-block overflow-hidden mr-[0.3em] last:mr-0">
+            <motion.span
+              className="inline-block"
+              initial={{ y: "110%" }}
+              animate={isInView ? { y: 0 } : {}}
+              transition={{
+                duration: 0.6,
+                delay: 0.1 + i * 0.06,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+            >
+              {word}
+            </motion.span>
+          </span>
+        ))}
+      </h2>
       {description && (
         <motion.p
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 + titleWords.length * 0.06 }}
           className="mt-6 text-muted text-lg lg:text-xl max-w-2xl leading-relaxed"
         >
           {description}

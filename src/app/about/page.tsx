@@ -114,37 +114,11 @@ export default function AboutPage() {
     <div className="pt-24">
       {/* Hero */}
       <Section>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
-          {/* Photo */}
+        <div className="max-w-3xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="relative"
-          >
-            <div className="aspect-4/5 rounded-2xl bg-accent/20 border border-border flex items-center justify-center overflow-hidden">
-              <div className="text-center">
-                <div className="mb-4 flex items-center justify-center text-accent">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <p className="text-muted text-sm">Your photo here</p>
-              </div>
-            </div>
-            {/* Floating badge */}
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-accent text-white text-xs sm:text-sm font-medium shadow-lg"
-            >
-              Open to opportunities
-            </motion.div>
-          </motion.div>
-
-          {/* Story */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
           >
             <p className="text-accent font-mono text-sm uppercase tracking-widest mb-4">
               About Me
@@ -183,7 +157,7 @@ export default function AboutPage() {
                 specialize in making the complicated feel simple.
               </p>
             </div>
-            <div className="mt-8 flex gap-4">
+            <div className="mt-8 flex justify-center gap-4">
               <Link
                 href="/contact"
                 className="px-6 py-3 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all"
@@ -416,6 +390,88 @@ export default function AboutPage() {
         </div>
       </Section>
 
+      {/* Talks & Writing */}
+      <Section>
+        <SectionHeader
+          eyebrow="Thought Leadership"
+          title="Talks & Writing."
+          description="Sharing knowledge through articles, talks, and community contributions."
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            {
+              type: "Article",
+              title: "Design Thinking in AdTech: How OOH is Going Digital",
+              venue: "Blog",
+              date: "Mar 2026",
+              href: "/blog/design-thinking-adtech-ooh",
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              ),
+            },
+            {
+              type: "Article",
+              title: "Building Design Systems That Scale",
+              venue: "Blog",
+              date: "Feb 2026",
+              href: "/blog/building-design-systems-scale",
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              ),
+            },
+            {
+              type: "Article",
+              title: "AI is Changing How We Design — Here's How I Use It",
+              venue: "Blog",
+              date: "Jan 2026",
+              href: "/blog/ai-changing-design",
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              ),
+            },
+            {
+              type: "Topic",
+              title: "System Design for Designers: Think Like an Engineer",
+              venue: "Blog",
+              date: "Dec 2025",
+              href: "/blog/system-design-for-designers",
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              ),
+            },
+          ].map((item, i) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <Link
+                href={item.href}
+                className="group flex items-start gap-4 p-5 rounded-2xl bg-surface border border-border hover:border-accent/20 transition-all"
+              >
+                <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0 group-hover:bg-accent/20 transition-colors">
+                  {item.icon}
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-mono text-accent uppercase">
+                      {item.type}
+                    </span>
+                    <span className="text-xs text-muted">{item.date}</span>
+                  </div>
+                  <h4 className="font-semibold group-hover:text-accent transition-colors leading-snug">
+                    {item.title}
+                  </h4>
+                  <p className="text-xs text-muted mt-1">{item.venue}</p>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
+
       {/* CTA */}
       <Section>
         <div className="text-center">
@@ -445,7 +501,7 @@ export default function AboutPage() {
           >
             <Link
               href="/contact"
-              className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-[0_0_30px_rgba(37,99,255,0.3)]"
+              className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20"
             >
               Let&apos;s Talk
             </Link>

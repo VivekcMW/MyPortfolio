@@ -340,6 +340,190 @@ DOOH is where physical meets digital, where data meets creativity, where global 
 And we're just getting started.
     `,
   },
+  {
+    slug: "salon-management-ideation-to-deployment",
+    title: "Building a Salon Management App: From Ideation to Open-Source Deployment",
+    excerpt:
+      "How I designed and built an end-to-end salon management system — covering customer tracking, appointment scheduling, automated follow-ups, and business analytics — and why I open-sourced it.",
+    date: "2026-04-12",
+    readTime: "12 min read",
+    category: "Case Study",
+    tags: ["Product Design", "Open Source", "SaaS", "Full Stack", "Case Study"],
+    featured: true,
+    content: `
+# Building a Salon Management App: From Ideation to Open-Source Deployment
+
+Most independent salons run on chaos — paper registers for customer details, WhatsApp groups for bookings, mental math for revenue tracking. I set out to change that. Here's the full story of how I took a salon management system from a napkin idea to an open-source, production-ready product.
+
+## The Problem Worth Solving
+
+I noticed a pattern while visiting local salons: the owner would flip through a dog-eared register to find my last visit, the receptionist would double-book a stylist because the calendar was on a whiteboard, and follow-ups simply didn't happen. Customers slipped through the cracks.
+
+The salon industry is massive — millions of small businesses worldwide — yet most management software is either too expensive, too complex, or designed for enterprise chains for the single. Independent salons need something **simple, affordable, and purpose-built**.
+
+### The core pain points I identified:
+
+- **Fragmented customer data** — details scattered across registers, phone contacts, and memory
+- **No follow-up system** — customers are forgotten after they walk out the door
+- **Appointment chaos** — verbal bookings lead to clashes and no-shows
+- **Revenue blindness** — owners have no real-time visibility into daily/monthly earnings
+- **Zero retention tools** — no loyalty programs, birthday messages, or re-engagement triggers
+
+## My Role: Ideation to Deployment
+
+This wasn't a project where I handed off a Figma file and moved on. I owned the entire lifecycle:
+
+- **Product strategy** — PRD, feature prioritization, phased roadmap
+- **User research** — interviews with salon owners, receptionists, and stylists
+- **UX/UI design** — information architecture, wireframes, high-fidelity designs, prototypes
+- **Frontend development** — React.js with Tailwind CSS, responsive and mobile-first
+- **Backend architecture** — REST API design, database schema, authentication flows
+- **Deployment** — CI/CD pipeline, hosting setup, open-source release
+
+## Designing for Non-Technical Users
+
+The biggest design constraint wasn't technical — it was **the user**. Salon receptionists aren't power users. They're multitasking between greeting customers, answering phones, and managing payments. Every interaction needs to be fast, forgiving, and obvious.
+
+### Design principles I followed:
+
+1. **One primary action per screen** — the most important thing you can do should be immediately visible
+2. **Search-first architecture** — customer lookup by name or phone in under 2 seconds
+3. **Progressive disclosure** — simple by default, detailed when needed
+4. **Status visibility** — color-coded appointments (Booked, In Progress, Completed, No-show) at a glance
+5. **Mobile-first responsive** — works on the tablet at the counter and the owner's phone at home
+
+## Feature Deep Dive
+
+### Customer Management — The Heart of the System
+
+Every salon runs on relationships. The customer profile became the central hub of the entire application:
+
+- **Quick add flow** — Name, phone, and gender are enough to create a profile in 10 seconds
+- **Rich profile view** — visit history, total spend, preferences, notes (hair type, allergies, preferred stylist)
+- **Smart tagging** — customers auto-tagged as New, Regular, VIP, or Inactive based on visit frequency
+- **Search** — instant results by name or phone number
+
+The key design decision: the profile page is a **timeline**, not a form. Every visit, payment, and message is a chronological entry — giving staff instant context when a customer walks in.
+
+### Appointment Scheduling — Eliminating the Chaos
+
+The calendar view was the most complex UI challenge. It needed to show:
+
+- All stylists' schedules simultaneously
+- Color-coded status at a glance
+- Easy drag-and-drop rescheduling
+- Walk-in support without friction
+
+I chose a **daily column view** as the default — one column per stylist, time slots as rows. This mirrors how salons actually think about their day. The weekly view provides a zoomed-out planning perspective.
+
+Double-booking prevention was critical. The system checks stylist availability in real-time and visually grays out unavailable slots. Appointment duration is auto-calculated based on selected services — no mental math required.
+
+### Automated Follow-ups — The Retention Engine
+
+This is where the product delivers its biggest ROI. Most salons lose customers not because of bad service, but because of **no follow-up**. The communication system runs on three automated triggers:
+
+**Pre-visit reminders:**
+- 24 hours before: "Hi [Name], reminder: your appointment is tomorrow at [Time] with [Stylist]"
+- 2 hours before: "See you soon! Your [Service] appointment is at [Time] today"
+
+**Post-visit engagement:**
+- Thank-you message sent after appointment completion
+- Birthday messages with optional promo codes
+- Re-engagement trigger if no visit in 45 days (configurable)
+
+**The impact:** In early testing with a pilot salon, no-show rates dropped by approximately 35%, and the re-engagement messages brought back 1 in 5 inactive customers within the first month.
+
+### Billing & Payments — Speed at the Counter
+
+Billing happens at the busiest moment — when a customer is standing at the counter, ready to leave. Speed is everything:
+
+- Invoice **auto-generates** when an appointment is marked complete
+- Services, prices, and totals are pre-filled
+- Discounts (flat or percentage) applied with one tap
+- Payment mode recorded: Cash, UPI, Card, or flagged as Pending
+- Invoice shared via WhatsApp or printed — customer's choice
+
+### Dashboard & Reports — Data-Driven Decisions
+
+The owner dashboard was designed to answer one question: **"How is my business doing?"** — in under 5 seconds.
+
+Above the fold:
+- Today's appointment count
+- Revenue today and this month
+- New customers this month
+- No-show count
+
+Below the fold:
+- Monthly revenue trend (bar chart)
+- Top 5 services by bookings and revenue
+- New vs. returning customer ratio
+- Stylist performance rankings
+- Export to CSV or PDF for accountants
+
+## Technical Architecture
+
+I chose a stack optimized for **speed of development, low cost, and scalability**:
+
+- **Frontend:** React.js + Tailwind CSS — fast, component-driven, responsive
+- **Backend:** Node.js with Express — lightweight REST API
+- **Database:** Supabase (PostgreSQL) — free tier covers most salons, built-in auth
+- **Messaging:** WhatsApp Business API integration for automated messages
+- **Hosting:** Vercel (frontend) + Railway (backend) — free-to-start, scales when needed
+- **Reports:** Client-side generation with jsPDF and CSV export
+
+The database schema centers around five core tables: Customers, Appointments, Services, Staff, and Invoices — with junction tables for service-staff mapping and appointment-service linking.
+
+## The Phased Approach
+
+I shipped this in 4 phases over 12 weeks:
+
+**Phase 1 (Weeks 1–4): Core MVP**
+Customer profiles, appointment calendar, services setup, basic billing. This alone replaced the paper register and whiteboard calendar.
+
+**Phase 2 (Weeks 5–7): Communication**
+Automated reminders, post-visit messages, birthday messaging, re-engagement triggers. This is where retention metrics started moving.
+
+**Phase 3 (Weeks 8–9): Analytics**
+Owner dashboard, revenue reports, performance tracking, data exports. Owners could finally see their business clearly.
+
+**Phase 4 (Weeks 10–12): Polish & Loyalty**
+Visit-based loyalty rewards, referral tracking, staff attendance, settings panel, and final QA before open-source release.
+
+## Why Open Source?
+
+I believe tools like this shouldn't be locked behind expensive SaaS subscriptions for small business owners who are already operating on thin margins. Open-sourcing the project means:
+
+- Any salon can self-host it for free
+- Developers can extend it for their local market
+- The community can contribute features I haven't thought of
+- It serves as a real-world reference for full-stack product development
+
+## Lessons Learned
+
+**1. Design for the busiest moment.** The true test of your UX isn't the happy path — it's when three customers are waiting, the phone is ringing, and the receptionist needs to check someone out in 15 seconds.
+
+**2. Automation is the product.** The appointment calendar is table stakes. The automated follow-ups, birthday messages, and re-engagement triggers are what actually move business metrics.
+
+**3. Non-technical users are the hardest audience.** Every extra click, every ambiguous label, every hidden action is a support ticket waiting to happen. Simplicity isn't dumbing down — it's the hardest design work there is.
+
+**4. Ship the MVP, then listen.** Phase 1 wasn't pretty, but it was functional. Real salon staff using it daily surfaced insights no amount of user research could have predicted.
+
+**5. Full-stack ownership accelerates everything.** Owning both design and code meant I could prototype in the morning, validate with users at lunch, and ship to production by evening. No handoff delays, no lost-in-translation moments.
+
+## What's Next
+
+Version 2 is on the horizon with:
+- Customer self-service booking portal
+- Multi-branch support
+- Inventory management for products
+- Regional language support (Hindi, Kannada)
+- Native mobile app
+
+The source code is available on GitHub — contributions welcome. If you're a salon owner, developer, or designer interested in this space, I'd love to connect.
+
+*Building products for underserved markets isn't glamorous, but it's where design and engineering create the most tangible impact. Sometimes the best product work happens not in a Silicon Valley startup, but in a neighborhood salon.*
+    `,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {

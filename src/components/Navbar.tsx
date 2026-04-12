@@ -54,7 +54,7 @@ export default function Navbar() {
                 href={link.href}
                 className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
                   pathname === link.href
-                    ? "text-white"
+                    ? "text-foreground"
                     : "text-muted hover:text-foreground"
                 }`}
               >
@@ -70,19 +70,17 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* ⌘K hint + CTA */}
+          {/* CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => {
-                window.dispatchEvent(
-                  new KeyboardEvent("keydown", { key: "k", metaKey: true })
-                );
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-background border border-border text-muted hover:text-foreground hover:border-accent/30 transition-colors text-xs font-mono"
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-background border border-border text-muted hover:text-foreground hover:border-accent/30 transition-colors text-xs font-medium"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <kbd className="text-[10px]">⌘K</kbd>
-            </button>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Resume
+            </a>
             <Magnetic strength={0.4}>
               <Link
                 href="/contact"
@@ -142,7 +140,7 @@ export default function Navbar() {
                     href={link.href}
                     className={`block px-4 py-3 rounded-lg text-lg font-medium transition-colors ${
                       pathname === link.href
-                        ? "text-white bg-surface-hover"
+                        ? "text-foreground bg-surface-hover"
                         : "text-muted hover:text-foreground hover:bg-surface"
                     }`}
                   >

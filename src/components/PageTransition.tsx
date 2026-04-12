@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
@@ -28,12 +28,22 @@ export default function PageTransition({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isFirstLoad = useRef(true);
+  const [hasMounted, setHasMounted] = useState(false);
+  const isFirstNavigation = useRef(true);
 
-  // Skip the entrance animation on the very first render (fresh page load / new tab)
-  // so SSR content is immediately visible. Animate only on client-side navigations.
-  if (isFirstLoad.current) {
-    isFirstLoad.current = false;
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  // On the very first server render + hydration, render children
+  // without any motion wrapper to avoid hydration mismatch.
+  if (!hasMounted) {
+    return <div>{children}</div>;
+  }
+
+  // First client-side mount: skip entrance animation
+  if (isFirstNavigation.current) {
+    isFirstNavigation.current = false;
     return (
       <motion.div key={pathname} animate="enter" variants={variants}>
         {children}

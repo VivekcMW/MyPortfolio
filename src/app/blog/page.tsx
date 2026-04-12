@@ -10,6 +10,10 @@ export default function BlogPage() {
   const posts = getAllPosts();
   const categories = getAllCategories();
   const [activeCategory, setActiveCategory] = useState("All");
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const featuredPost = posts.find((p) => p.featured);
 
   const filteredPosts =
@@ -109,22 +113,54 @@ export default function BlogPage() {
               Get new posts delivered to your inbox. No spam, unsubscribe
               anytime.
             </p>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-            >
-              <input
-                type="email"
-                placeholder="your@email.com"
-                className="flex-1 px-4 py-3 rounded-xl bg-background border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all whitespace-nowrap"
+            {newsletterStatus === "success" ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center justify-center gap-2 text-green-400 font-medium"
               >
-                Subscribe
-              </button>
-            </form>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                You&apos;re subscribed! Check your inbox.
+              </motion.div>
+            ) : (
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  setNewsletterStatus("loading");
+                  try {
+                    const res = await fetch("/api/newsletter", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ email: newsletterEmail }),
+                    });
+                    if (!res.ok) throw new Error("Subscription failed");
+                    setNewsletterStatus("success");
+                  } catch {
+                    setNewsletterStatus("error");
+                    setTimeout(() => setNewsletterStatus("idle"), 3000);
+                  }
+                }}
+                className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+              >
+                <input
+                  type="email"
+                  required
+                  placeholder="your@email.com"
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  className="flex-1 px-4 py-3 rounded-xl bg-background border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
+                />
+                <button
+                  type="submit"
+                  disabled={newsletterStatus === "loading"}
+                  className="px-6 py-3 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all whitespace-nowrap disabled:opacity-50"
+                >
+                  {newsletterStatus === "loading" && "Subscribing..."}
+                  {newsletterStatus === "error" && "Try again"}
+                  {newsletterStatus === "idle" && "Subscribe"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </Section>

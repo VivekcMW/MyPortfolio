@@ -6,17 +6,16 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 export default function CursorGlow() {
   const [visible, setVisible] = useState(false);
   const [hovering, setHovering] = useState(false);
+  const [isTouch, setIsTouch] = useState(true);
   const cursorX = useMotionValue(0);
   const cursorY = useMotionValue(0);
   const ringX = useSpring(cursorX, { stiffness: 150, damping: 20 });
   const ringY = useSpring(cursorY, { stiffness: 150, damping: 20 });
-  const isTouchRef = useRef(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
-      isTouchRef.current = true;
-      return;
-    }
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+    setIsTouch(isTouchDevice);
+    if (isTouchDevice) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       cursorX.set(e.clientX);
@@ -58,7 +57,7 @@ export default function CursorGlow() {
     };
   }, [cursorX, cursorY]);
 
-  if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+  if (isTouch) {
     return null;
   }
 
@@ -83,7 +82,7 @@ export default function CursorGlow() {
         animate={{
           width: hovering ? 48 : 32,
           height: hovering ? 48 : 32,
-          borderColor: hovering ? "rgba(6,182,212,0.6)" : "rgba(6,182,212,0.3)",
+          borderColor: hovering ? "color-mix(in srgb, var(--color-accent) 60%, transparent)" : "color-mix(in srgb, var(--color-accent) 30%, transparent)",
         }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
         style={{

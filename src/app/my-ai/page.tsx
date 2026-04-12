@@ -18,7 +18,7 @@ const innerRing: AITool[] = [
   { name: "Cursor", abbr: "Cu", color: "#0066FF", category: "Coding Agent", desc: "AI-powered IDE", useCase: "Primary development environment — code generation, refactoring, and multi-file editing with AI context." },
   { name: "GitHub Copilot", abbr: "GC", color: "#6E40C9", category: "Coding Agent", desc: "Code completion", useCase: "Inline code suggestions, test generation, and pair-programming across all projects." },
   { name: "Claude", abbr: "Cl", color: "#D97706", category: "AI Reasoning", desc: "Complex reasoning", useCase: "Architecture decisions, code reviews, technical writing, and complex problem decomposition." },
-  { name: "v0", abbr: "v0", color: "#FAFAFA", category: "UI Builder", desc: "AI UI prototyping", useCase: "Rapid component prototyping — generate production-ready React/Tailwind components from prompts." },
+  { name: "v0", abbr: "v0", color: "#171717", category: "UI Builder", desc: "AI UI prototyping", useCase: "Rapid component prototyping — generate production-ready React/Tailwind components from prompts." },
   { name: "Replit", abbr: "Re", color: "#F26207", category: "AI IDE", desc: "Cloud AI coding", useCase: "Quick prototypes, collaborative coding sessions, and deploying small AI-powered tools." },
 ];
 
@@ -34,7 +34,7 @@ const outerRing: AITool[] = [
   { name: "n8n", abbr: "n8", color: "#EA4B71", category: "Automation", desc: "Workflow automation", useCase: "Self-hosted automation pipelines — data sync, notifications, CI/CD hooks, and API orchestration." },
   { name: "Make", abbr: "Mk", color: "#6D00CC", category: "Automation", desc: "Visual automation", useCase: "Complex multi-step business workflows — CRM to Slack to Notion pipelines with error handling." },
   { name: "Zapier", abbr: "Zp", color: "#FF4A00", category: "Automation", desc: "Quick integrations", useCase: "Lightweight trigger-based automations — form submissions, email routing, calendar sync." },
-  { name: "Midjourney", abbr: "Mj", color: "#FFFFFF", category: "Creative AI", desc: "Image generation", useCase: "Concept art, design exploration, hero visuals, and mood boards for client presentations." },
+  { name: "Midjourney", abbr: "Mj", color: "#5865F2", category: "Creative AI", desc: "Image generation", useCase: "Concept art, design exploration, hero visuals, and mood boards for client presentations." },
   { name: "DALL·E", abbr: "DE", color: "#10A37F", category: "Creative AI", desc: "OpenAI images", useCase: "Quick image generation within ChatGPT workflows — icons, illustrations, and social assets." },
   { name: "Figma AI", abbr: "Fi", color: "#A259FF", category: "Design AI", desc: "AI-assisted design", useCase: "Auto-layout suggestions, content generation, and AI-powered design iterations in Figma." },
 ];
@@ -176,7 +176,7 @@ function ConnectedGrid({
               y1={line.y1}
               x2={line.x2}
               y2={line.y2}
-              stroke={isActive ? activeColor : "#152038"}
+              stroke={isActive ? activeColor : "var(--color-border)"}
               strokeWidth={isActive ? 2 : 1}
               strokeOpacity={activeTool ? (isActive ? 0.6 : 0.08) : 0.2}
               strokeDasharray={isActive ? "none" : "4 4"}
@@ -217,7 +217,7 @@ function ConnectedGrid({
                   ? tool.color
                   : related && activeTool
                   ? tool.color + "30"
-                  : "#15203860",
+                  : "var(--color-border)",
                 opacity: activeTool && !related ? 0.35 : 1,
                 boxShadow: isActive ? `0 0 30px ${tool.color}20` : "none",
               }}

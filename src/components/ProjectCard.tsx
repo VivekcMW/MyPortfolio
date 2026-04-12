@@ -164,7 +164,7 @@ export default function ProjectCard({
     >
       <TiltCard>
         <div className="group block">
-          <div className="relative overflow-hidden rounded-2xl bg-surface border border-border transition-all duration-500 group-hover:border-accent/30 group-hover:shadow-[0_0_60px_rgba(37,99,255,0.08)]">
+          <div className="relative overflow-hidden rounded-2xl bg-surface border border-border transition-all duration-500 group-hover:border-accent/30 group-hover:shadow-lg group-hover:shadow-accent/10">
             {/* Parallax Image Area */}
             <div className="relative h-55 sm:h-75 md:h-95 overflow-hidden bg-background">
               {/* Radial accent glow */}

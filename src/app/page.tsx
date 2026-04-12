@@ -1,11 +1,13 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import Link from "next/link";
 import { Section, SectionHeader } from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
 import BlogCard from "@/components/BlogCard";
+import FluidText from "@/components/FluidText";
+import Magnetic from "@/components/Magnetic";
 
 const projects = [
   {
@@ -75,6 +77,165 @@ const featuredPosts = [
     slug: "ai-changing-design",
   },
 ];
+
+const stats = [
+  { label: "Years Experience", value: 8, suffix: "+" },
+  { label: "Products Shipped", value: 15, suffix: "+" },
+  { label: "Design Systems Built", value: 5, suffix: "" },
+];
+
+function AnimatedCounter({
+  value,
+  suffix,
+}: Readonly<{
+  value: number;
+  suffix: string;
+}>) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  useEffect(() => {
+    if (!isInView) return;
+    let start = 0;
+    const duration = 2000;
+    const startTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      start = Math.floor(eased * value);
+      setCount(start);
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    requestAnimationFrame(animate);
+  }, [isInView, value]);
+
+  return (
+    <span ref={ref}>
+      {count}
+      {suffix}
+    </span>
+  );
+}
+
+/* ===== Horizontal Scroll Projects Section ===== */
+function HorizontalScrollProjects({ projects }: { projects: Array<{ title: string; category: string; description: string; tags: string[]; image: React.ReactNode; href: string }> }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+  const x = useTransform(scrollYProgress, [0, 1], ["2%", "-65%"]);
+
+  return (
+    <section id="work" ref={containerRef} className="relative" style={{ height: `${(projects.length + 1) * 50}vh` }}>
+      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 lg:mb-12">
+          <SectionHeader
+            eyebrow="Selected Work"
+            title="Products that made an impact."
+          />
+        </div>
+        <motion.div style={{ x }} className="flex gap-8 pl-4 sm:pl-8">
+          {projects.map((project, i) => (
+            <div key={project.title} className="w-[85vw] sm:w-[70vw] md:w-[50vw] lg:w-[40vw] flex-shrink-0">
+              <ProjectCard {...project} index={i} />
+            </div>
+          ))}
+          {/* End card — CTA */}
+          <div className="w-[85vw] sm:w-[70vw] md:w-[50vw] lg:w-[40vw] flex-shrink-0 flex items-center justify-center">
+            <Link
+              href="/work/nocode-platform"
+              className="group flex flex-col items-center gap-4 text-center p-12 rounded-2xl border border-border hover:border-accent/30 bg-surface transition-all duration-500"
+            >
+              <div className="w-16 h-16 rounded-full border-2 border-accent/30 flex items-center justify-center group-hover:border-accent transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+              <span className="text-xl font-bold">View All Work</span>
+              <span className="text-muted text-sm">Explore the full case studies</span>
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ===== Stacked Approach Cards ===== */
+const approachSteps = [
+  {
+    num: "01",
+    title: "Research & Discover",
+    desc: "Deep-dive into user needs, business context, and technical constraints. I believe in designing with data, not assumptions.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+    accent: "from-accent/20 to-accent/5",
+  },
+  {
+    num: "02",
+    title: "Design & Prototype",
+    desc: "Rapid iteration from wireframes to high-fidelity. I design in Figma and prototype in code — bridging the gap between vision and reality.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+    accent: "from-accent-coral/20 to-accent-coral/5",
+  },
+  {
+    num: "03",
+    title: "Build & Ship",
+    desc: "From pixels to production. I write the frontend code that brings designs to life, ensuring every interaction is pixel-perfect.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
+    accent: "from-accent/20 to-accent/5",
+  },
+];
+
+function StackedApproachCard({ step, index }: { step: typeof approachSteps[0]; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "start start"],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 1, 1]);
+
+  return (
+    <div ref={cardRef} style={{ zIndex: index + 1 }}>
+      <motion.div
+        style={{ scale, opacity, top: `calc(6rem + ${index * 2.5}rem)` }}
+        className="sticky w-full group p-6 sm:p-10 rounded-2xl bg-surface border border-border hover:border-accent/20 transition-all duration-500"
+      >
+        <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+          <div className="flex-shrink-0">
+            <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.accent} flex items-center justify-center`}>
+              {step.icon}
+            </div>
+          </div>
+          <div className="flex-1">
+            <div className="text-accent font-mono text-sm mb-2">{step.num}</div>
+            <h3 className="text-2xl font-bold mb-3">{step.title}</h3>
+            <p className="text-muted leading-relaxed max-w-xl">{step.desc}</p>
+          </div>
+          <div className="hidden md:block text-8xl font-bold text-border/30 font-mono">
+            {step.num}
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+function StackedApproachCards() {
+  return (
+    <div className="space-y-8">
+      {approachSteps.map((step, i) => (
+        <StackedApproachCard key={step.num} step={step} index={i} />
+      ))}
+    </div>
+  );
+}
 
 export default function HomePage() {
   const roles = [
@@ -220,15 +381,37 @@ export default function HomePage() {
             }}
           />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--color-background)_70%)]" />
+
+          {/* Animated mesh gradient blobs */}
           <motion.div
-            animate={{ x: [0, 30, -20, 0], y: [0, -25, 15, 0] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute top-1/4 left-1/4 w-72 md:w-96 h-72 md:h-96 bg-accent/4 rounded-full blur-3xl"
+            animate={{
+              x: [0, 50, -30, 20, 0],
+              y: [0, -40, 20, -10, 0],
+              scale: [1, 1.2, 0.9, 1.1, 1],
+              borderRadius: ["30% 70% 70% 30% / 30% 30% 70% 70%", "50% 50% 30% 70% / 60% 40% 60% 40%", "70% 30% 50% 50% / 40% 60% 40% 60%", "40% 60% 60% 40% / 50% 50% 50% 50%", "30% 70% 70% 30% / 30% 30% 70% 70%"],
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[15%] left-[20%] w-[28rem] h-[28rem] bg-accent/6 blur-3xl"
           />
           <motion.div
-            animate={{ x: [0, -20, 30, 0], y: [0, 20, -30, 0] }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-1/3 right-1/4 w-64 md:w-80 h-64 md:h-80 bg-accent-coral/3 rounded-full blur-3xl"
+            animate={{
+              x: [0, -40, 30, -20, 0],
+              y: [0, 30, -40, 10, 0],
+              scale: [1, 0.9, 1.15, 0.95, 1],
+              borderRadius: ["50% 50% 30% 70% / 60% 40% 60% 40%", "30% 70% 70% 30% / 30% 30% 70% 70%", "40% 60% 60% 40% / 50% 50% 50% 50%", "70% 30% 50% 50% / 40% 60% 40% 60%", "50% 50% 30% 70% / 60% 40% 60% 40%"],
+            }}
+            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-[20%] right-[15%] w-[24rem] h-[24rem] bg-accent-coral/5 blur-3xl"
+          />
+          <motion.div
+            animate={{
+              x: [0, 25, -35, 15, 0],
+              y: [0, -20, 35, -25, 0],
+              scale: [1, 1.1, 0.85, 1.05, 1],
+              borderRadius: ["60% 40% 40% 60% / 60% 30% 70% 40%", "40% 60% 70% 30% / 30% 60% 40% 70%", "50% 50% 50% 50% / 50% 50% 50% 50%", "70% 30% 60% 40% / 40% 70% 30% 60%", "60% 40% 40% 60% / 60% 30% 70% 40%"],
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[40%] left-[50%] w-[20rem] h-[20rem] bg-accent/4 blur-[80px]"
           />
         </div>
 
@@ -258,7 +441,7 @@ export default function HomePage() {
                     </span>
                   </span>
                   <span className="block mt-1 text-foreground/70 text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-                    digital products.
+                    <FluidText text="digital products." minWeight={300} maxWeight={800} radius={100} />
                   </span>
                 </h1>
               </motion.div>
@@ -312,7 +495,7 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="order-1 lg:order-2"
             >
-              <div className="rounded-xl border border-border bg-surface/80 backdrop-blur-sm overflow-hidden shadow-[0_0_60px_rgba(6,182,212,0.06)]">
+              <div className="rounded-xl border border-border bg-surface/80 backdrop-blur-sm overflow-hidden shadow-lg shadow-accent/5">
                 {/* Title bar */}
                 <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-surface">
                   <div className="flex items-center gap-2">
@@ -421,12 +604,13 @@ export default function HomePage() {
             { name: "IoT", color: "text-accent" },
             { name: "OTT", color: "text-accent-coral" },
           ].map((domain) => (
-            <span
-              key={domain.name}
-              className={`px-4 sm:px-5 py-2 rounded-full bg-surface border border-border text-xs sm:text-sm font-semibold ${domain.color} whitespace-nowrap`}
-            >
-              {domain.name}
-            </span>
+            <Magnetic key={domain.name} strength={0.35} scaleOnHover={1.08} tilt>
+              <span
+                className={`px-4 sm:px-5 py-2 rounded-full bg-surface border border-border text-xs sm:text-sm font-semibold ${domain.color} whitespace-nowrap cursor-default`}
+              >
+                {domain.name}
+              </span>
+            </Magnetic>
           ))}
         </div>
 
@@ -453,62 +637,130 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== SELECTED WORK ===== */}
-      <Section id="work">
-        <SectionHeader
-          eyebrow="Selected Work"
-          title="Products that made an impact."
-          description="From NoCode platforms to real-time IoT dashboards — each project pushed the boundaries of design and engineering."
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.title} {...project} index={i} />
+      {/* ===== IMPACT STATS ===== */}
+      <Section>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="text-center p-6 rounded-2xl bg-surface border border-border hover:border-accent/20 transition-all duration-500"
+            >
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-2">
+                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+              </div>
+              <p className="text-muted text-sm font-medium">{stat.label}</p>
+            </motion.div>
           ))}
         </div>
       </Section>
 
-      {/* ===== APPROACH ===== */}
+      {/* ===== TRUSTED BY ===== */}
+      <Section>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center"
+        >
+          <p className="text-muted text-sm font-mono uppercase tracking-widest mb-8">
+            Built products for teams at
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16">
+            {[
+              { name: "Moving Walls", highlight: true },
+              { name: "Healthcare SaaS", highlight: false },
+              { name: "IoT Platforms", highlight: false },
+              { name: "OTT Networks", highlight: false },
+              { name: "Enterprise B2B", highlight: false },
+              { name: "NoCode Startups", highlight: false },
+            ].map((company, i) => (
+              <motion.div
+                key={company.name}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className={`text-lg md:text-xl font-bold tracking-tight ${
+                  company.highlight ? "text-foreground" : "text-muted/40"
+                } hover:text-foreground/70 transition-colors`}
+              >
+                {company.name}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </Section>
+
+      {/* ===== SELECTED WORK (Horizontal Scroll) ===== */}
+      <HorizontalScrollProjects projects={projects} />
+
+      {/* ===== APPROACH (Stacked Cards) ===== */}
       <Section>
         <SectionHeader
           eyebrow="My Approach"
           title="Design is how it works."
           description="I bring a systematic, data-informed approach to every product I touch."
         />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <StackedApproachCards />
+      </Section>
+
+      {/* ===== WHAT I CAN HELP WITH ===== */}
+      <Section>
+        <SectionHeader
+          eyebrow="Services"
+          title="What I can help with."
+          description="Whether you need a design leader, a hands-on builder, or both — here's how I add value."
+        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             {
-              num: "01",
-              title: "Research & Discover",
-              desc: "Deep-dive into user needs, business context, and technical constraints. I believe in designing with data, not assumptions.",
-              icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+              title: "Design Leadership",
+              desc: "Building and scaling design teams, establishing design ops, and driving design strategy at the organizational level.",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              ),
             },
             {
-              num: "02",
-              title: "Design & Prototype",
-              desc: "Rapid iteration from wireframes to high-fidelity. I design in Figma and prototype in code — bridging the gap between vision and reality.",
-              icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+              title: "Product Design",
+              desc: "End-to-end product design from research to high-fidelity prototypes. Specializing in complex data-heavy B2B products.",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              ),
             },
             {
-              num: "03",
-              title: "Build & Ship",
-              desc: "From pixels to production. I write the frontend code that brings designs to life, ensuring every interaction is pixel-perfect.",
-              icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
+              title: "Design Systems",
+              desc: "Creating token-driven, accessible component libraries that unify products and accelerate development across teams.",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              ),
             },
-          ].map((step, i) => (
+            {
+              title: "Frontend Engineering",
+              desc: "Production-grade React, Next.js, and TypeScript. Pixel-perfect implementations with motion design and performance.",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              ),
+            },
+          ].map((service, i) => (
             <motion.div
-              key={step.num}
-              initial={{ opacity: 0, y: 40 }}
+              key={service.title}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.15, duration: 0.6 }}
-              className="group p-5 sm:p-8 rounded-2xl bg-surface border border-border hover:border-accent/20 transition-all duration-500"
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="p-6 rounded-2xl bg-surface border border-border hover:border-accent/20 transition-all duration-500 group"
             >
-              <div className="text-4xl mb-6">{step.icon}</div>
-              <div className="text-accent font-mono text-sm mb-2">
-                {step.num}
+              <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-5 group-hover:bg-accent/20 transition-colors">
+                {service.icon}
               </div>
-              <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-              <p className="text-muted leading-relaxed">{step.desc}</p>
+              <h3 className="text-lg font-bold mb-2">{service.title}</h3>
+              <p className="text-muted text-sm leading-relaxed">
+                {service.desc}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -583,12 +835,14 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <Link
-                href="/contact"
-                className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all duration-300 hover:shadow-[0_0_30px_rgba(37,99,255,0.3)]"
-              >
-                Get in Touch
-              </Link>
+              <Magnetic strength={0.4} scaleOnHover={1.05}>
+                <Link
+                  href="/contact"
+                  className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
+                >
+                  Get in Touch
+                </Link>
+              </Magnetic>
             </motion.div>
           </div>
         </div>
