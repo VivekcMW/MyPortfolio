@@ -1,10 +1,11 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
 import { Section } from "@/components/Section";
+import ReadingProgress from "@/components/ReadingProgress";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
 
 function extractHeadings(content: string) {
@@ -32,17 +33,6 @@ export default function BlogPostPage() {
   const articleRef = useRef<HTMLDivElement>(null);
   const [activeHeading, setActiveHeading] = useState("");
   const [copied, setCopied] = useState(false);
-
-  // Reading progress
-  const { scrollYProgress } = useScroll({
-    target: articleRef,
-    offset: ["start start", "end end"],
-  });
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
 
   const headings = useMemo(
     () => (post ? extractHeadings(post.content) : []),
@@ -88,7 +78,6 @@ export default function BlogPostPage() {
     });
 
   const postUrl = `https://vivekanand.dev/blog/${slug}`;
-  const shareText = `${post.title} by @vivekanandUX`;
 
   const shareLinks = [
     {
@@ -137,7 +126,7 @@ export default function BlogPostPage() {
     )
     .replaceAll(/^([^<\n].+)$/gm, '<p class="text-foreground/70 leading-relaxed my-4">$1</p>')
     .replaceAll(/\*(.+?)\*/g, "<em>$1</em>")
-    .replaceAll(/---/g, '<hr class="border-border my-8" />')
+    .replaceAll("---", '<hr class="border-border my-8" />')
     .replaceAll(
       /`([^`]+)`/g,
       '<code class="text-accent-coral bg-surface px-1.5 py-0.5 rounded text-sm">$1</code>'
@@ -145,11 +134,7 @@ export default function BlogPostPage() {
 
   return (
     <div className="pt-24" ref={articleRef}>
-      {/* Reading Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-0.5 bg-accent origin-left z-50"
-        style={{ scaleX }}
-      />
+      <ReadingProgress />
 
       <Section>
         {/* Back */}

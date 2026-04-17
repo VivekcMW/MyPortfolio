@@ -8,6 +8,7 @@ import PageTransition from "@/components/PageTransition";
 import ScrollProgress from "@/components/ScrollProgress";
 import SmoothScroll from "@/components/SmoothScroll";
 import StatusBar from "@/components/StatusBar";
+import BackToTop from "@/components/BackToTop";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,6 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://vivekanand.dev"),
   title: {
     default: "Vivekanand Choudhari — Lead Design Engineer",
     template: "%s | Vivekanand Choudhari",
@@ -46,6 +48,14 @@ export const metadata: Metadata = {
     description:
       "Crafting world-class products across AdTech, Healthcare, IoT, and OTT.",
     url: "https://vivekanand.dev",
+    images: [
+      {
+        url: "/api/og?title=Vivekanand%20Choudhari&category=Portfolio",
+        width: 1200,
+        height: 630,
+        alt: "Vivekanand Choudhari — Lead Design Engineer",
+      },
+    ],
     siteName: "Vivekanand Choudhari",
     locale: "en_US",
     type: "website",
@@ -55,10 +65,14 @@ export const metadata: Metadata = {
     title: "Vivekanand Choudhari — Lead Design Engineer",
     description:
       "Crafting world-class products across AdTech, Healthcare, IoT, and OTT.",
+    images: ["/api/og?title=Vivekanand%20Choudhari&category=Portfolio"],
   },
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
@@ -81,6 +95,7 @@ export default function RootLayout({
           <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
+        <BackToTop />
         <StatusBar />
       </body>
     </html>

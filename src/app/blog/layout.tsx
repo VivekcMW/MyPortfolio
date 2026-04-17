@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Blog",
   description:
     "Insights on design systems, AdTech, AI-powered workflows, and the future of digital experiences by Vivekanand Choudhari.",
+  alternates: {
+    canonical: "/blog",
+  },
   openGraph: {
     title: "Blog — Vivekanand Choudhari",
     description:

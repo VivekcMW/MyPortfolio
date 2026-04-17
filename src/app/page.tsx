@@ -603,6 +603,7 @@ export default function HomePage() {
             { name: "Healthcare", color: "text-accent-coral" },
             { name: "IoT", color: "text-accent" },
             { name: "OTT", color: "text-accent-coral" },
+            { name: "Construction Tech", color: "text-accent" },
           ].map((domain) => (
             <Magnetic key={domain.name} strength={0.35} scaleOnHover={1.08} tilt>
               <span

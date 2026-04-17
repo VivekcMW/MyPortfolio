@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Section, SectionHeader } from "@/components/Section";
+import { Section } from "@/components/Section";
 
 const socials = [
   {
@@ -35,17 +35,30 @@ const socials = [
 ];
 
 export default function ContactPage() {
+  const contactEmail = "vivekanand.design@gmail.com";
   const [formState, setFormState] = useState({
     name: "",
     email: "",
+    mobile: "",
     subject: "",
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(contactEmail);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setError("Couldn’t copy email. Please copy it manually.");
+    }
+  };
+
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
@@ -98,12 +111,34 @@ export default function ContactPage() {
             {/* Email */}
             <div className="mb-8">
               <p className="text-muted text-sm mb-2">Email</p>
-              <a
-                href="mailto:vivekanand.design@gmail.com"
-                className="text-base sm:text-xl font-bold text-accent hover:text-accent/80 transition-colors break-all"
-              >
-                vivekanand.design@gmail.com
-              </a>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="text-base sm:text-xl font-bold text-accent hover:text-accent/80 transition-colors break-all"
+                >
+                  {contactEmail}
+                </a>
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-surface border border-border text-xs font-semibold text-muted hover:text-foreground hover:border-accent/30 transition-colors w-fit"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                  </svg>
+                  {copied ? "Copied" : "Copy email"}
+                </button>
+              </div>
             </div>
 
             {/* Socials */}
@@ -167,7 +202,7 @@ export default function ContactPage() {
                   <button
                     onClick={() => {
                       setSubmitted(false);
-                      setFormState({ name: "", email: "", subject: "", message: "" });
+                      setFormState({ name: "", email: "", mobile: "", subject: "", message: "" });
                     }}
                     className="mt-6 text-accent hover:text-accent/80 font-medium"
                   >
@@ -214,6 +249,25 @@ export default function ContactPage() {
                     }
                     className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors"
                     placeholder="you@company.com"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="mobile"
+                    className="block text-sm font-medium text-muted mb-2"
+                  >
+                    Mobile Number <span className="text-muted/50">(optional)</span>
+                  </label>
+                  <input
+                    id="mobile"
+                    type="tel"
+                    value={formState.mobile}
+                    onChange={(e) =>
+                      setFormState({ ...formState, mobile: e.target.value })
+                    }
+                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors"
+                    placeholder="+91 98765 43210"
                   />
                 </div>
 

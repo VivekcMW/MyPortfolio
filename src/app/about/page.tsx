@@ -343,53 +343,6 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* Timeline */}
-      <Section>
-        <SectionHeader
-          eyebrow="Experience"
-          title="The journey so far."
-        />
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-px" />
-
-          <div className="space-y-12">
-            {timeline.map((item, i) => (
-              <motion.div
-                key={item.year}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className={`relative grid grid-cols-1 md:grid-cols-2 gap-8 ${
-                  i % 2 === 0 ? "" : "md:direction-rtl"
-                }`}
-              >
-                {/* Dot */}
-                <div className="absolute left-0 md:left-1/2 top-2 w-3 h-3 rounded-full bg-accent border-2 border-background -translate-x-1.5 md:-translate-x-1.5 z-10" />
-
-                <div
-                  className={`pl-8 md:pl-0 ${
-                    i % 2 === 0 ? "md:pr-16 md:text-right" : "md:col-start-2 md:pl-16"
-                  }`}
-                >
-                  <p className="text-accent font-mono text-sm mb-1">
-                    {item.year}
-                  </p>
-                  <h3 className="text-xl font-bold mb-1">{item.role}</h3>
-                  <p className="text-foreground/60 font-medium mb-3">
-                    {item.company}
-                  </p>
-                  <p className="text-muted leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
       {/* Talks & Writing */}
       <Section>
         <SectionHeader
