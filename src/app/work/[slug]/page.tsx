@@ -549,6 +549,37 @@ const projectData: Record<string, ProjectDetail> = {
     ],
     prototypeSlug: "ott-platform",
   },
+  "construction-ai": {
+    title: "Construction AI Platform",
+    category: "ConTech / AI",
+    heroDesc:
+      "An AI-powered construction intelligence platform merging material procurement planning with predictive analytics — minimizing schedule risk, preventing delays, and delivering data-driven insights across 95% of previously unused project data.",
+    timeline: "2025 — 2026",
+    tags: ["Construction", "AI/ML", "Procurement", "Predictive Analytics", "Risk Management", "Procore", "P6", "BIM"],
+    challenge:
+      "The construction industry generates massive amounts of data — schedules, RFIs, submittals, change orders, material deliveries — yet 95% goes unused. Projects routinely face budget overruns and schedule delays hidden in siloed systems. Material procurement, critical to project success, lacks proactive planning tools. We needed to build a platform that connects this fragmented data, predicts risks before they become problems, and gives project teams actionable intelligence.",
+    approach: [
+      "Analyzed the $1.3T US construction market — identified that material procurement delays cause 23% of schedule slips, yet no tool existed for proactive planning",
+      "Studied leading platforms (Procore, P6, Autodesk, ACONEX) — found data remained siloed, requiring manual correlation across 6+ systems",
+      "Designed an auto-linking AI engine that connects schedules, submittals, RFIs, change orders, and delivery data across integrations",
+      "Built predictive risk models trained on historical project data — identifying patterns that lead to delays, cost overruns, and quality issues",
+      "Created specialty workflows for material tracking (lead times, submittal status, delivery scheduling) and progress monitoring (percent complete, variance analysis)",
+      "Integrated with major construction tech stack: Procore, Oracle P6, Autodesk BIM 360, MS Project, ACONEX, SAP S/4HANA",
+    ],
+    impact: [
+      "Risk detection time reduced from weeks to real-time with AI-powered anomaly detection and severity-tiered alerts",
+      "Material delivery on-time rate improved to 87% through proactive lead time tracking and submittal workflow automation",
+      "14-day schedule recovery identified through AI analysis of float optimization opportunities",
+      "Single platform replaced 6 fragmented tools used by project managers, procurement teams, and field engineers",
+    ],
+    features: [
+      { title: "AI Risk Intelligence", desc: "Real-time risk detection with AI confidence scoring, severity classification, impact analysis, and automated mitigation recommendations." },
+      { title: "Material Procurement Tracker", desc: "End-to-end material planning from submittal to delivery — tracking lead times, supplier status, PO numbers, and schedule dependencies." },
+      { title: "Predictive Analytics", desc: "Schedule and cost predictions using SPI/CPI metrics, estimated completion dates, and probability-based delay forecasting." },
+      { title: "Auto-Linking Engine", desc: "Patented technology that connects data across Procore, P6, Autodesk, and other systems — creating a unified intelligence layer from 95% of unused data." },
+    ],
+    prototypeSlug: "construction-ai",
+  },
 };
 
 export default function ProjectDetailPage() {

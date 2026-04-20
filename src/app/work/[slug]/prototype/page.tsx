@@ -152,9 +152,9 @@ function PrototypeShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#0B1120] text-foreground flex flex-col pt-16 lg:pt-20">
+    <div className="h-[calc(100vh-64px-80px)] lg:h-[calc(100vh-80px-80px)] bg-[#0B1120] text-foreground flex flex-col">
       {/* Top bar */}
-      <header className="h-12 flex items-center justify-between px-4 border-b border-white/10 bg-[#0B1120]/90 backdrop-blur-md shrink-0 sticky top-16 lg:top-20 z-40">
+      <header className="h-12 flex items-center justify-between px-4 border-b border-white/10 bg-[#0B1120]/90 backdrop-blur-md shrink-0 z-40">
         <div className="flex items-center gap-3">
           <div className="flex gap-1.5">
             <span className="w-3 h-3 rounded-full bg-red-500/80" />
@@ -165,7 +165,7 @@ function PrototypeShell({
         </div>
         <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">Prototype</span>
       </header>
-      <div className="flex-1 overflow-auto">{children}</div>
+      <div className="flex-1 overflow-hidden">{children}</div>
     </div>
   );
 }
@@ -4241,6 +4241,1252 @@ function OTTPrototype() {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CONSTRUCTION AI PLATFORM PROTOTYPE — ConstructivIQ + Slate.ai Merged
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+type ConstructionModule = "dashboard" | "materials" | "intelligence" | "progress" | "analytics" | "documents" | "integrations" | "settings";
+
+/* ── Construction AI Sample Data ── */
+const constructionProjects = [
+  { id: "PRJ-001", name: "Downtown Medical Center", client: "HealthCorp Inc.", value: "$145.2M", progress: 67, status: "on-track", manager: "Sarah Chen", startDate: "2025-03-15", endDate: "2027-06-30", riskScore: 23, phase: "Phase 3 - MEP" },
+  { id: "PRJ-002", name: "Harbor View Tower", client: "Skyline Development", value: "$89.5M", progress: 42, status: "at-risk", manager: "Michael Ross", startDate: "2025-06-01", endDate: "2027-08-15", riskScore: 68, phase: "Phase 2 - Structure" },
+  { id: "PRJ-003", name: "Tech Campus Building B", client: "InnovateTech Corp", value: "$62.8M", progress: 85, status: "ahead", manager: "Priya Patel", startDate: "2024-11-20", endDate: "2026-07-01", riskScore: 12, phase: "Phase 4 - Finishes" },
+  { id: "PRJ-004", name: "Airport Terminal Expansion", client: "Regional Airport Authority", value: "$234.7M", progress: 28, status: "delayed", manager: "Robert Kim", startDate: "2025-01-10", endDate: "2028-12-31", riskScore: 82, phase: "Phase 1 - Foundation" },
+  { id: "PRJ-005", name: "Riverside Residential Complex", client: "Urban Living LLC", value: "$78.3M", progress: 91, status: "on-track", manager: "Lisa Wong", startDate: "2024-08-01", endDate: "2026-05-15", riskScore: 8, phase: "Phase 5 - Commissioning" },
+];
+
+const materialItems = [
+  { id: "MAT-001", name: "Structural Steel (W14x90)", category: "Steel", supplier: "US Steel Corp", quantity: "2,450 tons", status: "delivered", deliveryDate: "2026-03-15", leadTime: "12 weeks", project: "PRJ-001", cost: "$3.2M", submittalStatus: "approved", poNumber: "PO-2026-0412" },
+  { id: "MAT-002", name: "Pre-cast Concrete Panels", category: "Concrete", supplier: "ConcreteWorks Inc", quantity: "850 units", status: "in-transit", deliveryDate: "2026-04-22", leadTime: "8 weeks", project: "PRJ-002", cost: "$1.8M", submittalStatus: "approved", poNumber: "PO-2026-0398" },
+  { id: "MAT-003", name: "HVAC Chillers (500 ton)", category: "MEP", supplier: "Carrier Systems", quantity: "4 units", status: "at-risk", deliveryDate: "2026-05-10", leadTime: "16 weeks", project: "PRJ-001", cost: "$890K", submittalStatus: "pending", poNumber: "PO-2026-0445" },
+  { id: "MAT-004", name: "Curtain Wall System", category: "Facade", supplier: "GlassTech Global", quantity: "28,000 sqft", status: "ordered", deliveryDate: "2026-06-01", leadTime: "14 weeks", project: "PRJ-002", cost: "$2.4M", submittalStatus: "in-review", poNumber: "PO-2026-0467" },
+  { id: "MAT-005", name: "Fire Suppression System", category: "MEP", supplier: "Viking Fire", quantity: "Complete system", status: "pending-approval", deliveryDate: "2026-04-28", leadTime: "6 weeks", project: "PRJ-003", cost: "$420K", submittalStatus: "rejected", poNumber: "—" },
+  { id: "MAT-006", name: "Elevator Cabs (8 unit)", category: "Vertical Transport", supplier: "KONE Americas", quantity: "8 units", status: "manufacturing", deliveryDate: "2026-07-15", leadTime: "20 weeks", project: "PRJ-001", cost: "$1.6M", submittalStatus: "approved", poNumber: "PO-2026-0389" },
+  { id: "MAT-007", name: "Electrical Switchgear", category: "Electrical", supplier: "Siemens Energy", quantity: "3 assemblies", status: "delivered", deliveryDate: "2026-03-01", leadTime: "18 weeks", project: "PRJ-004", cost: "$780K", submittalStatus: "approved", poNumber: "PO-2025-1287" },
+  { id: "MAT-008", name: "Roofing Membrane System", category: "Envelope", supplier: "GAF Materials", quantity: "145,000 sqft", status: "scheduled", deliveryDate: "2026-05-20", leadTime: "4 weeks", project: "PRJ-005", cost: "$520K", submittalStatus: "approved", poNumber: "PO-2026-0501" },
+];
+
+const riskAlerts = [
+  { id: "RISK-001", severity: "critical", type: "Schedule", title: "HVAC Chillers Delivery Delay", description: "Supplier reports 3-week delay due to component shortage. Critical path impact detected.", project: "PRJ-001", impact: "14 days schedule slip", aiConfidence: 94, timestamp: "2 hours ago", recommendation: "Expedite alternative supplier quote from Trane. Consider temporary cooling solution.", linkedItems: ["MAT-003", "ACT-0892", "RFI-0234"] },
+  { id: "RISK-002", severity: "high", type: "Cost", title: "Steel Price Escalation Detected", description: "AI detected 12% price increase trend in steel commodities. Upcoming POs at risk.", project: "PRJ-002", impact: "$340K budget overrun", aiConfidence: 87, timestamp: "5 hours ago", recommendation: "Lock in pricing with current supplier. Consider early procurement for Phase 3.", linkedItems: ["MAT-001", "BUD-0445"] },
+  { id: "RISK-003", severity: "medium", type: "Quality", title: "Submittal Rejection Pattern", description: "Fire suppression submittal rejected twice. Similar pattern detected in 3 other projects.", project: "PRJ-003", impact: "2 weeks re-submittal cycle", aiConfidence: 78, timestamp: "1 day ago", recommendation: "Schedule pre-submittal coordination meeting with Fire Marshal.", linkedItems: ["MAT-005", "SUB-0178", "RFI-0198"] },
+  { id: "RISK-004", severity: "high", type: "Weather", title: "Foundation Pour Weather Risk", description: "7-day forecast shows precipitation probability >80%. Concrete pour scheduled in 3 days.", project: "PRJ-004", impact: "5-7 days delay possible", aiConfidence: 91, timestamp: "30 mins ago", recommendation: "Reschedule pour to next week clear window. Coordinate with ready-mix supplier.", linkedItems: ["ACT-1023", "WEA-0404"] },
+  { id: "RISK-005", severity: "low", type: "Resource", title: "Electrician Crew Availability", description: "Predicted shortage of licensed electricians for June rough-in phase.", project: "PRJ-001", impact: "Minor productivity decrease", aiConfidence: 65, timestamp: "2 days ago", recommendation: "Pre-book crews from approved subcontractor list. Consider overtime authorization.", linkedItems: ["RES-0089", "ACT-0934"] },
+];
+
+const progressActivities = [
+  { id: "ACT-001", name: "Level 4 MEP Rough-in", wbs: "3.2.4", planned: 75, actual: 68, variance: -7, crew: "MEP Team Alpha", status: "behind", startDate: "2026-03-01", endDate: "2026-04-15" },
+  { id: "ACT-002", name: "Curtain Wall Installation - North", wbs: "2.4.1", planned: 45, actual: 52, variance: 7, crew: "Facade Crew 1", status: "ahead", startDate: "2026-03-10", endDate: "2026-05-20" },
+  { id: "ACT-003", name: "Foundation Waterproofing", wbs: "1.3.2", planned: 100, actual: 100, variance: 0, crew: "Waterproofing LLC", status: "complete", startDate: "2026-02-01", endDate: "2026-03-01" },
+  { id: "ACT-004", name: "Elevator Shaft Construction", wbs: "2.2.3", planned: 60, actual: 55, variance: -5, crew: "Core Team", status: "behind", startDate: "2026-02-15", endDate: "2026-04-30" },
+  { id: "ACT-005", name: "Electrical Panel Installation", wbs: "3.3.1", planned: 30, actual: 35, variance: 5, crew: "Electrical Prime", status: "ahead", startDate: "2026-03-20", endDate: "2026-05-15" },
+  { id: "ACT-006", name: "Drywall Framing - Floors 1-3", wbs: "4.1.1", planned: 85, actual: 82, variance: -3, crew: "Interior Finishes Co", status: "on-track", startDate: "2026-02-20", endDate: "2026-04-10" },
+];
+
+const analyticsMetrics = {
+  overallHealth: 76,
+  schedulePerformance: { spi: 0.94, cpi: 1.02, eac: "$142.8M" },
+  materialDelivery: { onTime: 87, delayed: 8, atRisk: 5 },
+  rfiMetrics: { open: 24, avgResponseDays: 4.2, overdueCount: 3 },
+  changeOrders: { pending: 8, approved: 42, totalValue: "$3.4M" },
+  safetyMetrics: { incidentFree: 127, nearMisses: 2, trir: 0.8 },
+  productivity: { laborUtilization: 92, equipmentUptime: 94 },
+};
+
+const integrationsData = [
+  { name: "Procore", status: "connected", lastSync: "2 mins ago", recordsSync: "12,847", icon: "procore" },
+  { name: "Oracle P6", status: "connected", lastSync: "15 mins ago", recordsSync: "3,421", icon: "oracle" },
+  { name: "Autodesk BIM 360", status: "connected", lastSync: "1 hour ago", recordsSync: "8,932", icon: "autodesk" },
+  { name: "MS Project", status: "connected", lastSync: "30 mins ago", recordsSync: "1,205", icon: "microsoft" },
+  { name: "ACONEX", status: "disconnected", lastSync: "3 days ago", recordsSync: "—", icon: "aconex" },
+  { name: "SAP S/4HANA", status: "syncing", lastSync: "syncing...", recordsSync: "24,103", icon: "sap" },
+];
+
+const documentsData = [
+  { id: "RFI-234", type: "RFI", title: "Structural beam connection detail clarification", status: "open", priority: "high", assignee: "Structural Engineer", dueDate: "2026-04-18", daysOpen: 5, project: "PRJ-001" },
+  { id: "SUB-178", type: "Submittal", title: "Fire Suppression Shop Drawings - Rev 3", status: "rejected", priority: "critical", assignee: "MEP Coordinator", dueDate: "2026-04-10", daysOpen: 12, project: "PRJ-003" },
+  { id: "CO-089", type: "Change Order", title: "Additional foundation piles - Area C", status: "pending", priority: "high", assignee: "Project Manager", dueDate: "2026-04-25", daysOpen: 3, project: "PRJ-004" },
+  { id: "RFI-245", type: "RFI", title: "Curtain wall anchor spacing deviation", status: "answered", priority: "medium", assignee: "Facade Consultant", dueDate: "2026-04-12", daysOpen: 8, project: "PRJ-002" },
+  { id: "SUB-192", type: "Submittal", title: "Elevator cab finishes and materials", status: "in-review", priority: "medium", assignee: "Architect", dueDate: "2026-04-20", daysOpen: 6, project: "PRJ-001" },
+  { id: "CO-092", type: "Change Order", title: "HVAC system capacity upgrade", status: "approved", priority: "low", assignee: "Owner Rep", dueDate: "2026-04-05", daysOpen: 0, project: "PRJ-001" },
+];
+
+const aiInsights = [
+  { type: "prediction", title: "Schedule Compression Opportunity", description: "AI identified 8-day float in MEP sequence. Parallel installation possible with minimal risk.", confidence: 89, action: "Review optimized schedule", icon: "sparkle" },
+  { type: "anomaly", title: "Unusual Cost Pattern Detected", description: "Concrete costs 23% above baseline for similar scope. Recommend supplier audit.", confidence: 76, action: "View cost analysis", icon: "warning" },
+  { type: "recommendation", title: "Lessons Learned Match", description: "Similar curtain wall installation in 2024 project had 15% productivity gain with modified sequence.", confidence: 82, action: "Apply learnings", icon: "info" },
+  { type: "prediction", title: "Weather-Optimized Schedule", description: "Next 2 weeks show ideal conditions for exterior work. Consider accelerating facade activities.", confidence: 94, action: "Adjust schedule", icon: "sun" },
+];
+
+function ConstructionAIPrototype() {
+  const [activeModule, setActiveModule] = useState<ConstructionModule>("dashboard");
+  const [selectedProject, setSelectedProject] = useState(constructionProjects[0]);
+  const [showAIChat, setShowAIChat] = useState(false);
+  const [aiChatMessages, setAiChatMessages] = useState<{ role: "user" | "ai"; text: string }[]>([
+    { role: "ai", text: "Hello! I'm your Construction AI Assistant. I can help you analyze risks, track materials, predict delays, and optimize your project schedule. What would you like to know?" }
+  ]);
+  const [aiChatInput, setAiChatInput] = useState("");
+  const [selectedRisk, setSelectedRisk] = useState<typeof riskAlerts[0] | null>(null);
+  const [materialFilter, setMaterialFilter] = useState<"all" | "at-risk" | "delivered" | "pending">("all");
+  const [timeRange, setTimeRange] = useState<"7d" | "30d" | "90d" | "1y">("30d");
+
+  const sendAiMessage = () => {
+    if (!aiChatInput.trim()) return;
+    setAiChatMessages(prev => [...prev, { role: "user", text: aiChatInput }]);
+    const input = aiChatInput;
+    setAiChatInput("");
+    
+    const responses = [
+      `Based on current data for ${selectedProject.name}, I see ${riskAlerts.filter(r => r.severity === "critical" || r.severity === "high").length} high-priority risks. The most critical is the HVAC delivery delay which could impact your schedule by 14 days. Want me to generate mitigation options?`,
+      `Analyzing material delivery patterns... I found that ${materialItems.filter(m => m.status === "at-risk").length} items are at risk. The curtain wall system and HVAC chillers need immediate attention. I recommend contacting alternative suppliers.`,
+      `Looking at your progress data, the MEP rough-in is 7% behind schedule. However, I've identified an opportunity to recover by reallocating resources from the facade crew which is currently 7% ahead. Should I model this scenario?`,
+      `I've analyzed historical data from 47 similar projects. The current risk pattern suggests an 82% probability of a 2-3 week delay without intervention. Top 3 actions to mitigate: 1) Expedite HVAC procurement, 2) Pre-schedule inspection slots, 3) Add weekend concrete pours.`,
+      `Cost analysis complete. Your CPI of 1.02 indicates you're slightly under budget. However, I detected a steel price escalation trend that could add $340K if not addressed in the next 2 weeks. Recommendation: Lock in pricing now.`,
+    ];
+    
+    setTimeout(() => {
+      setAiChatMessages(prev => [...prev, { role: "ai", text: responses[Math.floor(Math.random() * responses.length)] }]);
+    }, 1000);
+  };
+
+  const filteredMaterials = materialItems.filter(m => {
+    if (materialFilter === "all") return true;
+    if (materialFilter === "at-risk") return m.status === "at-risk" || m.status === "pending-approval";
+    if (materialFilter === "delivered") return m.status === "delivered";
+    if (materialFilter === "pending") return m.status === "ordered" || m.status === "manufacturing" || m.status === "scheduled";
+    return true;
+  });
+
+  const statusColor: Record<string, string> = {
+    "on-track": "text-emerald-400 bg-emerald-500/15",
+    "ahead": "text-cyan-400 bg-cyan-500/15",
+    "at-risk": "text-amber-400 bg-amber-500/15",
+    "delayed": "text-red-400 bg-red-500/15",
+  };
+
+  const materialStatusColor: Record<string, string> = {
+    "delivered": "text-emerald-400 bg-emerald-500/15 border-emerald-500/30",
+    "in-transit": "text-blue-400 bg-blue-500/15 border-blue-500/30",
+    "manufacturing": "text-purple-400 bg-purple-500/15 border-purple-500/30",
+    "ordered": "text-cyan-400 bg-cyan-500/15 border-cyan-500/30",
+    "scheduled": "text-slate-400 bg-slate-500/15 border-slate-500/30",
+    "at-risk": "text-amber-400 bg-amber-500/15 border-amber-500/30",
+    "pending-approval": "text-orange-400 bg-orange-500/15 border-orange-500/30",
+  };
+
+  const severityColor: Record<string, string> = {
+    "critical": "text-red-400 bg-red-500/15 border-red-500/40",
+    "high": "text-amber-400 bg-amber-500/15 border-amber-500/40",
+    "medium": "text-yellow-400 bg-yellow-500/15 border-yellow-500/40",
+    "low": "text-slate-400 bg-slate-500/15 border-slate-500/40",
+  };
+
+  const moduleIcons: Record<ConstructionModule, string> = {
+    dashboard: "dashboard",
+    materials: "container",
+    intelligence: "sparkle",
+    progress: "progress",
+    analytics: "bar-chart",
+    documents: "pdf",
+    integrations: "api",
+    settings: "settings",
+  };
+
+  const modules: { key: ConstructionModule; label: string }[] = [
+    { key: "dashboard", label: "Dashboard" },
+    { key: "materials", label: "Materials" },
+    { key: "intelligence", label: "Intelligence" },
+    { key: "progress", label: "Progress" },
+    { key: "analytics", label: "Analytics" },
+    { key: "documents", label: "Documents" },
+    { key: "integrations", label: "Integrations" },
+    { key: "settings", label: "Settings" },
+  ];
+
+  return (
+    <PrototypeShell title="ConstructivIQ + Slate.ai — Construction Intelligence Platform">
+      <div className="flex h-full">
+        {/* ── Left Sidebar Navigation ── */}
+        <aside className="w-64 shrink-0 border-r border-white/10 bg-[#0A1020] flex flex-col overflow-hidden">
+          {/* Logo */}
+          <div className="p-4 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 20h20"/>
+                  <path d="M5 20V8l7-5 7 5v12"/>
+                  <path d="M9 20v-6h6v6"/>
+                  <path d="M9 12h6"/>
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-sm font-bold text-white">ConstructivIQ</h1>
+                <p className="text-[10px] text-cyan-400">AI-Powered Intelligence</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Project Selector */}
+          <div className="p-3 border-b border-white/10">
+            <label className="text-[10px] text-white/40 uppercase tracking-wider block mb-2">Active Project</label>
+            <select
+              value={selectedProject.id}
+              onChange={(e) => setSelectedProject(constructionProjects.find(p => p.id === e.target.value) || constructionProjects[0])}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 outline-none focus:border-cyan-500/50"
+            >
+              {constructionProjects.map(p => (
+                <option key={p.id} value={p.id} className="bg-[#0A1020]">{p.name}</option>
+              ))}
+            </select>
+            <div className="mt-2 flex items-center justify-between">
+              <span className={`text-[10px] px-2 py-0.5 rounded-full ${statusColor[selectedProject.status]}`}>
+                {selectedProject.status.replace("-", " ").toUpperCase()}
+              </span>
+              <span className="text-[10px] text-white/40">{selectedProject.progress}% Complete</span>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 p-2 space-y-0.5 overflow-y-auto">
+            {modules.map(m => (
+              <button
+                key={m.key}
+                onClick={() => setActiveModule(m.key)}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs transition-all ${
+                  activeModule === m.key
+                    ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30"
+                    : "text-white/60 hover:text-white/80 hover:bg-white/5"
+                }`}
+              >
+                <SvgIcon name={moduleIcons[m.key]} size={16} />
+                <span>{m.label}</span>
+                {m.key === "intelligence" && (
+                  <span className="ml-auto text-[9px] px-1.5 py-0.5 bg-red-500/20 text-red-400 rounded-full">
+                    {riskAlerts.filter(r => r.severity === "critical" || r.severity === "high").length}
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
+
+          {/* Quick Stats */}
+          <div className="p-3 border-t border-white/10 space-y-2">
+            <div className="flex items-center justify-between text-[10px]">
+              <span className="text-white/40">Risk Score</span>
+              <span className={`font-mono ${selectedProject.riskScore > 60 ? "text-red-400" : selectedProject.riskScore > 30 ? "text-amber-400" : "text-emerald-400"}`}>
+                {selectedProject.riskScore}/100
+              </span>
+            </div>
+            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all ${selectedProject.riskScore > 60 ? "bg-red-500" : selectedProject.riskScore > 30 ? "bg-amber-500" : "bg-emerald-500"}`}
+                style={{ width: `${selectedProject.riskScore}%` }}
+              />
+            </div>
+            <div className="flex items-center justify-between text-[10px] mt-3">
+              <span className="text-white/40">AI Confidence</span>
+              <span className="text-cyan-400 font-mono">94%</span>
+            </div>
+          </div>
+        </aside>
+
+        {/* ── Main Content ── */}
+        <main className="flex-1 bg-[#080E1A] overflow-auto">
+          {/* Top Header */}
+          <header className="sticky top-0 z-30 h-14 bg-[#0A1020]/95 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-6">
+            <div>
+              <h2 className="text-sm font-semibold text-white">{modules.find(m => m.key === activeModule)?.label}</h2>
+              <p className="text-[10px] text-white/40">{selectedProject.name} • {selectedProject.phase}</p>
+            </div>
+            <div className="flex items-center gap-3">
+              {/* Time Range Selector */}
+              <div className="flex items-center bg-white/5 rounded-lg p-0.5 border border-white/10">
+                {(["7d", "30d", "90d", "1y"] as const).map(t => (
+                  <button
+                    key={t}
+                    onClick={() => setTimeRange(t)}
+                    className={`px-3 py-1 text-[10px] rounded transition-colors ${timeRange === t ? "bg-cyan-500/20 text-cyan-300" : "text-white/50 hover:text-white/70"}`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+              {/* Notifications */}
+              <button className="relative p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                <SvgIcon name="alert" size={14} className="text-white/60" />
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[8px] flex items-center justify-center text-white">5</span>
+              </button>
+              {/* Sync Status */}
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+                <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                <span className="text-[10px] text-emerald-400">Live Sync</span>
+              </div>
+              {/* User */}
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-[10px] font-bold text-white">SC</div>
+            </div>
+          </header>
+
+          {/* Module Content */}
+          <div className="p-6">
+            <AnimatePresence mode="wait">
+              {/* ── Dashboard Module ── */}
+              {activeModule === "dashboard" && (
+                <motion.div
+                  key="dashboard"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-6"
+                >
+                  {/* AI Insights Banner */}
+                  <div className="bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-500/20 rounded-xl p-4">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center shrink-0">
+                        <SvgIcon name="sparkle" size={20} className="text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                          AI Insights Summary
+                          <span className="text-[9px] px-2 py-0.5 bg-cyan-500/20 text-cyan-300 rounded-full">Live</span>
+                        </h3>
+                        <p className="text-xs text-white/60 mt-1 leading-relaxed">
+                          Analyzing {selectedProject.name}: <span className="text-amber-400">{riskAlerts.filter(r => r.project === selectedProject.id).length} active risks</span> detected.
+                          Material delivery is <span className="text-emerald-400">{analyticsMetrics.materialDelivery.onTime}% on-time</span>.
+                          Schedule performance index at <span className={analyticsMetrics.schedulePerformance.spi >= 1 ? "text-emerald-400" : "text-amber-400"}>{analyticsMetrics.schedulePerformance.spi}</span>.
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => setShowAIChat(true)}
+                        className="px-4 py-2 bg-cyan-500/20 text-cyan-300 text-xs rounded-lg hover:bg-cyan-500/30 transition-colors border border-cyan-500/30 shrink-0"
+                      >
+                        Ask AI
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* KPI Cards */}
+                  <div className="grid grid-cols-4 gap-4">
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] text-white/40 uppercase tracking-wider">Project Health</span>
+                        <span className="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+                          <SvgIcon name="gauge" size={14} className="text-emerald-400" />
+                        </span>
+                      </div>
+                      <div className="text-2xl font-bold text-emerald-400">{analyticsMetrics.overallHealth}%</div>
+                      <p className="text-[10px] text-white/40 mt-1">+3% from last week</p>
+                    </div>
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] text-white/40 uppercase tracking-wider">Schedule (SPI)</span>
+                        <span className="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center">
+                          <SvgIcon name="timeline" size={14} className="text-amber-400" />
+                        </span>
+                      </div>
+                      <div className="text-2xl font-bold text-amber-400">{analyticsMetrics.schedulePerformance.spi}</div>
+                      <p className="text-[10px] text-white/40 mt-1">Slightly behind target</p>
+                    </div>
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] text-white/40 uppercase tracking-wider">Cost (CPI)</span>
+                        <span className="w-8 h-8 rounded-lg bg-cyan-500/15 flex items-center justify-center">
+                          <SvgIcon name="stat" size={14} className="text-cyan-400" />
+                        </span>
+                      </div>
+                      <div className="text-2xl font-bold text-cyan-400">{analyticsMetrics.schedulePerformance.cpi}</div>
+                      <p className="text-[10px] text-white/40 mt-1">Under budget</p>
+                    </div>
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] text-white/40 uppercase tracking-wider">Active Risks</span>
+                        <span className="w-8 h-8 rounded-lg bg-red-500/15 flex items-center justify-center">
+                          <SvgIcon name="warning" size={14} className="text-red-400" />
+                        </span>
+                      </div>
+                      <div className="text-2xl font-bold text-red-400">{riskAlerts.length}</div>
+                      <p className="text-[10px] text-white/40 mt-1">{riskAlerts.filter(r => r.severity === "critical").length} critical</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-6">
+                    {/* Critical Risks */}
+                    <div className="col-span-2 bg-[#0D1525] border border-white/10 rounded-xl">
+                      <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                        <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                          <SvgIcon name="warning" size={14} className="text-amber-400" />
+                          Priority Risk Alerts
+                        </h3>
+                        <button className="text-[10px] text-cyan-400 hover:underline">View All</button>
+                      </div>
+                      <div className="divide-y divide-white/5">
+                        {riskAlerts.slice(0, 4).map(risk => (
+                          <div
+                            key={risk.id}
+                            onClick={() => setSelectedRisk(risk)}
+                            className="p-4 hover:bg-white/5 cursor-pointer transition-colors"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
+                                risk.severity === "critical" ? "bg-red-500" :
+                                risk.severity === "high" ? "bg-amber-500" :
+                                risk.severity === "medium" ? "bg-yellow-500" : "bg-slate-500"
+                              }`} />
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs font-medium text-white truncate">{risk.title}</span>
+                                  <span className={`text-[9px] px-1.5 py-0.5 rounded ${severityColor[risk.severity]}`}>
+                                    {risk.severity}
+                                  </span>
+                                  <span className="text-[9px] px-1.5 py-0.5 bg-white/5 text-white/40 rounded">{risk.type}</span>
+                                </div>
+                                <p className="text-[10px] text-white/50 mt-1 line-clamp-1">{risk.description}</p>
+                                <div className="flex items-center gap-4 mt-2">
+                                  <span className="text-[9px] text-white/30">{risk.timestamp}</span>
+                                  <span className="text-[9px] text-cyan-400/60">AI Confidence: {risk.aiConfidence}%</span>
+                                  <span className="text-[9px] text-amber-400">{risk.impact}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* AI Recommendations */}
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl">
+                      <div className="p-4 border-b border-white/10">
+                        <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                          <SvgIcon name="sparkle" size={14} className="text-purple-400" />
+                          AI Recommendations
+                        </h3>
+                      </div>
+                      <div className="p-3 space-y-3">
+                        {aiInsights.map((insight, i) => (
+                          <div key={i} className="p-3 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-500/30 transition-colors cursor-pointer">
+                            <div className="flex items-start gap-2">
+                              <span className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
+                                insight.type === "prediction" ? "bg-cyan-500/15 text-cyan-400" :
+                                insight.type === "anomaly" ? "bg-amber-500/15 text-amber-400" :
+                                "bg-purple-500/15 text-purple-400"
+                              }`}>
+                                <SvgIcon name={insight.icon} size={12} />
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[11px] font-medium text-white">{insight.title}</p>
+                                <p className="text-[10px] text-white/50 mt-0.5 line-clamp-2">{insight.description}</p>
+                                <div className="flex items-center justify-between mt-2">
+                                  <span className="text-[9px] text-cyan-400">{insight.confidence}% confidence</span>
+                                  <button className="text-[9px] text-cyan-400 hover:underline">{insight.action}</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Progress Overview */}
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl">
+                    <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-white">Activity Progress Overview</h3>
+                      <div className="flex items-center gap-4 text-[10px]">
+                        <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-emerald-500 rounded-full" /> Ahead</span>
+                        <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-cyan-500 rounded-full" /> On Track</span>
+                        <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-amber-500 rounded-full" /> Behind</span>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <div className="grid grid-cols-6 gap-4">
+                        {progressActivities.map(act => (
+                          <div key={act.id} className="text-center">
+                            <div className="relative w-16 h-16 mx-auto">
+                              <svg className="w-full h-full -rotate-90">
+                                <circle cx="32" cy="32" r="28" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="4" />
+                                <circle
+                                  cx="32" cy="32" r="28" fill="none"
+                                  stroke={act.variance > 0 ? "#22c55e" : act.variance < -5 ? "#f59e0b" : "#06b6d4"}
+                                  strokeWidth="4"
+                                  strokeDasharray={`${act.actual * 1.76} 176`}
+                                  strokeLinecap="round"
+                                />
+                              </svg>
+                              <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-white">{act.actual}%</span>
+                            </div>
+                            <p className="text-[10px] text-white/60 mt-2 line-clamp-1">{act.name.split(" ").slice(0, 2).join(" ")}</p>
+                            <p className={`text-[9px] mt-0.5 ${act.variance > 0 ? "text-emerald-400" : act.variance < 0 ? "text-amber-400" : "text-white/40"}`}>
+                              {act.variance > 0 ? "+" : ""}{act.variance}%
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ── Materials Module ── */}
+              {activeModule === "materials" && (
+                <motion.div
+                  key="materials"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-6"
+                >
+                  {/* Filters */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {(["all", "at-risk", "delivered", "pending"] as const).map(f => (
+                        <button
+                          key={f}
+                          onClick={() => setMaterialFilter(f)}
+                          className={`px-4 py-2 text-xs rounded-lg transition-colors ${
+                            materialFilter === f
+                              ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                              : "bg-white/5 text-white/60 border border-white/10 hover:bg-white/10"
+                          }`}
+                        >
+                          {f.charAt(0).toUpperCase() + f.slice(1).replace("-", " ")}
+                          <span className="ml-2 text-[10px] text-white/40">
+                            {f === "all" ? materialItems.length :
+                             f === "at-risk" ? materialItems.filter(m => m.status === "at-risk" || m.status === "pending-approval").length :
+                             f === "delivered" ? materialItems.filter(m => m.status === "delivered").length :
+                             materialItems.filter(m => ["ordered", "manufacturing", "scheduled"].includes(m.status)).length}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                    <button className="px-4 py-2 bg-cyan-500 text-white text-xs rounded-lg hover:bg-cyan-400 transition-colors">
+                      + Add Material
+                    </button>
+                  </div>
+
+                  {/* Materials Table */}
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b border-white/10">
+                            <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Material</th>
+                            <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Category</th>
+                            <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Supplier</th>
+                            <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Status</th>
+                            <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Delivery</th>
+                            <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Submittal</th>
+                            <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Cost</th>
+                            <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Lead Time</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {filteredMaterials.map(mat => (
+                            <tr key={mat.id} className="hover:bg-white/5 transition-colors cursor-pointer">
+                              <td className="px-4 py-3">
+                                <div>
+                                  <p className="text-xs text-white font-medium">{mat.name}</p>
+                                  <p className="text-[10px] text-white/40">{mat.id} • {mat.quantity}</p>
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 text-xs text-white/60">{mat.category}</td>
+                              <td className="px-4 py-3 text-xs text-white/60">{mat.supplier}</td>
+                              <td className="px-4 py-3">
+                                <span className={`text-[10px] px-2 py-1 rounded-full border ${materialStatusColor[mat.status]}`}>
+                                  {mat.status.replace("-", " ")}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-xs text-white/60 font-mono">{mat.deliveryDate}</td>
+                              <td className="px-4 py-3">
+                                <span className={`text-[10px] px-2 py-0.5 rounded ${
+                                  mat.submittalStatus === "approved" ? "bg-emerald-500/15 text-emerald-400" :
+                                  mat.submittalStatus === "rejected" ? "bg-red-500/15 text-red-400" :
+                                  mat.submittalStatus === "pending" ? "bg-amber-500/15 text-amber-400" :
+                                  "bg-blue-500/15 text-blue-400"
+                                }`}>
+                                  {mat.submittalStatus}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-xs text-cyan-400 font-mono">{mat.cost}</td>
+                              <td className="px-4 py-3 text-xs text-white/40">{mat.leadTime}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Delivery Timeline */}
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                    <h3 className="text-sm font-semibold text-white mb-4">Delivery Timeline</h3>
+                    <div className="relative">
+                      <div className="absolute left-0 top-0 bottom-0 w-px bg-white/10" style={{ left: "100px" }} />
+                      <div className="space-y-4">
+                        {materialItems.slice(0, 5).map((mat, i) => (
+                          <div key={mat.id} className="flex items-center gap-4">
+                            <span className="w-24 text-[10px] text-white/40 text-right font-mono shrink-0">{mat.deliveryDate}</span>
+                            <div className={`w-3 h-3 rounded-full shrink-0 ${
+                              mat.status === "delivered" ? "bg-emerald-500" :
+                              mat.status === "at-risk" ? "bg-amber-500" :
+                              "bg-cyan-500"
+                            }`} />
+                            <div className="flex-1 bg-white/5 rounded-lg px-3 py-2">
+                              <p className="text-xs text-white">{mat.name}</p>
+                              <p className="text-[10px] text-white/40">{mat.supplier} • {mat.quantity}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ── Intelligence Module ── */}
+              {activeModule === "intelligence" && (
+                <motion.div
+                  key="intelligence"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-6"
+                >
+                  {/* Risk Summary Cards */}
+                  <div className="grid grid-cols-4 gap-4">
+                    {(["critical", "high", "medium", "low"] as const).map(sev => (
+                      <div key={sev} className={`bg-[#0D1525] border rounded-xl p-4 ${severityColor[sev].replace("text-", "border-").split(" ")[2]}`}>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className={`text-[10px] uppercase tracking-wider ${severityColor[sev].split(" ")[0]}`}>{sev}</span>
+                          <span className={`w-8 h-8 rounded-lg flex items-center justify-center ${severityColor[sev].split(" ")[1]}`}>
+                            <SvgIcon name="warning" size={14} className={severityColor[sev].split(" ")[0]} />
+                          </span>
+                        </div>
+                        <div className={`text-2xl font-bold ${severityColor[sev].split(" ")[0]}`}>
+                          {riskAlerts.filter(r => r.severity === sev).length}
+                        </div>
+                        <p className="text-[10px] text-white/40 mt-1">active alerts</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Risk Details */}
+                  <div className="grid grid-cols-2 gap-6">
+                    {/* Risk List */}
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl">
+                      <div className="p-4 border-b border-white/10">
+                        <h3 className="text-sm font-semibold text-white">All Risk Alerts</h3>
+                      </div>
+                      <div className="divide-y divide-white/5 max-h-[500px] overflow-y-auto">
+                        {riskAlerts.map(risk => (
+                          <div
+                            key={risk.id}
+                            onClick={() => setSelectedRisk(risk)}
+                            className={`p-4 cursor-pointer transition-colors ${selectedRisk?.id === risk.id ? "bg-cyan-500/10" : "hover:bg-white/5"}`}
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
+                                risk.severity === "critical" ? "bg-red-500" :
+                                risk.severity === "high" ? "bg-amber-500" :
+                                risk.severity === "medium" ? "bg-yellow-500" : "bg-slate-500"
+                              }`} />
+                              <div className="flex-1">
+                                <p className="text-xs font-medium text-white">{risk.title}</p>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className={`text-[9px] px-1.5 py-0.5 rounded ${severityColor[risk.severity]}`}>{risk.severity}</span>
+                                  <span className="text-[9px] text-white/30">{risk.type}</span>
+                                  <span className="text-[9px] text-white/30">{risk.timestamp}</span>
+                                </div>
+                              </div>
+                              <span className="text-[10px] text-cyan-400">{risk.aiConfidence}%</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Risk Detail Panel */}
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl">
+                      {selectedRisk ? (
+                        <>
+                          <div className="p-4 border-b border-white/10">
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <span className={`text-[9px] px-2 py-0.5 rounded ${severityColor[selectedRisk.severity]}`}>{selectedRisk.severity.toUpperCase()}</span>
+                                <h3 className="text-sm font-semibold text-white mt-2">{selectedRisk.title}</h3>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-[10px] text-white/40">AI Confidence</p>
+                                <p className="text-lg font-bold text-cyan-400">{selectedRisk.aiConfidence}%</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="p-4 space-y-4">
+                            <div>
+                              <label className="text-[10px] text-white/40 uppercase tracking-wider">Description</label>
+                              <p className="text-xs text-white/80 mt-1">{selectedRisk.description}</p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="text-[10px] text-white/40 uppercase tracking-wider">Impact</label>
+                                <p className="text-xs text-amber-400 mt-1">{selectedRisk.impact}</p>
+                              </div>
+                              <div>
+                                <label className="text-[10px] text-white/40 uppercase tracking-wider">Type</label>
+                                <p className="text-xs text-white/80 mt-1">{selectedRisk.type}</p>
+                              </div>
+                            </div>
+                            <div>
+                              <label className="text-[10px] text-white/40 uppercase tracking-wider">AI Recommendation</label>
+                              <p className="text-xs text-cyan-300 mt-1 bg-cyan-500/10 p-3 rounded-lg border border-cyan-500/20">{selectedRisk.recommendation}</p>
+                            </div>
+                            <div>
+                              <label className="text-[10px] text-white/40 uppercase tracking-wider">Linked Items</label>
+                              <div className="flex flex-wrap gap-2 mt-2">
+                                {selectedRisk.linkedItems.map(item => (
+                                  <span key={item} className="text-[10px] px-2 py-1 bg-white/5 border border-white/10 rounded text-white/60">{item}</span>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="flex gap-2 pt-2">
+                              <button className="flex-1 py-2 bg-cyan-500/20 text-cyan-300 text-xs rounded-lg hover:bg-cyan-500/30 transition-colors border border-cyan-500/30">
+                                Apply AI Recommendation
+                              </button>
+                              <button className="px-4 py-2 bg-white/5 text-white/60 text-xs rounded-lg hover:bg-white/10 transition-colors border border-white/10">
+                                Dismiss
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="h-full flex items-center justify-center p-8">
+                          <div className="text-center">
+                            <SvgIcon name="warning" size={32} className="text-white/20 mx-auto mb-3" />
+                            <p className="text-sm text-white/40">Select a risk to view details</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ── Progress Module ── */}
+              {activeModule === "progress" && (
+                <motion.div
+                  key="progress"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-6"
+                >
+                  {/* Overall Progress */}
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h3 className="text-sm font-semibold text-white">Overall Project Progress</h3>
+                        <p className="text-[10px] text-white/40 mt-1">{selectedProject.phase}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-3xl font-bold text-cyan-400">{selectedProject.progress}%</p>
+                        <p className="text-[10px] text-white/40">Target: 70% by end of month</p>
+                      </div>
+                    </div>
+                    <div className="h-4 bg-white/10 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${selectedProject.progress}%` }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
+                      />
+                    </div>
+                    <div className="flex justify-between mt-2 text-[10px] text-white/40">
+                      <span>Start: {selectedProject.startDate}</span>
+                      <span>End: {selectedProject.endDate}</span>
+                    </div>
+                  </div>
+
+                  {/* Activity Table */}
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl overflow-hidden">
+                    <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-white">Activity Progress</h3>
+                      <button className="text-[10px] text-cyan-400 hover:underline">Sync from P6</button>
+                    </div>
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-white/10">
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Activity</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">WBS</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Progress</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Variance</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Crew</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5">
+                        {progressActivities.map(act => (
+                          <tr key={act.id} className="hover:bg-white/5 transition-colors">
+                            <td className="px-4 py-3">
+                              <p className="text-xs text-white">{act.name}</p>
+                              <p className="text-[10px] text-white/40">{act.startDate} → {act.endDate}</p>
+                            </td>
+                            <td className="px-4 py-3 text-xs text-white/60 font-mono">{act.wbs}</td>
+                            <td className="px-4 py-3">
+                              <div className="flex items-center gap-3">
+                                <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full ${
+                                      act.variance > 0 ? "bg-emerald-500" :
+                                      act.variance < -5 ? "bg-amber-500" : "bg-cyan-500"
+                                    }`}
+                                    style={{ width: `${act.actual}%` }}
+                                  />
+                                </div>
+                                <span className="text-xs text-white/60 w-10">{act.actual}%</span>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3">
+                              <span className={`text-xs font-mono ${
+                                act.variance > 0 ? "text-emerald-400" :
+                                act.variance < 0 ? "text-amber-400" : "text-white/40"
+                              }`}>
+                                {act.variance > 0 ? "+" : ""}{act.variance}%
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 text-xs text-white/60">{act.crew}</td>
+                            <td className="px-4 py-3">
+                              <span className={`text-[10px] px-2 py-1 rounded-full ${
+                                act.status === "ahead" ? "bg-emerald-500/15 text-emerald-400" :
+                                act.status === "behind" ? "bg-amber-500/15 text-amber-400" :
+                                act.status === "complete" ? "bg-cyan-500/15 text-cyan-400" :
+                                "bg-white/10 text-white/60"
+                              }`}>
+                                {act.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ── Analytics Module ── */}
+              {activeModule === "analytics" && (
+                <motion.div
+                  key="analytics"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-6"
+                >
+                  {/* Metrics Grid */}
+                  <div className="grid grid-cols-4 gap-4">
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <p className="text-[10px] text-white/40 uppercase tracking-wider">Labor Utilization</p>
+                      <p className="text-2xl font-bold text-emerald-400 mt-2">{analyticsMetrics.productivity.laborUtilization}%</p>
+                      <div className="h-1.5 bg-white/10 rounded-full mt-3 overflow-hidden">
+                        <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${analyticsMetrics.productivity.laborUtilization}%` }} />
+                      </div>
+                    </div>
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <p className="text-[10px] text-white/40 uppercase tracking-wider">Equipment Uptime</p>
+                      <p className="text-2xl font-bold text-cyan-400 mt-2">{analyticsMetrics.productivity.equipmentUptime}%</p>
+                      <div className="h-1.5 bg-white/10 rounded-full mt-3 overflow-hidden">
+                        <div className="h-full bg-cyan-500 rounded-full" style={{ width: `${analyticsMetrics.productivity.equipmentUptime}%` }} />
+                      </div>
+                    </div>
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <p className="text-[10px] text-white/40 uppercase tracking-wider">Safety TRIR</p>
+                      <p className="text-2xl font-bold text-emerald-400 mt-2">{analyticsMetrics.safetyMetrics.trir}</p>
+                      <p className="text-[10px] text-white/40 mt-1">{analyticsMetrics.safetyMetrics.incidentFree} days incident-free</p>
+                    </div>
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <p className="text-[10px] text-white/40 uppercase tracking-wider">Change Orders</p>
+                      <p className="text-2xl font-bold text-amber-400 mt-2">{analyticsMetrics.changeOrders.totalValue}</p>
+                      <p className="text-[10px] text-white/40 mt-1">{analyticsMetrics.changeOrders.pending} pending approval</p>
+                    </div>
+                  </div>
+
+                  {/* Charts */}
+                  <div className="grid grid-cols-2 gap-6">
+                    {/* Schedule Performance Chart */}
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <h3 className="text-sm font-semibold text-white mb-4">Schedule Performance Trend</h3>
+                      <div className="h-48 flex items-end gap-2">
+                        {[0.88, 0.91, 0.89, 0.94, 0.92, 0.94, 0.97, 0.94].map((val, i) => (
+                          <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                            <div
+                              className={`w-full rounded-t ${val >= 1 ? "bg-emerald-500" : val >= 0.9 ? "bg-cyan-500" : "bg-amber-500"}`}
+                              style={{ height: `${val * 100}%` }}
+                            />
+                            <span className="text-[8px] text-white/30">W{i + 1}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-center gap-4 mt-4 text-[10px]">
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 bg-emerald-500 rounded-full" /> On/Ahead</span>
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 bg-cyan-500 rounded-full" /> Near Target</span>
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 bg-amber-500 rounded-full" /> Behind</span>
+                      </div>
+                    </div>
+
+                    {/* Material Delivery Chart */}
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <h3 className="text-sm font-semibold text-white mb-4">Material Delivery Performance</h3>
+                      <div className="flex items-center justify-center h-48">
+                        <div className="relative w-40 h-40">
+                          <svg className="w-full h-full -rotate-90">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="12" />
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#22c55e" strokeWidth="12" strokeDasharray={`${analyticsMetrics.materialDelivery.onTime * 4.4} 440`} />
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#f59e0b" strokeWidth="12" strokeDasharray={`${analyticsMetrics.materialDelivery.delayed * 4.4} 440`} strokeDashoffset={`-${analyticsMetrics.materialDelivery.onTime * 4.4}`} />
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#ef4444" strokeWidth="12" strokeDasharray={`${analyticsMetrics.materialDelivery.atRisk * 4.4} 440`} strokeDashoffset={`-${(analyticsMetrics.materialDelivery.onTime + analyticsMetrics.materialDelivery.delayed) * 4.4}`} />
+                          </svg>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className="text-2xl font-bold text-emerald-400">{analyticsMetrics.materialDelivery.onTime}%</span>
+                            <span className="text-[10px] text-white/40">On Time</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-center gap-4 mt-4 text-[10px]">
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 bg-emerald-500 rounded-full" /> On Time ({analyticsMetrics.materialDelivery.onTime}%)</span>
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 bg-amber-500 rounded-full" /> Delayed ({analyticsMetrics.materialDelivery.delayed}%)</span>
+                        <span className="flex items-center gap-1"><span className="w-2 h-2 bg-red-500 rounded-full" /> At Risk ({analyticsMetrics.materialDelivery.atRisk}%)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Predictive Analysis */}
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                        <SvgIcon name="sparkle" size={14} className="text-purple-400" />
+                        AI Predictive Analysis
+                      </h3>
+                      <span className="text-[10px] text-cyan-400 px-2 py-0.5 bg-cyan-500/10 rounded-full">Updated 5 mins ago</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="p-4 bg-white/5 rounded-lg border border-white/10">
+                        <p className="text-[10px] text-white/40 uppercase">Predicted Completion</p>
+                        <p className="text-xl font-bold text-white mt-1">July 15, 2027</p>
+                        <p className="text-[10px] text-emerald-400 mt-1">2 weeks ahead of baseline</p>
+                      </div>
+                      <div className="p-4 bg-white/5 rounded-lg border border-white/10">
+                        <p className="text-[10px] text-white/40 uppercase">Estimated at Completion</p>
+                        <p className="text-xl font-bold text-white mt-1">{analyticsMetrics.schedulePerformance.eac}</p>
+                        <p className="text-[10px] text-emerald-400 mt-1">$2.4M under budget</p>
+                      </div>
+                      <div className="p-4 bg-white/5 rounded-lg border border-white/10">
+                        <p className="text-[10px] text-white/40 uppercase">Risk Probability</p>
+                        <p className="text-xl font-bold text-amber-400 mt-1">34%</p>
+                        <p className="text-[10px] text-white/40 mt-1">Chance of 2+ week delay</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ── Documents Module ── */}
+              {activeModule === "documents" && (
+                <motion.div
+                  key="documents"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-6"
+                >
+                  {/* Document Stats */}
+                  <div className="grid grid-cols-4 gap-4">
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <p className="text-[10px] text-white/40 uppercase">Open RFIs</p>
+                      <p className="text-2xl font-bold text-amber-400">{analyticsMetrics.rfiMetrics.open}</p>
+                      <p className="text-[10px] text-white/40">{analyticsMetrics.rfiMetrics.overdueCount} overdue</p>
+                    </div>
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <p className="text-[10px] text-white/40 uppercase">Avg Response Time</p>
+                      <p className="text-2xl font-bold text-cyan-400">{analyticsMetrics.rfiMetrics.avgResponseDays}</p>
+                      <p className="text-[10px] text-white/40">days</p>
+                    </div>
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <p className="text-[10px] text-white/40 uppercase">Pending COs</p>
+                      <p className="text-2xl font-bold text-purple-400">{analyticsMetrics.changeOrders.pending}</p>
+                      <p className="text-[10px] text-white/40">{analyticsMetrics.changeOrders.totalValue} total value</p>
+                    </div>
+                    <div className="bg-[#0D1525] border border-white/10 rounded-xl p-4">
+                      <p className="text-[10px] text-white/40 uppercase">Submittals</p>
+                      <p className="text-2xl font-bold text-emerald-400">89%</p>
+                      <p className="text-[10px] text-white/40">approval rate</p>
+                    </div>
+                  </div>
+
+                  {/* Documents Table */}
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl overflow-hidden">
+                    <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-white">Document Tracker</h3>
+                      <button className="px-4 py-2 bg-cyan-500 text-white text-xs rounded-lg hover:bg-cyan-400 transition-colors">
+                        + New Document
+                      </button>
+                    </div>
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-white/10">
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">ID</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Type</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Title</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Status</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Priority</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Assignee</th>
+                          <th className="px-4 py-3 text-left text-[10px] text-white/40 uppercase tracking-wider font-medium">Due Date</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5">
+                        {documentsData.map(doc => (
+                          <tr key={doc.id} className="hover:bg-white/5 transition-colors cursor-pointer">
+                            <td className="px-4 py-3 text-xs text-cyan-400 font-mono">{doc.id}</td>
+                            <td className="px-4 py-3">
+                              <span className={`text-[10px] px-2 py-0.5 rounded ${
+                                doc.type === "RFI" ? "bg-blue-500/15 text-blue-400" :
+                                doc.type === "Submittal" ? "bg-purple-500/15 text-purple-400" :
+                                "bg-amber-500/15 text-amber-400"
+                              }`}>{doc.type}</span>
+                            </td>
+                            <td className="px-4 py-3 text-xs text-white">{doc.title}</td>
+                            <td className="px-4 py-3">
+                              <span className={`text-[10px] px-2 py-0.5 rounded ${
+                                doc.status === "open" ? "bg-cyan-500/15 text-cyan-400" :
+                                doc.status === "answered" ? "bg-emerald-500/15 text-emerald-400" :
+                                doc.status === "rejected" ? "bg-red-500/15 text-red-400" :
+                                doc.status === "approved" ? "bg-emerald-500/15 text-emerald-400" :
+                                doc.status === "in-review" ? "bg-amber-500/15 text-amber-400" :
+                                "bg-white/10 text-white/60"
+                              }`}>{doc.status}</span>
+                            </td>
+                            <td className="px-4 py-3">
+                              <span className={`text-[10px] px-2 py-0.5 rounded ${
+                                doc.priority === "critical" ? "bg-red-500/15 text-red-400" :
+                                doc.priority === "high" ? "bg-amber-500/15 text-amber-400" :
+                                doc.priority === "medium" ? "bg-yellow-500/15 text-yellow-400" :
+                                "bg-white/10 text-white/60"
+                              }`}>{doc.priority}</span>
+                            </td>
+                            <td className="px-4 py-3 text-xs text-white/60">{doc.assignee}</td>
+                            <td className="px-4 py-3 text-xs text-white/40 font-mono">{doc.dueDate}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ── Integrations Module ── */}
+              {activeModule === "integrations" && (
+                <motion.div
+                  key="integrations"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-6"
+                >
+                  <div className="grid grid-cols-3 gap-4">
+                    {integrationsData.map(int => (
+                      <div key={int.name} className="bg-[#0D1525] border border-white/10 rounded-xl p-4 hover:border-cyan-500/30 transition-colors cursor-pointer">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
+                            <span className="text-lg font-bold text-cyan-400">{int.name.charAt(0)}</span>
+                          </div>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full ${
+                            int.status === "connected" ? "bg-emerald-500/15 text-emerald-400" :
+                            int.status === "syncing" ? "bg-cyan-500/15 text-cyan-400 animate-pulse" :
+                            "bg-red-500/15 text-red-400"
+                          }`}>{int.status}</span>
+                        </div>
+                        <h3 className="text-sm font-semibold text-white">{int.name}</h3>
+                        <div className="mt-3 space-y-1 text-[10px]">
+                          <div className="flex justify-between">
+                            <span className="text-white/40">Last Sync</span>
+                            <span className="text-white/60">{int.lastSync}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-white/40">Records</span>
+                            <span className="text-cyan-400 font-mono">{int.recordsSync}</span>
+                          </div>
+                        </div>
+                        <button className={`w-full mt-4 py-2 text-xs rounded-lg transition-colors ${
+                          int.status === "connected" ? "bg-white/5 text-white/60 hover:bg-white/10" :
+                          int.status === "syncing" ? "bg-cyan-500/20 text-cyan-300" :
+                          "bg-cyan-500 text-white hover:bg-cyan-400"
+                        }`}>
+                          {int.status === "connected" ? "Configure" : int.status === "syncing" ? "Syncing..." : "Connect"}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Auto-Linking Visualization */}
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                        <SvgIcon name="link" size={14} className="text-cyan-400" />
+                        AI Auto-Linking Technology
+                      </h3>
+                      <span className="text-[10px] text-emerald-400 px-2 py-0.5 bg-emerald-500/10 rounded-full">47,302 links created</span>
+                    </div>
+                    <p className="text-xs text-white/60 mb-4">
+                      Slate's patented auto-linking technology connects data across your construction tech stack, creating a unified intelligence layer.
+                    </p>
+                    <div className="grid grid-cols-4 gap-4 text-center">
+                      {["Schedules", "Documents", "Models", "Communications"].map((type, i) => (
+                        <div key={type} className="p-4 bg-white/5 rounded-lg border border-white/10">
+                          <p className="text-xs text-white/40">{type}</p>
+                          <p className="text-lg font-bold text-cyan-400 mt-1">{[3421, 8932, 2847, 12103][i]}</p>
+                          <p className="text-[9px] text-white/30">items linked</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ── Settings Module ── */}
+              {activeModule === "settings" && (
+                <motion.div
+                  key="settings"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="space-y-6 max-w-2xl"
+                >
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl p-6">
+                    <h3 className="text-sm font-semibold text-white mb-4">AI Configuration</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between py-3 border-b border-white/10">
+                        <div>
+                          <p className="text-xs text-white">Predictive Analytics</p>
+                          <p className="text-[10px] text-white/40">Enable AI-powered schedule and cost predictions</p>
+                        </div>
+                        <div className="w-10 h-5 bg-cyan-500 rounded-full relative cursor-pointer">
+                          <div className="w-4 h-4 bg-white rounded-full absolute right-0.5 top-0.5" />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between py-3 border-b border-white/10">
+                        <div>
+                          <p className="text-xs text-white">Risk Auto-Detection</p>
+                          <p className="text-[10px] text-white/40">Automatically flag anomalies and risks</p>
+                        </div>
+                        <div className="w-10 h-5 bg-cyan-500 rounded-full relative cursor-pointer">
+                          <div className="w-4 h-4 bg-white rounded-full absolute right-0.5 top-0.5" />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between py-3 border-b border-white/10">
+                        <div>
+                          <p className="text-xs text-white">Lessons Learned Matching</p>
+                          <p className="text-[10px] text-white/40">Match current situations with historical project data</p>
+                        </div>
+                        <div className="w-10 h-5 bg-cyan-500 rounded-full relative cursor-pointer">
+                          <div className="w-4 h-4 bg-white rounded-full absolute right-0.5 top-0.5" />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between py-3">
+                        <div>
+                          <p className="text-xs text-white">Real-time Sync</p>
+                          <p className="text-[10px] text-white/40">Keep data synchronized across all integrations</p>
+                        </div>
+                        <div className="w-10 h-5 bg-cyan-500 rounded-full relative cursor-pointer">
+                          <div className="w-4 h-4 bg-white rounded-full absolute right-0.5 top-0.5" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#0D1525] border border-white/10 rounded-xl p-6">
+                    <h3 className="text-sm font-semibold text-white mb-4">Notification Preferences</h3>
+                    <div className="space-y-3">
+                      {["Critical Risks", "Material Delays", "Document Due Dates", "Progress Milestones", "AI Insights"].map((pref, i) => (
+                        <div key={pref} className="flex items-center justify-between py-2">
+                          <span className="text-xs text-white/80">{pref}</span>
+                          <div className={`w-10 h-5 ${i < 3 ? "bg-cyan-500" : "bg-white/20"} rounded-full relative cursor-pointer`}>
+                            <div className={`w-4 h-4 bg-white rounded-full absolute ${i < 3 ? "right-0.5" : "left-0.5"} top-0.5`} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
+
+      {/* ── AI Chat Widget ── */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <AnimatePresence>
+          {showAIChat && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.9 }}
+              className="mb-3 w-96 bg-[#0D1525] border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+            >
+              <div className="p-4 border-b border-white/10 bg-gradient-to-r from-cyan-500/10 to-purple-500/10">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center">
+                      <SvgIcon name="sparkle" size={16} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white">Construction AI Assistant</p>
+                      <p className="text-[10px] text-emerald-400">Online • Analyzing {selectedProject.name}</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setShowAIChat(false)} className="text-white/40 hover:text-white"><SvgIcon name="x" size={16} /></button>
+                </div>
+              </div>
+              <div className="h-72 overflow-y-auto p-4 space-y-3">
+                {aiChatMessages.map((msg, i) => (
+                  <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                    <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-xs leading-relaxed ${
+                      msg.role === "user"
+                        ? "bg-cyan-500/20 text-cyan-100 rounded-br-sm"
+                        : "bg-white/5 text-white/80 rounded-bl-sm border border-white/10"
+                    }`}>
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="p-3 border-t border-white/10 bg-white/5">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={aiChatInput}
+                    onChange={(e) => setAiChatInput(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") sendAiMessage(); }}
+                    placeholder="Ask about risks, materials, schedule..."
+                    className="flex-1 bg-white/5 rounded-xl px-4 py-2.5 text-xs text-white/80 placeholder:text-white/30 outline-none border border-white/10 focus:border-cyan-500/40"
+                  />
+                  <button onClick={sendAiMessage} className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-medium hover:opacity-90 transition-opacity">
+                    Send
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <button
+          onClick={() => setShowAIChat(!showAIChat)}
+          className={`w-14 h-14 rounded-2xl shadow-lg flex items-center justify-center transition-all hover:scale-105 ${
+            showAIChat
+              ? "bg-white/10 text-white/60 border border-white/20"
+              : "bg-gradient-to-br from-cyan-500 to-blue-600 text-white"
+          }`}
+        >
+          <SvgIcon name={showAIChat ? "x" : "sparkle"} size={20} />
+        </button>
+      </div>
+    </PrototypeShell>
+  );
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    ROUTER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 export default function PrototypePage() {
@@ -4256,6 +5502,8 @@ export default function PrototypePage() {
       return <IoTPrototype />;
     case "ott-platform":
       return <OTTPrototype />;
+    case "construction-ai":
+      return <ConstructionAIPrototype />;
     default:
       return (
         <div className="min-h-screen flex items-center justify-center bg-[#0B1120] text-white/50">
