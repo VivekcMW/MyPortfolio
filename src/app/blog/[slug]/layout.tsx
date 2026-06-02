@@ -28,7 +28,7 @@ export async function generateMetadata({
       description: post.excerpt,
       type: "article",
       publishedTime: post.date,
-      authors: ["Vivekanand Choudhari"],
+      authors: ["Designer. Builder. Scaler."],
       tags: post.tags,
       images: [
         {

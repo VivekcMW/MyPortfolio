@@ -39,9 +39,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="group flex items-center">
-            <span className="font-bold text-lg tracking-tight">
-              Vivek
+          <Link href="/" className="group flex items-center gap-2">
+            <span className="font-bold text-xl tracking-tight font-mono text-accent">
+              &#9670;
+            </span>
+            <span className="font-heading font-bold text-lg tracking-tight text-foreground group-hover:text-accent transition-colors duration-200">
+              VC
             </span>
           </Link>
 

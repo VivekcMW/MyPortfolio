@@ -2,11 +2,11 @@
 
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import FluidText from "@/components/FluidText";
 import Link from "next/link";
 import { Section, SectionHeader } from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
 import BlogCard from "@/components/BlogCard";
-import FluidText from "@/components/FluidText";
 import Magnetic from "@/components/Magnetic";
 
 const projects = [
@@ -76,12 +76,6 @@ const featuredPosts = [
     category: "AI × Design",
     slug: "ai-changing-design",
   },
-];
-
-const stats = [
-  { label: "Years Experience", value: 8, suffix: "+" },
-  { label: "Products Shipped", value: 15, suffix: "+" },
-  { label: "Design Systems Built", value: 5, suffix: "" },
 ];
 
 function AnimatedCounter({
@@ -170,24 +164,24 @@ function HorizontalScrollProjects({ projects }: { projects: Array<{ title: strin
 const approachSteps = [
   {
     num: "01",
-    title: "Research & Discover",
-    desc: "Deep-dive into user needs, business context, and technical constraints. I believe in designing with data, not assumptions.",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
-    accent: "from-accent/20 to-accent/5",
+    title: "Designer",
+    desc: "Systems thinker, not screen pusher. I design with the builder's mind — every component is a token, every layout anticipates edge cases. Design systems that 10 engineers use without asking questions.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+    color: "var(--color-accent-designer)",
   },
   {
     num: "02",
-    title: "Design & Prototype",
-    desc: "Rapid iteration from wireframes to high-fidelity. I design in Figma and prototype in code — bridging the gap between vision and reality.",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
-    accent: "from-accent-coral/20 to-accent-coral/5",
+    title: "Builder",
+    desc: "From pixels to production in the same sprint. I write the React, TypeScript, and Next.js that makes design real — not throwaway prototypes, but actual code that ships to millions.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
+    color: "var(--color-accent)",
   },
   {
     num: "03",
-    title: "Build & Ship",
-    desc: "From pixels to production. I write the frontend code that brings designs to life, ensuring every interaction is pixel-perfect.",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
-    accent: "from-accent/20 to-accent/5",
+    title: "Product Scaler",
+    desc: "Shipping features is table stakes. I connect user problems to business outcomes, identify the 20% of work that drives 80% of growth, and design for 100 users and 2 million simultaneously.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>,
+    color: "var(--color-accent-scaler)",
   },
 ];
 
@@ -204,17 +198,22 @@ function StackedApproachCard({ step, index }: { step: typeof approachSteps[0]; i
   return (
     <div ref={cardRef} style={{ zIndex: index + 1 }}>
       <motion.div
-        style={{ scale, opacity, top: `calc(6rem + ${index * 2.5}rem)` }}
-        className="sticky w-full group p-6 sm:p-10 rounded-2xl bg-surface border border-border hover:border-accent/20 transition-all duration-500"
+        style={{ scale, opacity, top: `calc(6rem + ${index * 2.5}rem)`, borderColor: "transparent" }}
+        className="sticky w-full group p-6 sm:p-10 rounded-2xl bg-surface border border-border transition-all duration-500"
+        onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = step.color + "33"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = "transparent"; }}
       >
         <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
           <div className="flex-shrink-0">
-            <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.accent} flex items-center justify-center`}>
+            <div
+              className="w-16 h-16 rounded-2xl flex items-center justify-center"
+              style={{ background: `${step.color}1F`, color: step.color }}
+            >
               {step.icon}
             </div>
           </div>
           <div className="flex-1">
-            <div className="text-accent font-mono text-sm mb-2">{step.num}</div>
+            <div className="font-mono text-sm mb-2" style={{ color: step.color }}>{step.num}</div>
             <h3 className="text-2xl font-bold mb-3">{step.title}</h3>
             <p className="text-muted leading-relaxed max-w-xl">{step.desc}</p>
           </div>
@@ -238,76 +237,8 @@ function StackedApproachCards() {
 }
 
 export default function HomePage() {
-  const roles = [
-    { word: "research", color: "text-accent" },
-    { word: "design", color: "text-accent-coral" },
-    { word: "build", color: "text-accent" },
-    { word: "ship", color: "text-accent-coral" },
-  ];
-
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayText, setDisplayText] = useState(roles[0].word);
-  const [isScrambling, setIsScrambling] = useState(false);
-
-  const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-  const scrambleTo = useCallback(
-    (target: string) => {
-      setIsScrambling(true);
-      const maxLen = Math.max(displayText.length, target.length);
-      let iteration = 0;
-      const totalIterations = 10;
-      const interval = setInterval(() => {
-        iteration++;
-        const revealed = Math.floor((iteration / totalIterations) * target.length);
-        let result = "";
-        for (let i = 0; i < maxLen; i++) {
-          if (i < revealed) {
-            result += target[i] || "";
-          } else if (i < target.length) {
-            result += scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-          }
-        }
-        setDisplayText(result);
-        if (iteration >= totalIterations) {
-          clearInterval(interval);
-          setDisplayText(target);
-          setIsScrambling(false);
-        }
-      }, 40);
-    },
-    [displayText.length]
-  );
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setRoleIndex((prev) => {
-        const next = (prev + 1) % roles.length;
-        scrambleTo(roles[next].word);
-        return next;
-      });
-    }, 2800);
-    return () => clearInterval(timer);
-  }, [scrambleTo, roles.length]);
-
   const terminalContent = useMemo(
     () => ({
-      research: {
-        file: "research.ts",
-        lines: [
-          { type: "comment" as const, text: "// Analyzing user behavior patterns" },
-          { type: "command" as const, text: "$ analyze --sessions 2,847" },
-          { type: "blank" as const, text: "" },
-          { type: "success" as const, text: "✓ User interviews       (24 sessions)" },
-          { type: "success" as const, text: "✓ Heatmap analysis      (complete)" },
-          { type: "success" as const, text: "✓ Journey mapping       (5 flows)" },
-          { type: "loading" as const, text: "◌ Insight synthesis...   ██████░░ 78%" },
-          { type: "blank" as const, text: "" },
-          { type: "output" as const, text: "> 3 critical pain points identified" },
-          { type: "output" as const, text: "> Drop-off at step 4: 62% of users" },
-          { type: "accent" as const, text: "> Recommendation: Simplify onboarding" },
-        ],
-      },
       design: {
         file: "design.figma",
         lines: [
@@ -342,25 +273,71 @@ export default function HomePage() {
           { type: "accent" as const, text: "  Lighthouse:   98 / 100" },
         ],
       },
-      ship: {
-        file: "deploy.yml",
+      scale: {
+        file: "growth.ts",
         lines: [
-          { type: "comment" as const, text: "// Deploying to production" },
-          { type: "command" as const, text: "$ deploy --env production" },
+          { type: "comment" as const, text: "// Measuring product impact" },
+          { type: "command" as const, text: "$ analyze --product growth" },
           { type: "blank" as const, text: "" },
-          { type: "success" as const, text: "✓ Pre-flight checks         (passed)" },
-          { type: "success" as const, text: "✓ Database migrations       (2 applied)" },
-          { type: "success" as const, text: "✓ Edge functions            (deployed)" },
-          { type: "success" as const, text: "✓ CDN cache invalidated     (global)" },
+          { type: "success" as const, text: "✓ User retention        +38% QoQ" },
+          { type: "success" as const, text: "✓ Time-to-ship          -60% vs prev" },
+          { type: "success" as const, text: "✓ Design system coverage  94%" },
+          { type: "loading" as const, text: "◌ Scaling to next market... ████░░ 72%" },
           { type: "blank" as const, text: "" },
-          { type: "output" as const, text: "  Region: 12 edge locations" },
-          { type: "output" as const, text: "  Uptime: 99.99% SLA" },
-          { type: "accent" as const, text: "  ● Live at production.app  →  ● Live" },
+          { type: "output" as const, text: "  Sessions: 2.4M / month" },
+          { type: "output" as const, text: "  Markets:  30+ countries" },
+          { type: "accent" as const, text: "  Impact:   measured, not assumed" },
         ],
       },
     }),
     []
   );
+
+  const roles = [
+    { word: "design", color: "text-accent" },
+    { word: "build",  color: "text-accent-coral" },
+    { word: "scale",  color: "text-accent" },
+  ];
+
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState(roles[0].word);
+  const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+  const scrambleTo = useCallback(
+    (target: string) => {
+      let iteration = 0;
+      const totalIterations = 10;
+      const interval = setInterval(() => {
+        iteration++;
+        const revealed = Math.floor((iteration / totalIterations) * target.length);
+        let result = "";
+        for (let i = 0; i < target.length; i++) {
+          if (i < revealed) {
+            result += target[i];
+          } else {
+            result += scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+          }
+        }
+        setDisplayText(result);
+        if (iteration >= totalIterations) {
+          clearInterval(interval);
+          setDisplayText(target);
+        }
+      }, 40);
+    },
+    [scrambleChars]
+  );
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRoleIndex((prev) => {
+        const next = (prev + 1) % roles.length;
+        scrambleTo(roles[next].word);
+        return next;
+      });
+    }, 2800);
+    return () => clearInterval(timer);
+  }, [scrambleTo, roles.length]);
 
   const activeTerminal = terminalContent[roles[roleIndex].word as keyof typeof terminalContent];
 
@@ -368,59 +345,33 @@ export default function HomePage() {
     <>
       {/* ===== HERO ===== */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Animated grid background */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div
             className="absolute inset-0 opacity-[0.04]"
             style={{
-              backgroundImage: `
-                linear-gradient(var(--color-accent) 1px, transparent 1px),
-                linear-gradient(90deg, var(--color-accent) 1px, transparent 1px)
-              `,
+              backgroundImage: `linear-gradient(var(--color-accent) 1px, transparent 1px), linear-gradient(90deg, var(--color-accent) 1px, transparent 1px)`,
               backgroundSize: "60px 60px",
             }}
           />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--color-background)_70%)]" />
-
-          {/* Animated mesh gradient blobs */}
           <motion.div
-            animate={{
-              x: [0, 50, -30, 20, 0],
-              y: [0, -40, 20, -10, 0],
-              scale: [1, 1.2, 0.9, 1.1, 1],
-              borderRadius: ["30% 70% 70% 30% / 30% 30% 70% 70%", "50% 50% 30% 70% / 60% 40% 60% 40%", "70% 30% 50% 50% / 40% 60% 40% 60%", "40% 60% 60% 40% / 50% 50% 50% 50%", "30% 70% 70% 30% / 30% 30% 70% 70%"],
-            }}
+            animate={{ x: [0, 50, -30, 20, 0], y: [0, -40, 20, -10, 0], scale: [1, 1.2, 0.9, 1.1, 1] }}
             transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[15%] left-[20%] w-[28rem] h-[28rem] bg-accent/6 blur-3xl"
+            className="absolute top-[15%] left-[20%] w-[28rem] h-[28rem] bg-accent/6 rounded-full blur-3xl"
           />
           <motion.div
-            animate={{
-              x: [0, -40, 30, -20, 0],
-              y: [0, 30, -40, 10, 0],
-              scale: [1, 0.9, 1.15, 0.95, 1],
-              borderRadius: ["50% 50% 30% 70% / 60% 40% 60% 40%", "30% 70% 70% 30% / 30% 30% 70% 70%", "40% 60% 60% 40% / 50% 50% 50% 50%", "70% 30% 50% 50% / 40% 60% 40% 60%", "50% 50% 30% 70% / 60% 40% 60% 40%"],
-            }}
+            animate={{ x: [0, -40, 30, -20, 0], y: [0, 30, -40, 10, 0], scale: [1, 0.9, 1.15, 0.95, 1] }}
             transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-[20%] right-[15%] w-[24rem] h-[24rem] bg-accent-coral/5 blur-3xl"
-          />
-          <motion.div
-            animate={{
-              x: [0, 25, -35, 15, 0],
-              y: [0, -20, 35, -25, 0],
-              scale: [1, 1.1, 0.85, 1.05, 1],
-              borderRadius: ["60% 40% 40% 60% / 60% 30% 70% 40%", "40% 60% 70% 30% / 30% 60% 40% 70%", "50% 50% 50% 50% / 50% 50% 50% 50%", "70% 30% 60% 40% / 40% 70% 30% 60%", "60% 40% 40% 60% / 60% 30% 70% 40%"],
-            }}
-            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[40%] left-[50%] w-[20rem] h-[20rem] bg-accent/4 blur-[80px]"
+            className="absolute bottom-[20%] right-[15%] w-[24rem] h-[24rem] bg-accent-coral/5 rounded-full blur-3xl"
           />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left: Text Content */}
+
+            {/* Left: Word rotator */}
             <div className="text-center lg:text-left order-2 lg:order-1">
-              {/* Eyebrow */}
-              {/* Main Title with word rotator */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -429,9 +380,7 @@ export default function HomePage() {
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.95]">
                   <span className="block">I</span>
                   <span className="block mt-1">
-                    <span
-                      className={`inline-block font-mono transition-colors duration-300 ${roles[roleIndex].color}`}
-                    >
+                    <span className={`inline-block font-mono transition-colors duration-300 ${roles[roleIndex].color}`}>
                       {displayText}
                       <motion.span
                         animate={{ opacity: [1, 0] }}
@@ -446,17 +395,15 @@ export default function HomePage() {
                 </h1>
               </motion.div>
 
-              {/* Subtitle — replaced by marquee below */}
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.7 }}
                 className="mt-6 text-base md:text-lg text-muted max-w-lg mx-auto lg:mx-0 leading-relaxed"
               >
-                Where complex data meets elegant, user-centered experiences.
+                Most teams hire separately for design, engineering, and product. I cover all three.
               </motion.p>
 
-              {/* Role cycle indicator */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -466,19 +413,13 @@ export default function HomePage() {
                 {roles.map((role, i) => (
                   <button
                     key={role.word}
-                    onClick={() => {
-                      setRoleIndex(i);
-                      scrambleTo(roles[i].word);
-                    }}
+                    onClick={() => { setRoleIndex(i); scrambleTo(roles[i].word); }}
                     className="group flex items-center gap-1.5"
                   >
                     <motion.div
                       animate={{
                         width: roleIndex === i ? 24 : 8,
-                        backgroundColor:
-                          roleIndex === i
-                            ? "var(--color-accent)"
-                            : "var(--color-border)",
+                        backgroundColor: roleIndex === i ? "var(--color-accent)" : "var(--color-border)",
                       }}
                       className="h-1.5 rounded-full"
                       transition={{ duration: 0.3 }}
@@ -495,32 +436,28 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="order-1 lg:order-2"
             >
-              <div className="rounded-xl border border-border bg-surface/80 backdrop-blur-sm overflow-hidden shadow-lg shadow-accent/5">
+              <div className="rounded-xl border border-border bg-surface/80 backdrop-blur-sm overflow-hidden shadow-2xl shadow-black/40">
                 {/* Title bar */}
                 <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-surface">
-                  <div className="flex items-center gap-2">
-                    <div className="flex gap-1.5">
-                      <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                      <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-                      <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-                    </div>
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+                    <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
+                    <div className="w-3 h-3 rounded-full bg-[#28c840]" />
                   </div>
                   <AnimatePresence mode="wait">
                     <motion.span
                       key={activeTerminal.file}
-                      initial={{ opacity: 0, y: -8 }}
+                      initial={{ opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
+                      exit={{ opacity: 0, y: 6 }}
                       transition={{ duration: 0.2 }}
                       className="text-xs font-mono text-muted"
                     >
                       {activeTerminal.file}
                     </motion.span>
                   </AnimatePresence>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 text-muted">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                    </div>
+                  <div className="w-4 h-4 text-muted">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                   </div>
                 </div>
 
@@ -568,96 +505,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== INFINITE MARQUEE ===== */}
-      <section className="relative py-16 overflow-hidden border-y border-border/40">
-        {/* Fade edges */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-40 bg-linear-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-40 bg-linear-to-l from-background to-transparent z-10 pointer-events-none" />
-
-        {/* Top row — Data/Tech terms, scrolling LEFT */}
-        <div className="mb-4 flex">
-          <motion.div
-            animate={{ x: [0, "-50%"] }}
-            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            className="flex shrink-0"
-          >
-            {[...Array(2)].map((_, dupeIdx) => (
-              <div key={dupeIdx} className="flex items-center">
-                {["React", "TypeScript", "Next.js", "GraphQL", "D3.js", "PostgreSQL", "WebSocket", "REST API", "Figma API", "Node.js", "Tailwind", "Redis"].map((item) => (
-                  <span
-                    key={`${dupeIdx}-${item}`}
-                    className="mx-3 sm:mx-4 px-4 py-2 rounded-full border border-border/50 text-xs sm:text-sm font-mono text-muted/60 whitespace-nowrap"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Center row — Domain highlights, static */}
-        <div className="flex items-center justify-center gap-3 sm:gap-5 my-4 relative z-20">
-          {[
-            { name: "AdTech", color: "text-accent" },
-            { name: "Healthcare", color: "text-accent-coral" },
-            { name: "IoT", color: "text-accent" },
-            { name: "OTT", color: "text-accent-coral" },
-            { name: "Construction Tech", color: "text-accent" },
-          ].map((domain) => (
-            <Magnetic key={domain.name} strength={0.35} scaleOnHover={1.08} tilt>
-              <span
-                className={`px-4 sm:px-5 py-2 rounded-full bg-surface border border-border text-xs sm:text-sm font-semibold ${domain.color} whitespace-nowrap cursor-default`}
+      {/* ===== SIGNAL: METRIC STRIP ===== */}
+      <section className="relative border-y border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* gap-px with bg-border creates pixel-perfect dividers in a grid — divide utilities are broken in multi-row grids */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-border">
+            {[
+              { value: 15, suffix: "+", label: "Products Shipped" },
+              { value: 5,  suffix: "",  label: "Design Systems Built" },
+              { value: 8,  suffix: "+", label: "Years of Craft" },
+              { value: 30, suffix: "+", label: "Countries Reached" },
+              { value: 98, suffix: "",  label: "Lighthouse Score" },
+            ].map((m, i) => (
+              <motion.div
+                key={m.label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+                className="px-6 py-7 text-center bg-background"
               >
-                {domain.name}
-              </span>
-            </Magnetic>
-          ))}
-        </div>
-
-        {/* Bottom row — Design/UX terms, scrolling RIGHT */}
-        <div className="mt-4 flex">
-          <motion.div
-            animate={{ x: ["-50%", "0%"] }}
-            transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-            className="flex shrink-0"
-          >
-            {[...Array(2)].map((_, dupeIdx) => (
-              <div key={dupeIdx} className="flex items-center">
-                {["User Research", "Design Systems", "Wireframes", "Prototyping", "A11y", "Interaction Design", "Data Visualization", "Motion Design", "Design Thinking", "Usability Testing", "Information Architecture", "Visual Design"].map((item) => (
-                  <span
-                    key={`${dupeIdx}-${item}`}
-                    className="mx-3 sm:mx-4 px-4 py-2 rounded-full border border-border/50 text-xs sm:text-sm font-mono text-muted/60 whitespace-nowrap"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
+                <div className="text-2xl sm:text-3xl font-heading font-bold text-foreground tabular-nums">
+                  <AnimatedCounter value={m.value} suffix={m.suffix} />
+                </div>
+                <p className="mt-1 text-[11px] font-mono text-muted uppercase tracking-widest">
+                  {m.label}
+                </p>
+              </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
-
-      {/* ===== IMPACT STATS ===== */}
-      <Section>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="text-center p-6 rounded-2xl bg-surface border border-border hover:border-accent/20 transition-all duration-500"
-            >
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-2">
-                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-              </div>
-              <p className="text-muted text-sm font-medium">{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
 
       {/* ===== TRUSTED BY ===== */}
       <Section>
@@ -696,15 +574,45 @@ export default function HomePage() {
         </motion.div>
       </Section>
 
-      {/* ===== SELECTED WORK (Horizontal Scroll) ===== */}
-      <HorizontalScrollProjects projects={projects} />
+      {/* ===== SELECTED WORK ===== */}
+      {/* Mobile / tablet: simple vertical grid (horizontal scroll unusable < lg) */}
+      <Section className="lg:hidden">
+        <SectionHeader eyebrow="Selected Work" title="Products that made an impact." />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+          {projects.map((project, i) => (
+            <ProjectCard key={project.title} {...project} index={i} />
+          ))}
+        </div>
+        <div className="mt-10 text-center">
+          <Link
+            href="/work/nocode-platform"
+            className="inline-flex items-center gap-2 text-accent font-medium text-sm hover:gap-3 transition-all duration-200"
+          >
+            View all case studies
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </Link>
+        </div>
+      </Section>
+      {/* Desktop: sticky horizontal scroll */}
+      <div className="hidden lg:block">
+        <HorizontalScrollProjects projects={projects} />
+      </div>
 
       {/* ===== APPROACH (Stacked Cards) ===== */}
       <Section>
+        {/* Margin annotation */}
+        <div className="absolute left-0 top-0 bottom-0 hidden lg:flex items-center pl-2 pointer-events-none select-none">
+          <span
+            className="font-mono text-[9px] tracking-[0.2em] uppercase"
+            style={{ writingMode: "vertical-rl", color: "var(--color-border)" }}
+          >
+            [ 03 / PILLARS ]
+          </span>
+        </div>
         <SectionHeader
-          eyebrow="My Approach"
-          title="Design is how it works."
-          description="I bring a systematic, data-informed approach to every product I touch."
+          eyebrow="The Three Pillars"
+          title="Three rare things. One person."
+          description="Most teams hire separately for design, engineering, and product strategy. Here's why you shouldn't have to."
         />
         <StackedApproachCards />
       </Section>
@@ -713,37 +621,37 @@ export default function HomePage() {
       <Section>
         <SectionHeader
           eyebrow="Services"
-          title="What I can help with."
-          description="Whether you need a design leader, a hands-on builder, or both — here's how I add value."
+          title="What I bring to the table."
+          description="Whether you need a design system, production code, or product thinking — I cover it end-to-end."
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             {
-              title: "Design Leadership",
-              desc: "Building and scaling design teams, establishing design ops, and driving design strategy at the organizational level.",
-              icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              ),
-            },
-            {
-              title: "Product Design",
-              desc: "End-to-end product design from research to high-fidelity prototypes. Specializing in complex data-heavy B2B products.",
-              icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-              ),
-            },
-            {
               title: "Design Systems",
-              desc: "Creating token-driven, accessible component libraries that unify products and accelerate development across teams.",
+              desc: "Token-driven component libraries that give teams velocity. One source of truth — design decisions encoded into code, zero handoff friction.",
               icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
               ),
             },
             {
-              title: "Frontend Engineering",
-              desc: "Production-grade React, Next.js, and TypeScript. Pixel-perfect implementations with motion design and performance.",
+              title: "Product Engineering",
+              desc: "Production-grade React, Next.js, and TypeScript that brings designs to life in the same sprint. Pixel-perfect, accessible, Lighthouse 98+ by default.",
               icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              ),
+            },
+            {
+              title: "Product Thinking",
+              desc: "Connecting UX decisions to business metrics. Identifying the 20% of work that drives 80% of growth — and knowing what not to build.",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              ),
+            },
+            {
+              title: "Design Leadership",
+              desc: "Building design functions from scratch — systems, culture, hiring, and standards that compound over time and scale with the team.",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               ),
             },
           ].map((service, i) => (

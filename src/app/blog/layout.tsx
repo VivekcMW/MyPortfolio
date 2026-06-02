@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Insights on design systems, AdTech, AI-powered workflows, and the future of digital experiences by Vivekanand Choudhari.",
+    "Insights on design systems, AdTech, AI-powered workflows, and the future of digital experiences.",
   alternates: {
     canonical: "/blog",
   },
   openGraph: {
-    title: "Blog — Vivekanand Choudhari",
+    title: "Blog — Designer. Builder. Scaler.",
     description:
       "Insights on design systems, AdTech, AI-powered workflows, and the future of digital experiences.",
     images: [
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog — Vivekanand Choudhari",
+    title: "Blog — Designer. Builder. Scaler.",
     description:
       "Insights on design systems, AdTech, AI-powered workflows, and the future of digital experiences.",
     images: ["/api/og?title=Insights%20%26%20Ideas&category=Blog"],

@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Case studies and detailed project breakdowns by Vivekanand Choudhari.",
+  description: "Case studies and detailed project breakdowns across AdTech, Healthcare, IoT, and OTT.",
   alternates: {
     canonical: "/work",
   },
   openGraph: {
-    title: "Work — Vivekanand Choudhari",
+    title: "Work — Selected Case Studies",
     description: "Case studies and detailed project breakdowns across AdTech, Healthcare, IoT, and OTT.",
     url: "/work",
     images: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Work — Vivekanand Choudhari",
+    title: "Work — Selected Case Studies",
     description: "Case studies and detailed project breakdowns across AdTech, Healthcare, IoT, and OTT.",
     images: ["/api/og?title=Selected%20Work%20%26%20Case%20Studies&category=Portfolio"],
   },

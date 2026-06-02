@@ -1,6 +1,8 @@
 import { MetadataRoute } from "next";
 import { blogPosts } from "@/lib/blog";
 
+export const dynamic = "force-static";
+
 const BASE_URL = "https://vivekanand.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {

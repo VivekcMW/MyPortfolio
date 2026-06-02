@@ -831,40 +831,38 @@ export default function AboutPage() {
             transition={{ duration: 0.7 }}
           >
             <p className="text-accent font-mono text-sm uppercase tracking-widest mb-4">
-              About Me
+              The Why Behind the Work
             </p>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              Vivekanand
+              Designer. Builder.
               <br />
-              <span className="text-gradient">Choudhari</span>
+              <span className="text-gradient">Product Scaler.</span>
             </h1>
             <div className="space-y-4 text-base md:text-lg text-muted leading-relaxed">
               <p>
-                I&apos;m a <span className="text-foreground font-medium">Lead Design Engineer</span> with
-                8+ years of experience crafting digital products that millions
-                of people use every day.
+                I&apos;m a <span className="text-foreground font-medium">design engineer</span> who
+                operates at the intersection of craft, code, and product thinking — 8+ years of
+                building things that millions of people use every day.
               </p>
               <p>
-                Currently heading design at{" "}
+                Currently leading design at{" "}
                 <span className="text-foreground font-medium">Moving Walls</span>,
                 the world&apos;s leading OOH/DOOH advertising technology
-                platform, where I lead a team building tools used across 30+
-                countries.
+                platform — building tools shipped across 30+ countries.
               </p>
               <p>
-                I live in the intersection of{" "}
-                <span className="text-foreground font-medium">design and code</span>
-                . I don&apos;t just design interfaces — I build them. From
-                Figma to production React, I own the full journey from pixel to
-                deployment.
+                I don&apos;t just design interfaces — I{" "}
+                <span className="text-foreground font-medium">build them</span>
+                . From Figma to production React, I own the full journey from
+                pixel to deployment. No handoff friction. No translation layer.
               </p>
               <p>
                 My work spans{" "}
                 <span className="text-foreground font-medium">
                   AdTech, Healthcare, IoT, and OTT
                 </span>{" "}
-                — industries where complex data meets real human needs. I
-                specialize in making the complicated feel simple.
+                — industries where the complexity is real and the stakes are
+                high. I specialize in making the complicated feel inevitable.
               </p>
             </div>
             <div className="mt-8 flex justify-center gap-4">
@@ -883,8 +881,8 @@ export default function AboutPage() {
       <Section>
         <SectionHeader
           eyebrow="Design Leadership"
-          title="I own the design vertical."
-          description="I don't just design products — I build and lead the teams, systems, and culture that make great design happen at scale."
+          title="I own the full stack of design."
+          description="Not just screens — I own the systems, the code, and the strategy that makes great products happen at scale."
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Leader Column */}

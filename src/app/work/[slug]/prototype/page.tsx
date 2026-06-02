@@ -320,7 +320,7 @@ const sampleApiEndpoints = [
 ];
 
 const sampleJson = {
-  user: { id: 1, name: "Vivekanand", email: "hello@vivekanand.in", role: "admin" },
+  user: { id: 1, name: "Admin User", email: "admin@example.com", role: "admin" },
   settings: { theme: "dark", notifications: true, language: "en" },
   permissions: ["read", "write", "admin"],
   metadata: { createdAt: "2025-01-15T10:30:00Z", lastLogin: "2025-04-05T08:12:00Z" },
@@ -332,7 +332,7 @@ const sampleDbTables = [
     rows: 12847,
     columns: ["id", "name", "email", "role", "created_at"],
     data: [
-      { id: 1, name: "Vivekanand", email: "hello@vivekanand.in", role: "admin", created_at: "2025-01-15" },
+      { id: 1, name: "Admin User", email: "admin@example.com", role: "admin", created_at: "2025-01-15" },
       { id: 2, name: "Sarah Chen", email: "sarah@example.com", role: "editor", created_at: "2025-02-20" },
       { id: 3, name: "Mike Ross", email: "mike@example.com", role: "viewer", created_at: "2025-03-10" },
       { id: 4, name: "Priya Patel", email: "priya@example.com", role: "editor", created_at: "2025-03-18" },

@@ -43,9 +43,6 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
   const handleCopyEmail = async () => {
@@ -54,33 +51,32 @@ export default function ContactPage() {
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
-      setError("Couldn’t copy email. Please copy it manually.");
+      // fallback
     }
   };
 
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setError("");
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formState),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to send message");
-      }
-
-      setSubmitted(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    const subjectMap: Record<string, string> = {
+      job: "Job Opportunity",
+      contract: "Contract / Freelance",
+      collaboration: "Collaboration",
+      speaking: "Speaking / Advisory",
+      other: "Just Saying Hi",
+    };
+    const subjectLabel = subjectMap[formState.subject] ?? formState.subject;
+    const body = [
+      `Name: ${formState.name}`,
+      formState.mobile ? `Mobile: ${formState.mobile}` : "",
+      ``,
+      formState.message,
+    ]
+      .filter(Boolean)
+      .join("%0A");
+    const mailtoUrl = `mailto:${contactEmail}?subject=${encodeURIComponent(
+      `[Portfolio] ${subjectLabel}`
+    )}&body=${body}`;
+    window.location.href = mailtoUrl;
   };
 
   return (
@@ -160,6 +156,34 @@ export default function ContactPage() {
               </div>
             </div>
 
+            {/* Resume Download */}
+            <div className="mt-8">
+              <p className="text-muted text-sm mb-3">Resume</p>
+              <a
+                href="/resume.pdf"
+                download="Vivekanand_Choudhari_Resume.pdf"
+                className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-surface border border-border text-sm font-semibold text-foreground hover:border-accent/40 hover:text-accent transition-all duration-200 group"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition-transform duration-200 group-hover:translate-y-0.5"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download Resume
+                <span className="text-xs text-muted font-normal">PDF</span>
+              </a>
+            </div>
+
             {/* Availability */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -186,31 +210,6 @@ export default function ContactPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="h-full flex items-center justify-center"
-              >
-                <div className="text-center p-12 rounded-2xl bg-surface border border-border">
-                  <div className="w-16 h-16 mx-auto mb-6 text-accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-                  <h3 className="text-2xl font-bold mb-3">Message sent!</h3>
-                  <p className="text-muted">
-                    Thanks for reaching out. I&apos;ll get back to you within 24
-                    hours.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setSubmitted(false);
-                      setFormState({ name: "", email: "", mobile: "", subject: "", message: "" });
-                    }}
-                    className="mt-6 text-accent hover:text-accent/80 font-medium"
-                  >
-                    Send another message
-                  </button>
-                </div>
-              </motion.div>
-            ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
@@ -316,25 +315,17 @@ export default function ContactPage() {
                   />
                 </div>
 
-                {error && (
-                  <p className="text-red-400 text-sm text-center bg-red-400/10 border border-red-400/20 rounded-lg p-3">
-                    {error}
-                  </p>
-                )}
-
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full px-8 py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-8 py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20"
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  Open Email Client
                 </button>
 
                 <p className="text-muted text-xs text-center">
                   I typically respond within 24 hours.
                 </p>
               </form>
-            )}
           </motion.div>
         </div>
       </Section>

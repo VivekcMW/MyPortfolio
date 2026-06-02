@@ -3,18 +3,18 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Vivekanand Choudhari — Lead Design Engineer with 8+ years of experience across AdTech, Healthcare, IoT, and OTT.",
+    "Designer. Builder. Product Scaler. 8+ years of experience crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
   alternates: {
     canonical: "/about",
   },
   openGraph: {
-    title: "About — Vivekanand Choudhari",
+    title: "About — Designer. Builder. Product Scaler.",
     description:
-      "Lead Design Engineer with 8+ years of experience across AdTech, Healthcare, IoT, and OTT.",
+      "8+ years of experience crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
     url: "/about",
     images: [
       {
-        url: "/api/og?title=About%20Vivekanand%20Choudhari&category=Portfolio",
+        url: "/api/og?title=About%20Me&category=Portfolio",
         width: 1200,
         height: 630,
       },
@@ -22,10 +22,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "About — Vivekanand Choudhari",
+    title: "About — Designer. Builder. Product Scaler.",
     description:
-      "Lead Design Engineer with 8+ years of experience across AdTech, Healthcare, IoT, and OTT.",
-    images: ["/api/og?title=About%20Vivekanand%20Choudhari&category=Portfolio"],
+      "8+ years of experience crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
+    images: ["/api/og?title=About%20Me&category=Portfolio"],
   },
 };
 

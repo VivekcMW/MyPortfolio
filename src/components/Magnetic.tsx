@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 
 interface MagneticProps {
@@ -22,6 +22,11 @@ export default function Magnetic({
 }: MagneticProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -56,11 +61,11 @@ export default function Magnetic({
   return (
     <motion.div
       ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY, rotate: tilt ? springRotate : 0 }}
-      animate={{ scale: isHovered ? scaleOnHover : 1 }}
+      onMouseMove={isTouch ? undefined : handleMouseMove}
+      onMouseEnter={isTouch ? undefined : () => setIsHovered(true)}
+      onMouseLeave={isTouch ? undefined : handleMouseLeave}
+      style={isTouch ? undefined : { x: springX, y: springY, rotate: tilt ? springRotate : 0 }}
+      animate={!isTouch ? { scale: isHovered ? scaleOnHover : 1 } : {}}
       transition={{ scale: { type: "spring", stiffness: 300, damping: 20 } }}
       className={`inline-block ${className}`}
     >

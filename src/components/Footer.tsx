@@ -25,17 +25,20 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center mb-4">
-              <span className="font-bold text-lg tracking-tight">
-                Vivek
+            <Link href="/" className="flex items-center gap-2 mb-4">
+              <span className="font-bold text-xl tracking-tight font-mono text-accent">
+                &#9670;
+              </span>
+              <span className="font-heading font-bold text-lg tracking-tight text-foreground">
+                VC
               </span>
             </Link>
             <p className="text-muted max-w-sm leading-relaxed">
-              Lead Design Engineer crafting world-class products across AdTech,
-              Healthcare, IoT, and OTT platforms.
+              Designer. Builder. Product Scaler. I design systems, build
+              products, and scale them to millions.
             </p>
             <p className="text-muted mt-4 text-sm">
-              Currently heading design at{" "}
+              Currently leading design at{" "}
               <span className="text-foreground font-medium">Moving Walls</span>
             </p>
           </div>
@@ -68,8 +71,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="mt-16 pt-8 border-t border-border flex items-center justify-center">
           <p className="text-muted text-sm">
-            &copy; {new Date().getFullYear()} Vivekanand Choudhari. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} — All rights reserved.
           </p>
         </div>
       </div>

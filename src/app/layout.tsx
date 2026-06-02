@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -15,9 +15,10 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -28,44 +29,45 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://vivekanand.dev"),
   title: {
-    default: "Vivekanand Choudhari — Lead Design Engineer",
-    template: "%s | Vivekanand Choudhari",
+    default: "Designer. Builder. Product Scaler. — Portfolio",
+    template: "%s | Portfolio",
   },
   description:
-    "Lead UI/UX Design Engineer crafting world-class products across AdTech, Healthcare, IoT, and OTT platforms. Turning complex data into elegant experiences.",
+    "A design engineer who designs systems, builds products, and scales them to millions. 8+ years crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
   keywords: [
-    "Vivekanand Choudhari",
     "Design Engineer",
     "UI UX Designer",
+    "Product Designer",
+    "Frontend Engineer",
+    "Design Systems",
     "AdTech",
     "Moving Walls",
     "OOH DOOH",
     "Portfolio",
   ],
-  authors: [{ name: "Vivekanand Choudhari" }],
   openGraph: {
-    title: "Vivekanand Choudhari — Lead Design Engineer",
+    title: "Designer. Builder. Product Scaler.",
     description:
-      "Crafting world-class products across AdTech, Healthcare, IoT, and OTT.",
+      "A design engineer who designs systems, builds products, and scales them to millions.",
     url: "https://vivekanand.dev",
     images: [
       {
-        url: "/api/og?title=Vivekanand%20Choudhari&category=Portfolio",
+        url: "/api/og?title=Designer.%20Builder.%20Scaler.&category=Portfolio",
         width: 1200,
         height: 630,
-        alt: "Vivekanand Choudhari — Lead Design Engineer",
+        alt: "Designer. Builder. Product Scaler. — Portfolio",
       },
     ],
-    siteName: "Vivekanand Choudhari",
+    siteName: "Portfolio",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vivekanand Choudhari — Lead Design Engineer",
+    title: "Designer. Builder. Product Scaler.",
     description:
-      "Crafting world-class products across AdTech, Healthcare, IoT, and OTT.",
-    images: ["/api/og?title=Vivekanand%20Choudhari&category=Portfolio"],
+      "A design engineer who designs systems, builds products, and scales them to millions.",
+    images: ["/api/og?title=Designer.%20Builder.%20Scaler.&category=Portfolio"],
   },
   robots: {
     index: true,
@@ -84,7 +86,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${syne.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col grain">
         <SmoothScroll />
