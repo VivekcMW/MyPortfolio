@@ -53,6 +53,9 @@ export default function ContactPage() {
     message: "",
   });
   const [copied, setCopied] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
 
   const handleCopyEmail = async () => {
     try {
@@ -64,28 +67,24 @@ export default function ContactPage() {
     }
   };
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const subjectMap: Record<string, string> = {
-      job: "Job Opportunity",
-      contract: "Contract / Freelance",
-      collaboration: "Collaboration",
-      speaking: "Speaking / Advisory",
-      other: "Just Saying Hi",
-    };
-    const subjectLabel = subjectMap[formState.subject] ?? formState.subject;
-    const body = [
-      `Name: ${formState.name}`,
-      formState.mobile ? `Mobile: ${formState.mobile}` : "",
-      ``,
-      formState.message,
-    ]
-      .filter(Boolean)
-      .join("%0A");
-    const mailtoUrl = `mailto:${contactEmail}?subject=${encodeURIComponent(
-      `[Portfolio] ${subjectLabel}`
-    )}&body=${body}`;
-    window.location.href = mailtoUrl;
+    setSending(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState),
+      });
+      if (!res.ok) throw new Error("Server error");
+      setSent(true);
+      setFormState({ name: "", email: "", mobile: "", subject: "", message: "" });
+    } catch {
+      setError("Failed to send. Please try again or email me directly.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -311,10 +310,14 @@ export default function ContactPage() {
 
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20"
+                  disabled={sending || sent}
+                  className="w-full px-8 py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Open Email Client
+                  {sending ? "Sending..." : sent ? "Sent! I'll get back to you." : "Send Message"}
                 </button>
+                {error && (
+                  <p className="text-red-400 text-sm text-center">{error}</p>
+                )}
 
               </form>
           </motion.div>
