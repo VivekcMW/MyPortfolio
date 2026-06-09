@@ -5,9 +5,12 @@ const footerLinks = {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/design-system", label: "DS Lab" },
-    { href: "/research/forma", label: "Research" },
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
+  ],
+  Research: [
+    { href: "/research/forma", label: "Forma" },
+    { href: "/research/lokul", label: "Lokul.club" },
   ],
   Social: [
     {

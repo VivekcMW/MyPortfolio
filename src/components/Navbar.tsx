@@ -10,15 +10,23 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/design-system", label: "DS Lab" },
-  { href: "/research/forma", label: "Research" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
+];
+
+const researchLinks = [
+  { href: "/research/forma", label: "Forma" },
+  { href: "/research/lokul", label: "Lokul.club" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [researchOpen, setResearchOpen] = useState(false);
+  const [mobileResearchOpen, setMobileResearchOpen] = useState(false);
+
+  const isResearchActive = pathname.startsWith("/research/");
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -28,6 +36,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setIsOpen(false);
+    setMobileResearchOpen(false);
   }, [pathname]);
 
   return (
@@ -52,7 +61,95 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
+            {navLinks.slice(0, 3).map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
+                  pathname === link.href
+                    ? "text-foreground"
+                    : "text-muted hover:text-foreground"
+                }`}
+              >
+                {pathname === link.href && (
+                  <motion.div
+                    layoutId="navbar-active"
+                    className="absolute inset-0 bg-surface-hover rounded-lg"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10">{link.label}</span>
+              </Link>
+            ))}
+
+            {/* Research Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setResearchOpen(true)}
+              onMouseLeave={() => setResearchOpen(false)}
+            >
+              <button
+                className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg flex items-center gap-1 ${
+                  isResearchActive
+                    ? "text-foreground"
+                    : "text-muted hover:text-foreground"
+                }`}
+              >
+                {isResearchActive && (
+                  <motion.div
+                    layoutId="navbar-active"
+                    className="absolute inset-0 bg-surface-hover rounded-lg"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10">Research</span>
+                <motion.svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="relative z-10"
+                  animate={{ rotate: researchOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </motion.svg>
+              </button>
+              <AnimatePresence>
+                {researchOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute top-full right-0 mt-1 w-44 bg-background/95 backdrop-blur-xl border border-border rounded-xl shadow-xl overflow-hidden"
+                  >
+                    <div className="p-1.5">
+                      {researchLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={`flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-colors ${
+                            pathname === link.href
+                              ? "text-foreground bg-surface-hover"
+                              : "text-muted hover:text-foreground hover:bg-surface"
+                          }`}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {navLinks.slice(3).map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -124,7 +221,7 @@ export default function Navbar() {
             className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border overflow-hidden"
           >
             <div className="px-6 py-4 flex flex-col gap-2">
-              {navLinks.map((link, i) => (
+              {navLinks.slice(0, 3).map((link, i) => (
                 <motion.div
                   key={link.href}
                   initial={{ opacity: 0, x: -20 }}
@@ -143,10 +240,90 @@ export default function Navbar() {
                   </Link>
                 </motion.div>
               ))}
+
+              {/* Mobile Research */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navLinks.length * 0.05 }}
+                transition={{ delay: 3 * 0.05 }}
+              >
+                <button
+                  onClick={() => setMobileResearchOpen(!mobileResearchOpen)}
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-lg font-medium transition-colors ${
+                    isResearchActive
+                      ? "text-foreground bg-surface-hover"
+                      : "text-muted hover:text-foreground hover:bg-surface"
+                  }`}
+                >
+                  <span>Research</span>
+                  <motion.svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    animate={{ rotate: mobileResearchOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </motion.svg>
+                </button>
+                <AnimatePresence>
+                  {mobileResearchOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pl-6 flex flex-col gap-1 pb-2">
+                        {researchLinks.map((link) => (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            className={`block px-4 py-2.5 rounded-lg text-base font-medium transition-colors ${
+                              pathname === link.href
+                                ? "text-foreground bg-surface-hover"
+                                : "text-muted hover:text-foreground hover:bg-surface"
+                            }`}
+                          >
+                            {link.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              {navLinks.slice(3).map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: (4 + i) * 0.05 }}
+                >
+                  <Link
+                    href={link.href}
+                    className={`block px-4 py-3 rounded-lg text-lg font-medium transition-colors ${
+                      pathname === link.href
+                        ? "text-foreground bg-surface-hover"
+                        : "text-muted hover:text-foreground hover:bg-surface"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: (navLinks.length + 1) * 0.05 }}
                 className="mt-2"
               >
                 <Link

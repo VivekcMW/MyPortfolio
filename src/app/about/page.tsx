@@ -1164,7 +1164,7 @@ export default function AboutPage() {
             transition={{ delay: catIdx * 0.1 }}
           >
             <SectionHeader title={cat.title} description={cat.desc} />
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
               {cat.tools.map((tool, i) => (
                 <motion.div
                   key={tool.name}
@@ -1207,7 +1207,7 @@ export default function AboutPage() {
             <h2 className="text-2xl sm:text-3xl font-bold mb-6">
               How I Think About <span className="text-accent">AI</span>
             </h2>
-            <div className="grid sm:grid-cols-3 gap-6 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
               {[
                 {
                   title: "Augment, Don't Replace",

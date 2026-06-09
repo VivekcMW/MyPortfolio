@@ -124,7 +124,7 @@ export default function FormaResearchPage() {
                 Infrastructure for malleable software — the full-stack platform that lets SaaS companies ship one product that feels custom-built for every user.
               </p>
             </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden max-w-3xl mx-auto">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden max-w-3xl mx-auto">
               {[{ value: "16", label: "Packages" }, { value: "1,600+", label: "Components" }, { value: "360", label: "Domains Researched" }, { value: "5", label: "Architecture Layers" }].map((s) => (
                 <div key={s.label} className="bg-background p-6">
                   <div className="text-2xl md:text-3xl font-heading font-bold">{s.value}</div>
@@ -136,7 +136,7 @@ export default function FormaResearchPage() {
 
           {/* 5-Layer Stack + Open-Core */}
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mb-8">
-            <div className="grid grid-cols-5 gap-1 sm:gap-2 max-w-3xl mx-auto mb-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1 sm:gap-2 max-w-3xl mx-auto mb-4">
               {[{ name: "Manifest", color: "#6366F1", desc: "Contract" }, { name: "Compiler", color: "#8B5CF6", desc: "Intent→Config" }, { name: "Runtime", color: "#EC4899", desc: "Sandboxed Render" }, { name: "Hooks", color: "#F59E0B", desc: "Middleware" }, { name: "Contract", color: "#10B981", desc: "Migration" }].map((layer) => (
                 <div key={layer.name} className="text-center">
                   <div className="h-1.5 sm:h-2 rounded-full mb-1.5 sm:mb-2" style={{ backgroundColor: layer.color }} />
@@ -171,14 +171,267 @@ export default function FormaResearchPage() {
               { label: "Runtime", icon: Square, color: "#06B6D4" },
               { label: "User", icon: ChevronRight, color: "#10B981" },
             ].map((step, i, arr) => (
-              <div key={step.label} className="flex items-center gap-1 sm:gap-3">
+              <div key={step.label} className="flex items-center gap-1 sm:gap-3 whitespace-nowrap">
                 <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg border" style={{ borderColor: step.color + "30", backgroundColor: step.color + "08" }}>
                   <step.icon size={12} style={{ color: step.color }} />
                   <span className="text-foreground font-semibold text-[10px] sm:text-xs">{step.label}</span>
                 </div>
-                {i < arr.length - 1 && <ArrowRight size={14} className="text-muted/30" />}
+                {i < arr.length - 1 && <ArrowRight size={14} className="text-muted/30 shrink-0" />}
               </div>
             ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* ════════════════════════════════════════ */}
+      {/* ISOMETRIC WORKFLOW — 360° STACK       */}
+      {/* ════════════════════════════════════════ */}
+      <Section>
+        <div className="max-w-5xl mx-auto">
+          <SectionHeader eyebrow="Architecture Flow" title="From intent to interface." description="How Forma's 5-layer stack processes a developer's manifest and user intent into a secure, personalized interface — a 360° view of the full pipeline." />
+          <div className="relative w-full overflow-hidden">
+            <svg viewBox="0 0 800 580" className="w-full h-auto aspect-[800/580]" fill="none">
+              <defs>
+                {[
+                  { id: "beam", stops: ["#6366F1", "#8B5CF6", "#EC4899", "#06B6D4", "#10B981"] },
+                ].map((g) => (
+                  <linearGradient key="beam" id="beam" x1="0" y1="1" x2="0" y2="0">
+                    {g.stops.map((c, i) => (
+                      <stop key={c} offset={`${i * 25}%`} stopColor={c} stopOpacity={i === 0 ? 0.15 : i === 4 ? 0 : 0.08} />
+                    ))}
+                  </linearGradient>
+                ))}
+                {["#6366F1", "#8B5CF6", "#EC4899", "#06B6D4", "#10B981"].map((c, i) => (
+                  <linearGradient key={`t${i}`} id={`t${i}`}>
+                    <stop offset="0%" stopColor="#ffffff" stopOpacity="0.15" />
+                    <stop offset="100%" stopColor={c} stopOpacity="0.85" />
+                  </linearGradient>
+                ))}
+                {["#4F46E5", "#7C3AED", "#DB2777", "#0891B2", "#059669"].map((c, i) => (
+                  <linearGradient key={`l${i}`} id={`l${i}`}>
+                    <stop offset="0%" stopColor={c} stopOpacity="0.9" />
+                    <stop offset="100%" stopColor={c} stopOpacity="0.5" />
+                  </linearGradient>
+                ))}
+                {["#4338CA", "#6D28D9", "#BE185D", "#0E7490", "#047857"].map((c, i) => (
+                  <linearGradient key={`r${i}`} id={`r${i}`}>
+                    <stop offset="0%" stopColor={c} stopOpacity="0.7" />
+                    <stop offset="100%" stopColor={c} stopOpacity="0.3" />
+                  </linearGradient>
+                ))}
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                </filter>
+                <filter id="beamGlow">
+                  <feGaussianBlur stdDeviation="8" result="blur" />
+                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                </filter>
+                <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+
+              {/* Background glow */}
+              <ellipse cx="340" cy="280" rx="200" ry="200" fill="url(#centerGlow)" opacity="0.4" />
+
+              {/* Central beam */}
+              <motion.rect
+                x="336" y="110" width="8" height="380"
+                fill="url(#beam)" rx="4"
+                initial={{ scaleY: 0, transformOrigin: "50% 100%" }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+              />
+
+              {/* Animated particles on central beam */}
+              {[0, 0.4, 0.8, 1.2, 1.6].map((delay) => (
+                <motion.circle
+                  key={delay}
+                  cx="340" r="3"
+                  fill="#8B5CF6"
+                  filter="url(#glow)"
+                  initial={{ y: 480 }}
+                  animate={{ y: 120 }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay }}
+                />
+              ))}
+
+              {/* Input arrow — User Intent enters from left */}
+              <motion.g initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}>
+                <path d="M30,440 L100,440" stroke="#6366F1" strokeWidth="2.5" strokeDasharray="5 4" opacity="0.6" />
+                <polygon points="100,435 112,440 100,445" fill="#6366F1" opacity="0.8" />
+                <text x="50" y="430" textAnchor="start" className="text-[8px]" fill="#6366F1" fontFamily="var(--font-mono)" opacity="0.8">User intent</text>
+              </motion.g>
+
+              {/* Output arrow — Interface exits right */}
+              <motion.g initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 1.0 }}>
+                <path d="M390,120 L700,120" stroke="#10B981" strokeWidth="2.5" strokeDasharray="5 4" opacity="0.6" />
+                <polygon points="700,115 712,120 700,125" fill="#10B981" opacity="0.8" />
+                <text x="550" y="110" textAnchor="start" className="text-[8px]" fill="#10B981" fontFamily="var(--font-mono)" opacity="0.8">Personalized interface →</text>
+              </motion.g>
+
+              {/* ═══════ Layer 5 - Contract (top) ═══════ */}
+              <motion.g initial={{ opacity: 0, y: -30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}>
+                <polygon points="298,118 340,100 382,118 340,136" fill="url(#t4)" stroke="#10B981" strokeWidth="0.5" strokeOpacity="0.3" />
+                <polygon points="298,118 340,136 340,150 298,132" fill="url(#l4)" />
+                <polygon points="340,136 382,118 382,132 340,150" fill="url(#r4)" />
+                <g transform="translate(340,124)" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                  <path d="M10 3l-7 7 4 4 7-7z" />
+                  <path d="M17 7l-4-4" />
+                </g>
+                <motion.text x="420" y="128" textAnchor="start" className="text-[12px] sm:text-[14px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">Contract</motion.text>
+                <text x="420" y="143" textAnchor="start" className="text-[8px] sm:text-[9px]" fill="#6EE7B7" fontFamily="var(--font-mono)">Auto-migration · Zero breaking changes</text>
+              </motion.g>
+
+              {/* ═══════ Layer 4 - Hooks ═══════ */}
+              <motion.g initial={{ opacity: 0, y: -30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.25 }}>
+                <polygon points="278,195 340,170 402,195 340,220" fill="url(#t3)" stroke="#06B6D4" strokeWidth="0.5" strokeOpacity="0.3" />
+                <polygon points="278,195 340,220 340,240 278,215" fill="url(#l3)" />
+                <polygon points="340,220 402,195 402,215 340,240" fill="url(#r3)" />
+                <g transform="translate(340,206)" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                  <polyline points="17 10 13 14 9 10" />
+                  <line x1="13" y1="14" x2="13" y2="2" />
+                </g>
+                <motion.text x="420" y="208" textAnchor="start" className="text-[12px] sm:text-[14px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">Hooks</motion.text>
+                <text x="420" y="223" textAnchor="start" className="text-[8px] sm:text-[9px]" fill="#67E8F9" fontFamily="var(--font-mono)">Middleware · Filtering · Routing</text>
+              </motion.g>
+
+              {/* ═══════ Layer 3 - Runtime ═══════ */}
+              <motion.g initial={{ opacity: 0, y: -30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }}>
+                <polygon points="258,282 340,248 422,282 340,316" fill="url(#t2)" stroke="#EC4899" strokeWidth="0.5" strokeOpacity="0.3" />
+                <polygon points="258,282 340,316 340,342 258,308" fill="url(#l2)" />
+                <polygon points="340,316 422,282 422,308 340,342" fill="url(#r2)" />
+                <g transform="translate(340,294)" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                  <rect x="3" y="4" width="18" height="13" rx="2" />
+                  <line x1="8" y1="21" x2="16" y2="21" />
+                  <line x1="12" y1="17" x2="12" y2="21" />
+                </g>
+                <motion.text x="435" y="300" textAnchor="start" className="text-[12px] sm:text-[14px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">Runtime</motion.text>
+                <text x="435" y="315" textAnchor="start" className="text-[8px] sm:text-[9px]" fill="#F9A8D4" fontFamily="var(--font-mono)">Sandboxed React · &lt;60KB gzipped</text>
+              </motion.g>
+
+              {/* ═══════ Layer 2 - Compiler ═══════ */}
+              <motion.g initial={{ opacity: 0, y: -30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.55 }}>
+                <polygon points="233,380 340,338 447,380 340,422" fill="url(#t1)" stroke="#8B5CF6" strokeWidth="0.5" strokeOpacity="0.3" />
+                <polygon points="233,380 340,422 340,454 233,412" fill="url(#l1)" />
+                <polygon points="340,422 447,380 447,412 340,454" fill="url(#r1)" />
+                <g transform="translate(340,397)" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </g>
+                <motion.text x="455" y="400" textAnchor="start" className="text-[12px] sm:text-[14px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">Compiler</motion.text>
+                <text x="455" y="415" textAnchor="start" className="text-[8px] sm:text-[9px]" fill="#C4B5FD" fontFamily="var(--font-mono)">Constrained decoding · 98% valid first try</text>
+              </motion.g>
+
+              {/* ═══════ Layer 1 - Manifest (base) ═══════ */}
+              <motion.g initial={{ opacity: 0, y: -30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.7 }}>
+                <polygon points="208,488 340,436 472,488 340,540" fill="url(#t0)" stroke="#6366F1" strokeWidth="0.5" strokeOpacity="0.3" />
+                <polygon points="208,488 340,540 340,578 208,526" fill="url(#l0)" />
+                <polygon points="340,540 472,488 472,526 340,578" fill="url(#r0)" />
+                <g transform="translate(340,505)" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                </g>
+                <motion.text x="480" y="508" textAnchor="start" className="text-[12px] sm:text-[14px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">Manifest</motion.text>
+                <text x="480" y="523" textAnchor="start" className="text-[8px] sm:text-[9px]" fill="#A5B4FC" fontFamily="var(--font-mono)">Capability contract · JSON Schema validated</text>
+              </motion.g>
+
+              {/* Orbiting particles — 360° flow */}
+              {[
+                { angle: 0, color: "#6366F1" },
+                { angle: 72, color: "#8B5CF6" },
+                { angle: 144, color: "#EC4899" },
+                { angle: 216, color: "#06B6D4" },
+                { angle: 288, color: "#10B981" },
+              ].map((p) => (
+                <motion.g
+                  key={`orbit-${p.angle}`}
+                  style={{ transformOrigin: "340px 340px" }}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                >
+                  <circle cx={340 + 140 * Math.cos((p.angle * Math.PI) / 180)} cy={340 + 70 * Math.sin((p.angle * Math.PI) / 180)} r="2.5" fill={p.color} filter="url(#glow)" />
+                </motion.g>
+              ))}
+
+              {/* Orbital path */}
+              <ellipse cx="340" cy="340" rx="140" ry="70" stroke="#8B5CF6" strokeWidth="0.5" strokeDasharray="3 6" opacity="0.15" fill="none" />
+
+              {/* Circumference arrows — 360° cycle */}
+              {[0, 72, 144, 216, 288].map((angle, i) => {
+                const rad = (angle * Math.PI) / 180;
+                const x = 340 + 140 * Math.cos(rad);
+                const y = 340 + 70 * Math.sin(rad);
+                const nextRad = ((angle + 72) * Math.PI) / 180;
+                const nx = 340 + 140 * Math.cos(nextRad);
+                const ny = 340 + 70 * Math.sin(nextRad);
+                return (
+                  <motion.path
+                    key={`orbit-path-${i}`}
+                    d={`M${x},${y} Q${(x + nx) / 2 + 20},${(y + ny) / 2 - 10} ${nx},${ny}`}
+                    stroke={["#6366F1", "#8B5CF6", "#EC4899", "#06B6D4", "#10B981"][i]}
+                    strokeWidth="1"
+                    strokeDasharray="3 5"
+                    opacity="0.2"
+                    fill="none"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.5, delay: 0.8 + i * 0.1 }}
+                  />
+                );
+              })}
+
+              {/* Cycle loop indicators */}
+              {[
+                { x: 340, y: 160, label: "360° Continuous Cycle" },
+              ].map((c) => (
+                <motion.text
+                  key={c.label}
+                  x={c.x} y={c.y} textAnchor="middle"
+                  className="text-[9px]"
+                  fill="#8B5CF6" fontFamily="var(--font-mono)"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 1.5 }}
+                >
+                  {c.label}
+                </motion.text>
+              ))}
+
+              {/* Flow arrows between layers */}
+              {[
+                { x1: 340, y1: 536, x2: 340, y2: 458, color: "#8B5CF6", delay: 0.3 },
+                { x1: 340, y1: 418, x2: 340, y2: 346, color: "#EC4899", delay: 0.45 },
+                { x1: 340, y1: 308, x2: 340, y2: 244, color: "#06B6D4", delay: 0.6 },
+                { x1: 340, y1: 214, x2: 340, y2: 154, color: "#10B981", delay: 0.75 },
+              ].map((arrow) => (
+                <g key={arrow.color}>
+                  <motion.line
+                    x1={arrow.x1} y1={arrow.y1} x2={arrow.x2} y2={arrow.y2}
+                    stroke={arrow.color} strokeWidth="1.5" strokeDasharray="4 3"
+                    opacity="0.4"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: arrow.delay }}
+                  />
+                  <motion.polygon
+                    points={`${arrow.x2 - 4},${arrow.y2 + 4} ${arrow.x2},${arrow.y2 - 2} ${arrow.x2 + 4},${arrow.y2 + 4}`}
+                    fill={arrow.color}
+                    opacity="0.6"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0.6 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: arrow.delay + 0.5 }}
+                  />
+                </g>
+              ))}
+            </svg>
           </div>
         </div>
       </Section>
@@ -286,7 +539,7 @@ export default function FormaResearchPage() {
       <Section>
         <div className="max-w-5xl mx-auto">
           <SectionHeader eyebrow="Component Catalog" title={`${domainCategories.reduce((s, c) => s + c.count, 0)}+ Components.`} description="A curated library of 1,600+ components across 48 categories — tree-shakeable, per-component deep imports, bundle-size CI gate." />
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
             {domainCategories.map((cat) => (
               <motion.div key={cat.name} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-3 rounded-xl border border-border bg-surface text-center">
                 <div className="text-lg font-bold" style={{ color: cat.color }}>{cat.count}</div>

@@ -76,6 +76,7 @@ export default function DesignSystemPage() {
   const [splitPalette, setSplitPalette] = useState<PaletteSlug>("dark");
   const [exportOpen, setExportOpen] = useState(false);
   const [exportFormat, setExportFormat] = useState<"css" | "json" | "tailwind">("css");
+  const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
 
   const ds = designSystems[activeDomain];
   const pal = palettes[activePalette];
@@ -288,6 +289,39 @@ export default function DesignSystemPage() {
                 <Download className="w-3 h-3" />
               </button>
             </div>
+            {/* Mobile controls — visible below lg */}
+            <div className="flex lg:hidden items-center gap-0.5 p-0.5 rounded-lg" style={{ backgroundColor: theme.colors.surfaceHover }}>
+              <select
+                value={activeDomain}
+                onChange={e => setActiveDomain(e.target.value as DesignSystemSlug)}
+                className="px-1.5 py-1 rounded-md text-[10px] bg-transparent outline-none max-w-[80px]"
+                style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
+                title="Domain"
+              >
+                {designSystemList.map(({ slug, name }) => (
+                  <option key={slug} value={slug}>{name}</option>
+                ))}
+              </select>
+              <select
+                value={activePalette}
+                onChange={e => setActivePalette(e.target.value as PaletteSlug)}
+                className="px-1.5 py-1 rounded-md text-[10px] bg-transparent outline-none max-w-[70px]"
+                style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
+                title="Palette"
+              >
+                {paletteList.map(({ slug, name }) => (
+                  <option key={slug} value={slug}>{name}</option>
+                ))}
+              </select>
+              <button
+                onClick={() => setMobilePanelOpen(!mobilePanelOpen)}
+                className="p-1 rounded-md transition-colors"
+                style={{ color: mobilePanelOpen ? theme.colors.primaryHex : theme.colors.textMuted }}
+                title="Properties"
+              >
+                <Sliders className="w-3 h-3" />
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -451,6 +485,38 @@ export default function DesignSystemPage() {
           onChange={updateToken}
           theme={theme}
         />
+
+        {/* ─── Mobile: Studio Panel Overlay ─── */}
+        {mobilePanelOpen && (
+          <div className="fixed inset-0 z-40 lg:hidden">
+            <div className="absolute inset-0 bg-black/40" onClick={() => setMobilePanelOpen(false)} />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", bounce: 0.15, duration: 0.4 }}
+              className="absolute bottom-0 left-0 right-0 max-h-[70vh] rounded-t-2xl overflow-y-auto"
+              style={{ backgroundColor: theme.colors.surface, borderColor: theme.colors.border }}
+            >
+              <div className="sticky top-0 flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: theme.colors.border, backgroundColor: theme.colors.surface }}>
+                <div className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: theme.colors.text }}>
+                  <Sliders className="w-3.5 h-3.5" />
+                  Properties
+                </div>
+                <button onClick={() => setMobilePanelOpen(false)} className="p-1 rounded-md hover:bg-surface-hover" style={{ color: theme.colors.textMuted }}>
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="p-4">
+                <MobilePanelControls
+                  tokens={studioTokens}
+                  onChange={updateToken}
+                  theme={theme}
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
       </div>
 
       {/* ─── Export Modal ─── */}
@@ -764,112 +830,135 @@ function StudioPanel({ tokens, onChange, theme: t }: {
         </div>
         <p className="text-[10px]" style={{ color: t.colors.textMuted }}>Tweak the design system live</p>
       </div>
-
       <div className="p-3 space-y-4">
-        <SliderControl
-          label="Border Radius"
-          icon={<Radius className="w-3.5 h-3.5" />}
-          value={tokens.borderRadius}
-          min={0} max={24}
-          onChange={v => onChange("borderRadius", v)}
-          colors={t.colors}
-        />
-
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
-              <TypeIcon className="w-3.5 h-3.5" />
-              <span>Heading Font</span>
-            </div>
-          </div>
-          <select
-            value={tokens.fontHeading}
-            onChange={e => onChange("fontHeading", e.target.value)}
-            className="w-full px-2 py-1.5 rounded-md text-[11px] outline-none"
-            style={{ backgroundColor: t.colors.surfaceHover, color: t.colors.text, border: `1px solid ${t.colors.border}` }}
-          >
-            {fontOptions.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
-          </select>
-        </div>
-
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
-              <TypeIcon className="w-3.5 h-3.5" />
-              <span>Body Font</span>
-            </div>
-          </div>
-          <select
-            value={tokens.fontBody}
-            onChange={e => onChange("fontBody", e.target.value)}
-            className="w-full px-2 py-1.5 rounded-md text-[11px] outline-none"
-            style={{ backgroundColor: t.colors.surfaceHover, color: t.colors.text, border: `1px solid ${t.colors.border}` }}
-          >
-            {fontOptions.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
-          </select>
-        </div>
-
-        <SliderControl
-          label="Base Font Size"
-          icon={<Scaling className="w-3.5 h-3.5" />}
-          value={tokens.baseFontSize}
-          min={12} max={24}
-          onChange={v => onChange("baseFontSize", v)}
-          colors={t.colors}
-        />
-
-        <SliderControl
-          label="Shadow Intensity"
-          icon={<Paintbrush className="w-3.5 h-3.5" />}
-          value={tokens.shadowIntensity}
-          min={0} max={3} step={0.25}
-          onChange={v => onChange("shadowIntensity", v)}
-          colors={t.colors}
-        />
-
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
-              <Layout className="w-3.5 h-3.5" />
-              <span>Spacing</span>
-            </div>
-          </div>
-          <div className="flex gap-1">
-            {(["compact", "default", "relaxed"] as SpacingScale[]).map(s => (
-              <button
-                key={s}
-                onClick={() => onChange("spacingScale", s)}
-                className="flex-1 py-1 rounded-md text-[9px] font-medium capitalize transition-all"
-                style={{
-                  backgroundColor: tokens.spacingScale === s ? t.colors.primaryHex : "transparent",
-                  color: tokens.spacingScale === s ? "#fff" : t.colors.textMuted,
-                }}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <SliderControl
-          label="Saturation Shift"
-          icon={<Paintbrush className="w-3.5 h-3.5" />}
-          value={tokens.saturationShift}
-          min={-50} max={50}
-          onChange={v => onChange("saturationShift", v)}
-          colors={t.colors}
-        />
-
-        <SliderControl
-          label="Lightness Shift"
-          icon={<Sun className="w-3.5 h-3.5" />}
-          value={tokens.lightnessShift}
-          min={-20} max={20}
-          onChange={v => onChange("lightnessShift", v)}
-          colors={t.colors}
-        />
+        <StudioPanelControls tokens={tokens} onChange={onChange} theme={t} />
       </div>
     </aside>
+  );
+}
+
+function StudioPanelControls({ tokens, onChange, theme: t }: {
+  tokens: StudioTokens;
+  onChange: <K extends keyof StudioTokens>(key: K, value: StudioTokens[K]) => void;
+  theme: DesignSystem;
+}) {
+  return (
+    <>
+      <SliderControl
+        label="Border Radius"
+        icon={<Radius className="w-3.5 h-3.5" />}
+        value={tokens.borderRadius}
+        min={0} max={24}
+        onChange={v => onChange("borderRadius", v)}
+        colors={t.colors}
+      />
+
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
+            <TypeIcon className="w-3.5 h-3.5" />
+            <span>Heading Font</span>
+          </div>
+        </div>
+        <select
+          value={tokens.fontHeading}
+          onChange={e => onChange("fontHeading", e.target.value)}
+          className="w-full px-2 py-1.5 rounded-md text-[11px] outline-none"
+          style={{ backgroundColor: t.colors.surfaceHover, color: t.colors.text, border: `1px solid ${t.colors.border}` }}
+        >
+          {fontOptions.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+        </select>
+      </div>
+
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
+            <TypeIcon className="w-3.5 h-3.5" />
+            <span>Body Font</span>
+          </div>
+        </div>
+        <select
+          value={tokens.fontBody}
+          onChange={e => onChange("fontBody", e.target.value)}
+          className="w-full px-2 py-1.5 rounded-md text-[11px] outline-none"
+          style={{ backgroundColor: t.colors.surfaceHover, color: t.colors.text, border: `1px solid ${t.colors.border}` }}
+        >
+          {fontOptions.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+        </select>
+      </div>
+
+      <SliderControl
+        label="Base Font Size"
+        icon={<Scaling className="w-3.5 h-3.5" />}
+        value={tokens.baseFontSize}
+        min={12} max={24}
+        onChange={v => onChange("baseFontSize", v)}
+        colors={t.colors}
+      />
+
+      <SliderControl
+        label="Shadow Intensity"
+        icon={<Paintbrush className="w-3.5 h-3.5" />}
+        value={tokens.shadowIntensity}
+        min={0} max={3} step={0.25}
+        onChange={v => onChange("shadowIntensity", v)}
+        colors={t.colors}
+      />
+
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
+            <Layout className="w-3.5 h-3.5" />
+            <span>Spacing</span>
+          </div>
+        </div>
+        <div className="flex gap-1">
+          {(["compact", "default", "relaxed"] as SpacingScale[]).map(s => (
+            <button
+              key={s}
+              onClick={() => onChange("spacingScale", s)}
+              className="flex-1 py-1 rounded-md text-[9px] font-medium capitalize transition-all"
+              style={{
+                backgroundColor: tokens.spacingScale === s ? t.colors.primaryHex : "transparent",
+                color: tokens.spacingScale === s ? "#fff" : t.colors.textMuted,
+              }}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <SliderControl
+        label="Saturation Shift"
+        icon={<Paintbrush className="w-3.5 h-3.5" />}
+        value={tokens.saturationShift}
+        min={-50} max={50}
+        onChange={v => onChange("saturationShift", v)}
+        colors={t.colors}
+      />
+
+      <SliderControl
+        label="Lightness Shift"
+        icon={<Sun className="w-3.5 h-3.5" />}
+        value={tokens.lightnessShift}
+        min={-20} max={20}
+        onChange={v => onChange("lightnessShift", v)}
+        colors={t.colors}
+      />
+    </>
+  );
+}
+
+function MobilePanelControls({ tokens, onChange, theme: t }: {
+  tokens: StudioTokens;
+  onChange: <K extends keyof StudioTokens>(key: K, value: StudioTokens[K]) => void;
+  theme: DesignSystem;
+}) {
+  return (
+    <div className="space-y-4">
+      <StudioPanelControls tokens={tokens} onChange={onChange} theme={t} />
+    </div>
   );
 }
 
