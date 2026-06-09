@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, Inter, JetBrains_Mono } from "next/font/google";
+import { DM_Sans, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -15,8 +15,8 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const syne = Syne({
-  variable: "--font-syne",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
@@ -86,19 +86,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${syne.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`        ${inter.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col grain">
-        <SmoothScroll />
-        <ScrollProgress />
-        <CursorGlow />
-        <Navbar />
-        <main className="flex-1">
-          <PageTransition>{children}</PageTransition>
-        </main>
-        <Footer />
-        <BackToTop />
-        <StatusBar />
+        <div className="relative overflow-x-clip">
+          <SmoothScroll />
+          <ScrollProgress />
+          <CursorGlow />
+          <Navbar />
+          <main className="flex-1">
+            <PageTransition>{children}</PageTransition>
+          </main>
+          <Footer />
+          <BackToTop />
+          <StatusBar />
+        </div>
       </body>
     </html>
   );

@@ -13,7 +13,6 @@ export default function StatusBar() {
       const now = new Date();
       setTime(
         now.toLocaleTimeString("en-US", {
-          timeZone: "Asia/Kolkata",
           hour: "2-digit",
           minute: "2-digit",
           hour12: true,
@@ -43,7 +42,7 @@ export default function StatusBar() {
           </span>
 
           <span className="text-xs font-medium text-foreground/80">
-            Mumbai, India
+            Bengaluru, India
           </span>
 
           <span className="text-border">·</span>

@@ -316,22 +316,40 @@ const skills = [
 
 const principles = [
   {
-    title: "Data-Informed, Not Data-Driven",
+    title: "Start with the Problem, Not the Solution",
     description:
-      "Numbers guide decisions, but empathy and craft drive innovation. I combine quantitative insights with qualitative understanding.",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+      "Every design decision traces back to a validated user need or business goal. If we can't articulate the problem clearly, we're not ready to design.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>,
   },
   {
-    title: "Ship to Learn",
+    title: "Design for the 80%, Extend for the 20%",
     description:
-      "Perfect is the enemy of good. I believe in rapid iteration — ship, measure, learn, improve. Every pixel ships with purpose.",
+      "Platform thinking over bespoke solutions. Solve the common case elegantly, then provide escape hatches for edge cases — not the other way around.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>,
+  },
+  {
+    title: "Ship to Learn, Iterate to Impact",
+    description:
+      "Perfect is the enemy of shipped. I believe in rapid cycles — ship a thin slice of value, measure what happens, learn, and compound. Every cycle makes the product sharper.",
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
   },
   {
-    title: "Design is Code, Code is Design",
+    title: "Design Systems Are Culture, Not Just Components",
     description:
-      "The best products emerge when design and engineering speak the same language. I bridge both worlds fluently.",
+      "A design system only works if people adopt it. I invest in governance, documentation, and relationships — making it easier to use the system than to bypass it.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>,
+  },
+  {
+    title: "Design Is Code, Code Is Design",
+    description:
+      "The best products emerge when design and engineering share a common language. I own the journey from Figma to production — no handoff friction, no translation loss.",
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+  },
+  {
+    title: "Accessibility Is a Design Constraint, Not a Checklist",
+    description:
+      "Inclusive design isn't a final polish step. I bake WCAG considerations into every component, every interaction, every content decision — from the first sketch.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="10"/><path d="M12 22c-2.5 0-4.5-2-4.5-4.5S9.5 13 12 13s4.5 2 4.5 4.5S14.5 22 12 22z"/><path d="M12 13V8"/><path d="M8 8h8"/></svg>,
   },
 ];
 

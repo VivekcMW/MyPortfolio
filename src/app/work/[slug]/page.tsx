@@ -16,6 +16,14 @@ interface StoryChapter {
   visual?: "timeline" | "grid" | "flow" | "metrics";
 }
 
+/* ─── Role/Leadership Context ─── */
+interface RoleContext {
+  title: string;
+  scope: string;
+  team: string;
+  duration: string;
+}
+
 /* ─── Project Data ─── */
 interface ProjectDetail {
   title: string;
@@ -29,6 +37,7 @@ interface ProjectDetail {
   features: { title: string; desc: string }[];
   prototypeSlug: string;
   story?: StoryChapter[];
+  role?: RoleContext;
 }
 
 /* ─── NoCode Story Chapters ─── */
@@ -458,6 +467,12 @@ const projectData: Record<string, ProjectDetail> = {
     ],
     prototypeSlug: "nocode-platform",
     story: nocodeStory,
+    role: {
+      title: "Lead Product Designer",
+      scope: "End-to-end design ownership — research, UX, UI, design system, usability testing",
+      team: "Led 4 designers, collaborated with 2 UX researchers and 6 engineers; reported to CPO",
+      duration: "2018 — 2022 (4 years)",
+    },
   },
   "ehr-platform": {
     title: "EHR Healthcare Platform",
@@ -490,6 +505,12 @@ const projectData: Record<string, ProjectDetail> = {
     ],
     prototypeSlug: "ehr-platform",
     story: ehrStory,
+    role: {
+      title: "Design Lead",
+      scope: "Design strategy, clinical workflow research, 12-module architecture, ABDM compliance design",
+      team: "Led 3 product designers and 1 UX researcher; partnered with 2 domain experts and 4 engineers; reported to VP Product",
+      duration: "2024 — 2026 (2 years)",
+    },
   },
   "iot-dashboard": {
     title: "CPCB Air Quality Command Center",
@@ -519,6 +540,12 @@ const projectData: Record<string, ProjectDetail> = {
       { title: "Machine Health Tracker", desc: "12 CAAQMS instruments — BAM, TEOM, analyzers, DAS — with calibration schedule, firmware, uptime, and service request workflow." },
     ],
     prototypeSlug: "iot-dashboard",
+    role: {
+      title: "UX Design Lead",
+      scope: "Interaction design, data visualization, real-time dashboard architecture, stakeholder alignment with CPCB",
+      team: "Solo design with 3 frontend engineers and 1 data engineer; coordinated with CPCB domain experts across 9 states",
+      duration: "2023 (8 months)",
+    },
   },
   "ott-platform": {
     title: "OTT Streaming Platform",
@@ -548,6 +575,12 @@ const projectData: Record<string, ProjectDetail> = {
       { title: "User Profiles", desc: "Multi-profile support with individual watch history, preferences, and parental controls." },
     ],
     prototypeSlug: "ott-platform",
+    role: {
+      title: "Senior Product Designer",
+      scope: "Content discovery redesign, design system migration, performance optimization, A/B test design",
+      team: "Embedded in a 12-person product squad; worked with 3 engineers, 1 PM, 1 data scientist; mentored 1 junior designer",
+      duration: "2022 — 2023 (14 months)",
+    },
   },
   "construction-ai": {
     title: "Construction AI Platform",
@@ -579,6 +612,12 @@ const projectData: Record<string, ProjectDetail> = {
       { title: "Auto-Linking Engine", desc: "Patented technology that connects data across Procore, P6, Autodesk, and other systems — creating a unified intelligence layer from 95% of unused data." },
     ],
     prototypeSlug: "construction-ai",
+    role: {
+      title: "Product Design Consultant",
+      scope: "AI/ML product strategy, data integration UX, risk visualization, stakeholder workshops with construction firms",
+      team: "2-person design team (lead + 1 researcher); collaborated with 3 ML engineers and 2 domain SMEs; reported to CEO",
+      duration: "2025 — 2026 (in progress)",
+    },
   },
 };
 
@@ -660,6 +699,40 @@ export default function ProjectDetailPage() {
                 </span>
               ))}
             </motion.div>
+
+            {/* Role Banner */}
+            {project.role && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.18 }}
+                className="mb-10 p-5 rounded-2xl bg-gradient-to-r from-accent/5 via-accent/3 to-transparent border border-accent/10"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                  <span className="text-xs font-mono text-accent uppercase tracking-widest">Leadership Context</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                  <div>
+                    <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-0.5">Role</p>
+                    <p className="text-sm font-semibold text-foreground">{project.role.title}</p>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-0.5">Scope</p>
+                    <p className="text-xs text-foreground/70">{project.role.scope}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-0.5">Team</p>
+                    <p className="text-xs text-foreground/70">{project.role.team}</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
 
             {/* Prototype CTA */}
             <motion.div
@@ -912,6 +985,40 @@ export default function ProjectDetailPage() {
               </span>
             ))}
           </motion.div>
+
+          {/* Role Banner */}
+          {project.role && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.22 }}
+              className="mb-10 p-5 rounded-2xl bg-gradient-to-r from-accent/5 via-accent/3 to-transparent border border-accent/10"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                <span className="text-xs font-mono text-accent uppercase tracking-widest">Leadership Context</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <div>
+                  <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-0.5">Role</p>
+                  <p className="text-sm font-semibold text-foreground">{project.role.title}</p>
+                </div>
+                <div className="sm:col-span-2">
+                  <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-0.5">Scope</p>
+                  <p className="text-xs text-foreground/70">{project.role.scope}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-0.5">Team</p>
+                  <p className="text-xs text-foreground/70">{project.role.team}</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* Open Prototype CTA */}
           <motion.div

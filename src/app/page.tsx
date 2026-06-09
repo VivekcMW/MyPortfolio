@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import FluidText from "@/components/FluidText";
 import Link from "next/link";
@@ -77,45 +77,6 @@ const featuredPosts = [
     slug: "ai-changing-design",
   },
 ];
-
-function AnimatedCounter({
-  value,
-  suffix,
-}: Readonly<{
-  value: number;
-  suffix: string;
-}>) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  useEffect(() => {
-    if (!isInView) return;
-    let start = 0;
-    const duration = 2000;
-    const startTime = performance.now();
-
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      start = Math.floor(eased * value);
-      setCount(start);
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-    requestAnimationFrame(animate);
-  }, [isInView, value]);
-
-  return (
-    <span ref={ref}>
-      {count}
-      {suffix}
-    </span>
-  );
-}
 
 /* ===== Horizontal Scroll Projects Section ===== */
 function HorizontalScrollProjects({ projects }: { projects: Array<{ title: string; category: string; description: string; tags: string[]; image: React.ReactNode; href: string }> }) {
@@ -380,17 +341,12 @@ export default function HomePage() {
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.95]">
                   <span className="block">I</span>
                   <span className="block mt-1">
-                    <span className={`inline-block font-mono transition-colors duration-300 ${roles[roleIndex].color}`}>
-                      {displayText}
-                      <motion.span
-                        animate={{ opacity: [1, 0] }}
-                        transition={{ duration: 0.5, repeat: Infinity }}
-                        className="inline-block w-0.75 h-[0.85em] bg-accent ml-1 align-middle"
-                      />
+                    <span className="inline-block font-mono transition-colors duration-300 text-accent">
+                      build
                     </span>
                   </span>
                   <span className="block mt-1 text-foreground/70 text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-                    <FluidText text="digital products." minWeight={300} maxWeight={800} radius={100} />
+                    <FluidText text="design organizations." minWeight={300} maxWeight={800} radius={100} />
                   </span>
                 </h1>
               </motion.div>
@@ -401,7 +357,7 @@ export default function HomePage() {
                 transition={{ duration: 0.7, delay: 0.7 }}
                 className="mt-6 text-base md:text-lg text-muted max-w-lg mx-auto lg:mx-0 leading-relaxed"
               >
-                Most teams hire separately for design, engineering, and product. I cover all three.
+                And the products they ship. I build design teams, design systems, and the strategies that turn complex problems into shipped products — from 0 to 30+ countries.
               </motion.p>
 
               <motion.div
@@ -505,32 +461,62 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== SIGNAL: METRIC STRIP ===== */}
+      {/* ===== IMPACT SPOTLIGHTS ===== */}
       <section className="relative border-y border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* gap-px with bg-border creates pixel-perfect dividers in a grid — divide utilities are broken in multi-row grids */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
             {[
-              { value: 15, suffix: "+", label: "Products Shipped" },
-              { value: 5,  suffix: "",  label: "Design Systems Built" },
-              { value: 8,  suffix: "+", label: "Years of Craft" },
-              { value: 30, suffix: "+", label: "Countries Reached" },
-              { value: 98, suffix: "",  label: "Lighthouse Score" },
-            ].map((m, i) => (
+              {
+                value: "30+",
+                label: "Countries",
+                title: "Global OOH/DOOH Scale",
+                desc: "Design systems and products shipped across 30+ countries via the Moving Walls platform — reaching millions of screens daily.",
+                href: "/work/ehr-platform",
+              },
+              {
+                value: "60%",
+                label: "Faster Delivery",
+                title: "NoCode Platform",
+                desc: "Reduced development dependency by 60% with an intuitive visual builder — non-engineers shipping production apps independently.",
+                href: "/work/nocode-platform",
+              },
+              {
+                value: "94%",
+                label: "Coverage",
+                title: "Design System Maturity",
+                desc: "Token-driven component library covering 94% of product surfaces — one source of truth, zero handoff friction across 3 products.",
+                href: "/design-system",
+              },
+            ].map((spot, i) => (
               <motion.div
-                key={m.label}
+                key={spot.label}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="px-6 py-7 text-center bg-background"
+                className="px-6 py-7 sm:py-9 bg-background group"
               >
-                <div className="text-2xl sm:text-3xl font-heading font-bold text-foreground tabular-nums">
-                  <AnimatedCounter value={m.value} suffix={m.suffix} />
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="text-3xl sm:text-4xl font-heading font-bold text-foreground tabular-nums tracking-tight">
+                    {spot.value}
+                  </div>
+                  <div className="text-[11px] font-mono text-muted uppercase tracking-widest leading-tight">
+                    {spot.label}
+                  </div>
                 </div>
-                <p className="mt-1 text-[11px] font-mono text-muted uppercase tracking-widest">
-                  {m.label}
+                <h3 className="text-sm font-semibold text-foreground mb-1.5">
+                  {spot.title}
+                </h3>
+                <p className="text-xs text-muted leading-relaxed mb-3">
+                  {spot.desc}
                 </p>
+                <Link
+                  href={spot.href}
+                  className="inline-flex items-center gap-1 text-xs font-medium text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
+                  View case study
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -550,12 +536,13 @@ export default function HomePage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16">
             {[
-              { name: "Moving Walls", highlight: true },
-              { name: "Healthcare SaaS", highlight: false },
-              { name: "IoT Platforms", highlight: false },
-              { name: "OTT Networks", highlight: false },
+              { name: "AI Agents for B2B Apps", highlight: true },
+              { name: "OOH/DOOH", highlight: false },
+              { name: "Construction Cloud", highlight: false },
+              { name: "IIoT Platforms", highlight: false },
               { name: "Enterprise B2B", highlight: false },
-              { name: "NoCode Startups", highlight: false },
+              { name: "NoCode/LowCode Startup", highlight: false },
+              { name: "Healthcare SaaS (India)", highlight: false },
             ].map((company, i) => (
               <motion.div
                 key={company.name}

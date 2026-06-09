@@ -4,8 +4,9 @@ const footerLinks = {
   Navigation: [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
+    { href: "/design-system", label: "DS Lab" },
+    { href: "/research/forma", label: "Research" },
     { href: "/blog", label: "Blog" },
-
     { href: "/contact", label: "Contact" },
   ],
   Social: [
@@ -15,6 +16,13 @@ const footerLinks = {
     },
     { href: "https://dribbble.com/vivekanand", label: "Dribbble" },
     { href: "https://github.com/vivekanandchoudhari", label: "GitHub" },
+  ],
+  Contact: [
+    { href: "mailto:vivekanand.design@gmail.com", label: "Email" },
+    {
+      href: "https://calendly.com/vivekanand-choudhari",
+      label: "Schedule a Call",
+    },
   ],
 };
 

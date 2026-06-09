@@ -22,19 +22,13 @@
 
   /* ── Fonts ── */
   --font-sans: var(--font-inter);
-  --font-heading: var(--font-syne);
+  --font-heading: var(--font-dm-sans);
   --font-mono: var(--font-jetbrains-mono);
 }
 
 
 html {
   scroll-behavior: smooth;
-  /* prevent horizontal overflow on mobile without breaking sticky scroll */
-  overflow-x: clip;
-}
-
-body {
-  overflow-x: clip;
 }
 
 body {
