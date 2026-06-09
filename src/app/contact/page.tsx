@@ -16,10 +16,19 @@ const socials = [
   },
   {
     name: "Dribbble",
-    url: "https://dribbble.com/vivekanand",
+    url: "https://dribbble.com/VivekanandChoudhari",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 24C5.385 24 0 18.615 0 12S5.385 0 12 0s12 5.385 12 12-5.385 12-12 12zm10.12-10.358c-.35-.11-3.17-.953-6.384-.438 1.34 3.684 1.887 6.684 1.992 7.308 2.3-1.555 3.936-4.02 4.395-6.87zm-6.115 7.808c-.153-.9-.75-4.032-2.19-7.77l-.066.02c-5.79 2.015-7.86 6.025-8.04 6.4 1.73 1.358 3.92 2.166 6.29 2.166 1.42 0 2.77-.29 4-.81zm-11.62-2.58c.232-.4 3.045-5.055 8.332-6.765.135-.045.27-.084.405-.12-.26-.585-.54-1.167-.832-1.74C7.17 11.775 2.206 11.71 1.756 11.7l-.004.312c0 2.633.998 5.037 2.634 6.855zm-2.42-8.955c.46.008 4.683.026 9.477-1.248-1.698-3.018-3.53-5.558-3.8-5.928-2.868 1.35-5.01 3.99-5.676 7.17zm7.56-7.872c.282.386 2.145 2.914 3.822 6 3.645-1.365 5.19-3.44 5.373-3.702-1.81-1.61-4.19-2.586-6.795-2.586-.825 0-1.63.1-2.4.29zm10.868 3.702c-.216.3-1.9 2.49-5.724 4.058.24.49.47.985.68 1.486.08.18.15.36.22.53 3.41-.43 6.8.26 7.14.33-.02-2.42-.88-4.64-2.31-6.38z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Behance",
+    url: "https://www.behance.net/vivekanand6f29C",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988H0V5.021h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zM3 11h3.584c2.508 0 2.906-3-.312-3H3v3zm3.391 3H3v3.016h3.341c3.055 0 2.868-3.016.05-3.016z" />
       </svg>
     ),
   },
@@ -156,46 +165,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Calendly */}
-            <div className="mb-8">
-              <p className="text-muted text-sm mb-3">Schedule a call</p>
-              <a
-                href="https://calendly.com/vivekanand-choudhari"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-surface border border-border text-sm font-semibold text-foreground hover:border-accent/40 hover:text-accent transition-all duration-200 group"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" />
-                  <line x1="8" y1="2" x2="8" y2="6" />
-                  <line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
-                Pick a time that works
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-muted transition-transform group-hover:translate-x-0.5"
-                >
-                  <path d="M7 17l9.2-9.2M17 17V7H7" />
-                </svg>
-              </a>
-            </div>
+
 
             {/* Resume Download */}
             <div className="mt-8">
@@ -225,24 +195,7 @@ export default function ContactPage() {
               </a>
             </div>
 
-            {/* Availability */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mt-12 p-6 rounded-2xl bg-surface border border-border"
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                <span className="font-semibold">Open to Opportunities</span>
-              </div>
-              <p className="text-muted text-sm leading-relaxed">
-                I&apos;m currently open to full-time roles, contract work, and
-                advisory positions in design engineering. Especially interested
-                in FAANG, top-tier startups, and companies building at the
-                intersection of design and technology.
-              </p>
-            </motion.div>
+
           </motion.div>
 
           {/* Right: Form */}
@@ -363,9 +316,6 @@ export default function ContactPage() {
                   Open Email Client
                 </button>
 
-                <p className="text-muted text-xs text-center">
-                  I typically respond within 24 hours.
-                </p>
               </form>
           </motion.div>
         </div>

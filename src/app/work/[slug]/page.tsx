@@ -35,7 +35,6 @@ interface ProjectDetail {
   approach: string[];
   impact: string[];
   features: { title: string; desc: string }[];
-  prototypeSlug: string;
   story?: StoryChapter[];
   role?: RoleContext;
 }
@@ -465,7 +464,6 @@ const projectData: Record<string, ProjectDetail> = {
       { title: "Component Marketplace", desc: "Pre-built templates and components users can install and customize for their apps." },
       { title: "Real-time Preview", desc: "Instant preview of the built application with device simulation and data binding." },
     ],
-    prototypeSlug: "nocode-platform",
     story: nocodeStory,
     role: {
       title: "Lead Product Designer",
@@ -503,7 +501,6 @@ const projectData: Record<string, ProjectDetail> = {
       { title: "ABDM-Native", desc: "ABHA ID registration, health record push to PHR, consent framework, and Health Information Exchange — built in from day one, not bolted on." },
       { title: "Indian Billing Engine", desc: "PMJAY, CGHS, ECHS, TPA, and self-pay support with real-time pre-auth, claim lifecycle tracking, UPI/card payments, and GST-compliant invoicing." },
     ],
-    prototypeSlug: "ehr-platform",
     story: ehrStory,
     role: {
       title: "Design Lead",
@@ -539,7 +536,6 @@ const projectData: Record<string, ProjectDetail> = {
       { title: "Compliance Alerts", desc: "NAAQS exceedance alerts with severity tiers (critical/warning/info), regulatory action tracking, and one-click acknowledgement." },
       { title: "Machine Health Tracker", desc: "12 CAAQMS instruments — BAM, TEOM, analyzers, DAS — with calibration schedule, firmware, uptime, and service request workflow." },
     ],
-    prototypeSlug: "iot-dashboard",
     role: {
       title: "UX Design Lead",
       scope: "Interaction design, data visualization, real-time dashboard architecture, stakeholder alignment with CPCB",
@@ -574,7 +570,6 @@ const projectData: Record<string, ProjectDetail> = {
       { title: "Content Grid", desc: "Virtualized infinite scroll grid with progressive image loading and hover-activated previews." },
       { title: "User Profiles", desc: "Multi-profile support with individual watch history, preferences, and parental controls." },
     ],
-    prototypeSlug: "ott-platform",
     role: {
       title: "Senior Product Designer",
       scope: "Content discovery redesign, design system migration, performance optimization, A/B test design",
@@ -611,7 +606,6 @@ const projectData: Record<string, ProjectDetail> = {
       { title: "Predictive Analytics", desc: "Schedule and cost predictions using SPI/CPI metrics, estimated completion dates, and probability-based delay forecasting." },
       { title: "Auto-Linking Engine", desc: "Patented technology that connects data across Procore, P6, Autodesk, and other systems — creating a unified intelligence layer from 95% of unused data." },
     ],
-    prototypeSlug: "construction-ai",
     role: {
       title: "Product Design Consultant",
       scope: "AI/ML product strategy, data integration UX, risk visualization, stakeholder workshops with construction firms",
@@ -734,28 +728,7 @@ export default function ProjectDetailPage() {
               </motion.div>
             )}
 
-            {/* Prototype CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <Link
-                href={`/work/${slug}/prototype`}
-                target="_blank"
-                className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-accent text-white font-semibold hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-                Open App Prototype
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-              </Link>
-            </motion.div>
+
           </div>
         </Section>
 
@@ -1020,28 +993,7 @@ export default function ProjectDetailPage() {
             </motion.div>
           )}
 
-          {/* Open Prototype CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-          >
-            <Link
-              href={`/work/${slug}/prototype`}
-              target="_blank"
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-accent text-white font-semibold hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-              Open App Prototype
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-60">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                <polyline points="15 3 21 3 21 9" />
-                <line x1="10" y1="14" x2="21" y2="3" />
-              </svg>
-            </Link>
-          </motion.div>
+
         </div>
       </Section>
 

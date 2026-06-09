@@ -14,15 +14,12 @@ const footerLinks = {
       href: "https://www.linkedin.com/in/vivekanand-choudhari-817829118/",
       label: "LinkedIn",
     },
-    { href: "https://dribbble.com/vivekanand", label: "Dribbble" },
+    { href: "https://dribbble.com/VivekanandChoudhari", label: "Dribbble" },
+    { href: "https://www.behance.net/vivekanand6f29C", label: "Behance" },
     { href: "https://github.com/vivekanandchoudhari", label: "GitHub" },
   ],
   Contact: [
     { href: "mailto:vivekanand.design@gmail.com", label: "Email" },
-    {
-      href: "https://calendly.com/vivekanand-choudhari",
-      label: "Schedule a Call",
-    },
   ],
 };
 
