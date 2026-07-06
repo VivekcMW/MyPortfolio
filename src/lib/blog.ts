@@ -12,6 +12,76 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "psychology-of-design-tokens",
+    title: "The Psychology Behind My Design Tokens: 8 Decisions, Explained",
+    excerpt:
+      "This portfolio is case study zero. Every color, motion curve, and contrast ratio on this site encodes a perception principle — here are the eight decisions and the evidence behind each one.",
+    date: "2026-07-01",
+    readTime: "10 min read",
+    category: "Design Systems",
+    tags: ["Design Tokens", "Color Psychology", "Accessibility", "Motion Design"],
+    featured: true,
+    content: `
+# The Psychology Behind My Design Tokens: 8 Decisions, Explained
+
+Most token documentation tells you *what* the values are. Almost none tells you *why*. This post is the missing half — eight decisions from this site's own token layer, each grounded in a perception principle rather than taste.
+
+## 1. The 90 / 9 / 1 accent rule
+
+**Decision:** ~90% of any screen is neutral, ~9% carries one dominant accent, ~1% is reserved for a single moment of emphasis.
+
+**Why:** The Von Restorff effect — the isolated item is the remembered item. An accent color only directs attention if it's rare. When everything glows, nothing does. I audit each page for exactly one accent-dominant element per viewport.
+
+## 2. Muted text at 5.2:1, not "whatever looks subtle"
+
+**Decision:** Secondary text moved from \`#666666\` (3.2:1 on my background — a WCAG AA fail) to \`#8C8C8C\` (5.2:1).
+
+**Why:** Contrast sensitivity varies enormously — with age, display quality, and ambient light. "Subtle" gray that passes on a designer's OLED in a dark room fails on a mid-range LCD by a window. AA compliance isn't bureaucracy; it's designing for the median eye, not the best one.
+
+## 3. Dark background at #080808, not #000000
+
+**Decision:** Near-black instead of pure black.
+
+**Why:** On OLED, pure black creates maximum simultaneous contrast — light text visually vibrates and "halates" against #000. A slightly lifted black reduces edge glare while preserving the dark aesthetic. Elevation is then encoded as lightness steps (#080808 → #111 → #191919): closer surfaces are lighter, which matches how ambient light behaves in the physical world.
+
+## 4. Three accent hues, one per identity
+
+**Decision:** Sky blue for Builder, electric violet for Designer, amber for Scaler — never mixed in a single component.
+
+**Why:** Color association is learned, contextual, and fast. Assigning one hue per pillar creates a *legend* the visitor learns implicitly: by the third section, violet means "design content" without a label. That's the real, defensible use of "color psychology" — consistent association, not "blue means trust."
+
+## 5. Three motion speeds. Only three.
+
+**Decision:** 150ms (state changes), 300ms (reveals), 600ms (hero moments). Two easing curves.
+
+**Why:** Motion is a language, and languages need consistent grammar. When every element animates at a bespoke duration, the interface feels arbitrary. Constraining to three speeds makes motion *legible*: fast = feedback, medium = content, slow = a moment worth pausing for.
+
+## 6. Motion respects the nervous system
+
+**Decision:** Every animation on this site honors \`prefers-reduced-motion\` — via one global \`MotionConfig\` for Framer Motion and one CSS media query for everything else.
+
+**Why:** Vestibular disorders affect roughly a third of adults over 40 to some degree. Parallax and large-scale movement can cause genuine dizziness and nausea. One provider + one media query covers the entire site — the cost of respecting this is nearly zero, which makes *not* doing it indefensible.
+
+## 7. Weight before color for hierarchy
+
+**Decision:** Text hierarchy is encoded in font weight and size first; color is the *last* channel applied.
+
+**Why:** Redundant encoding. Around 8% of men have some form of color vision deficiency, and everyone loses color discrimination in peripheral vision. A hierarchy that survives grayscale is a hierarchy that works for every reader — color then becomes enhancement, not dependency.
+
+## 8. The peak-end audit
+
+**Decision:** Each page gets exactly one engineered "peak" (the terminal hero, the DS Lab canvas, the decision records) and a designed ending (an availability signal and a single clear ask).
+
+**Why:** Kahneman's peak-end rule — experiences are remembered by their most intense moment and their final one, not their average. A portfolio that's uniformly "pretty good" is forgotten. One genuine peak plus a deliberate ending outperforms ten competent sections.
+
+---
+
+## The meta-point
+
+None of these decisions required talent. They required *reasons*. That's what a design system actually is — not a component library, but an argument: every token a claim, every value its evidence. If you can't explain a token, you don't have a system. You have a mood board with variables.
+`,
+  },
+  {
     slug: "design-thinking-adtech-ooh",
     title: "Design Thinking in AdTech: How OOH is Going Digital",
     excerpt:

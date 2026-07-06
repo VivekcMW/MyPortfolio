@@ -9,6 +9,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import SmoothScroll from "@/components/SmoothScroll";
 import StatusBar from "@/components/StatusBar";
 import BackToTop from "@/components/BackToTop";
+import MotionProvider from "@/components/MotionProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -83,24 +84,55 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Vivekanand Choudhari",
+    url: "https://vivekanand.dev",
+    jobTitle: "Design Engineer",
+    description:
+      "Design engineer who designs systems, builds products, and scales them to millions across AdTech, Healthcare, IoT, and OTT platforms.",
+    knowsAbout: [
+      "Design Systems",
+      "Product Design",
+      "Frontend Engineering",
+      "Design Leadership",
+    ],
+    sameAs: [
+      "https://www.linkedin.com/in/vivekanand-choudhari-817829118/",
+      "https://github.com/vivekanandchoudhari",
+      "https://dribbble.com/VivekanandChoudhari",
+      "https://www.behance.net/vivekanand6f29C",
+    ],
+  };
+
   return (
     <html
       lang="en"
       className={`        ${inter.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col grain">
-        <div className="relative overflow-x-clip">
-          <SmoothScroll />
-          <ScrollProgress />
-          <CursorGlow />
-          <Navbar />
-          <main className="flex-1">
-            <PageTransition>{children}</PageTransition>
-          </main>
-          <Footer />
-          <BackToTop />
-          <StatusBar />
-        </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
+        <MotionProvider>
+          <div className="relative overflow-x-clip">
+            <SmoothScroll />
+            <ScrollProgress />
+            <CursorGlow />
+            <Navbar />
+            <main id="main-content" className="flex-1">
+              <PageTransition>{children}</PageTransition>
+            </main>
+            <Footer />
+            <BackToTop />
+            <StatusBar />
+          </div>
+        </MotionProvider>
       </body>
     </html>
   );

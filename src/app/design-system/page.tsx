@@ -15,6 +15,7 @@ import { DesignSystemSlug, PaletteSlug, DesignSystem, StudioTokens, defaultStudi
 import { designSystems, designSystemList } from "@/lib/design-system/domains";
 import { palettes, paletteList } from "@/lib/design-system/palettes";
 import { researchEntries, getResearch } from "@/lib/design-system/research";
+import { contrastRatio, wcagRating, applyStudioShift, WcagRating } from "@/lib/design-system/color-utils";
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    TYPES & INTERFACES
@@ -77,6 +78,16 @@ export default function DesignSystemPage() {
   const [exportOpen, setExportOpen] = useState(false);
   const [exportFormat, setExportFormat] = useState<"css" | "json" | "tailwind">("css");
   const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
+  const [introSeen, setIntroSeen] = useState(true);
+
+  useEffect(() => {
+    setIntroSeen(localStorage.getItem("ds-lab-intro-seen") === "1");
+  }, []);
+
+  const dismissIntro = () => {
+    localStorage.setItem("ds-lab-intro-seen", "1");
+    setIntroSeen(true);
+  };
 
   const ds = designSystems[activeDomain];
   const pal = palettes[activePalette];
@@ -220,6 +231,8 @@ export default function DesignSystemPage() {
                     boxShadow: activeDomain === slug ? `0 0 12px ${theme.colors.primaryHex}40` : "none",
                   }}
                   title={name}
+                  aria-label={`${name} domain`}
+                  aria-pressed={activeDomain === slug}
                 >
                   <Icon className="w-3 h-3" />
                   <span className="hidden lg:inline">{name}</span>
@@ -243,6 +256,8 @@ export default function DesignSystemPage() {
                       color: activePalette === slug ? "#fff" : theme.colors.textMuted,
                     }}
                     title={p.name}
+                    aria-label={`${p.name} palette`}
+                    aria-pressed={activePalette === slug}
                   >
                     <Icon className="w-3.5 h-3.5" />
                   </button>
@@ -263,6 +278,8 @@ export default function DesignSystemPage() {
                     backgroundColor: deviceView === device.id ? theme.colors.primaryHex : "transparent",
                     color: deviceView === device.id ? "#fff" : theme.colors.textMuted,
                   }}
+                  aria-label={`${device.id} preview`}
+                  aria-pressed={deviceView === device.id}
                 >
                   {device.icon}
                 </button>
@@ -277,6 +294,8 @@ export default function DesignSystemPage() {
                   color: splitView ? "#fff" : theme.colors.textMuted,
                 }}
                 title="Split View"
+                aria-label="Toggle split view"
+                aria-pressed={splitView}
               >
                 <Columns className="w-3 h-3" />
               </button>
@@ -285,6 +304,7 @@ export default function DesignSystemPage() {
                 className="p-1 rounded-md transition-colors"
                 style={{ color: theme.colors.textMuted }}
                 title="Export Tokens"
+                aria-label="Export tokens"
               >
                 <Download className="w-3 h-3" />
               </button>
@@ -318,6 +338,8 @@ export default function DesignSystemPage() {
                 className="p-1 rounded-md transition-colors"
                 style={{ color: mobilePanelOpen ? theme.colors.primaryHex : theme.colors.textMuted }}
                 title="Properties"
+                aria-label="Toggle properties panel"
+                aria-pressed={mobilePanelOpen}
               >
                 <Sliders className="w-3 h-3" />
               </button>
@@ -328,6 +350,53 @@ export default function DesignSystemPage() {
 
       {/* ─── Canvas Area ─── */}
       <div className="flex flex-1 relative z-10 overflow-hidden">
+        {/* First-visit intro — what this is and why it matters */}
+        <AnimatePresence>
+          {!introSeen && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              className="absolute top-3 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-2xl"
+            >
+              <div
+                className="flex items-start gap-3 p-4 rounded-xl border shadow-2xl"
+                style={{
+                  backgroundColor: theme.colors.surface + "f5",
+                  borderColor: theme.colors.primaryHex + "40",
+                  backdropFilter: "blur(16px)",
+                }}
+              >
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                  style={{ background: `linear-gradient(135deg, ${theme.colors.primaryHex}, ${theme.colors.secondaryHex})` }}
+                >
+                  <Sparkles className="w-4 h-4 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold mb-1" style={{ color: theme.colors.text }}>
+                    This is a live design-system studio.
+                  </p>
+                  <p className="text-xs leading-relaxed" style={{ color: theme.colors.textMuted }}>
+                    36 theme combinations · every token adjustable · every decision documented.
+                    Try dragging <strong style={{ color: theme.colors.text }}>Border Radius</strong> in
+                    the Properties panel, or push <strong style={{ color: theme.colors.text }}>Lightness</strong> until
+                    the live contrast audit fails — then check the Accessibility tab.
+                  </p>
+                </div>
+                <button
+                  onClick={dismissIntro}
+                  aria-label="Dismiss introduction"
+                  className="p-1.5 rounded-md transition-colors shrink-0"
+                  style={{ color: theme.colors.textMuted }}
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Left: Vertical Tool Palette */}
         <nav 
           className="hidden md:flex flex-col items-center gap-1 py-3 px-1.5 border-r shrink-0"
@@ -345,6 +414,8 @@ export default function DesignSystemPage() {
                   color: isActive ? theme.colors.primaryHex : theme.colors.textMuted,
                 }}
                 title={section.label}
+                aria-label={`${section.label} section`}
+                aria-current={isActive ? "true" : undefined}
               >
                 {section.icon}
                 <div 
@@ -763,7 +834,7 @@ function SectionRenderer({ theme, activeDomain, activeSection, copyToClipboard, 
     case "patterns":
       return <PatternsSection theme={theme} setActiveDomain={setActiveDomain} activeDomain={activeDomain} />;
     case "accessibility":
-      return <AccessibilitySection theme={theme} />;
+      return <AccessibilitySection theme={theme} studioTokens={studioTokens} />;
     case "code":
       return <CodeSection theme={theme} copyToClipboard={copyToClipboard} copiedToken={copiedToken} studioTokens={studioTokens} />;
   }
@@ -799,6 +870,7 @@ function SliderControl({ label, icon, value, min, max, step, onChange, colors }:
         step={step ?? 1}
         value={value}
         onChange={e => onChange(parseFloat(e.target.value))}
+        aria-label={label}
         className="w-full h-1 rounded-full appearance-none cursor-pointer"
         style={{
           backgroundColor: colors.surfaceHover,
@@ -946,7 +1018,83 @@ function StudioPanelControls({ tokens, onChange, theme: t }: {
         onChange={v => onChange("lightnessShift", v)}
         colors={t.colors}
       />
+
+      <LiveContrastStrip theme={t} tokens={tokens} />
     </>
+  );
+}
+
+/* ─── Live contrast audit — updates as sliders move ─── */
+function ratingColor(rating: WcagRating): string {
+  if (rating === "AAA") return "#4ade80";
+  if (rating === "AA") return "#a3e635";
+  if (rating === "AA Large") return "#facc15";
+  return "#f87171";
+}
+
+function getContrastPairs(theme: DesignSystem, tokens: StudioTokens) {
+  const shift = (hex: string) => applyStudioShift(hex, tokens.saturationShift, tokens.lightnessShift);
+  const pairs = [
+    { label: "Body text / Background", fg: theme.colors.text, bg: theme.colors.background },
+    { label: "Muted text / Background", fg: theme.colors.textMuted, bg: theme.colors.background },
+    { label: "Body text / Surface", fg: theme.colors.text, bg: theme.colors.surface },
+    { label: "Button label / Primary", fg: "#ffffff", bg: theme.colors.primaryHex },
+    { label: "Primary / Background", fg: theme.colors.primaryHex, bg: theme.colors.background },
+  ];
+  return pairs.map((p) => {
+    const fg = shift(p.fg);
+    const bg = shift(p.bg);
+    const ratio = contrastRatio(fg, bg);
+    return { ...p, fg, bg, ratio, rating: wcagRating(ratio) };
+  });
+}
+
+function LiveContrastStrip({ theme: t, tokens }: {
+  theme: DesignSystem;
+  tokens: StudioTokens;
+}) {
+  const results = getContrastPairs(t, tokens);
+  const failing = results.filter((r) => r.rating === "Fail").length;
+
+  return (
+    <div
+      className="pt-3 border-t space-y-1.5"
+      style={{ borderColor: t.colors.border }}
+      aria-live="polite"
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-[11px] font-semibold" style={{ color: t.colors.text }}>
+          <Contrast className="w-3.5 h-3.5" />
+          Live Contrast
+        </div>
+        <span
+          className="text-[10px] font-mono px-1.5 py-0.5 rounded"
+          style={{
+            color: failing ? "#f87171" : "#4ade80",
+            backgroundColor: (failing ? "#f87171" : "#4ade80") + "1a",
+          }}
+        >
+          {failing ? `${failing} failing` : "all passing"}
+        </span>
+      </div>
+      {results.map((r) => (
+        <div key={r.label} className="flex items-center gap-2">
+          <span
+            className="w-2 h-2 rounded-full shrink-0"
+            style={{ backgroundColor: ratingColor(r.rating) }}
+          />
+          <span className="flex-1 text-[10px] truncate" style={{ color: t.colors.textMuted }}>
+            {r.label}
+          </span>
+          <span className="text-[10px] font-mono tabular-nums" style={{ color: t.colors.text }}>
+            {r.ratio.toFixed(1)}
+          </span>
+        </div>
+      ))}
+      <p className="text-[9px] leading-relaxed pt-1" style={{ color: t.colors.textMuted }}>
+        WCAG 2.2 ratios, recomputed on the shifted colors as you drag.
+      </p>
+    </div>
   );
 }
 
@@ -2162,7 +2310,7 @@ function PatternsSection({
 }
 
 /* ─── Accessibility Section ─── */
-function AccessibilitySection({ theme }: Readonly<{ theme: DesignSystem }>) {
+function AccessibilitySection({ theme, studioTokens }: Readonly<{ theme: DesignSystem; studioTokens: StudioTokens }>) {
   const [simulateVision, setSimulateVision] = useState<"none" | "protanopia" | "deuteranopia" | "tritanopia">("none");
 
   const visionFilters: Record<typeof simulateVision, string> = {
@@ -2172,50 +2320,76 @@ function AccessibilitySection({ theme }: Readonly<{ theme: DesignSystem }>) {
     tritanopia: "grayscale(0%) sepia(50%) saturate(100%) hue-rotate(270deg)",
   };
 
-  const checks = [
-    { name: "Color Contrast", status: "pass", value: "4.5:1" },
-    { name: "Focus Indicators", status: "pass", value: "100%" },
-    { name: "Keyboard Navigation", status: "pass", value: "100%" },
-    { name: "Screen Reader", status: "pass", value: "Compliant" },
-    { name: "Touch Targets", status: "pass", value: "44px min" },
-    { name: "Reduced Motion", status: "pass", value: "Supported" },
-  ];
+  const results = getContrastPairs(theme, studioTokens);
+  const passing = results.filter((r) => r.rating !== "Fail").length;
+  const shifted = studioTokens.saturationShift !== 0 || studioTokens.lightnessShift !== 0;
 
   return (
     <div className="space-y-6">
       <SectionHeader 
         title="Accessibility"
-        description="WCAG 2.1 AA compliant with color blindness simulators."
+        description="A live WCAG 2.2 audit of this exact theme — not a static claim. Ratios recompute as you adjust tokens."
         theme={theme}
       />
 
-      {/* Score Card */}
+      {/* Live Contrast Matrix */}
       <Card theme={theme}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h3 className="text-sm font-semibold mb-1" style={{ color: theme.colors.text }}>Compliance Score</h3>
-            <p className="text-xs" style={{ color: theme.colors.textMuted }}>Based on WCAG 2.1 AA guidelines</p>
+            <h3 className="text-sm font-semibold mb-1" style={{ color: theme.colors.text }}>
+              Live Contrast Audit
+            </h3>
+            <p className="text-xs" style={{ color: theme.colors.textMuted }}>
+              Computed from the current palette{shifted ? " with your saturation/lightness shift applied" : ""}. Drag the Properties sliders and watch these change.
+            </p>
           </div>
-          <div className="text-4xl font-bold" style={{ color: theme.colors.success }}>98%</div>
+          <div className="text-right shrink-0">
+            <div className="text-4xl font-bold tabular-nums" style={{ color: passing === results.length ? theme.colors.success : theme.colors.warning }}>
+              {passing}/{results.length}
+            </div>
+            <div className="text-[10px] font-mono uppercase tracking-wider" style={{ color: theme.colors.textMuted }}>
+              pairs passing
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {checks.map((check) => (
-            <div 
-              key={check.name}
+        <div className="space-y-2">
+          {results.map((r) => (
+            <div
+              key={r.label}
               className="flex items-center gap-3 p-3 rounded-lg"
               style={{ backgroundColor: theme.colors.surfaceHover }}
             >
-              <div className="w-6 h-6 rounded-full flex items-center justify-center bg-green-500/20">
-                <Check className="w-3.5 h-3.5 text-green-400" />
+              {/* Swatch preview — actual fg on actual bg */}
+              <div
+                className="w-14 h-9 rounded-md flex items-center justify-center text-xs font-semibold shrink-0 border"
+                style={{ backgroundColor: r.bg, color: r.fg, borderColor: theme.colors.border }}
+                aria-hidden="true"
+              >
+                Aa
               </div>
-              <div className="flex-1">
-                <div className="text-sm font-medium" style={{ color: theme.colors.text }}>{check.name}</div>
-                <div className="text-xs" style={{ color: theme.colors.textMuted }}>{check.value}</div>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-medium truncate" style={{ color: theme.colors.text }}>{r.label}</div>
+                <div className="text-[10px] font-mono" style={{ color: theme.colors.textMuted }}>
+                  {r.fg} on {r.bg}
+                </div>
               </div>
+              <span className="text-sm font-mono tabular-nums shrink-0" style={{ color: theme.colors.text }}>
+                {r.ratio.toFixed(2)}:1
+              </span>
+              <span
+                className="px-2 py-1 rounded-md text-[10px] font-semibold shrink-0 min-w-16 text-center"
+                style={{ color: ratingColor(r.rating), backgroundColor: ratingColor(r.rating) + "1a" }}
+              >
+                {r.rating}
+              </span>
             </div>
           ))}
         </div>
+
+        <p className="mt-4 text-[11px] leading-relaxed" style={{ color: theme.colors.textMuted }}>
+          Thresholds per WCAG 2.2: <strong style={{ color: theme.colors.text }}>7:1</strong> AAA · <strong style={{ color: theme.colors.text }}>4.5:1</strong> AA · <strong style={{ color: theme.colors.text }}>3:1</strong> AA for large text (≥24px or 19px bold). A token that can&apos;t explain its ratio isn&apos;t a token — it&apos;s a guess.
+        </p>
       </Card>
 
       {/* Vision Simulator */}

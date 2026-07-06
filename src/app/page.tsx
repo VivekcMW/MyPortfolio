@@ -50,9 +50,18 @@ const projects = [
 
 const featuredPosts = [
   {
+    title: "The Psychology Behind My Design Tokens: 8 Decisions, Explained",
+    excerpt:
+      "This portfolio is case study zero. Every color, motion curve, and contrast ratio on this site encodes a perception principle — here are the eight decisions and the evidence behind each one.",
+    date: "Jul 2026",
+    readTime: "10 min read",
+    category: "Design Systems",
+    slug: "psychology-of-design-tokens",
+  },
+  {
     title: "Design Thinking in AdTech: How OOH is Going Digital",
     excerpt:
-      "The Out-of-Home advertising industry is undergoing a massive digital transformation. Here's how design thinking is reshaping how brands connect with audiences in physical spaces.",
+      "The OOH advertising industry is undergoing a massive digital transformation — how design thinking is reshaping how brands connect with audiences in physical spaces.",
     date: "Mar 2026",
     readTime: "8 min read",
     category: "Industry Insights",
@@ -66,15 +75,6 @@ const featuredPosts = [
     readTime: "6 min read",
     category: "Design Systems",
     slug: "building-design-systems-scale",
-  },
-  {
-    title: "AI is Changing How We Design — Here's How I Use It",
-    excerpt:
-      "From AI-assisted prototyping to intelligent layout suggestions, here's my workflow.",
-    date: "Jan 2026",
-    readTime: "5 min read",
-    category: "AI × Design",
-    slug: "ai-changing-design",
   },
 ];
 
@@ -316,16 +316,9 @@ export default function HomePage() {
             }}
           />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--color-background)_70%)]" />
-          <motion.div
-            animate={{ x: [0, 50, -30, 20, 0], y: [0, -40, 20, -10, 0], scale: [1, 1.2, 0.9, 1.1, 1] }}
-            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[15%] left-[20%] w-[28rem] h-[28rem] bg-accent/6 rounded-full blur-3xl"
-          />
-          <motion.div
-            animate={{ x: [0, -40, 30, -20, 0], y: [0, 30, -40, 10, 0], scale: [1, 0.9, 1.15, 0.95, 1] }}
-            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-[20%] right-[15%] w-[24rem] h-[24rem] bg-accent-coral/5 rounded-full blur-3xl"
-          />
+          {/* Static ambient glows — motion is reserved for the terminal (one moment per screen) */}
+          <div className="absolute top-[15%] left-[20%] w-[28rem] h-[28rem] bg-accent/6 rounded-full blur-3xl" />
+          <div className="absolute bottom-[20%] right-[15%] w-[24rem] h-[24rem] bg-accent-coral/5 rounded-full blur-3xl" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -357,7 +350,12 @@ export default function HomePage() {
                 transition={{ duration: 0.7, delay: 0.7 }}
                 className="mt-6 text-base md:text-lg text-muted max-w-lg mx-auto lg:mx-0 leading-relaxed"
               >
-                And the products they ship. I build design teams, design systems, and the strategies that turn complex problems into shipped products — from 0 to 30+ countries.
+                <span className="text-foreground/90 font-medium">
+                  I run design like an engineering discipline
+                </span>{" "}
+                — systems, tokens, and shipped code. I build design teams, design
+                systems, and the strategies that turn complex problems into
+                products used in 30+ countries.
               </motion.p>
 
               <motion.div
@@ -520,6 +518,9 @@ export default function HomePage() {
               </motion.div>
             ))}
           </div>
+          <p className="mt-4 text-[11px] text-muted/70 font-mono">
+            * Metrics measured on shipped releases at Moving Walls and client engagements, 2018–2026. Methodology and context in each case study.
+          </p>
         </div>
       </section>
 
@@ -701,11 +702,25 @@ export default function HomePage() {
         </motion.div>
       </Section>
 
-      {/* ===== CTA BANNER ===== */}
+      {/* ===== CTA BANNER — the designed ending (peak‑end) ===== */}
       <Section>
         <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-surface border border-border p-8 sm:p-12 md:p-20 text-center">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-150 h-50 sm:h-75 bg-accent/10 rounded-full blur-3xl" />
           <div className="relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/60 border border-border mb-8"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+              </span>
+              <span className="text-xs font-mono text-foreground/80">
+                Available for select engagements · responds within 24h
+              </span>
+            </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -730,6 +745,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <Magnetic strength={0.4} scaleOnHover={1.05}>
                 <Link
@@ -739,6 +755,12 @@ export default function HomePage() {
                   Get in Touch
                 </Link>
               </Magnetic>
+              <a
+                href="mailto:vivekanand.design@gmail.com"
+                className="text-sm font-mono text-muted hover:text-foreground transition-colors underline underline-offset-4 decoration-border hover:decoration-accent"
+              >
+                vivekanand.design@gmail.com
+              </a>
             </motion.div>
           </div>
         </div>

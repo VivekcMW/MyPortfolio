@@ -10,5 +10,33 @@ export default function BlogPostPage({
 }: {
   params: { slug: string };
 }) {
-  return <BlogPostClient slug={params.slug} />;
+  const post = getAllPosts().find((p) => p.slug === params.slug);
+  const jsonLd = post
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.excerpt,
+        datePublished: post.date,
+        keywords: post.tags.join(", "),
+        author: {
+          "@type": "Person",
+          name: "Vivekanand Choudhari",
+          url: "https://vivekanand.dev",
+        },
+        mainEntityOfPage: `https://vivekanand.dev/blog/${post.slug}`,
+      }
+    : null;
+
+  return (
+    <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      <BlogPostClient slug={params.slug} />
+    </>
+  );
 }

@@ -1,13 +1,15 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* ── SIGNAL: Core ── */
-  --color-background: #080808;
-  --color-foreground: #F0EEE9;
-  --color-surface: #111111;
+  /* ── SIGNAL: Core ──
+     Neutral ramp derived from OKLCH lightness steps for perceptual evenness.
+     --color-muted passes WCAG 2.2 AA (≥ 4.5:1) against --color-background. */
+  --color-background: #080808;  /* oklch(0.13 0 0) */
+  --color-foreground: #F0EEE9;  /* oklch(0.95 0.004 84) */
+  --color-surface: #111111;     /* oklch(0.17 0 0) */
   --color-surface-hover: #191919;
-  --color-border: #222222;
-  --color-muted: #666666;
+  --color-border: #262626;
+  --color-muted: #8C8C8C;       /* 5.2:1 on background — was #666 (3.2:1, AA fail) */
 
   /* ── SIGNAL: Three Pillar Accents ── */
   --color-accent: #38BDF8;          /* Builder — Sky Blue */
@@ -26,9 +28,64 @@
   --font-mono: var(--font-jetbrains-mono);
 }
 
+:root {
+  /* ── Motion primitives — 3 speeds, 2 easings. Nothing else. ── */
+  --motion-fast: 150ms;      /* hover, focus, small state changes */
+  --motion-base: 300ms;      /* entrances, reveals */
+  --motion-slow: 600ms;      /* hero moments, page transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
 
-html {
-  scroll-behavior: smooth;
+
+/* ── Scrolling ──
+   NOTE: no `scroll-behavior: smooth` here — Lenis drives smooth scrolling by
+   writing scrollTop every frame; CSS smooth-behavior re-animates those writes
+   and the two fight, stalling scroll before the bottom of the page. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* ── Accessibility: visible focus for keyboard users ── */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Skip link — first tab stop, hidden until focused ── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 10000;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-accent);
+  color: #08131a;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0 0 8px 8px;
+  transition: top var(--motion-fast) ease;
+}
+.skip-link:focus-visible {
+  top: 0;
+  outline-offset: 0;
+}
+
+/* ── Reduced motion: honor the OS setting everywhere ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .grain::after {
+    display: none;
+  }
 }
 
 body {

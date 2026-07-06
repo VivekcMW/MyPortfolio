@@ -100,16 +100,28 @@ export default function ContactPage() {
             <p className="text-accent font-mono text-sm uppercase tracking-widest mb-4">
               Get in Touch
             </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface border border-border mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+              </span>
+              <span className="text-xs font-mono text-foreground/80">
+                Available for select engagements
+              </span>
+            </div>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
               Let&apos;s build
               <br />
               something{" "}
               <span className="text-gradient">great.</span>
             </h1>
-            <p className="text-muted text-base md:text-lg leading-relaxed mb-8 max-w-lg">
+            <p className="text-muted text-base md:text-lg leading-relaxed mb-4 max-w-lg">
               Whether you&apos;re working on a product that needs design leadership,
               looking for a design engineer, or just want to chat about design
               and tech — I&apos;d love to hear from you.
+            </p>
+            <p className="text-sm text-muted/80 font-mono mb-8">
+              I reply to every message within 24 hours.
             </p>
 
             {/* Email */}

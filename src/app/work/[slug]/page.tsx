@@ -24,6 +24,16 @@ interface RoleContext {
   duration: string;
 }
 
+/* ─── Decision Record — context → options → choice → result ─── */
+interface DecisionRecord {
+  title: string;
+  context: string;
+  options: string[];
+  choice: string;
+  result: string;
+  principle: string;
+}
+
 /* ─── Project Data ─── */
 interface ProjectDetail {
   title: string;
@@ -37,6 +47,8 @@ interface ProjectDetail {
   features: { title: string; desc: string }[];
   story?: StoryChapter[];
   role?: RoleContext;
+  decisions?: DecisionRecord[];
+  retro?: string[];
 }
 
 /* ─── NoCode Story Chapters ─── */
@@ -471,6 +483,62 @@ const projectData: Record<string, ProjectDetail> = {
       team: "Led 4 designers, collaborated with 2 UX researchers and 6 engineers; reported to CPO",
       duration: "2018 — 2022 (4 years)",
     },
+    decisions: [
+      {
+        title: "Progressive disclosure over feature parity",
+        context:
+          "Early property panels exposed every option at once — 47 controls per component. In usability rounds, non-technical users froze; task abandonment hit 40% on the first configuration step.",
+        options: [
+          "Full panel with search (power-user friendly, overwhelming for target persona)",
+          "Tabbed categories (hid options behind labels users didn't recognize)",
+          "Progressive disclosure — 5 essential controls, 'Advanced' expander for the rest",
+        ],
+        choice:
+          "Progressive disclosure, tuned per persona: defaults chosen from the 5 controls that covered 80% of observed configurations in research.",
+        result:
+          "Task completion on first-run configuration rose from 60% to 94% across two usability rounds (n=24). Support tickets about 'missing' settings stayed under 3% — the fear that drove feature parity never materialized.",
+        principle:
+          "Hick's law — decision time grows with the number of choices. Cutting visible options is a feature, not a compromise.",
+      },
+      {
+        title: "Node graphs, not scripts, for business logic",
+        context:
+          "Users needed conditions, loops, and API calls — real programming concepts — without code. Card sorting showed our personas thought in 'if this, then that' flows, not in expressions.",
+        options: [
+          "Excel-style expression language (familiar syntax, but recall-based and error-prone)",
+          "Block-based coding à la Scratch (readable, but perceived as 'a toy' by enterprise buyers)",
+          "Node-based flow editor with typed ports and inline previews",
+        ],
+        choice:
+          "Node graph with typed connections — invalid links are impossible to draw, so errors are prevented rather than reported.",
+        result:
+          "In final testing, 8 of 10 non-developers built a 3-step conditional workflow unaided. The flow editor became the platform's most-cited differentiator in sales calls.",
+        principle:
+          "Recognition over recall (Nielsen #6) + error prevention (#5) — make the correct action the only drawable one.",
+      },
+      {
+        title: "One component library for the builder and its output",
+        context:
+          "The builder UI and the apps it generated could have separate component libraries — faster to ship initially, but two sources of truth.",
+        options: [
+          "Separate libraries per surface (fast start, guaranteed drift)",
+          "Shared token layer, separate components (half-measure — drift moves to behavior)",
+          "One library, 120+ components, consumed by both the builder and generated apps",
+        ],
+        choice:
+          "Single shared library. Every component built once, themed via tokens, rendered identically in edit and runtime modes.",
+        result:
+          "What users dragged onto the canvas was exactly what shipped — WYSIWYG wasn't a rendering trick, it was the architecture. Design-system coverage reached 94% with zero drift bugs reported in the final year.",
+        principle:
+          "Jakob's law of internal consistency — users transfer expectations between surfaces; identical components make that transfer free.",
+      },
+    ],
+    retro: [
+      "Instrument analytics from day one. We designed the first two quarters on interview data alone — rich but slow. Once event tracking landed, we found two friction points interviews had never surfaced.",
+      "Cap canvas nesting earlier. The 'complexity cliff' we identified in competitors returned in our own product at ~6 levels of nested containers. We patched it in year 3; a hard limit in year 1 would have cost nothing.",
+      "Sequence the marketplace after editor stability. We split focus too early — the component marketplace shipped to a builder that still had layout bugs, and early marketplace adoption suffered for it.",
+      "Bring engineers into research sessions sooner. When engineers finally observed usability tests directly (round 4 of 6), debate about priorities dropped noticeably — shared evidence beats secondhand reports.",
+    ],
   },
   "ehr-platform": {
     title: "EHR Healthcare Platform",
@@ -615,6 +683,118 @@ const projectData: Record<string, ProjectDetail> = {
   },
 };
 
+/* ─── Decision Records — context → options → choice → result ─── */
+function DecisionsSection({ decisions }: { decisions: DecisionRecord[] }) {
+  return (
+    <Section>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-xs font-mono text-accent uppercase tracking-widest mb-2">
+          Decision Records
+        </h2>
+        <p className="text-sm text-muted mb-8 max-w-2xl">
+          The three calls that shaped the product — with the options considered,
+          the evidence behind each choice, and the psychology principle at work.
+        </p>
+        <div className="space-y-6">
+          {decisions.map((d, i) => (
+            <motion.div
+              key={d.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.06 }}
+              className="rounded-2xl bg-surface border border-border overflow-hidden"
+            >
+              <div className="p-5 sm:p-6 border-b border-border flex items-start gap-4">
+                <span className="font-mono text-sm text-accent shrink-0 mt-1">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="text-lg font-bold mb-1">{d.title}</h3>
+                  <p className="text-sm text-muted leading-relaxed">{d.context}</p>
+                </div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-px bg-border">
+                <div className="bg-surface p-5 sm:p-6">
+                  <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-3">
+                    Options considered
+                  </p>
+                  <ul className="space-y-2">
+                    {d.options.map((opt, oi) => (
+                      <li key={oi} className="flex gap-2.5 text-sm text-foreground/70 leading-relaxed">
+                        <span className="mt-2 w-1 h-1 rounded-full bg-muted shrink-0" />
+                        {opt}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="bg-surface p-5 sm:p-6">
+                  <p className="text-[10px] font-mono text-accent uppercase tracking-widest mb-3">
+                    The call → the result
+                  </p>
+                  <p className="text-sm text-foreground/80 leading-relaxed mb-3">{d.choice}</p>
+                  <p className="text-sm text-muted leading-relaxed">{d.result}</p>
+                </div>
+              </div>
+              <div className="px-5 sm:px-6 py-3.5 bg-background/50 border-t border-border">
+                <p className="text-xs text-muted leading-relaxed">
+                  <span className="font-mono text-accent-coral uppercase tracking-wider text-[10px] mr-2">
+                    Principle
+                  </span>
+                  {d.principle}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </Section>
+  );
+}
+
+/* ─── Retro — what I'd do differently ─── */
+function RetroSection({ retro }: { retro: string[] }) {
+  return (
+    <Section>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="max-w-3xl"
+      >
+        <h2 className="text-xs font-mono text-accent uppercase tracking-widest mb-2">
+          What I&apos;d Do Differently
+        </h2>
+        <p className="text-sm text-muted mb-8">
+          Honest hindsight — the calls I&apos;d change if I ran this again.
+        </p>
+        <div className="space-y-4">
+          {retro.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="flex gap-4 p-4 rounded-xl bg-surface border border-border"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent-coral shrink-0 mt-1">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+              <p className="text-sm text-foreground/75 leading-relaxed">{item}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </Section>
+  );
+}
+
 export default function ProjectDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
@@ -728,6 +908,63 @@ export default function ProjectDetailPage() {
               </motion.div>
             )}
 
+            {/* ─── Product Artifact (stylized recreation) ─── */}
+            <motion.figure
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="mb-4"
+            >
+              <div className="rounded-2xl border border-border bg-surface overflow-hidden">
+                {/* Window chrome */}
+                <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border">
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                  </div>
+                  <span className="text-[10px] font-mono text-muted ml-2">app-builder / canvas</span>
+                </div>
+                {/* Builder canvas wireframe */}
+                <div className="p-4 sm:p-6 grid grid-cols-12 gap-3 min-h-[280px] sm:min-h-[340px]" aria-hidden="true">
+                  {/* Component palette */}
+                  <div className="col-span-3 sm:col-span-2 space-y-2">
+                    <div className="h-6 rounded bg-border/40 w-3/4" />
+                    {[1, 2, 3, 4, 5, 6].map((n) => (
+                      <div key={n} className="h-9 rounded-lg bg-accent/8 border border-accent/15" />
+                    ))}
+                  </div>
+                  {/* Canvas */}
+                  <div className="col-span-6 sm:col-span-7 rounded-xl border-2 border-dashed border-accent/20 p-3 sm:p-4 flex flex-col gap-3">
+                    <div className="h-10 rounded-lg bg-accent/10 border border-accent/20" />
+                    <div className="grid grid-cols-2 gap-3 flex-1">
+                      <div className="rounded-lg bg-surface-hover border border-border" />
+                      <div className="rounded-lg bg-surface-hover border border-border flex items-end p-2 gap-1">
+                        {[40, 70, 50, 85, 60].map((h, i) => (
+                          <div key={i} className="flex-1 rounded-t bg-accent/25" style={{ height: `${h}%` }} />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="h-9 rounded-lg bg-accent-coral/10 border border-accent-coral/20 w-1/2" />
+                  </div>
+                  {/* Property panel — progressive disclosure */}
+                  <div className="col-span-3 space-y-2">
+                    <div className="h-6 rounded bg-border/40 w-2/3" />
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <div key={n} className="h-8 rounded-lg bg-surface-hover border border-border" />
+                    ))}
+                    <div className="h-8 rounded-lg border border-dashed border-border flex items-center justify-center">
+                      <span className="text-[9px] font-mono text-muted">+ Advanced</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <figcaption className="mt-3 text-xs text-muted font-mono">
+                Stylized recreation of the builder canvas — palette, drag-and-drop
+                canvas, and progressively disclosed property panel. Original screens
+                are under NDA.
+              </figcaption>
+            </motion.figure>
 
           </div>
         </Section>
@@ -899,6 +1136,10 @@ export default function ProjectDetailPage() {
             </Section>
           );
         })}
+
+        {/* ─── Decision Records + Retro ─── */}
+        {project.decisions && <DecisionsSection decisions={project.decisions} />}
+        {project.retro && <RetroSection retro={project.retro} />}
 
       </main>
     );
@@ -1093,6 +1334,10 @@ export default function ProjectDetailPage() {
           </div>
         </motion.div>
       </Section>
+
+      {/* Decision Records + Retro (when available) */}
+      {project.decisions && <DecisionsSection decisions={project.decisions} />}
+      {project.retro && <RetroSection retro={project.retro} />}
 
     </main>
   );
