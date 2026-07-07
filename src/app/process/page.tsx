@@ -7,10 +7,14 @@ import { Section } from "@/components/Section";
 import { Paradigm, FlowStep, StageMeta } from "@/lib/process/types";
 import { stages } from "@/lib/process/stages";
 import { companion } from "@/lib/process/companion";
-import { paradigms, paradigmList, decisionMatrix, verdict } from "@/lib/process/paradigms";
-import { getPrinciple } from "@/lib/process/principles";
+import { paradigms, paradigmList, verdict } from "@/lib/process/paradigms";
 import {
-  Bot, LayoutDashboard, MousePointerClick, Radio, Check, X, ChevronDown,
+  PrincipleChip, DocsPanel, GateChecklist, MethodMap, SignalFunnel, PrdPaper,
+  InterviewGrid, PipelinePath, ParadigmPosters, RadarChart, FlowSpine,
+  DemoChrome, LaunchFunnel, Sparkline,
+} from "./visuals";
+import {
+  Bot, LayoutDashboard, MousePointerClick, Radio, Check,
   AlertTriangle, ArrowRight, RotateCcw, Play, Sparkles, FileText, Users,
   Brain, GitBranch, Workflow, Palette, Rocket, CircleDot, Mic, Ear,
 } from "lucide-react";
@@ -31,68 +35,13 @@ const stageIcons: Record<string, typeof Bot> = {
 };
 
 /* ─────────────────────────────────────────────────────────────
-   Principle chip with popover
+   Shared chrome (PrincipleChip, DocsPanel, GateChecklist) → ./visuals
 ────────────────────────────────────────────────────────────── */
-function PrincipleChip({ id }: { id: string }) {
-  const [open, setOpen] = useState(false);
-  const p = getPrinciple(id);
-  return (
-    <span className="relative inline-block">
-      <button
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        className={`px-2.5 py-1 rounded-md text-[11px] font-mono border transition-colors ${
-          open
-            ? "bg-accent-coral/15 border-accent-coral/40 text-accent-coral"
-            : "bg-accent-coral/5 border-accent-coral/15 text-accent-coral/80 hover:border-accent-coral/40"
-        }`}
-      >
-        {p.name}
-      </button>
-      <AnimatePresence>
-        {open && (
-          <motion.span
-            initial={{ opacity: 0, y: 4, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 4, scale: 0.97 }}
-            transition={{ duration: 0.15 }}
-            className="absolute left-0 top-full mt-2 z-30 block w-64 p-3 rounded-xl bg-background border border-border shadow-2xl"
-          >
-            <span className="block text-xs font-semibold text-foreground mb-1">{p.name}</span>
-            <span className="block text-[11px] text-muted leading-relaxed">{p.definition}</span>
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </span>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Gate card — kill criteria per stage
-────────────────────────────────────────────────────────────── */
-function GateCard({ gate }: { gate: string[] }) {
-  return (
-    <div className="mt-8 rounded-xl border border-accent-scaler/20 bg-accent-scaler/4 p-5">
-      <p className="text-[10px] font-mono text-accent-scaler uppercase tracking-widest mb-3 flex items-center gap-2">
-        <AlertTriangle className="w-3.5 h-3.5" />
-        Gate — we don&apos;t proceed unless
-      </p>
-      <ul className="space-y-2">
-        {gate.map((g) => (
-          <li key={g} className="flex gap-2.5 text-sm text-foreground/75 leading-relaxed">
-            <span className="mt-2 w-1 h-1 rounded-full bg-accent-scaler/60 shrink-0" />
-            {g}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 /* ─────────────────────────────────────────────────────────────
    Stage shell — identical anatomy for every stage
 ────────────────────────────────────────────────────────────── */
-function StageShell({ stage, children }: { stage: StageMeta; children: React.ReactNode }) {
+function StageShell({ stage, children }: Readonly<{ stage: StageMeta; children: React.ReactNode }>) {
   const Icon = stageIcons[stage.id] ?? CircleDot;
   return (
     <Section>
@@ -113,15 +62,17 @@ function StageShell({ stage, children }: { stage: StageMeta; children: React.Rea
               </p>
             </div>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">{stage.title}</h2>
-          <p className="text-base text-muted leading-relaxed max-w-3xl mb-4">{stage.method}</p>
-          <div className="flex flex-wrap gap-2 mb-8">
-            {stage.psychology.map((pid) => (
-              <PrincipleChip key={pid} id={pid} />
-            ))}
+          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 mb-3">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{stage.title}</h2>
+            <div className="flex flex-wrap gap-2">
+              {stage.psychology.map((pid) => (
+                <PrincipleChip key={pid} id={pid} />
+              ))}
+            </div>
           </div>
+          <DocsPanel method={stage.method} />
           {children}
-          <GateCard gate={stage.gate} />
+          <GateChecklist gate={stage.gate} />
         </motion.div>
       </div>
     </Section>
@@ -131,110 +82,17 @@ function StageShell({ stage, children }: { stage: StageMeta; children: React.Rea
 /* ─────────────────────────────────────────────────────────────
    Stage 00/01 — PRD artifact
 ────────────────────────────────────────────────────────────── */
-function PrdArtifact() {
-  const [expanded, setExpanded] = useState(false);
-  const prd = companion.prd;
-  return (
-    <div className="rounded-2xl bg-surface border border-border overflow-hidden">
-      <div className="px-5 sm:px-6 py-4 border-b border-border flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <FileText className="w-4 h-4 text-accent" />
-          <span className="text-sm font-semibold">Companion — PRD excerpt</span>
-        </div>
-        <span className="text-[10px] font-mono text-muted uppercase tracking-wider">Teaching artifact</span>
-      </div>
-      <div className="p-5 sm:p-6 space-y-5">
-        <div>
-          <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-2">Problem</p>
-          <p className="text-sm text-foreground/80 leading-relaxed">{prd.problem}</p>
-        </div>
-        <div>
-          <p className="text-[10px] font-mono text-accent uppercase tracking-widest mb-2">Hypothesis — falsifiable, not aspirational</p>
-          <p className="text-sm text-foreground/80 leading-relaxed">{prd.hypothesis}</p>
-        </div>
-        <AnimatePresence initial={false}>
-          {expanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
-              <div className="space-y-5 pt-1">
-                <div>
-                  <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-2">Success metrics — each with a measurement method</p>
-                  <ul className="space-y-1.5">
-                    {prd.successMetrics.map((m) => (
-                      <li key={m} className="flex gap-2.5 text-sm text-foreground/75">
-                        <Check className="w-3.5 h-3.5 text-accent shrink-0 mt-1" />
-                        {m}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-2">Non-goals — what we refuse to build</p>
-                  <ul className="space-y-1.5">
-                    {prd.nonGoals.map((m) => (
-                      <li key={m} className="flex gap-2.5 text-sm text-muted">
-                        <X className="w-3.5 h-3.5 text-muted shrink-0 mt-1" />
-                        {m}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="rounded-xl border border-accent-scaler/20 bg-accent-scaler/4 p-4">
-                  <p className="text-[10px] font-mono text-accent-scaler uppercase tracking-widest mb-2">Kill criteria — written before anyone is invested</p>
-                  <ul className="space-y-1.5">
-                    {prd.killCriteria.map((m) => (
-                      <li key={m} className="flex gap-2.5 text-sm text-foreground/75">
-                        <AlertTriangle className="w-3.5 h-3.5 text-accent-scaler shrink-0 mt-1" />
-                        {m}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <button
-          onClick={() => setExpanded(!expanded)}
-          aria-expanded={expanded}
-          className="flex items-center gap-1.5 text-xs font-mono text-accent hover:text-accent/80 transition-colors"
-        >
-          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} />
-          {expanded ? "Collapse" : "Metrics, non-goals & kill criteria"}
-        </button>
-      </div>
-    </div>
-  );
-}
-
 /* ─────────────────────────────────────────────────────────────
    Stage 02 — Research artifact: personas + clusters + JTBD
 ────────────────────────────────────────────────────────────── */
 function ResearchArtifact() {
   const [active, setActive] = useState(0);
   const persona = companion.personas[active];
-  const maxCount = Math.max(...companion.research.clusters.map((c) => c.count));
 
   return (
     <div className="space-y-6">
-      {/* Field stats */}
-      <div className="grid grid-cols-3 gap-px bg-border rounded-xl overflow-hidden border border-border">
-        {[
-          { v: `${companion.research.interviews}`, l: "Contextual inquiries" },
-          { v: `${companion.research.weeks} wks`, l: "Fieldwork" },
-          { v: `${companion.research.clusters.length}`, l: "Behavior clusters" },
-        ].map((s) => (
-          <div key={s.l} className="bg-surface px-4 py-4 text-center">
-            <p className="text-xl font-bold text-foreground">{s.v}</p>
-            <p className="text-[10px] font-mono text-muted uppercase tracking-wider mt-0.5">{s.l}</p>
-          </div>
-        ))}
-      </div>
+      {/* Interview grid + sticky-note clusters */}
+      <InterviewGrid />
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Personas */}
@@ -301,36 +159,10 @@ function ResearchArtifact() {
           </AnimatePresence>
         </div>
 
-        {/* Affinity clusters + insight */}
-        <div className="space-y-6">
-          <div className="rounded-2xl bg-surface border border-border p-5 sm:p-6">
-            <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-4">
-              Affinity clusters — mentions across {companion.research.interviews} sessions
-            </p>
-            <div className="space-y-3">
-              {companion.research.clusters.map((c) => (
-                <div key={c.theme}>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-foreground/80">{c.theme}</span>
-                    <span className="font-mono text-muted">{c.count}</span>
-                  </div>
-                  <div className="h-1.5 rounded-full bg-background overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${(c.count / maxCount) * 100}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.7, ease: "easeOut" }}
-                      className="h-full rounded-full bg-accent/60"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-2xl border border-accent/20 bg-accent/4 p-5">
-            <p className="text-[10px] font-mono text-accent uppercase tracking-widest mb-2">The key insight</p>
-            <p className="text-sm text-foreground/85 leading-relaxed">{companion.research.keyInsight}</p>
-          </div>
+        {/* Key insight */}
+        <div className="rounded-2xl border border-accent/20 bg-accent/4 p-5 h-fit lg:sticky lg:top-32">
+          <p className="text-[10px] font-mono text-accent uppercase tracking-widest mb-2">The key insight</p>
+          <p className="text-sm text-foreground/85 leading-relaxed">{companion.research.keyInsight}</p>
         </div>
       </div>
 
@@ -353,43 +185,8 @@ function ResearchArtifact() {
 /* ─────────────────────────────────────────────────────────────
    Stage 03 — Psychology mapping table
 ────────────────────────────────────────────────────────────── */
-function PsychologyArtifact() {
-  return (
-    <div className="space-y-3">
-      <div className="hidden md:grid grid-cols-[1fr_1fr_1fr] gap-px px-1">
-        {["Finding → Principle", "Constraint (must obey)", "Design decision"].map((h) => (
-          <p key={h} className="text-[10px] font-mono text-muted uppercase tracking-widest px-4 py-2">{h}</p>
-        ))}
-      </div>
-      {companion.psychologyMap.map((row) => (
-        <motion.div
-          key={row.principleId + row.finding}
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.35 }}
-          className="grid md:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden border border-border"
-        >
-          <div className="bg-surface p-4">
-            <p className="text-xs text-foreground/75 leading-relaxed mb-2">{row.finding}</p>
-            <PrincipleChip id={row.principleId} />
-          </div>
-          <div className="bg-surface p-4 flex items-start gap-2">
-            <ArrowRight className="w-3.5 h-3.5 text-accent-scaler shrink-0 mt-0.5" />
-            <p className="text-xs text-foreground/80 leading-relaxed font-medium">{row.constraint}</p>
-          </div>
-          <div className="bg-surface p-4 flex items-start gap-2">
-            <Check className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
-            <p className="text-xs text-muted leading-relaxed">{row.decision}</p>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
 /* ─────────────────────────────────────────────────────────────
-   Stage 04 — Paradigm switcher + decision matrix + verdict
+   Stage 04 — Paradigm switcher + posters + radar + verdict
 ────────────────────────────────────────────────────────────── */
 function ParadigmSwitcher({ value, onChange, size = "md" }: {
   value: Paradigm;
@@ -430,36 +227,18 @@ function ParadigmSwitcher({ value, onChange, size = "md" }: {
   );
 }
 
-function scoreDot(score: number, color: string) {
-  const labels = ["Poor fit", "Workable", "Strong fit"];
-  return (
-    <span className="inline-flex items-center justify-center gap-0.5" title={labels[score]} aria-label={labels[score]}>
-      {[0, 1].map((i) => (
-        <span
-          key={i}
-          className="w-2 h-2 rounded-full"
-          style={{
-            backgroundColor: i < score ? color : "var(--color-border)",
-            opacity: score === 0 && i === 0 ? 0.35 : 1,
-          }}
-        />
-      ))}
-    </span>
-  );
-}
-
 function ParadigmGateArtifact({ paradigm, onChange }: { paradigm: Paradigm; onChange: (p: Paradigm) => void }) {
   const active = paradigms[paradigm];
   const meta = paradigmMeta[paradigm];
 
   return (
     <div className="space-y-6">
-      {/* Switcher */}
-      <div className="flex flex-col items-start gap-3">
+      {/* Posters — the switcher */}
+      <div className="flex flex-col gap-3">
         <p className="text-xs text-muted">
-          Same research. Four interface futures. Pick one — stages 05–07 below re-render for it.
+          Same research. Four interface futures. Pick a poster — stages 05–07 below re-render for it.
         </p>
-        <ParadigmSwitcher value={paradigm} onChange={onChange} />
+        <ParadigmPosters value={paradigm} onChange={onChange} />
       </div>
 
       {/* Active paradigm profile */}
@@ -546,50 +325,14 @@ function ParadigmGateArtifact({ paradigm, onChange }: { paradigm: Paradigm; onCh
         </motion.div>
       </AnimatePresence>
 
-      {/* Decision matrix */}
-      <div className="rounded-2xl bg-surface border border-border overflow-hidden">
-        <div className="px-5 py-4 border-b border-border">
-          <p className="text-sm font-semibold">The decision matrix</p>
-          <p className="text-xs text-muted mt-0.5">Fit per criterion — derived from the research, not preference. Two dots = strong fit.</p>
+      {/* Fit radar + verdict */}
+      <div className="grid lg:grid-cols-2 gap-6 items-start">
+        <RadarChart paradigm={paradigm} />
+        <div className="rounded-2xl border border-accent/25 bg-accent/5 p-5 sm:p-6 h-full">
+          <p className="text-[10px] font-mono text-accent uppercase tracking-widest mb-2">The verdict — a paradigm choice must have spine</p>
+          <p className="text-base font-bold text-foreground mb-2">{verdict.headline}</p>
+          <p className="text-sm text-muted leading-relaxed">{verdict.reasoning}</p>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left min-w-140">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="px-5 py-3 text-[10px] font-mono text-muted uppercase tracking-widest font-medium">Criterion</th>
-                {paradigmList.map((p) => (
-                  <th key={p} className="px-3 py-3 text-center">
-                    <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: paradigmMeta[p].color }}>
-                      {paradigmMeta[p].short}
-                    </span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {decisionMatrix.map((row) => (
-                <tr key={row.criterion} className="border-b border-border/50 last:border-0">
-                  <td className="px-5 py-3.5">
-                    <p className="text-xs font-medium text-foreground">{row.criterion}</p>
-                    <p className="text-[11px] text-muted leading-relaxed mt-0.5 max-w-xs">{row.detail}</p>
-                  </td>
-                  {paradigmList.map((p) => (
-                    <td key={p} className="px-3 py-3.5 text-center">
-                      {scoreDot(row.scores[p], paradigmMeta[p].color)}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Verdict */}
-      <div className="rounded-2xl border border-accent/25 bg-accent/5 p-5 sm:p-6">
-        <p className="text-[10px] font-mono text-accent uppercase tracking-widest mb-2">The verdict — a paradigm choice must have spine</p>
-        <p className="text-base font-bold text-foreground mb-2">{verdict.headline}</p>
-        <p className="text-sm text-muted leading-relaxed">{verdict.reasoning}</p>
       </div>
     </div>
   );
@@ -627,6 +370,7 @@ function WireflowArtifact({ paradigm }: { paradigm: Paradigm }) {
         <p className="text-xs text-muted mb-6">
           Failure branches designed first. Click any node for its reasoning.
         </p>
+        <FlowSpine paradigm={paradigm} kinds={flow.map((s) => s.kind)} />
         <div className="flex flex-col lg:flex-row lg:items-stretch gap-2">
           {flow.map((step, i) => {
             const isOpen = openStep === step.id;
@@ -950,10 +694,12 @@ function DemoArtifact({ paradigm }: { paradigm: Paradigm }) {
           </Link>
         </div>
         <div className="min-h-60">
-          {paradigm === "agentic" && <AgenticDemo />}
-          {paradigm === "hybrid" && <HybridDemo />}
-          {paradigm === "traditional" && <TraditionalDemo />}
-          {paradigm === "zero-ui" && <ZeroUIDemo />}
+          <DemoChrome paradigm={paradigm}>
+            {paradigm === "agentic" && <AgenticDemo />}
+            {paradigm === "hybrid" && <HybridDemo />}
+            {paradigm === "traditional" && <TraditionalDemo />}
+            {paradigm === "zero-ui" && <ZeroUIDemo />}
+          </DemoChrome>
         </div>
       </motion.div>
     </AnimatePresence>
@@ -968,6 +714,7 @@ function ShipArtifact({ paradigm }: { paradigm: Paradigm }) {
   const meta = paradigmMeta[paradigm];
   return (
     <div className="space-y-6">
+      <LaunchFunnel />
       <AnimatePresence mode="wait">
         <motion.div
           key={paradigm}
@@ -980,9 +727,12 @@ function ShipArtifact({ paradigm }: { paradigm: Paradigm }) {
             What we measure if we ship {active.name} — metrics that resist Goodhart
           </p>
           <div className="grid sm:grid-cols-2 gap-3">
-            {active.metrics.map((m) => (
+            {active.metrics.map((m, mi) => (
               <div key={m.label} className="p-4 rounded-xl bg-surface border border-border">
-                <p className="text-sm font-semibold text-foreground mb-1">{m.label}</p>
+                <div className="flex items-start justify-between gap-3 mb-1">
+                  <p className="text-sm font-semibold text-foreground">{m.label}</p>
+                  <Sparkline seed={mi + 1} color={meta.color} />
+                </div>
                 <p className="text-xs text-muted leading-relaxed">{m.desc}</p>
               </div>
             ))}
@@ -1156,25 +906,18 @@ export default function ProcessPage() {
             Companion is a fictional teaching artifact — designed openly so every stage can show a real deliverable. 8 stages · every stage gated · psychology chips are clickable.
           </motion.p>
         </div>
+        <div className="mt-10">
+          <MethodMap paradigm={paradigm} onSelect={changeParadigm} />
+        </div>
       </Section>
 
       {/* Stages 00–03 — paradigm-agnostic */}
       <StageShell stage={stage("signal")}>
-        <div className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
-          <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-3">The signal, framed as an outcome</p>
-          <p className="text-lg sm:text-xl font-bold text-foreground leading-snug mb-3">
-            &ldquo;Give knowledge workers back 45 minutes a day — verifiably.&rdquo;
-          </p>
-          <p className="text-sm text-muted leading-relaxed">
-            Not &ldquo;add AI to productivity software.&rdquo; The framing names the user outcome, the measurement,
-            and its own kill switch. Why now: model latency crossed the conversational threshold, tool APIs matured,
-            and — per the research below — users are auditioning assistants task-by-task, which is a wedge.
-          </p>
-        </div>
+        <SignalFunnel />
       </StageShell>
 
       <StageShell stage={stage("prd")}>
-        <PrdArtifact />
+        <PrdPaper />
       </StageShell>
 
       <StageShell stage={stage("research")}>
@@ -1182,7 +925,7 @@ export default function ProcessPage() {
       </StageShell>
 
       <StageShell stage={stage("psychology")}>
-        <PsychologyArtifact />
+        <PipelinePath />
       </StageShell>
 
       {/* Stage 04 — the fork */}
