@@ -17,13 +17,17 @@ interface AITool {
 
 const innerRing: AITool[] = [
   { name: "Cursor", abbr: "Cu", color: "#0066FF", category: "Coding Agent", desc: "AI-powered IDE", useCase: "Primary development environment — code generation, refactoring, and multi-file editing with AI context." },
+  { name: "Claude Code", abbr: "CC", color: "#D97706", category: "Coding Agent", desc: "Terminal coding agent", useCase: "Long-horizon coding tasks from the CLI — repo-wide refactors, spec-driven implementation, agentic tool use." },
   { name: "GitHub Copilot", abbr: "GC", color: "#6E40C9", category: "Coding Agent", desc: "Code completion", useCase: "Inline code suggestions, test generation, and pair-programming across all projects." },
-  { name: "Claude", abbr: "Cl", color: "#D97706", category: "AI Reasoning", desc: "Complex reasoning", useCase: "Architecture decisions, code reviews, technical writing, and complex problem decomposition." },
-  { name: "v0", abbr: "v0", color: "#171717", category: "UI Builder", desc: "AI UI prototyping", useCase: "Rapid component prototyping — generate production-ready React/Tailwind components from prompts." },
+  { name: "Claude", abbr: "Cl", color: "#D97706", category: "AI Reasoning", desc: "Complex reasoning", useCase: "Research synthesis, PRDs, product documentation, architecture decisions, and complex problem decomposition." },
+  { name: "Emergent", abbr: "Em", color: "#7C3AED", category: "AI IDE", desc: "Agentic app builder", useCase: "End-to-end agentic app scaffolding — turns a product brief into a running app with iterative agent-led builds." },
   { name: "Replit", abbr: "Re", color: "#F26207", category: "AI IDE", desc: "Cloud AI coding", useCase: "Quick prototypes, collaborative coding sessions, and deploying small AI-powered tools." },
 ];
 
 const middleRing: AITool[] = [
+  { name: "Figma Make", abbr: "FM", color: "#A259FF", category: "Design AI", desc: "AI concept-to-prototype", useCase: "Rapid concept-to-prototype for design directions — pushes screens straight into Figma libraries for iteration." },
+  { name: "UX Pilot", abbr: "UP", color: "#22D3EE", category: "Design AI", desc: "AI UX co-pilot", useCase: "AI-augmented user flow exploration, wireframe iteration, and lightweight usability heuristics review." },
+  { name: "v0", abbr: "v0", color: "#171717", category: "UI Builder", desc: "AI UI prototyping", useCase: "Rapid component prototyping — generate production-ready React/Tailwind components from prompts." },
   { name: "ChatGPT", abbr: "GP", color: "#10A37F", category: "AI Assistant", desc: "Research & brainstorm", useCase: "Brainstorming, content drafting, data analysis, and exploring ideas across domains." },
   { name: "Gemini", abbr: "Ge", color: "#4285F4", category: "AI Assistant", desc: "Multi-modal AI", useCase: "Multi-modal analysis, long document processing, and Google ecosystem integrations." },
   { name: "Perplexity", abbr: "Px", color: "#20B2AA", category: "Research", desc: "AI search engine", useCase: "Real-time research with citations — technical docs, competitive analysis, and fact-checking." },
@@ -202,32 +206,46 @@ function ConnectedGrid({
 
 const timeline = [
   {
-    year: "2024–Present",
-    role: "Lead Design Engineer",
+    year: "Mar 2025 — Present",
+    role: "Senior Lead UX Designer · AI Product Manager",
     company: "Moving Walls",
     description:
-      "Heading design for the world's leading OOH/DOOH AdTech platform. Building design systems, leading a design team, and shipping products used across 30+ countries.",
+      "Scaled the DOOH portfolio from 3 to 7 shipped products. Lead and mentor 9+ UX designers. Authored PRDs, personas, business rules and roadmaps for MW Activate (pDOOH DSP), MW Cinema (IMS), and MW PosterOps (closed-loop OOH execution). Own the platform-wide Hybrid UI / Agentic UI strategy through 2027.",
   },
   {
-    year: "2022–2024",
-    role: "Senior UI/UX Designer",
-    company: "Moving Walls",
+    year: "May 2023 — Nov 2024",
+    role: "Lead UI UX Designer",
+    company: "ConstructivIQ India",
     description:
-      "Led design for multiple platform modules including campaign planning, audience analytics, and inventory management.",
+      "Designed a Construction Cloud SaaS platform from the ground up — Submittals and Materials — with a scalable design system and library-based front-end architecture. Developed AI-powered concepts for workflow automation and engaged customers directly during onboarding.",
   },
   {
-    year: "2020–2022",
-    role: "UI/UX Designer",
-    company: "Product Studio",
+    year: "Nov 2021 — Mar 2023",
+    role: "Sr. Lead UI UX Designer",
+    company: "Onx Software Systems (Slate Technologies)",
     description:
-      "Designed EHR platforms, IoT dashboards, and OTT streaming interfaces. Built and maintained cross-product design systems.",
+      "Led a team of four designers and front-end developers on Slate.ai — a construction-cloud SaaS application for the U.S. market. Owned research, wireframing, prototyping, and design implementation with engineering.",
   },
   {
-    year: "2018–2020",
-    role: "Frontend Developer & Designer",
-    company: "Startup",
+    year: "May 2020 — Oct 2021",
+    role: "Team Lead — Global UI UX",
+    company: "Quinnox",
     description:
-      "Full-stack design and development for NoCode/LowCode platforms. Bridged the gap between design and engineering.",
+      "Led design and research for an AIOps automation SaaS platform in the DevOps space. Ran sprint planning, managed the team, and coordinated with global teams in an Agile environment.",
+  },
+  {
+    year: "Sep 2018 — Jan 2020",
+    role: "Senior UI UX Designer",
+    company: "Microland Limited",
+    description:
+      "Designed IIoT applications for Smart Factory / Industry 4.0 programs spanning Big Data, ML, AI, and IoT platforms.",
+  },
+  {
+    year: "Jun 2016 — Nov 2017",
+    role: "UI UX Designer — Big Data & IoT",
+    company: "Knowledge Lens",
+    description:
+      "Designed Big Data and IoT product interfaces across enterprise monitoring and analytics use cases.",
   },
 ];
 
@@ -310,6 +328,46 @@ const skills = [
       { name: "OTT Platforms", level: 4 },
       { name: "SaaS / B2B", level: 5 },
       { name: "NoCode/LowCode", level: 4 },
+    ],
+  },
+  {
+    category: "Product / PM",
+    color: "#F97316",
+    accent: "#F9731680",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/>
+      </svg>
+    ),
+    items: [
+      { name: "PRD Authoring", level: 5 },
+      { name: "Roadmapping (RICE)", level: 5 },
+      { name: "Personas & JTBD", level: 5 },
+      { name: "BDD Acceptance Criteria", level: 4 },
+      { name: "KPI / Success Metrics", level: 4 },
+      { name: "Go-to-Market", level: 4 },
+      { name: "Jira / Confluence", level: 5 },
+      { name: "Miro / Intercom / GA", level: 4 },
+    ],
+  },
+  {
+    category: "AdTech / OOH",
+    color: "#0EA5E9",
+    accent: "#0EA5E980",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="4" width="20" height="12" rx="2"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/>
+      </svg>
+    ),
+    items: [
+      { name: "Programmatic DOOH", level: 5 },
+      { name: "OpenRTB 2.6", level: 5 },
+      { name: "IAB Taxonomies", level: 4 },
+      { name: "DSP / SSP Ecosystems", level: 5 },
+      { name: "Broadsign · VIOOH · Place Exchange · LMX", level: 4 },
+      { name: "Inventory & Yield", level: 4 },
+      { name: "Proof-of-Play & Verification", level: 5 },
+      { name: "Audience Measurement", level: 4 },
     ],
   },
 ];
@@ -849,39 +907,52 @@ export default function AboutPage() {
             transition={{ duration: 0.7 }}
           >
             <p className="text-accent font-mono text-sm uppercase tracking-widest mb-4">
-              The Why Behind the Work
+              Senior Lead UX Designer · AI Product Manager · Bengaluru
             </p>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
               Designer. Builder.
               <br />
-              <span className="text-gradient">Product Scaler.</span>
+              <span className="text-gradient">Product Manager.</span>
             </h1>
             <div className="space-y-4 text-base md:text-lg text-muted leading-relaxed">
               <p>
-                I&apos;m a <span className="text-foreground font-medium">design engineer</span> who
-                operates at the intersection of craft, code, and product thinking — 9+ years of
-                building things that millions of people use every day.
+                I&apos;m a <span className="text-foreground font-medium">product design leader</span> with
+                9+ years building B2B SaaS and AI platforms used by over a million
+                people across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big&nbsp;Data.
               </p>
               <p>
-                Currently leading design at{" "}
-                <span className="text-foreground font-medium">Moving Walls</span>,
-                the world&apos;s leading OOH/DOOH advertising technology
-                platform — building tools shipped across 30+ countries.
+                I operate at the intersection of{" "}
+                <span className="text-foreground font-medium">design and product management</span>
+                {" "}— authoring PRDs, personas, business rules, and roadmaps, then leading the
+                design systems and screens that ship them.
               </p>
               <p>
-                I don&apos;t just design interfaces — I{" "}
-                <span className="text-foreground font-medium">build them</span>
-                . From Figma to production React, I own the full journey from
-                pixel to deployment. No handoff friction. No translation layer.
+                Currently I own design strategy and product definition across a{" "}
+                <span className="text-foreground font-medium">7-product DOOH portfolio</span>
+                {" "}at Moving Walls, mentoring{" "}
+                <span className="text-foreground font-medium">9+ designers</span>, and running an
+                AI-augmented practice — Claude, Figma Make, UX Pilot, and Cursor alongside
+                Figma, Sketch, and Adobe XD.
               </p>
               <p>
-                My work spans{" "}
-                <span className="text-foreground font-medium">
-                  AdTech, Healthcare, IoT, and OTT
-                </span>{" "}
-                — industries where the complexity is real and the stakes are
-                high. I specialize in making the complicated feel inevitable.
+                Recent product-defining work: <span className="text-foreground font-medium">MW Activate</span>
+                {" "}(pDOOH DSP designed against OpenRTB 2.6 and IAB standards),{" "}
+                <span className="text-foreground font-medium">MW Cinema</span>
+                {" "}(cinema as a first-class programmatic asset class), and{" "}
+                <span className="text-foreground font-medium">MW PosterOps</span>
+                {" "}(closed-loop OOH execution with no-login Magic Link portals for vendors, installers, and clients).
               </p>
+            </div>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-[11px] font-mono">
+              <span className="px-3 py-1.5 rounded-full border border-border text-muted">
+                Cert · Human Factor Interaction
+              </span>
+              <span className="px-3 py-1.5 rounded-full border border-border text-muted">
+                MBA (IT) · BCA
+              </span>
+              <span className="px-3 py-1.5 rounded-full border border-border text-muted">
+                EN · HI · MR · KN
+              </span>
             </div>
             <div className="mt-8 flex justify-center gap-4">
               <Link

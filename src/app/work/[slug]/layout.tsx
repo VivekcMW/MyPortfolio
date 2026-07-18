@@ -1,6 +1,9 @@
 export function generateStaticParams() {
   return [
     { slug: "mw-activate" },
+    { slug: "mw-cinema" },
+    { slug: "mw-posterops" },
+    { slug: "ai-strategy" },
     { slug: "nocode-platform" },
     { slug: "ehr-platform" },
     { slug: "construction-ai" },

@@ -8,6 +8,9 @@ const BASE_URL = SITE_URL;
 
 const caseStudySlugs = [
   "mw-activate",
+  "mw-cinema",
+  "mw-posterops",
+  "ai-strategy",
   "nocode-platform",
   "ehr-platform",
   "construction-ai",

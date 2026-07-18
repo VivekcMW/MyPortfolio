@@ -44,6 +44,67 @@ const caseStudies: Array<{
     ),
   },
   {
+    slug: "mw-cinema",
+    title: "MW Cinema — Cinema as a Programmatic Asset Class",
+    category: "AdTech / IMS (NDA)",
+    description:
+      "Authored the PRD onboarding cinema onto pDOOH — 5-level inventory model, dynamic slot generation from showtimes, real-time availability engine, DSP eligibility rules. In flight.",
+    tags: ["pDOOH", "Cinema", "OpenRTB 2.6", "BDD Criteria"],
+    timeline: "2025 — present",
+    role: "Sr. Lead UX Designer & Product",
+    status: "in-flight",
+    image: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="M2 8h20" />
+        <path d="M6 4v4" />
+        <path d="M18 4v4" />
+        <path d="M10 12l4 2-4 2z" />
+      </svg>
+    ),
+  },
+  {
+    slug: "mw-posterops",
+    title: "MW PosterOps — Closed-Loop OOH Execution",
+    category: "AdTech / OOH Ops (NDA)",
+    description:
+      "Defined the closed-loop static-OOH execution platform — no-login Magic Link portals for vendors, installers, and clients; geo-tagged offline-capable Proof-of-Play; payment-validation gates. In flight.",
+    tags: ["OOH Ops", "Magic Link", "Proof-of-Play", "RBAC"],
+    timeline: "2025 — present",
+    role: "Sr. Lead UX Designer & Product",
+    status: "in-flight",
+    image: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+    ),
+  },
+  {
+    slug: "ai-strategy",
+    title: "Hybrid UI / Agentic UI Roadmap through 2027",
+    category: "Product Strategy (NDA)",
+    description:
+      "Platform-wide AI strategy across 7 DOOH products — four-paradigm framework, 6-criteria decision matrix, shared trust spine, three-horizon roadmap. Presented to product, engineering, and clients.",
+    tags: ["Strategy", "Agentic UI", "Hybrid UI", "Roadmap"],
+    timeline: "2025 — 2027",
+    role: "Author (Sr. Lead UX & AI PM)",
+    status: "in-flight",
+    image: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 1v6" />
+        <path d="M12 17v6" />
+        <path d="M4.22 4.22l4.24 4.24" />
+        <path d="M15.54 15.54l4.24 4.24" />
+        <path d="M1 12h6" />
+        <path d="M17 12h6" />
+        <path d="M4.22 19.78l4.24-4.24" />
+        <path d="M15.54 8.46l4.24-4.24" />
+      </svg>
+    ),
+  },
+  {
     slug: "nocode-platform",
     title: "NoCode / LowCode Platform",
     category: "Platform Design",
@@ -148,14 +209,15 @@ export default function WorkIndexPage() {
             Case studies, in depth.
           </h1>
           <p className="text-lg text-muted leading-relaxed">
-            Six case studies across AdTech, Healthcare, IoT, Construction, and
-            Entertainment — each with the role I played, the decisions that
+            Nine case studies across programmatic DOOH, cinema advertising,
+            OOH ops, platform AI strategy, healthcare, IoT, construction, and
+            entertainment — each with the role I played, the decisions that
             shaped it, and what I&apos;d do differently. Client work under NDA is
             labeled and shown as stylised recreations.
           </p>
         </motion.div>
 
-        <SectionHeader eyebrow="6 Case Studies" title="Products that made an impact." />
+        <SectionHeader eyebrow="9 Case Studies" title="Products that made an impact." />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
           {caseStudies.map((cs, i) => (

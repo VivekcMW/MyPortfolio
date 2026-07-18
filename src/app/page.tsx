@@ -409,11 +409,12 @@ export default function HomePage() {
                 className="mt-6 text-base md:text-lg text-muted max-w-lg mx-auto lg:mx-0 leading-relaxed"
               >
                 <span className="text-foreground/90 font-medium">
-                  I run design like an engineering discipline
+                  Senior Lead UX Designer & AI Product Manager
                 </span>{" "}
-                — systems, tokens, and shipped code. I build design teams, design
-                systems, and the strategies that turn complex problems into
-                products used in 30+ countries.
+                — I author the PRDs, personas, and roadmaps, then lead the design
+                systems and screens that ship them. 9+ years across AdTech,
+                Construction Cloud, Healthcare, AIOps, IIoT, and Big&nbsp;Data —
+                currently owning a 7-product DOOH portfolio at Moving Walls.
               </motion.p>
 
               <motion.div
@@ -523,25 +524,25 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
             {[
               {
-                value: "30+",
-                label: "Countries",
-                title: "Global OOH/DOOH Scale",
-                desc: "Design systems and products shipped across 30+ countries via the Moving Walls platform — reaching millions of screens daily.",
+                value: "7",
+                label: "Shipped DOOH Products",
+                title: "Scaled from 3 → 7 at Moving Walls",
+                desc: "Own design strategy and product definition across the full DOOH portfolio — MW Activate (pDOOH DSP), MW Cinema (IMS), MW PosterOps (closed-loop execution), and four more.",
                 href: "/work/mw-activate",
               },
               {
-                value: "60%",
-                label: "Faster Delivery",
-                title: "NoCode Platform",
-                desc: "Reduced development dependency by 60% with an intuitive visual builder — non-engineers shipping production apps independently.",
-                href: "/work/nocode-platform",
+                value: "9+",
+                label: "Designers Led",
+                title: "Team Lead & Mentor",
+                desc: "Lead and mentor a team of 9+ UX designers with a shared design language — lifting usability and customer satisfaction by 25% across the portfolio.",
+                href: "/about",
               },
               {
-                value: "94%",
-                label: "Coverage",
-                title: "Design System Maturity",
-                desc: "Token-driven component library covering 94% of product surfaces — one source of truth, zero handoff friction across 3 products.",
-                href: "/design-system",
+                value: "1M+",
+                label: "Users",
+                title: "9+ Years, B2B SaaS & AI",
+                desc: "Products used by over a million people across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data — from PRDs and roadmaps to shipped screens.",
+                href: "/work",
               },
             ].map((spot, i) => (
               <motion.div
