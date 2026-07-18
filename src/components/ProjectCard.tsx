@@ -165,12 +165,6 @@ export default function ProjectCard({
       <TiltCard>
         <div className="group block">
           <div className="relative overflow-hidden rounded-2xl bg-surface border border-border transition-all duration-500 group-hover:border-accent/30 group-hover:shadow-lg group-hover:shadow-accent/10">
-            {/* Engineer easter egg: component label on hover */}
-            <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-              <span className="font-mono text-[10px] text-muted/60 bg-surface/90 border border-border px-2 py-1 rounded">
-                {`<ProjectCard index={${index}} />`}
-              </span>
-            </div>
             {/* Parallax Image Area */}
             <div className="relative h-55 sm:h-75 md:h-95 overflow-hidden bg-background">
               {/* Radial accent glow */}

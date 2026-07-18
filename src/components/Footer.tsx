@@ -4,9 +4,11 @@ const footerLinks = {
   Navigation: [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
+    { href: "/work", label: "Work" },
     { href: "/design-system", label: "DS Lab" },
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
+    { href: "/VIVEKANAND_CHOUDHARI_2026_New.pdf", label: "Resume (PDF)" },
   ],
   Research: [
     { href: "/research/forma", label: "Forma" },

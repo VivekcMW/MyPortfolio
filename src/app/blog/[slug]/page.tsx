@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/lib/blog";
+import { SITE_URL } from "@/lib/site";
 import BlogPostClient from "./BlogPostClient";
 
 export function generateStaticParams() {
@@ -22,9 +23,9 @@ export default function BlogPostPage({
         author: {
           "@type": "Person",
           name: "Vivekanand Choudhari",
-          url: "https://vivekanand.dev",
+          url: SITE_URL,
         },
-        mainEntityOfPage: `https://vivekanand.dev/blog/${post.slug}`,
+        mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
       }
     : null;
 

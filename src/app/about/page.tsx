@@ -859,7 +859,7 @@ export default function AboutPage() {
             <div className="space-y-4 text-base md:text-lg text-muted leading-relaxed">
               <p>
                 I&apos;m a <span className="text-foreground font-medium">design engineer</span> who
-                operates at the intersection of craft, code, and product thinking — 8+ years of
+                operates at the intersection of craft, code, and product thinking — 9+ years of
                 building things that millions of people use every day.
               </p>
               <p>

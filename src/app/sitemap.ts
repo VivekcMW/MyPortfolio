@@ -1,9 +1,19 @@
 import { MetadataRoute } from "next";
 import { blogPosts } from "@/lib/blog";
+import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-static";
 
-const BASE_URL = "https://vivekanand.dev";
+const BASE_URL = SITE_URL;
+
+const caseStudySlugs = [
+  "mw-activate",
+  "nocode-platform",
+  "ehr-platform",
+  "construction-ai",
+  "iot-dashboard",
+  "ott-platform",
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
@@ -64,5 +74,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...blogPages];
+  const workPages: MetadataRoute.Sitemap = caseStudySlugs.map((slug) => ({
+    url: `${BASE_URL}/work/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.75,
+  }));
+
+  return [...staticPages, ...workPages, ...blogPages];
 }

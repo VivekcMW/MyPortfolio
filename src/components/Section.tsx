@@ -50,9 +50,16 @@ export function SectionHeader({
           {eyebrow}
         </motion.p>
       )}
-      <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+      <h2
+        className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight"
+        aria-label={title}
+      >
         {titleWords.map((word, i) => (
-          <span key={`${word}-${i}`} className="inline-block overflow-hidden mr-[0.3em] last:mr-0">
+          <span
+            key={`${word}-${i}`}
+            aria-hidden="true"
+            className="inline-block overflow-hidden mr-[0.3em] last:mr-0"
+          >
             <motion.span
               className="inline-block"
               initial={{ y: "110%" }}

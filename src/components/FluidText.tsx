@@ -70,10 +70,11 @@ export default function FluidText({
   }, [hasMounted, updateWeights]);
 
   return (
-    <span ref={containerRef} className={className}>
+    <span ref={containerRef} className={className} aria-label={text}>
       {text.split("").map((char, i) => (
         <span
           key={`${char}-${i}`}
+          aria-hidden="true"
           ref={(el) => { letterRefs.current[i] = el; }}
           className="inline-block transition-[font-weight] duration-100"
           style={{ fontWeight: minWeight }}

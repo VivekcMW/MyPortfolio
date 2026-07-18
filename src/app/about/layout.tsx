@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Designer. Builder. Product Scaler. 8+ years of experience crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
+    "Designer. Builder. Product Scaler. 9+ years of experience crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
   alternates: {
     canonical: "/about",
   },
   openGraph: {
     title: "About — Designer. Builder. Product Scaler.",
     description:
-      "8+ years of experience crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
+      "9+ years of experience crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
     url: "/about",
     images: [
       {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About — Designer. Builder. Product Scaler.",
     description:
-      "8+ years of experience crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
+      "9+ years of experience crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
     images: ["/api/og?title=About%20Me&category=Portfolio"],
   },
 };

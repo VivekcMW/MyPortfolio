@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Section } from "@/components/Section";
+import { BOOKING_URL } from "@/lib/site";
 
 const socials = [
   {
@@ -204,6 +205,47 @@ export default function ContactPage() {
                 Download Resume
                 <span className="text-xs text-muted font-normal">PDF</span>
               </a>
+            </div>
+
+            {/* Book an intro call */}
+            <div className="mt-6">
+              <p className="text-muted text-sm mb-3">Prefer a call?</p>
+              <a
+                href={
+                  BOOKING_URL ||
+                  `mailto:${contactEmail}?subject=${encodeURIComponent(
+                    "Book a 30-min intro call"
+                  )}&body=${encodeURIComponent(
+                    "Hi Vivekanand,\n\nI'd like to book a 30-minute intro call. Here are a few time windows that work for me (please pick one):\n\n- \n- \n- \n\nTopic:\n\nThanks!"
+                  )}`
+                }
+                target={BOOKING_URL ? "_blank" : undefined}
+                rel={BOOKING_URL ? "noopener noreferrer" : undefined}
+                className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-accent text-white text-sm font-semibold hover:bg-accent/90 transition-all duration-200 hover:shadow-lg hover:shadow-accent/20"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                Book a 30-min intro call
+              </a>
+              {!BOOKING_URL && (
+                <p className="mt-2 text-[11px] font-mono text-muted/70">
+                  Opens your mail app — I&apos;ll reply within 24h with a
+                  calendar link.
+                </p>
+              )}
             </div>
 
 

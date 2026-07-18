@@ -10,6 +10,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import StatusBar from "@/components/StatusBar";
 import BackToTop from "@/components/BackToTop";
 import MotionProvider from "@/components/MotionProvider";
+import { SITE_URL } from "@/lib/site";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,13 +29,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vivekanand.dev"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Designer. Builder. Product Scaler. — Portfolio",
     template: "%s | Portfolio",
   },
   description:
-    "A design engineer who designs systems, builds products, and scales them to millions. 8+ years crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
+    "A design engineer who designs systems, builds products, and scales them to millions. 9+ years crafting products across AdTech, Healthcare, IoT, and OTT platforms.",
   keywords: [
     "Design Engineer",
     "UI UX Designer",
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     title: "Designer. Builder. Product Scaler.",
     description:
       "A design engineer who designs systems, builds products, and scales them to millions.",
-    url: "https://vivekanand.dev",
+    url: SITE_URL,
     images: [
       {
         url: "/api/og?title=Designer.%20Builder.%20Scaler.&category=Portfolio",
@@ -88,7 +89,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Vivekanand Choudhari",
-    url: "https://vivekanand.dev",
+    url: SITE_URL,
     jobTitle: "Design Engineer",
     description:
       "Design engineer who designs systems, builds products, and scales them to millions across AdTech, Healthcare, IoT, and OTT platforms.",

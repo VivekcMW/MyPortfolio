@@ -88,7 +88,7 @@ function HorizontalScrollProjects({ projects }: { projects: Array<{ title: strin
   const x = useTransform(scrollYProgress, [0, 1], ["2%", "-65%"]);
 
   return (
-    <section id="work" ref={containerRef} className="relative" style={{ height: `${(projects.length + 1) * 50}vh` }}>
+    <section ref={containerRef} className="relative" style={{ height: `${(projects.length + 1) * 50}vh` }}>
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 lg:mb-12">
           <SectionHeader
@@ -105,7 +105,7 @@ function HorizontalScrollProjects({ projects }: { projects: Array<{ title: strin
           {/* End card — CTA */}
           <div className="w-[85vw] sm:w-[70vw] md:w-[50vw] lg:w-[40vw] flex-shrink-0 flex items-center justify-center">
             <Link
-              href="/work/nocode-platform"
+              href="/work"
               className="group flex flex-col items-center gap-4 text-center p-12 rounded-2xl border border-border hover:border-accent/30 bg-surface transition-all duration-500"
             >
               <div className="w-16 h-16 rounded-full border-2 border-accent/30 flex items-center justify-center group-hover:border-accent transition-colors">
@@ -117,6 +117,61 @@ function HorizontalScrollProjects({ projects }: { projects: Array<{ title: strin
           </div>
         </motion.div>
       </div>
+    </section>
+  );
+}
+
+/* ===== Mobile Selected Work Grid ===== */
+function MobileSelectedWork({ projects }: { projects: Array<{ title: string; category: string; description: string; tags: string[]; image: React.ReactNode; href: string }> }) {
+  return (
+    <Section>
+      <SectionHeader eyebrow="Selected Work" title="Products that made an impact." />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+        {projects.map((project, i) => (
+          <ProjectCard key={project.title} {...project} index={i} />
+        ))}
+      </div>
+      <div className="mt-10 text-center">
+        <Link
+          href="/work"
+          className="inline-flex items-center gap-2 text-accent font-medium text-sm hover:gap-3 transition-all duration-200"
+        >
+          View all case studies
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </Link>
+      </div>
+    </Section>
+  );
+}
+
+/* ===== Selected Work — renders exactly ONE variant based on viewport ===== */
+function SelectedWorkSection({ projects }: { projects: Array<{ title: string; category: string; description: string; tags: string[]; image: React.ReactNode; href: string }> }) {
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // SSR / pre-hydration: render the mobile grid so crawlers see one canonical block.
+  if (isDesktop === null) {
+    return (
+      <section id="work">
+        <MobileSelectedWork projects={projects} />
+      </section>
+    );
+  }
+
+  return (
+    <section id="work">
+      {isDesktop ? (
+        <HorizontalScrollProjects projects={projects} />
+      ) : (
+        <MobileSelectedWork projects={projects} />
+      )}
     </section>
   );
 }
@@ -331,14 +386,17 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.95]">
-                  <span className="block">I</span>
-                  <span className="block mt-1">
+                <h1
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.95]"
+                  aria-label="I build design organizations."
+                >
+                  <span aria-hidden="true" className="block">I</span>
+                  <span aria-hidden="true" className="block mt-1">
                     <span className="inline-block font-mono transition-colors duration-300 text-accent">
                       build
                     </span>
                   </span>
-                  <span className="block mt-1 text-foreground/70 text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+                  <span aria-hidden="true" className="block mt-1 text-foreground/70 text-xl sm:text-2xl md:text-3xl lg:text-4xl">
                     <FluidText text="design organizations." minWeight={300} maxWeight={800} radius={100} />
                   </span>
                 </h1>
@@ -469,7 +527,7 @@ export default function HomePage() {
                 label: "Countries",
                 title: "Global OOH/DOOH Scale",
                 desc: "Design systems and products shipped across 30+ countries via the Moving Walls platform — reaching millions of screens daily.",
-                href: "/work/ehr-platform",
+                href: "/work/mw-activate",
               },
               {
                 value: "60%",
@@ -562,29 +620,8 @@ export default function HomePage() {
         </motion.div>
       </Section>
 
-      {/* ===== SELECTED WORK ===== */}
-      {/* Mobile / tablet: simple vertical grid (horizontal scroll unusable < lg) */}
-      <Section className="lg:hidden">
-        <SectionHeader eyebrow="Selected Work" title="Products that made an impact." />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.title} {...project} index={i} />
-          ))}
-        </div>
-        <div className="mt-10 text-center">
-          <Link
-            href="/work/nocode-platform"
-            className="inline-flex items-center gap-2 text-accent font-medium text-sm hover:gap-3 transition-all duration-200"
-          >
-            View all case studies
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </Link>
-        </div>
-      </Section>
-      {/* Desktop: sticky horizontal scroll */}
-      <div className="hidden lg:block">
-        <HorizontalScrollProjects projects={projects} />
-      </div>
+      {/* ===== SELECTED WORK — one canonical render, viewport-aware ===== */}
+      <SelectedWorkSection projects={projects} />
 
       {/* ===== APPROACH (Stacked Cards) ===== */}
       <Section>

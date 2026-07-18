@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Section } from "@/components/Section";
 import ReadingProgress from "@/components/ReadingProgress";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { SITE_URL } from "@/lib/site";
 
 function extractHeadings(content: string) {
   const headingRegex = /^##\s+(.+)$/gm;
@@ -74,7 +75,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
       year: "numeric",
     });
 
-  const postUrl = `https://vivekanand.dev/blog/${slug}`;
+  const postUrl = `${SITE_URL}/blog/${slug}`;
 
   const shareLinks = [
     {

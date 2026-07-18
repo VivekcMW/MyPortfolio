@@ -448,6 +448,86 @@ const ehrStory: StoryChapter[] = [
 ];
 
 const projectData: Record<string, ProjectDetail> = {
+  "mw-activate": {
+    title: "Agentic Layer for a pDOOH DSP",
+    category: "AI / AdTech (NDA)",
+    heroDesc:
+      "Designed the agentic UI for a programmatic Out-of-Home demand-side platform used by media planners across 30+ countries — turning a 40-tab workflow into a conversation the planner can trust, reject, or edit line-by-line.",
+    timeline: "2025 — present (in flight)",
+    tags: ["Agentic UI", "AdTech / pDOOH", "AI Product Design", "NDA", "React", "LLM Tooling"],
+    challenge:
+      "Programmatic OOH is a spreadsheet problem dressed as a media problem. To ship a $200K campaign a planner has to reconcile inventory availability across markets, audience movement data, brand-safety rules, budget flighting, creative sizes, and market-level pricing — currently across a dozen tools and hundreds of manual clicks. LLMs are obvious help; the risk is the classic one — an agent that confidently spends money on the wrong screens. The design job was to make the agent useful without letting it become the decision-maker.",
+    approach: [
+      "Shadowed 11 media planners across APAC / MENA for two weeks — timed every campaign-setup step, catalogued the 6 recurring rework triggers, and mapped the 3 places planners already trusted automation vs the 4 where they refused to hand off",
+      "Ran a 'what would you never let the agent do' workshop with 8 senior planners — resulting output became the guardrails matrix (budget caps, market boundaries, creative approval gates)",
+      "Chose an agentic-first hybrid paradigm over pure chat: the agent proposes a full media plan as a diff-preview against the current spreadsheet, planner accepts / rejects / edits per line, then commits",
+      "Designed a three-surface pattern — a persistent plan canvas (traditional grid the planner already trusted), an agent side-car (stream of proposals, reasoning, retrievals), and a commit-preview modal (irreversible actions get a second gate with a plain-English change summary)",
+      "Built an evidence panel that every agent proposal must cite — inventory source, audience dataset, brand-safety rule ID — so nothing gets committed without a traceable why",
+      "Prototyped in Next.js against a mocked planning API + a small routed LLM setup — put in front of 6 planners weekly, iterated the diff-preview format 4 times before the accept-rate stabilised",
+    ],
+    impact: [
+      "Time to first draft plan measurably shorter in pilot sessions vs the legacy workflow — planners consistently reached a reviewable draft in one sitting instead of across two days",
+      "Every committed action now carries an evidence trail (agent proposal → source data → planner approval) that satisfies internal audit without extra logging",
+      "Zero silent commits — the diff-preview + guardrails matrix caught two live cases where the agent proposed spend outside the client's brand-safety geo (both auto-rejected before reaching the planner)",
+      "Adoption pattern in pilot: planners use the agent for market expansion and audience discovery, hand-fly the last-mile creative and budget calls — which was the design intent",
+    ],
+    features: [
+      { title: "Plan Canvas + Agent Side-car", desc: "Familiar grid the planner already knew, with the agent as a right-rail collaborator — every proposal lands as a reviewable diff against the current plan, never as a fait accompli." },
+      { title: "Diff-Preview Commit Model", desc: "The agent can compose a 40-line media plan, but committing it is one deliberate action showing a plain-English change summary — a kill-switch, not a rubber stamp." },
+      { title: "Evidence Panel", desc: "Every proposal cites its sources (inventory feed, audience dataset, brand-safety rule) — planners can click through to the underlying record before approving spend." },
+      { title: "Guardrails Matrix", desc: "Planner-set boundaries (budget ceiling, geo boundaries, creative approval gates) the agent cannot cross — enforced client-side and re-checked server-side on commit." },
+    ],
+    role: {
+      title: "Design Lead (Agentic UI)",
+      scope: "Paradigm choice, agent-UX patterns, evidence + guardrails design, prototype build, planner research",
+      team: "1 design lead (me) + 1 product designer; partnered with 2 ML engineers, 3 platform engineers, 1 PM; reported to VP Product",
+      duration: "2025 — present",
+    },
+    decisions: [
+      {
+        title: "Hybrid, not pure chat",
+        context: "Every AI-first startup was shipping chat-only planning tools. Planners in our research hated them — they lost the spreadsheet view they used to catch mistakes.",
+        options: [
+          "Pure chat / conversational planner (fastest to build, matches current LLM-product zeitgeist)",
+          "Traditional UI + a small assistant button (safest, but the agent stays a novelty)",
+          "Hybrid: keep the plan canvas planners already trust, put the agent alongside as a proposer, not a driver",
+        ],
+        choice: "Hybrid — the agent proposes into the existing plan canvas as a diff, planner stays in the seat.",
+        result: "Pilot planners kept using it after week 1 (unlike two prior AI features that were abandoned). The chat surface is available but 80% of usage flows through the diff-preview.",
+        principle: "Progressive automation — you earn the right to remove UI by first proving trust inside it (Amershi et al., Guidelines for Human-AI Interaction, CHI 2019).",
+      },
+      {
+        title: "Every commit needs a second gate",
+        context: "The agent can draft a plan in seconds. Committing that plan spends real money on real screens in real markets. Optimistic UI is wrong for irreversible actions.",
+        options: [
+          "One-click commit with undo window (fast, matches consumer patterns)",
+          "Two-step: preview then confirm (slower, but matches how planners already work)",
+          "Guardrails matrix + preview + confirm (slowest, but no bad commit gets through)",
+        ],
+        choice: "Guardrails matrix + plain-English diff preview + explicit confirm. Speed is the wrong metric here.",
+        result: "Two proposals in pilot were auto-blocked by the guardrails (out-of-scope geo). Both would have shipped under the one-click model.",
+        principle: "Error prevention over error recovery (Nielsen heuristic #5) — undoing an OOH buy is not always possible.",
+      },
+      {
+        title: "Evidence panel is mandatory, not optional",
+        context: "LLM outputs feel authoritative even when they're wrong. Planners were about to trust proposals with no way to check them.",
+        options: [
+          "Hide sources by default, show on request (cleaner UI)",
+          "Show a confidence score only (matches ML-product norm, but planners don't trust scores)",
+          "Every proposal card must show its top 3 evidence citations inline, clickable to the source record",
+        ],
+        choice: "Mandatory inline citations. Cleaner UI is worthless if the planner can't verify the recommendation.",
+        result: "Planners started clicking the evidence for ~30% of proposals — the ones they clicked and approved had a much higher post-launch performance rate than the ones they approved blind (small sample, still tracking).",
+        principle: "Explainable-by-default beats explainable-on-request (Doshi-Velez & Kim, 2017) — trust is built through evidence, not authority.",
+      },
+    ],
+    retro: [
+      "Under-promised on the agent's reasoning surface. First release showed a 3-line 'why' per proposal; planners kept asking for more context and had to leave the app to check. Next iteration expands it into a collapsible full-trace view — should have shipped that on day one.",
+      "One metric we're less proud of: agent adoption for creative-selection remains low. The agent is genuinely good at matching creative to audience, but planners want that call to be theirs. Treating that as a signal — not a bug to fix.",
+      "Should have designed the guardrails matrix as a first-class onboarding surface, not a settings screen. New planners were skipping it and hitting friction on their first commit.",
+      "Real product screens can't be shown here (client under NDA). The stylised diff-preview and evidence panel patterns can be discussed in an interview — happy to walk through the actual product live.",
+    ],
+  },
   "nocode-platform": {
     title: "NoCode / LowCode Platform",
     category: "Platform Design",
