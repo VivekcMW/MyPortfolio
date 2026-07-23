@@ -10,6 +10,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import StatusBar from "@/components/StatusBar";
 import BackToTop from "@/components/BackToTop";
 import MotionProvider from "@/components/MotionProvider";
+import { ThemeProvider } from "@/lib/theme-context";
 import { SITE_URL } from "@/lib/site";
 
 const inter = Inter({
@@ -140,20 +141,22 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
-        <MotionProvider>
-          <div className="relative overflow-x-clip">
-            <SmoothScroll />
-            <ScrollProgress />
-            <CursorGlow />
-            <Navbar />
-            <main id="main-content" className="flex-1">
-              <PageTransition>{children}</PageTransition>
-            </main>
-            <Footer />
-            <BackToTop />
-            <StatusBar />
-          </div>
-        </MotionProvider>
+        <ThemeProvider>
+          <MotionProvider>
+            <div className="relative overflow-x-clip">
+              <SmoothScroll />
+              <ScrollProgress />
+              <CursorGlow />
+              <Navbar />
+              <main id="main-content" className="flex-1">
+                <PageTransition>{children}</PageTransition>
+              </main>
+              <Footer />
+              <BackToTop />
+              <StatusBar />
+            </div>
+          </MotionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

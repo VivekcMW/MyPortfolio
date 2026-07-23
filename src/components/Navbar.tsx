@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Magnetic from "./Magnetic";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -185,8 +186,10 @@ export default function Navbar() {
             </Magnetic>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
+          {/* Theme Toggle & Mobile Menu Button */}
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden relative w-10 h-10 flex items-center justify-center"
             aria-label="Toggle menu"
@@ -208,7 +211,8 @@ export default function Navbar() {
                 }`}
               />
             </div>
-          </button>
+            </button>
+          </div>
         </div>
       </div>
 
