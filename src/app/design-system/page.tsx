@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ReactNode, createElement } from "react";
+import { useState, useEffect, useId, ReactNode, createElement } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Palette, Type, Layers, Component, Layout, Accessibility, Code2,
@@ -312,22 +312,28 @@ export default function DesignSystemPage() {
             {/* Mobile controls — visible below lg */}
             <div className="flex lg:hidden items-center gap-0.5 p-0.5 rounded-lg" style={{ backgroundColor: theme.colors.surfaceHover }}>
               <select
+                id="ds-mobile-domain"
+                name="domain"
                 value={activeDomain}
                 onChange={e => setActiveDomain(e.target.value as DesignSystemSlug)}
                 className="px-1.5 py-1 rounded-md text-[10px] bg-transparent outline-none max-w-[80px]"
                 style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
                 title="Domain"
+                aria-label="Domain"
               >
                 {designSystemList.map(({ slug, name }) => (
                   <option key={slug} value={slug}>{name}</option>
                 ))}
               </select>
               <select
+                id="ds-mobile-palette"
+                name="palette"
                 value={activePalette}
                 onChange={e => setActivePalette(e.target.value as PaletteSlug)}
                 className="px-1.5 py-1 rounded-md text-[10px] bg-transparent outline-none max-w-[70px]"
                 style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
                 title="Palette"
+                aria-label="Palette"
               >
                 {paletteList.map(({ slug, name }) => (
                   <option key={slug} value={slug}>{name}</option>
@@ -507,10 +513,13 @@ export default function DesignSystemPage() {
               {/* Split controls */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-2 rounded-xl border shadow-lg" style={{ backgroundColor: theme.colors.surface, borderColor: theme.colors.border }}>
                 <select
+                  id="ds-split-domain"
+                  name="split-domain"
                   value={splitDomain}
                   onChange={e => setSplitDomain(e.target.value as DesignSystemSlug)}
                   className="text-[10px] px-2 py-1 rounded-md bg-transparent outline-none"
                   style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
+                  aria-label="Comparison domain"
                 >
                   {designSystemList.map(({ slug, name }) => (
                     <option key={slug} value={slug}>{name}</option>
@@ -518,10 +527,13 @@ export default function DesignSystemPage() {
                 </select>
                 <span className="text-muted text-[10px]">×</span>
                 <select
+                  id="ds-split-palette"
+                  name="split-palette"
                   value={splitPalette}
                   onChange={e => setSplitPalette(e.target.value as PaletteSlug)}
                   className="text-[10px] px-2 py-1 rounded-md bg-transparent outline-none"
                   style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
+                  aria-label="Comparison palette"
                 >
                   {paletteList.map(({ slug, name }) => (
                     <option key={slug} value={slug}>{name}</option>
@@ -857,16 +869,21 @@ function SliderControl({ label, icon, value, min, max, step, onChange, colors }:
   onChange: (v: number) => void;
   colors: DesignSystem["colors"];
 }) {
+  // useId keeps split view's two panels from minting duplicate ids for the same control.
+  const slug = label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const fieldId = `${useId()}${slug}`;
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-[11px]" style={{ color: colors.textMuted }}>
+        <label htmlFor={fieldId} className="flex items-center gap-1.5 text-[11px]" style={{ color: colors.textMuted }}>
           <span className="w-3.5 h-3.5">{icon}</span>
           <span>{label}</span>
-        </div>
+        </label>
         <span className="text-[10px] font-mono" style={{ color: colors.textMuted }}>{value}</span>
       </div>
       <input
+        id={fieldId}
+        name={slug}
         type="range"
         min={min}
         max={max}
@@ -917,6 +934,9 @@ function StudioPanelControls({ tokens, onChange, theme: t }: {
   onChange: <K extends keyof StudioTokens>(key: K, value: StudioTokens[K]) => void;
   theme: DesignSystem;
 }) {
+  // Prefix for this panel's field ids — the mobile sheet and the desktop panel
+  // both render these controls, so the ids have to stay unique per instance.
+  const panelId = useId();
   return (
     <>
       <SliderControl
@@ -932,10 +952,12 @@ function StudioPanelControls({ tokens, onChange, theme: t }: {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
             <TypeIcon className="w-3.5 h-3.5" />
-            <span>Heading Font</span>
+            <label htmlFor={`${panelId}heading-font`}>Heading Font</label>
           </div>
         </div>
         <select
+          id={`${panelId}heading-font`}
+          name="heading-font"
           value={tokens.fontHeading}
           onChange={e => onChange("fontHeading", e.target.value)}
           className="w-full px-2 py-1.5 rounded-md text-[11px] outline-none"
@@ -949,10 +971,12 @@ function StudioPanelControls({ tokens, onChange, theme: t }: {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
             <TypeIcon className="w-3.5 h-3.5" />
-            <span>Body Font</span>
+            <label htmlFor={`${panelId}body-font`}>Body Font</label>
           </div>
         </div>
         <select
+          id={`${panelId}body-font`}
+          name="body-font"
           value={tokens.fontBody}
           onChange={e => onChange("fontBody", e.target.value)}
           className="w-full px-2 py-1.5 rounded-md text-[11px] outline-none"

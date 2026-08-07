@@ -247,10 +247,10 @@ export default function WorkIndexPage() {
             Case studies, in depth.
           </h1>
           <p className="text-lg text-muted leading-relaxed">
-            {caseStudies.length} case studies across programmatic DOOH, cinema
-            advertising, OOH ops, platform AI strategy, healthcare, IoT,
-            construction, design systems, and
-            entertainment — each with the role I played, the decisions that
+            {caseStudies.length}{" "}
+            case studies across programmatic DOOH, cinema advertising, OOH ops,
+            platform AI strategy, healthcare, IoT, construction, design systems,
+            and entertainment — each with the role I played, the decisions that
             shaped it, and what I&apos;d do differently. Client work under NDA is
             labeled and shown as stylised recreations.
           </p>
