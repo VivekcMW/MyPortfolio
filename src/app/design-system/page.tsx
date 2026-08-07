@@ -349,7 +349,10 @@ export default function DesignSystemPage() {
       </header>
 
       {/* ─── Canvas Area ─── */}
-      <div className="flex flex-1 relative z-10 overflow-hidden">
+      {/* Column on mobile so the section-scroll bar stacks ABOVE the canvas; row from md up,
+          where the vertical tool rail sits beside it. As a row on mobile the bar (shrink-0,
+          ~766px of pills) ate the entire width and squeezed the canvas to zero. */}
+      <div className="flex flex-col md:flex-row flex-1 relative z-10 overflow-hidden">
         {/* First-visit intro — what this is and why it matters */}
         <AnimatePresence>
           {!introSeen && (
@@ -437,7 +440,7 @@ export default function DesignSystemPage() {
 
         {/* Mobile: Horizontal section scroll */}
         <div 
-          className="md:hidden flex items-center gap-1 px-3 py-2 overflow-x-auto border-b shrink-0"
+          className="md:hidden w-full min-w-0 flex items-center gap-1 px-3 py-2 overflow-x-auto border-b shrink-0"
           style={{ borderColor: theme.colors.border }}
         >
           {sidebarSections.map((section) => (
@@ -458,7 +461,7 @@ export default function DesignSystemPage() {
 
         {/* Canvas with CSS variable tokens */}
         <div
-          className="flex-1 flex min-w-0"
+          className="flex-1 flex min-w-0 min-h-0"
           style={{
             '--ds-radius': `${studioTokens.borderRadius}px`,
             '--ds-radius-sm': `${Math.max(4, studioTokens.borderRadius * 0.5)}px`,
