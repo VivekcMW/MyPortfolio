@@ -203,7 +203,7 @@ export default function FormaResearchPage() {
                 ))}
                 {["#6366F1", "#8B5CF6", "#EC4899", "#06B6D4", "#10B981"].map((c, i) => (
                   <linearGradient key={`t${i}`} id={`t${i}`}>
-                    <stop offset="0%" stopColor="#ffffff" stopOpacity="0.15" />
+                    <stop offset="0%" stopColor="var(--color-surface)" stopOpacity="0.15" />
                     <stop offset="100%" stopColor={c} stopOpacity="0.85" />
                   </linearGradient>
                 ))}

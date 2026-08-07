@@ -748,7 +748,7 @@ function ShipArtifact({ paradigm }: { paradigm: Paradigm }) {
           This is the method. Here it is applied to real, shipped products:
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link href="/work/nocode-platform" className="px-4 py-2.5 rounded-xl bg-accent text-white text-xs font-semibold hover:bg-accent/90 transition-colors">
+          <Link href="/work/nocode-platform" className="px-4 py-2.5 rounded-xl bg-accent text-accent-foreground text-xs font-semibold hover:bg-accent/90 transition-colors">
             NoCode Platform — 4-year case study
           </Link>
           <Link href="/design-system" className="px-4 py-2.5 rounded-xl bg-surface-hover border border-border text-xs font-medium text-foreground hover:border-accent/30 transition-colors">

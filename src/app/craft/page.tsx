@@ -171,7 +171,7 @@ const dy = (e.clientY - center.y) * strength;
 animate(el, { x: dx, y: dy }, spring);`,
     demo: (
       <Magnetic strength={0.5} scaleOnHover={1.05}>
-        <span className="inline-block px-6 py-3 bg-accent text-white text-sm font-semibold rounded-xl cursor-pointer">
+        <span className="inline-block px-6 py-3 bg-accent text-accent-foreground text-sm font-semibold rounded-xl cursor-pointer">
           Catch me
         </span>
       </Magnetic>
