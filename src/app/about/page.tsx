@@ -456,7 +456,7 @@ const pipelineStages = [
     color: "#EC4899",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125…"/>
+        <circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C20.577 6.223 16.867 2 12 2z"/>
       </svg>
     ),
     lines: [
@@ -609,7 +609,7 @@ function CompilerPipeline() {
           <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
           <div className="w-3 h-3 rounded-full bg-[#28C840]" />
         </div>
-        <span className="text-xs font-mono text-white/30">design-pipeline.sh</span>
+        <span className="text-xs font-mono text-white/60">design-pipeline.sh</span>
         <button
           type="button"
           onClick={handleRerun}
@@ -667,19 +667,19 @@ function CompilerPipeline() {
                     </div>
                     <span
                       className="text-xs font-mono font-bold"
-                      style={{ color: isDone || isActive ? stage.color : "rgba(255,255,255,0.3)" }}
+                      style={{ color: isDone || isActive ? stage.color : "rgba(255,255,255,0.6)" }}
                     >
                       {stage.label}
                     </span>
                   </div>
-                  <p className="text-[10px] text-white/30 pl-7">{stage.sublabel}</p>
+                  <p className="text-[10px] text-white/60 pl-7">{stage.sublabel}</p>
                 </div>
 
                 {/* Column terminal body */}
                 <div className="p-3 flex-1 font-mono text-[10px] leading-relaxed space-y-0.5 min-h-[160px]">
                   {/* Idle state */}
                   {!isDone && !isActive && completedStages.length === 0 && (
-                    <span className="text-white/15">—</span>
+                    <span className="text-white/40">—</span>
                   )}
 
                   {/* Active: typewriter lines */}
@@ -694,7 +694,7 @@ function CompilerPipeline() {
                           ? "#10B981"
                           : line.startsWith("→")
                           ? "rgba(255,255,255,0.65)"
-                          : "rgba(255,255,255,0.3)",
+                          : "rgba(255,255,255,0.6)",
                       }}
                     >
                       {line}
@@ -726,7 +726,7 @@ function CompilerPipeline() {
           </motion.div>
         )}
         {running && (
-          <div className="flex items-center gap-2 text-xs font-mono text-white/30">
+          <div className="flex items-center gap-2 text-xs font-mono text-muted">
             <span className="animate-pulse">▶</span>
             <span>compiling stage {(activeStage ?? 0) + 1} of {pipelineStages.length}…</span>
           </div>
@@ -957,7 +957,7 @@ export default function AboutPage() {
             <div className="mt-8 flex justify-center gap-4">
               <Link
                 href="/contact"
-                className="px-6 py-3 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all"
+                className="px-6 py-3 bg-accent text-accent-foreground font-semibold rounded-xl hover:bg-accent/90 transition-all"
               >
                 Get in Touch
               </Link>
@@ -1342,7 +1342,7 @@ export default function AboutPage() {
           >
             <Link
               href="/contact"
-              className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20"
+              className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-accent text-accent-foreground font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20"
             >
               Let&apos;s Talk
             </Link>
