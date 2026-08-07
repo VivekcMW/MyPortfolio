@@ -1,28 +1,38 @@
 @import "tailwindcss";
 
-@theme inline {
+/* ── Theme tokens ──
+   `static` (not `inline`) is load-bearing: it emits every token as a :root custom
+   property AND compiles utilities to `var(--color-*)` rather than a baked-in hex.
+   That indirection is what lets `theme-context.tsx` repaint the whole site by
+   setting the same properties inline on <html>. With `inline`, `bg-background`
+   would compile to a literal and the theme toggle would only move `body`.
+   Values below are the LIGHT theme — the pre-hydration fallback, so they must
+   stay in sync with THEME_COLORS.light in src/lib/theme-context.tsx. */
+@theme static {
   /* ── SIGNAL: Core ──
-     Neutral ramp derived from OKLCH lightness steps for perceptual evenness.
      --color-muted passes WCAG 2.2 AA (≥ 4.5:1) against --color-background. */
-  --color-background: #080808;  /* oklch(0.13 0 0) */
-  --color-foreground: #F0EEE9;  /* oklch(0.95 0.004 84) */
-  --color-surface: #111111;     /* oklch(0.17 0 0) */
-  --color-surface-hover: #191919;
-  --color-border: #262626;
-  --color-muted: #8C8C8C;       /* 5.2:1 on background — was #666 (3.2:1, AA fail) */
+  --color-background: #FAFAFA;
+  --color-foreground: #1A1A1A;
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F5F5F5;
+  --color-border: #E5E5E5;
+  --color-muted: #5C5C5C;       /* 6.4:1 on background — was #737373 (4.0:1, AA fail) */
 
   /* ── SIGNAL: Three Pillar Accents ── */
-  --color-accent: #38BDF8;          /* Builder — Sky Blue */
-  --color-accent-designer: #E879F9; /* Designer — Electric Violet */
-  --color-accent-scaler: #FB923C;   /* Scaler — Amber */
-  --color-accent-coral: #E879F9;    /* alias → designer */
+  --color-accent: #4F46E5;             /* Builder — Indigo */
+  --color-accent-foreground: #FFFFFF;  /* text on a filled accent surface */
+  --color-accent-designer: #A21CAF;    /* Designer — Fuchsia */
+  --color-accent-scaler: #B45309;      /* Scaler — Amber */
+  --color-accent-coral: #A21CAF;       /* alias → designer */
 
   /* ── Prose ── */
-  --color-prose-heading: #F0EEE9;
-  --color-prose-body: #A3A3A3;
-  --color-prose-code-bg: #141414;
+  --color-prose-heading: #1A1A1A;
+  --color-prose-body: #4B4B4B;
+  --color-prose-code-bg: #F0F0F0;
+}
 
-  /* ── Fonts ── */
+/* Fonts stay `inline` — they reference other custom properties, which `inline` resolves. */
+@theme inline {
   --font-sans: var(--font-inter);
   --font-heading: var(--font-dm-sans);
   --font-mono: var(--font-jetbrains-mono);
@@ -36,8 +46,14 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 
+  /* ── Ambient-effect opacity ──
+     A bare number, not a color: glow/gradient layers set `opacity: var(--color-overlay)`
+     so they all but vanish in light and keep their weight in dark. Lives here rather
+     than in @theme so Tailwind doesn't mint a nonsense `bg-overlay` utility from it. */
+  --color-overlay: 0.02;
+
   /* ── Theme transition ── */
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* Smooth theme transitions */
@@ -81,7 +97,7 @@ html.lenis body {
   z-index: 10000;
   padding: 0.75rem 1.25rem;
   background: var(--color-accent);
-  color: #08131a;
+  color: var(--color-accent-foreground);
   font-weight: 600;
   font-size: 0.875rem;
   border-radius: 0 0 8px 8px;
@@ -116,7 +132,7 @@ h1, h2, h3, h4, h5, h6 {
 
 ::selection {
   background: var(--color-accent);
-  color: white;
+  color: var(--color-accent-foreground);
 }
 
 ::-webkit-scrollbar {
@@ -203,7 +219,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .glow {
   /* color-mix fallback for Safari < 16.2 */
-  box-shadow: 0 0 40px rgba(56, 189, 248, 0.15);
+  box-shadow: 0 0 40px rgba(79, 70, 229, 0.15);
 }
 @supports (color: color-mix(in srgb, red 50%, blue)) {
   .glow {
@@ -215,11 +231,6 @@ h1, h2, h3, h4, h5, h6 {
 .signal-rule {
   border-top: 0.5px solid var(--color-border);
 }
-
-/* ── SIGNAL: Pillar text colors ── */
-.text-designer { color: var(--color-accent-designer); }
-.text-builder  { color: var(--color-accent); }
-.text-scaler   { color: var(--color-accent-scaler); }
 
 /* ── SIGNAL: Annotation label (hidden on mobile, visible md+) ── */
 .signal-annotation {
