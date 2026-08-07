@@ -66,6 +66,10 @@ const THEME_COLORS: Record<ThemeType, Record<string, string>> = {
     "accent-scaler": "#B45309",
     "accent-coral": "#A21CAF",
 
+    success: "#047857",
+    danger: "#B91C1C",
+    warning: "#A16207",
+
     "prose-heading": "#1A1A1A",
     "prose-body": "#4B4B4B",
     "prose-code-bg": "#F0F0F0",
@@ -85,6 +89,10 @@ const THEME_COLORS: Record<ThemeType, Record<string, string>> = {
     "accent-designer": "#E879F9",
     "accent-scaler": "#FB923C",
     "accent-coral": "#E879F9",
+
+    success: "#4ADE80",
+    danger: "#F87171",
+    warning: "#FBBF24",
 
     "prose-heading": "#F0EEE9",
     "prose-body": "#A3A3A3",

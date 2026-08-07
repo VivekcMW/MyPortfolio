@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Section, SectionHeader } from "@/components/Section";
+import { tintText } from "@/lib/tint";
 
 /* ─── AI Tool Data ─── */
 interface AITool {
@@ -173,13 +174,13 @@ function ConnectedGrid({
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-xs sm:text-sm font-bold border shrink-0 transition-transform duration-300"
-                  style={{ backgroundColor: tool.color + "15", borderColor: tool.color + "30", color: tool.color, transform: isActive ? "scale(1.1)" : "scale(1)" }}
+                  style={{ backgroundColor: tool.color + "15", borderColor: tool.color + "30", color: tintText(tool.color), transform: isActive ? "scale(1.1)" : "scale(1)" }}
                 >
                   {tool.abbr}
                 </div>
                 <div className="min-w-0">
                   <h4 className="text-xs sm:text-sm font-semibold text-foreground truncate">{tool.name}</h4>
-                  <span className="text-[10px] font-mono" style={{ color: tool.color }}>{tool.category}</span>
+                  <span className="text-[10px] font-mono" style={{ color: tintText(tool.color) }}>{tool.category}</span>
                 </div>
               </div>
               <AnimatePresence>
@@ -417,7 +418,9 @@ const pipelineStages = [
     id: "prd",
     label: "PRD",
     sublabel: "Requirements",
-    color: "#6366F1",
+    // Stage hues are read on the fixed-dark terminal (#0d1117), so they're the
+    // lighter tints — the base indigo/violet land at 4.24 and 4.47 there.
+    color: "#818CF8",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
@@ -435,7 +438,7 @@ const pipelineStages = [
     id: "ux",
     label: "UX",
     sublabel: "Information Architecture",
-    color: "#8B5CF6",
+    color: "#A78BFA",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
@@ -719,7 +722,7 @@ function CompilerPipeline() {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center gap-2 text-xs font-mono"
-            style={{ color: "#10B981" }}
+            style={{ color: tintText("#10B981") }}
           >
             <span>✓</span>
             <span>[BUILD SUCCESSFUL] — PRD to Production</span>
@@ -839,7 +842,7 @@ function WorkflowScrollytelling() {
                     </span>
                     <span
                       className="text-[10px] font-mono uppercase tracking-widest whitespace-nowrap"
-                      style={{ color: phase.color }}
+                      style={{ color: tintText(phase.color) }}
                     >
                       {phase.context}
                     </span>
@@ -856,7 +859,7 @@ function WorkflowScrollytelling() {
                     <h3 className="text-xl font-bold mb-1 text-foreground">{phase.title}</h3>
                     <p
                       className="text-sm font-medium mb-2 leading-snug"
-                      style={{ color: phase.color }}
+                      style={{ color: tintText(phase.color) }}
                     >
                       {phase.tagline}
                     </p>
@@ -874,7 +877,7 @@ function WorkflowScrollytelling() {
                           className="px-2.5 py-1 rounded-lg text-xs font-medium border transition-all duration-200 hover:scale-105"
                           style={{
                             borderColor: phase.color + "35",
-                            color: phase.color,
+                            color: tintText(phase.color),
                             backgroundColor: phase.color + "0d",
                           }}
                         >
@@ -1248,7 +1251,7 @@ export default function AboutPage() {
                   <div className="flex items-start gap-4">
                     <div
                       className="w-11 h-11 rounded-xl flex items-center justify-center text-sm font-bold border shrink-0 transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: tool.color + "12", borderColor: tool.color + "30", color: tool.color }}
+                      style={{ backgroundColor: tool.color + "12", borderColor: tool.color + "30", color: tintText(tool.color) }}
                     >
                       {tool.abbr}
                     </div>
@@ -1256,7 +1259,7 @@ export default function AboutPage() {
                       <div className="flex items-center gap-2 mb-1">
                         <h4 className="text-sm font-semibold text-foreground">{tool.name}</h4>
                       </div>
-                      <span className="text-[10px] font-mono" style={{ color: tool.color }}>{tool.category}</span>
+                      <span className="text-[10px] font-mono" style={{ color: tintText(tool.color) }}>{tool.category}</span>
                       <p className="text-xs text-muted leading-relaxed mt-2">{tool.useCase}</p>
                     </div>
                   </div>

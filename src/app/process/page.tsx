@@ -350,7 +350,7 @@ function WireflowArtifact({ paradigm }: { paradigm: Paradigm }) {
     start: { border: meta.color, label: "entry" },
     step: { border: "var(--color-border)", label: "step" },
     decision: { border: "var(--color-accent-scaler)", label: "gate" },
-    failure: { border: "#f87171", label: "failure" },
+    failure: { border: "var(--color-danger)", label: "failure" },
     end: { border: meta.color, label: "outcome" },
   };
 
@@ -484,7 +484,7 @@ function AgenticDemo() {
               className="flex items-center gap-2 text-xs text-muted"
             >
               {phase === "done" || (phase === "running" && i === 0) ? (
-                <Check className="w-3.5 h-3.5 text-green-400 shrink-0" />
+                <Check className="w-3.5 h-3.5 text-success shrink-0" />
               ) : (
                 <span className="w-3.5 h-3.5 rounded-full border border-border shrink-0 flex items-center justify-center text-[8px] font-mono text-muted">{i + 1}</span>
               )}
@@ -493,7 +493,7 @@ function AgenticDemo() {
           ))}
           {phase === "await" && (
             <div className="flex gap-2 pt-2">
-              <button onClick={approve} className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-green-400/15 text-green-400">
+              <button onClick={approve} className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-success/15 text-success">
                 Approve
               </button>
               <button onClick={reset} className="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-surface border border-border text-muted">
@@ -503,8 +503,8 @@ function AgenticDemo() {
           )}
           {phase === "running" && <p className="text-[11px] font-mono text-accent-designer pt-1">executing · step 1/3 · reading #product-updates…</p>}
           {phase === "done" && (
-            <div className="mt-2 p-3 rounded-lg border border-green-400/25 bg-green-400/6">
-              <p className="text-[10px] font-mono text-green-400 uppercase tracking-wider mb-1">Receipt</p>
+            <div className="mt-2 p-3 rounded-lg border border-success/25 bg-success/6">
+              <p className="text-[10px] font-mono text-success uppercase tracking-wider mb-1">Receipt</p>
               <p className="text-[11px] text-muted leading-relaxed">47 threads triaged · 4 need decisions · 0 items modified · <button onClick={reset} className="text-foreground/70 underline underline-offset-2 inline-flex items-center gap-1"><RotateCcw className="w-2.5 h-2.5" />undo / replay</button></p>
             </div>
           )}
@@ -540,7 +540,7 @@ function HybridDemo() {
             >
               <span className="text-foreground/80 truncate">{r.name}</span>
               {applied ? (
-                <span className="text-[10px] font-mono text-green-400 shrink-0">{r.fixed}</span>
+                <span className="text-[10px] font-mono text-success shrink-0">{r.fixed}</span>
               ) : (
                 <span className={`text-[10px] font-mono shrink-0 ${r.tag === "ok" ? "text-muted" : "text-accent-scaler"}`}>{r.tag}</span>
               )}
@@ -560,13 +560,13 @@ function HybridDemo() {
       {state === "preview" && (
         <div className="flex items-center gap-2">
           <p className="text-[11px] text-muted flex-1">2 changes proposed — highlighted above.</p>
-          <button onClick={() => setState("applied")} className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-green-400/15 text-green-400">Apply</button>
+          <button onClick={() => setState("applied")} className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-success/15 text-success">Apply</button>
           <button onClick={() => setState("idle")} className="px-3 py-1.5 rounded-lg text-[11px] bg-surface border border-border text-muted">Reject</button>
         </div>
       )}
       {state === "applied" && (
         <p className="text-[11px] text-muted flex items-center gap-2">
-          <Check className="w-3 h-3 text-green-400" /> Applied · both entries in the shared ledger ·{" "}
+          <Check className="w-3 h-3 text-success" /> Applied · both entries in the shared ledger ·{" "}
           <button onClick={() => setState("idle")} className="underline underline-offset-2 inline-flex items-center gap-1 text-foreground/70">
             <RotateCcw className="w-2.5 h-2.5" /> undo
           </button>
@@ -623,7 +623,7 @@ function ZeroUIDemo() {
     ambient: "#3f3f46",
     listening: "var(--color-accent)",
     confirm: "var(--color-accent-scaler)",
-    done: "#4ade80",
+    done: "var(--color-success)",
   };
   const label: Record<typeof state, string> = {
     ambient: "Ambient — peripheral, silent",

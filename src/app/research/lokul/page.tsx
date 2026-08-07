@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Section, SectionHeader } from "@/components/Section";
+import { tintText } from "@/lib/tint";
 import { ArrowRight, Check, Circle, Code, Dot, MapPin, Users, Shield, Store, Utensils, Car, Wallet, Building2, ChevronRight } from "lucide-react";
 
 /* ─── Data ─── */
@@ -118,8 +119,8 @@ export default function LokulResearchPage() {
               <motion.div key={m.phase} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + i * 0.1 }} className="relative p-6 rounded-2xl border overflow-hidden" style={{ borderColor: m.color + "25", backgroundColor: m.color + "04" }}>
                 <div className="absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full opacity-[0.04]" style={{ backgroundColor: m.color }} />
                 <div className="relative">
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border" style={{ borderColor: m.color + "30", color: m.color, backgroundColor: m.color + "10" }}>{m.year}</span>
-                  <h3 className="text-lg font-bold mt-3 mb-1" style={{ color: m.color }}>{m.phase}</h3>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border" style={{ borderColor: m.color + "30", color: tintText(m.color), backgroundColor: m.color + "10" }}>{m.year}</span>
+                  <h3 className="text-lg font-bold mt-3 mb-1" style={{ color: tintText(m.color) }}>{m.phase}</h3>
                   <p className="text-xs font-mono text-muted/70 mb-2">{m.label}</p>
                   <p className="text-xs text-muted leading-relaxed">{m.desc}</p>
                 </div>
@@ -332,11 +333,11 @@ export default function LokulResearchPage() {
               </ul>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="p-6 rounded-2xl bg-surface border border-border">
-              <h3 className="text-lg font-bold mb-3" style={{ color: "#10B981" }}>The Three Unlocks</h3>
+              <h3 className="text-lg font-bold mb-3" style={{ color: tintText("#10B981") }}>The Three Unlocks</h3>
               <ul className="space-y-3 text-sm text-muted">
-                <li className="flex gap-3"><Check size={14} className="text-[#10B981] shrink-0 mt-0.5" /><span><strong className="text-foreground">Radius as primitive</strong> — 200m / 500m / 2km is the core filter, not city, not category, not social graph.</span></li>
-                <li className="flex gap-3"><Check size={14} className="text-[#10B981] shrink-0 mt-0.5" /><span><strong className="text-foreground">Role fluidity</strong> — every user is simultaneously resident, buyer, seller, cook, rider, coach; roles activate with a toggle.</span></li>
-                <li className="flex gap-3"><Check size={14} className="text-[#10B981] shrink-0 mt-0.5" /><span><strong className="text-foreground">Trust by proximity</strong> — neighbors already know each other; Lokul adds verified identity + transaction infrastructure on top.</span></li>
+                <li className="flex gap-3"><Check size={14} className="text-hue-green shrink-0 mt-0.5" /><span><strong className="text-foreground">Radius as primitive</strong> — 200m / 500m / 2km is the core filter, not city, not category, not social graph.</span></li>
+                <li className="flex gap-3"><Check size={14} className="text-hue-green shrink-0 mt-0.5" /><span><strong className="text-foreground">Role fluidity</strong> — every user is simultaneously resident, buyer, seller, cook, rider, coach; roles activate with a toggle.</span></li>
+                <li className="flex gap-3"><Check size={14} className="text-hue-green shrink-0 mt-0.5" /><span><strong className="text-foreground">Trust by proximity</strong> — neighbors already know each other; Lokul adds verified identity + transaction infrastructure on top.</span></li>
               </ul>
             </motion.div>
           </div>
@@ -347,9 +348,9 @@ export default function LokulResearchPage() {
               <motion.div key={circle.name} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="relative p-6 rounded-2xl border border-border bg-surface text-center overflow-hidden">
                 <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-10" style={{ backgroundColor: i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#10B981" }} />
                 <div className="relative">
-                  <p className="text-[10px] font-mono uppercase tracking-widest mb-1" style={{ color: i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#10B981" }}>{circle.name}</p>
+                  <p className="text-[10px] font-mono uppercase tracking-widest mb-1" style={{ color: tintText(i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#10B981") }}>{circle.name}</p>
                   <div className="text-xl font-bold text-foreground">{circle.value}</div>
-                  <div className="text-2xl font-heading font-bold mt-1" style={{ color: i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#10B981" }}>{circle.arr}</div>
+                  <div className="text-2xl font-heading font-bold mt-1" style={{ color: tintText(i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#10B981") }}>{circle.arr}</div>
                   <p className="text-[10px] text-muted mt-2">{circle.desc}</p>
                 </div>
               </motion.div>
@@ -368,10 +369,10 @@ export default function LokulResearchPage() {
             {personas.map((p, i) => (
               <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }} className="p-5 rounded-2xl border border-border bg-surface">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: p.color + "20", color: p.color }}>{p.title[0]}</div>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: p.color + "20", color: tintText(p.color) }}>{p.title[0]}</div>
                   <div>
                     <h3 className="text-sm font-bold text-foreground">{p.title}</h3>
-                    <p className="text-[10px] font-mono" style={{ color: p.color }}>{p.role}</p>
+                    <p className="text-[10px] font-mono" style={{ color: tintText(p.color) }}>{p.role}</p>
                   </div>
                 </div>
                 <p className="text-xs text-muted leading-relaxed">{p.desc}</p>
@@ -463,25 +464,25 @@ export default function LokulResearchPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-6 rounded-2xl border border-border bg-surface">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-[#6366F1]/10 border border-[#6366F1]/20 flex items-center justify-center"><MapPin size={18} className="text-[#6366F1]" /></div>
+                <div className="w-10 h-10 rounded-xl bg-[#6366F1]/10 border border-[#6366F1]/20 flex items-center justify-center"><MapPin size={18} className="text-hue-indigo" /></div>
                 <div><h4 className="text-sm font-bold text-foreground">Feed + Radius Discovery</h4><p className="text-[10px] font-mono text-muted">200m / 500m / 2km</p></div>
               </div>
               <p className="text-xs text-muted leading-relaxed mb-3">A single chronological feed of all neighborhood activity — posts, safety alerts, lost items, events, polls, business offers — filtered by a user-selectable radius. The default is 200m; users expand deliberately.</p>
               <ul className="space-y-1.5">
                 {["Post types: update, safety, lost, event, poll, sell, RWA notice, SOS", "Business posts appear alongside resident posts — no separate ads silo", "Reactions (like/love/thanks/support/concern) + nested comments", "Stories: 24-hour ephemeral posts with view tracking"].map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-[11px] text-muted"><Check size={10} className="text-[#6366F1] shrink-0 mt-0.5" />{f}</li>
+                  <li key={f} className="flex items-start gap-2 text-[11px] text-muted"><Check size={10} className="text-hue-indigo shrink-0 mt-0.5" />{f}</li>
                 ))}
               </ul>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.05 }} className="p-6 rounded-2xl border border-border bg-surface">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20 flex items-center justify-center"><Shield size={18} className="text-[#10B981]" /></div>
+                <div className="w-10 h-10 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20 flex items-center justify-center"><Shield size={18} className="text-hue-green" /></div>
                 <div><h4 className="text-sm font-bold text-foreground">Safety & SOS</h4><p className="text-[10px] font-mono text-muted">Panic button · Proximity waves · Responders</p></div>
               </div>
               <p className="text-xs text-muted leading-relaxed mb-3">A persistent SOS button accessible from anywhere in the app. On trigger: 5s countdown → live GPS broadcast to trusted contacts → 200m proximity wave to nearby volunteers → auto-record + cloud upload.</p>
               <ul className="space-y-1.5">
                 {["200m → 400m proximity escalation waves if no responder in 60s", "Volunteer responder network with verified identity", "Safety Journey: guardian watches a user's route in real-time", "Medical Profile: blood group, allergies, conditions accessible to responders"].map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-[11px] text-muted"><Check size={10} className="text-[#10B981] shrink-0 mt-0.5" />{f}</li>
+                  <li key={f} className="flex items-start gap-2 text-[11px] text-muted"><Check size={10} className="text-hue-green shrink-0 mt-0.5" />{f}</li>
                 ))}
               </ul>
             </motion.div>
@@ -506,7 +507,7 @@ export default function LokulResearchPage() {
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: role.color + "15" }}>
-                      <role.icon size={18} style={{ color: role.color }} />
+                      <role.icon size={18} style={{ color: tintText(role.color) }} />
                     </div>
                     <h4 className="text-sm font-bold text-foreground">{role.name}</h4>
                   </div>
@@ -515,7 +516,7 @@ export default function LokulResearchPage() {
                     {isActive && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
                         <div className="mt-3 pt-3 border-t border-border/50">
-                          <p className="text-[10px] font-mono" style={{ color: role.color }}>
+                          <p className="text-[10px] font-mono" style={{ color: tintText(role.color) }}>
                             {role.name === "Cook" ? "Activated at Silver KYC. List menu, set pricing, receive orders & payments in-app." :
                              role.name === "Rider" ? "Activated at Silver KYC. Post availability windows, get matched to nearby delivery requests." :
                              role.name === "Coach" ? "Activated at Silver KYC. Set up session types, calendar, pricing. Booking + payment in-app." :
@@ -541,7 +542,7 @@ export default function LokulResearchPage() {
               { icon: Building2, label: "Society Ops", desc: "Visitor e-passes, staff attendance, RWA notices, binding polls, dues collection, lost & found.", color: "#10B981" },
             ].map((f) => (
               <motion.div key={f.label} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-4 rounded-xl border border-border bg-surface flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: f.color + "10" }}><f.icon size={14} style={{ color: f.color }} /></div>
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: f.color + "10" }}><f.icon size={14} style={{ color: tintText(f.color) }} /></div>
                 <div><h4 className="text-xs font-bold text-foreground">{f.label}</h4><p className="text-[10px] text-muted mt-0.5">{f.desc}</p></div>
               </motion.div>
             ))}
@@ -563,7 +564,7 @@ export default function LokulResearchPage() {
                   <div>
                     <div className="flex items-center gap-3 mb-1 flex-wrap">
                       <h3 className="text-base font-bold text-foreground">{d.decision}</h3>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ backgroundColor: d.color + "15", color: d.color }}>{d.choice}</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ backgroundColor: d.color + "15", color: tintText(d.color) }}>{d.choice}</span>
                     </div>
                     <p className="text-sm text-muted leading-relaxed">{d.why}</p>
                   </div>
@@ -583,7 +584,7 @@ export default function LokulResearchPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {revenueStreams.map((r, i) => (
               <motion.div key={r.stream} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.04 }} className="p-5 rounded-2xl border" style={{ borderColor: r.color + "20", backgroundColor: r.color + "04" }}>
-                <div className="text-xl font-heading font-bold" style={{ color: r.color }}>{r.value}</div>
+                <div className="text-xl font-heading font-bold" style={{ color: tintText(r.color) }}>{r.value}</div>
                 <h4 className="text-sm font-bold text-foreground mt-1">{r.stream}</h4>
                 <p className="text-[10px] text-muted mt-1">{r.desc}</p>
               </motion.div>
@@ -600,7 +601,7 @@ export default function LokulResearchPage() {
                 { round: "Target Investors", target: "Blume, Prime, Elevation, Stellaris, 3one4", structure: "Angel: Kunal Shah, Amrish Rau, Jitendra Gupta", color: "#10B981" },
               ].map((f) => (
                 <div key={f.round} className="p-4 rounded-xl border" style={{ borderColor: f.color + "20", backgroundColor: f.color + "06" }}>
-                  <p className="text-[10px] font-mono" style={{ color: f.color }}>{f.round}</p>
+                  <p className="text-[10px] font-mono" style={{ color: tintText(f.color) }}>{f.round}</p>
                   <p className="text-sm font-bold text-foreground mt-1">{f.target}</p>
                   <p className="text-[10px] text-muted mt-0.5">{f.structure}</p>
                 </div>
@@ -618,18 +619,18 @@ export default function LokulResearchPage() {
           <SectionHeader eyebrow="Current Status" title="Where Lokul is today." description="The monorepo is fully scaffolded with 42 database models, 90+ mobile screens, 46+ API routes, and a full admin CMS. The backend is code-complete across most domains with ~4–6 weeks of production integration work remaining." />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="p-5 rounded-2xl border border-[#10B981]/30 bg-[#10B981]/05">
-              <h4 className="text-sm font-bold text-[#10B981] mb-3 flex items-center gap-1.5"><Check size={14} /> Built</h4>
+              <h4 className="text-sm font-bold text-hue-green mb-3 flex items-center gap-1.5"><Check size={14} /> Built</h4>
               <ul className="space-y-2">
                 {builtItems.map((item) => (
-                  <li key={item} className="flex gap-2 text-xs text-muted"><Check size={12} className="text-[#10B981] shrink-0 mt-0.5" />{item}</li>
+                  <li key={item} className="flex gap-2 text-xs text-muted"><Check size={12} className="text-hue-green shrink-0 mt-0.5" />{item}</li>
                 ))}
               </ul>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-5 rounded-2xl border border-[#F59E0B]/30 bg-[#F59E0B]/05">
-              <h4 className="text-sm font-bold text-[#F59E0B] mb-3 flex items-center gap-1.5"><Circle size={14} /> In Progress / Next</h4>
+              <h4 className="text-sm font-bold text-hue-amber mb-3 flex items-center gap-1.5"><Circle size={14} /> In Progress / Next</h4>
               <ul className="space-y-2">
                 {nextItems.map((item) => (
-                  <li key={item} className="flex gap-2 text-xs text-muted"><Circle size={12} className="text-[#F59E0B] shrink-0 mt-0.5" />{item}</li>
+                  <li key={item} className="flex gap-2 text-xs text-muted"><Circle size={12} className="text-hue-amber shrink-0 mt-0.5" />{item}</li>
                 ))}
               </ul>
             </motion.div>
@@ -654,7 +655,7 @@ export default function LokulResearchPage() {
                       <p className="text-[10px] text-muted">{r.scope}</p>
                     </div>
                   </div>
-                  <span className="text-[10px] font-mono" style={{ color: r.color }}>{r.when}</span>
+                  <span className="text-[10px] font-mono" style={{ color: tintText(r.color) }}>{r.when}</span>
                 </div>
               ))}
             </div>
@@ -681,7 +682,7 @@ export default function LokulResearchPage() {
             ].map((cat) => (
               <motion.div key={cat.name} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex items-center justify-between p-3 rounded-xl border border-border bg-surface">
                 <span className="text-xs font-medium text-foreground">{cat.name}</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ backgroundColor: cat.color + "15", color: cat.color }}>{cat.count}</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ backgroundColor: cat.color + "15", color: tintText(cat.color) }}>{cat.count}</span>
               </motion.div>
             ))}
           </div>

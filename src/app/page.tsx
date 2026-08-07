@@ -498,9 +498,9 @@ export default function HomePage() {
                               : line.type === "command"
                                 ? "text-accent"
                                 : line.type === "success"
-                                  ? "text-green-400"
+                                  ? "text-success"
                                   : line.type === "loading"
-                                    ? "text-yellow-400"
+                                    ? "text-warning"
                                     : line.type === "accent"
                                       ? "text-accent font-medium"
                                       : line.type === "blank"
@@ -633,7 +633,7 @@ export default function HomePage() {
         <div className="absolute left-0 top-0 bottom-0 hidden lg:flex items-center pl-2 pointer-events-none select-none">
           <span
             className="font-mono text-[9px] tracking-[0.2em] uppercase"
-            style={{ writingMode: "vertical-rl", color: "var(--color-border)" }}
+            style={{ writingMode: "vertical-rl", color: "var(--color-muted)" }}
           >
             [ 03 / PILLARS ]
           </span>
@@ -755,8 +755,8 @@ export default function HomePage() {
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/60 border border-border mb-8"
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
               </span>
               <span className="text-xs font-mono text-foreground/80">
                 Available for select engagements · responds within 24h

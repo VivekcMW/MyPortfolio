@@ -491,7 +491,9 @@ export function PrdPaper() {
 /* ─────────────────────────────────────────────────────────────
    Stage 02 — Interview dot grid + sticky-note clusters
 ────────────────────────────────────────────────────────────── */
-const CLUSTER_COLORS = ["var(--color-accent)", "var(--color-accent-designer)", "var(--color-accent-scaler)", "#4ade80", "#f87171"];
+// All five read as label text, so every entry has to be a theme-aware token —
+// the raw #4ade80/#f87171 pair sat at 1.7:1 and 2.8:1 on the light surface.
+const CLUSTER_COLORS = ["var(--color-accent)", "var(--color-accent-designer)", "var(--color-accent-scaler)", "var(--color-success)", "var(--color-danger)"];
 const DOT_QUOTES = [
   "“I re-read everything it writes. Everything.”",
   "“I stopped asking after it invented a meeting.”",

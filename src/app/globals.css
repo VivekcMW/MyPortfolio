@@ -25,6 +25,13 @@
   --color-accent-scaler: #B45309;      /* Scaler — Amber */
   --color-accent-coral: #A21CAF;       /* alias → designer */
 
+  /* ── Semantic status ──
+     Tailwind's -400 shades are tuned for dark surfaces and land near 2:1 on a
+     light one, so status text reads through these tokens instead. */
+  --color-success: #047857;
+  --color-danger: #B91C1C;
+  --color-warning: #A16207;
+
   /* ── Prose ── */
   --color-prose-heading: #1A1A1A;
   --color-prose-body: #4B4B4B;
@@ -236,6 +243,14 @@ h1, h2, h3, h4, h5, h6 {
   border-top: 0.5px solid var(--color-border);
 }
 
+/* ── Categorical hue text ──
+   Class form of tintText() in src/lib/tint.ts, for the spots that use a utility
+   class rather than an inline style. Mixing 50% toward --color-foreground
+   darkens the hue on light and lightens it on dark, clearing AA in both. */
+.text-hue-green  { color: color-mix(in srgb, #10B981 50%, var(--color-foreground)); }
+.text-hue-amber  { color: color-mix(in srgb, #F59E0B 50%, var(--color-foreground)); }
+.text-hue-indigo { color: color-mix(in srgb, #6366F1 50%, var(--color-foreground)); }
+
 /* ── SIGNAL: Annotation label (hidden on mobile, visible md+) ── */
 .signal-annotation {
   position: absolute;
@@ -246,7 +261,8 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 9px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-border);
+  /* --color-border is a 1.2:1 hairline tone — fine for rules, unreadable as text. */
+  color: var(--color-muted);
   user-select: none;
   pointer-events: none;
 }

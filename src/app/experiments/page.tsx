@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo } from "react";
 import { Section, SectionHeader } from "@/components/Section";
+import { tintText } from "@/lib/tint";
 import Link from "next/link";
 
 interface Experiment {
@@ -301,7 +302,7 @@ function ExperimentCard({
           style={{
             backgroundColor: catColor + "12",
             borderColor: catColor + "25",
-            color: catColor,
+            color: tintText(catColor),
           }}
         >
           {experiment.icon}
@@ -316,7 +317,7 @@ function ExperimentCard({
               style={{
                 backgroundColor: status.bg,
                 borderColor: status.color + "30",
-                color: status.color,
+                color: tintText(status.color),
               }}
             >
               {status.label}
@@ -332,7 +333,7 @@ function ExperimentCard({
                 className="px-2 py-0.5 rounded-md text-[10px] font-mono border"
                 style={{
                   borderColor: catColor + "18",
-                  color: catColor,
+                  color: tintText(catColor),
                   backgroundColor: catColor + "08",
                 }}
               >
@@ -347,7 +348,7 @@ function ExperimentCard({
                   key={link.label}
                   href={link.href}
                   className="inline-flex items-center gap-1 text-xs font-mono font-medium transition-colors"
-                  style={{ color: catColor }}
+                  style={{ color: tintText(catColor) }}
                 >
                   {link.label}
                   <svg
@@ -426,7 +427,7 @@ export default function ExperimentsPage() {
                   style={{
                     backgroundColor: isActive ? catColor + "15" : "var(--color-surface)",
                     borderColor: isActive ? catColor + "35" : "var(--color-border)",
-                    color: isActive ? catColor : "var(--color-muted)",
+                    color: isActive ? tintText(catColor) : "var(--color-muted)",
                     borderWidth: 1,
                     borderStyle: "solid",
                   }}

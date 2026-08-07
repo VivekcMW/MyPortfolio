@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, Fragment } from "react";
 import { Section, SectionHeader } from "@/components/Section";
 import { ArrowRight, Check, Circle, Code, Dot, Square, Zap, ChevronLeft, ChevronRight } from "lucide-react";
+import { tintText } from "@/lib/tint";
 
 /* ─── Data ─── */
 
@@ -173,7 +174,7 @@ export default function FormaResearchPage() {
             ].map((step, i, arr) => (
               <div key={step.label} className="flex items-center gap-1 sm:gap-3 whitespace-nowrap">
                 <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg border" style={{ borderColor: step.color + "30", backgroundColor: step.color + "08" }}>
-                  <step.icon size={12} style={{ color: step.color }} />
+                  <step.icon size={12} style={{ color: tintText(step.color) }} />
                   <span className="text-foreground font-semibold text-[10px] sm:text-xs">{step.label}</span>
                 </div>
                 {i < arr.length - 1 && <ArrowRight size={14} className="text-muted/30 shrink-0" />}
@@ -452,11 +453,11 @@ export default function FormaResearchPage() {
               </ul>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="p-6 rounded-2xl bg-surface border border-border">
-              <h3 className="text-lg font-bold mb-3" style={{ color: "#10B981" }}>The Forma Thesis</h3>
+              <h3 className="text-lg font-bold mb-3" style={{ color: tintText("#10B981") }}>The Forma Thesis</h3>
               <ul className="space-y-3 text-sm text-muted">
-                <li className="flex gap-3"><Check size={14} className="text-[#10B981] shrink-0 mt-0.5" /><span>Software companies ship capabilities (manifests), not fixed interfaces.</span></li>
-                <li className="flex gap-3"><Check size={14} className="text-[#10B981] shrink-0 mt-0.5" /><span>Users describe their workflow once. The AI compiler produces a stable, versioned config.</span></li>
-                <li className="flex gap-3"><Check size={14} className="text-[#10B981] shrink-0 mt-0.5" /><span>App updates don&apos;t break user interfaces — version contract auto-migrates configs.</span></li>
+                <li className="flex gap-3"><Check size={14} className="text-hue-green shrink-0 mt-0.5" /><span>Software companies ship capabilities (manifests), not fixed interfaces.</span></li>
+                <li className="flex gap-3"><Check size={14} className="text-hue-green shrink-0 mt-0.5" /><span>Users describe their workflow once. The AI compiler produces a stable, versioned config.</span></li>
+                <li className="flex gap-3"><Check size={14} className="text-hue-green shrink-0 mt-0.5" /><span>App updates don&apos;t break user interfaces — version contract auto-migrates configs.</span></li>
               </ul>
             </motion.div>
           </div>
@@ -479,11 +480,11 @@ export default function FormaResearchPage() {
               return (
                 <motion.div key={layer.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="rounded-2xl border overflow-hidden transition-all duration-300 cursor-pointer" style={{ borderColor: isActive ? layer.color + "50" : "var(--color-border)", backgroundColor: isActive ? layer.color + "06" : "var(--color-surface)" }} onClick={() => setActiveLayer(isActive ? null : i)}>
                   <div className="p-5 sm:p-6 flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold shrink-0" style={{ backgroundColor: layer.color + "20", color: layer.color }}>{layer.level}</div>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold shrink-0" style={{ backgroundColor: layer.color + "20", color: tintText(layer.color) }}>{layer.level}</div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3">
                         <h3 className="text-lg font-bold text-foreground">{layer.name}</h3>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border" style={{ borderColor: layer.color + "30", color: layer.color, backgroundColor: layer.color + "10" }}>{layer.short}</span>
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border" style={{ borderColor: layer.color + "30", color: tintText(layer.color), backgroundColor: layer.color + "10" }}>{layer.short}</span>
                       </div>
                       <p className="text-sm text-muted mt-1">{layer.desc}</p>
                     </div>
@@ -521,7 +522,7 @@ export default function FormaResearchPage() {
                 <motion.div key={pkg.name} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.03 }} className="p-4 rounded-xl border text-sm" style={{ borderColor: pkg.color + "25", backgroundColor: pkg.color + "06" }}>
                   <div className="flex items-center gap-2 mb-1">
                     <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: pkg.color }} />
-                    <span className="font-mono font-medium text-xs" style={{ color: pkg.color }}>{pkg.tier === 0 ? "core" : pkg.tier === 1 ? "runtime" : pkg.tier === 2 ? "ui" : "pack"}</span>
+                    <span className="font-mono font-medium text-xs" style={{ color: tintText(pkg.color) }}>{pkg.tier === 0 ? "core" : pkg.tier === 1 ? "runtime" : pkg.tier === 2 ? "ui" : "pack"}</span>
                   </div>
                   <p className="font-mono text-xs text-foreground font-semibold">{pkg.name}</p>
                   <p className="text-[10px] text-muted mt-1">{pkg.desc}</p>
@@ -542,7 +543,7 @@ export default function FormaResearchPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
             {domainCategories.map((cat) => (
               <motion.div key={cat.name} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-3 rounded-xl border border-border bg-surface text-center">
-                <div className="text-lg font-bold" style={{ color: cat.color }}>{cat.count}</div>
+                <div className="text-lg font-bold" style={{ color: tintText(cat.color) }}>{cat.count}</div>
                 <p className="text-xs text-muted mt-1">{cat.name}</p>
               </motion.div>
             ))}
@@ -577,7 +578,7 @@ export default function FormaResearchPage() {
                   <div>
                     <div className="flex items-center gap-3 mb-1 flex-wrap">
                       <h3 className="text-base font-bold text-foreground">{d.decision}</h3>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ backgroundColor: d.color + "15", color: d.color }}>{d.choice}</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ backgroundColor: d.color + "15", color: tintText(d.color) }}>{d.choice}</span>
                     </div>
                     <p className="text-sm text-muted leading-relaxed">{d.why}</p>
                   </div>
@@ -596,7 +597,7 @@ export default function FormaResearchPage() {
           <SectionHeader eyebrow="Use Cases" title="Real scenarios. Real transformation." description="In-depth use cases showing how Forma transforms software across CRM and Healthcare — with concrete before/after comparisons and measurable outcomes." />
           <div className="flex flex-wrap gap-2 mb-8">
             {useCases.map((uc) => (
-              <motion.button key={uc.id} onClick={() => setActiveUseCase(uc.id)} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200" style={{ backgroundColor: activeUseCase === uc.id ? uc.color + "15" : "var(--color-surface)", borderColor: activeUseCase === uc.id ? uc.color + "35" : "var(--color-border)", color: activeUseCase === uc.id ? uc.color : "var(--color-muted)", borderWidth: 1, borderStyle: "solid" }}>
+              <motion.button key={uc.id} onClick={() => setActiveUseCase(uc.id)} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200" style={{ backgroundColor: activeUseCase === uc.id ? uc.color + "15" : "var(--color-surface)", borderColor: activeUseCase === uc.id ? uc.color + "35" : "var(--color-border)", color: activeUseCase === uc.id ? tintText(uc.color) : "var(--color-muted)", borderWidth: 1, borderStyle: "solid" }}>
                 {uc.title.split(" —")[0]}
               </motion.button>
             ))}
@@ -604,13 +605,13 @@ export default function FormaResearchPage() {
           <AnimatePresence mode="wait">
             <motion.div key={currentUseCase.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <div className="p-6 sm:p-8 rounded-2xl border mb-6" style={{ borderColor: currentUseCase.color + "25", backgroundColor: currentUseCase.color + "04" }}>
-                <h3 className="text-xl font-bold mb-3" style={{ color: currentUseCase.color }}>{currentUseCase.title}</h3>
+                <h3 className="text-xl font-bold mb-3" style={{ color: tintText(currentUseCase.color) }}>{currentUseCase.title}</h3>
                 <p className="text-sm text-muted leading-relaxed max-w-3xl">{currentUseCase.summary}</p>
               </div>
               <div className="space-y-2 mb-6">
                 {currentUseCase.transformation.map((t, i) => (
                   <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-surface">
-                    <span className="shrink-0 mt-0.5" style={{ color: currentUseCase.color }}>
+                    <span className="shrink-0 mt-0.5" style={{ color: tintText(currentUseCase.color) }}>
                       {t.startsWith("Before") ? <ChevronLeft size={14} /> : t.startsWith("After") ? <ChevronRight size={14} /> : <Dot size={14} />}
                     </span>
                     <span className="text-xs text-muted">{t}</span>
@@ -620,7 +621,7 @@ export default function FormaResearchPage() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {currentUseCase.metrics.map((m) => (
                   <div key={m.label} className="p-4 rounded-xl text-center border" style={{ borderColor: currentUseCase.color + "20", backgroundColor: currentUseCase.color + "06" }}>
-                    <div className="text-xl font-heading font-bold" style={{ color: currentUseCase.color }}>{m.value}</div>
+                    <div className="text-xl font-heading font-bold" style={{ color: tintText(currentUseCase.color) }}>{m.value}</div>
                     <p className="text-[10px] text-muted mt-1">{m.label}</p>
                   </div>
                 ))}
@@ -636,9 +637,9 @@ export default function FormaResearchPage() {
                 <motion.div key={circle.name} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="relative p-6 rounded-2xl border border-border bg-surface text-center overflow-hidden">
                   <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-10" style={{ backgroundColor: i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#EC4899" }} />
                   <div className="relative">
-                    <p className="text-[10px] font-mono uppercase tracking-widest mb-1" style={{ color: i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#EC4899" }}>{circle.name}</p>
+                    <p className="text-[10px] font-mono uppercase tracking-widest mb-1" style={{ color: tintText(i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#EC4899") }}>{circle.name}</p>
                     <div className="text-xl font-bold text-foreground">{circle.value}</div>
-                    <div className="text-2xl font-heading font-bold mt-1" style={{ color: i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#EC4899" }}>{circle.arr}</div>
+                    <div className="text-2xl font-heading font-bold mt-1" style={{ color: tintText(i === 0 ? "#6366F1" : i === 1 ? "#8B5CF6" : "#EC4899") }}>{circle.arr}</div>
                     <p className="text-[10px] text-muted mt-2">{circle.desc}</p>
                   </div>
                 </motion.div>
@@ -649,12 +650,12 @@ export default function FormaResearchPage() {
               {pricingTiers.map((tier) => (
                 <motion.div key={tier.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-5 rounded-2xl border bg-surface" style={{ borderColor: tier.color + "25" }}>
                   <h4 className="text-sm font-bold text-foreground">{tier.name}</h4>
-                  <div className="text-2xl font-heading font-bold my-2" style={{ color: tier.color }}>{tier.price}</div>
+                  <div className="text-2xl font-heading font-bold my-2" style={{ color: tintText(tier.color) }}>{tier.price}</div>
                   <p className="text-[10px] font-mono text-muted mb-3">/month · {tier.users}</p>
                   <ul className="space-y-1.5">
                     {tier.features.map((f) => (
                       <li key={f} className="flex items-center gap-1.5 text-[11px] text-muted">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="shrink-0" style={{ color: tier.color }}><polyline points="20 6 9 17 4 12" /></svg>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="shrink-0" style={{ color: tintText(tier.color) }}><polyline points="20 6 9 17 4 12" /></svg>
                         {f}
                       </li>
                     ))}
@@ -674,18 +675,18 @@ export default function FormaResearchPage() {
           <SectionHeader eyebrow="Current Status" title="Where Forma is today." description="June 2026 snapshot: the monorepo is scaffolded with 16 packages, 6 apps, and a locked manifest v1 spec. Component library, domain packs, CLI, and devtools are live." />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="p-5 rounded-2xl border border-[#10B981]/30 bg-[#10B981]/05">
-              <h4 className="text-sm font-bold text-[#10B981] mb-3 flex items-center gap-1.5"><Check size={14} /> Built</h4>
+              <h4 className="text-sm font-bold text-hue-green mb-3 flex items-center gap-1.5"><Check size={14} /> Built</h4>
               <ul className="space-y-2">
                 {["Manifest spec v1 LOCKED (June 3, 2026)", "16 packages scaffolded", "@forma/react: 536 components across 48 categories", "4 domain packs: CRM, Analytics, Helpdesk, Charts-D3", "6 apps: Website, Playground, Docs, Studio, Storybook, E2E", "CLI with 7 commands", "Devtools browser extension + React component", "Testing utilities: mock data, MSW handlers, ManifestBuilder", "879 deep-import paths configured", "100+ strategy documents"].map((item) => (
-                  <li key={item} className="flex gap-2 text-xs text-muted"><Check size={12} className="text-[#10B981] shrink-0 mt-0.5" />{item}</li>
+                  <li key={item} className="flex gap-2 text-xs text-muted"><Check size={12} className="text-hue-green shrink-0 mt-0.5" />{item}</li>
                 ))}
               </ul>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-5 rounded-2xl border border-[#F59E0B]/30 bg-[#F59E0B]/05">
-              <h4 className="text-sm font-bold text-[#F59E0B] mb-3 flex items-center gap-1.5"><Circle size={14} /> In Progress / Next</h4>
+              <h4 className="text-sm font-bold text-hue-amber mb-3 flex items-center gap-1.5"><Circle size={14} /> In Progress / Next</h4>
               <ul className="space-y-2">
                 {["Manifest registry API (Go service)", "AI compiler service (Python/FastAPI)", "Version contract management dashboard", "Changesets + npm publishing pipeline", "Per-component build output", "Third-party security audit (NCC Group / Trail of Bits)", "E2E test suite completion", "3 design partner commitments", "First paying customer ($500/mo target)", "@forma/scientific package family"].map((item) => (
-                  <li key={item} className="flex gap-2 text-xs text-muted"><Circle size={12} className="text-[#F59E0B] shrink-0 mt-0.5" />{item}</li>
+                  <li key={item} className="flex gap-2 text-xs text-muted"><Circle size={12} className="text-hue-amber shrink-0 mt-0.5" />{item}</li>
                 ))}
               </ul>
             </motion.div>
@@ -697,10 +698,10 @@ export default function FormaResearchPage() {
             {personas.map((p, i) => (
               <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }} className="p-5 rounded-2xl border border-border bg-surface">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: p.color + "20", color: p.color }}>{p.title.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold" style={{ backgroundColor: p.color + "20", color: tintText(p.color) }}>{p.title.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
                   <div>
                     <h3 className="text-sm font-bold text-foreground">{p.title}</h3>
-                    <p className="text-[10px] font-mono" style={{ color: p.color }}>{p.role}</p>
+                    <p className="text-[10px] font-mono" style={{ color: tintText(p.color) }}>{p.role}</p>
                   </div>
                 </div>
                 <p className="text-[10px] font-mono text-muted mb-2">{p.company}</p>

@@ -41,6 +41,9 @@ const LIGHT = {
   designer: "#A21CAF",
   scaler: "#B45309",
   proseBody: "#4B4B4B",
+  success: "#047857",
+  danger: "#B91C1C",
+  warning: "#A16207",
 };
 
 const DARK = {
@@ -53,6 +56,9 @@ const DARK = {
   designer: "#E879F9",
   scaler: "#FB923C",
   proseBody: "#A3A3A3",
+  success: "#4ADE80",
+  danger: "#F87171",
+  warning: "#FBBF24",
 };
 
 const pairs = [
@@ -79,10 +85,54 @@ const pairs = [
   ["dark: designer accent on background", DARK.designer, DARK.background, MIN_AA_TEXT],
   ["dark: scaler accent on background", DARK.scaler, DARK.background, MIN_AA_TEXT],
 
+  ["light: success on surface", LIGHT.success, LIGHT.surface, MIN_AA_TEXT],
+  ["light: danger on surface", LIGHT.danger, LIGHT.surface, MIN_AA_TEXT],
+  ["light: warning on surface", LIGHT.warning, LIGHT.surface, MIN_AA_TEXT],
+  ["dark: success on surface", DARK.success, DARK.surface, MIN_AA_TEXT],
+  ["dark: danger on surface", DARK.danger, DARK.surface, MIN_AA_TEXT],
+  ["dark: warning on surface", DARK.warning, DARK.surface, MIN_AA_TEXT],
+
   // Non-text / large-text UI components (3:1 floor)
   ["light: accent as UI component on background", LIGHT.accent, LIGHT.background, MIN_AA_LARGE],
   ["dark: accent as UI component on background", DARK.accent, DARK.background, MIN_AA_LARGE],
 ];
+
+/**
+ * Categorical hues (tool brands, diagram lanes) are authored at dark-theme
+ * brightness and rendered through tintText() in src/lib/tint.ts, which mixes
+ * 50% toward --color-foreground. Verify every hue in use still clears AA under
+ * that transform in BOTH themes — this is what stops a newly-added brand color
+ * from silently landing at 2:1 on the light theme.
+ */
+const TINT_RATIO = 0.5;
+const HUES = [
+  "#10B981", "#8B5CF6", "#6366F1", "#EC4899", "#F59E0B", "#06B6D4", "#F97316",
+  "#94A3B8", "#F43F5E", "#84CC16", "#0EA5E9", "#2DD4BF", "#4285F4", "#FBBC05",
+  "#5865F2", "#A259FF", "#10A37F", "#EA4B71", "#22D3EE", "#20B2AA", "#0066FF",
+  "#FF4A00", "#D97706", "#7C3AED", "#6E40C9", "#F26207", "#FF6B00", "#6D00CC",
+];
+
+function mix(hexA, hexB, p) {
+  const a = hexToRgb(hexA);
+  const b = hexToRgb(hexB);
+  const c = a.map((v, i) => Math.round(v * p + b[i] * (1 - p)));
+  return "#" + c.map((v) => v.toString(16).padStart(2, "0")).join("");
+}
+
+for (const hue of HUES) {
+  pairs.push([
+    `light: tinted ${hue} on surface`,
+    mix(hue, LIGHT.foreground, TINT_RATIO),
+    LIGHT.surface,
+    MIN_AA_TEXT,
+  ]);
+  pairs.push([
+    `dark: tinted ${hue} on surface`,
+    mix(hue, DARK.foreground, TINT_RATIO),
+    DARK.surface,
+    MIN_AA_TEXT,
+  ]);
+}
 
 let failed = false;
 for (const [label, fg, bg, min] of pairs) {

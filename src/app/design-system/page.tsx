@@ -1461,7 +1461,7 @@ function ColorsSection({ theme, copyToClipboard, copiedToken }: Readonly<{ theme
               <div className="flex items-center gap-2">
                 <span 
                   className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
-                    check.pass ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
+                    check.pass ? "bg-green-500/20 text-success" : "bg-red-500/20 text-danger"
                   }`}
                 >
                   {check.pass ? "AA Pass" : "Fail"}
