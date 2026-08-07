@@ -247,15 +247,16 @@ export default function WorkIndexPage() {
             Case studies, in depth.
           </h1>
           <p className="text-lg text-muted leading-relaxed">
-            Nine case studies across programmatic DOOH, cinema advertising,
-            OOH ops, platform AI strategy, healthcare, IoT, construction, and
+            {caseStudies.length} case studies across programmatic DOOH, cinema
+            advertising, OOH ops, platform AI strategy, healthcare, IoT,
+            construction, design systems, and
             entertainment — each with the role I played, the decisions that
             shaped it, and what I&apos;d do differently. Client work under NDA is
             labeled and shown as stylised recreations.
           </p>
         </motion.div>
 
-        <SectionHeader eyebrow="9 Case Studies" title="Products that made an impact." />
+        <SectionHeader eyebrow={`${caseStudies.length} Case Studies`} title="Products that made an impact." />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
           {caseStudies.map((cs, i) => (

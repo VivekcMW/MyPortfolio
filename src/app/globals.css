@@ -58,6 +58,10 @@
 
 /* Smooth theme transitions */
 html {
+  /* framer-motion's useScroll({ target }) measures the target's offset inside its
+     scroll container — <html> for window scroll — and warns when that container is
+     position: static, because static containers make the offset math unreliable. */
+  position: relative;
   transition: background-color var(--motion-base) var(--ease-in-out-soft),
               color var(--motion-base) var(--ease-in-out-soft);
 }
