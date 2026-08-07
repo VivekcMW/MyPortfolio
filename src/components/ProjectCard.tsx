@@ -157,6 +157,7 @@ export default function ProjectCard({
   return (
     <motion.div
       ref={cardRef}
+      className="relative"
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -172,7 +173,8 @@ export default function ProjectCard({
                 className="absolute inset-0"
                 style={{
                   background: `radial-gradient(ellipse at 50% 80%, var(--color-${accent}) 0%, transparent 70%)`,
-                  opacity: 0.08,
+                  // Ambient wash: all but invisible in light, keeps its weight in dark.
+                  opacity: "calc(var(--color-overlay) * 0.5)",
                 }}
               />
               {/* Subtle grid pattern */}

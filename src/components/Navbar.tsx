@@ -179,7 +179,7 @@ export default function Navbar() {
             <Magnetic strength={0.4}>
               <Link
                 href="/contact"
-                className="magnetic-btn px-5 py-2.5 bg-accent text-white text-sm font-medium rounded-lg hover:bg-accent/90 transition-colors"
+                className="magnetic-btn px-5 py-2.5 bg-accent text-accent-foreground text-sm font-medium rounded-lg hover:bg-accent/90 transition-colors"
               >
                 Let&apos;s Talk
               </Link>
@@ -334,7 +334,7 @@ export default function Navbar() {
               >
                 <Link
                   href="/contact"
-                  className="block px-4 py-3 bg-accent text-white text-center rounded-lg font-medium"
+                  className="block px-4 py-3 bg-accent text-accent-foreground text-center rounded-lg font-medium"
                 >
                   Let&apos;s Talk
                 </Link>

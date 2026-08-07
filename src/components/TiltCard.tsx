@@ -42,11 +42,11 @@ export default function TiltCard({ children, className = "" }: TiltCardProps) {
       className={`relative ${className}`}
     >
       {children}
-      {/* Glare overlay — uses rgba for broad browser compat */}
+      {/* Glare overlay — tinted with the live accent so it tracks the theme */}
       <div
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"
         style={{
-          background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(56,189,248,0.06) 0%, transparent 60%)`,
+          background: `radial-gradient(circle at ${glareX}% ${glareY}%, color-mix(in srgb, var(--color-accent) 8%, transparent) 0%, transparent 60%)`,
         }}
       />
     </motion.div>
