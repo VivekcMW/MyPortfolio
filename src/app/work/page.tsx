@@ -176,6 +176,44 @@ const caseStudies: Array<{
     ),
   },
   {
+    slug: "design-systems-scale",
+    title: "Design Systems at Scale — One Spine, Six Products",
+    category: "Design Systems / Scale",
+    description:
+      "A multi-domain token architecture spanning 6 product types and 6 palettes — let 3 concurrent design teams scale from 1 product to 7 without design fracture.",
+    tags: ["Design Systems", "Tokens", "Figma", "Accessibility"],
+    timeline: "2023 — 2025",
+    role: "Senior Lead UX Designer & Design Systems Architect",
+    status: "shipped",
+    image: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+      </svg>
+    ),
+  },
+  {
+    slug: "constructiviq-construction-cloud",
+    title: "ConstructivIQ: Construction Cloud from Ground Up",
+    category: "Construction Cloud / Design Systems",
+    description:
+      "Shipped a construction cloud SaaS from inception — design system, Submittals & Materials workflows, and AI routing. $1.2M ARR and 15+ enterprise customers in year one.",
+    tags: ["Design Systems", "SaaS", "Construction Tech", "AI Workflows"],
+    timeline: "05/2023 — 11/2024",
+    role: "Lead UI UX Designer",
+    status: "shipped",
+    image: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+      </svg>
+    ),
+  },
+  {
     slug: "ott-platform",
     title: "OTT Streaming Platform",
     category: "Entertainment / BigData",
