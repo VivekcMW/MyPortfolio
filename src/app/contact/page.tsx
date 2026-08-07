@@ -221,7 +221,7 @@ export default function ContactPage() {
                 }
                 target={BOOKING_URL ? "_blank" : undefined}
                 rel={BOOKING_URL ? "noopener noreferrer" : undefined}
-                className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-accent text-white text-sm font-semibold hover:bg-accent/90 transition-all duration-200 hover:shadow-lg hover:shadow-accent/20"
+                className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-accent text-accent-foreground text-sm font-semibold hover:bg-accent/90 transition-all duration-200 hover:shadow-lg hover:shadow-accent/20"
               >
                 <svg
                   width="16"
@@ -269,6 +269,7 @@ export default function ContactPage() {
                     id="name"
                     type="text"
                     required
+                    autoComplete="name"
                     value={formState.name}
                     onChange={(e) =>
                       setFormState({ ...formState, name: e.target.value })
@@ -289,6 +290,7 @@ export default function ContactPage() {
                     id="email"
                     type="email"
                     required
+                    autoComplete="email"
                     value={formState.email}
                     onChange={(e) =>
                       setFormState({ ...formState, email: e.target.value })
@@ -308,6 +310,7 @@ export default function ContactPage() {
                   <input
                     id="mobile"
                     type="tel"
+                    autoComplete="tel"
                     value={formState.mobile}
                     onChange={(e) =>
                       setFormState({ ...formState, mobile: e.target.value })
@@ -365,7 +368,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={sending || sent}
-                  className="w-full px-8 py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-8 py-4 bg-accent text-accent-foreground font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {sending ? "Sending..." : sent ? "Sent! I'll get back to you." : "Send Message"}
                 </button>
