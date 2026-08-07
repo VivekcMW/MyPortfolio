@@ -427,7 +427,9 @@ export default function HomePage() {
                   <button
                     key={role.word}
                     onClick={() => { setRoleIndex(i); scrambleTo(roles[i].word); }}
-                    className="group flex items-center gap-1.5"
+                    className="group flex items-center justify-center gap-1.5 min-w-6 min-h-6"
+                    aria-label={`Show role: ${role.word}`}
+                    aria-current={roleIndex === i ? "true" : undefined}
                   >
                     <motion.div
                       animate={{
@@ -521,6 +523,7 @@ export default function HomePage() {
       {/* ===== IMPACT SPOTLIGHTS ===== */}
       <section className="relative border-y border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+          <h2 className="sr-only">Impact spotlights</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
             {[
               {
@@ -788,7 +791,7 @@ export default function HomePage() {
               <Magnetic strength={0.4} scaleOnHover={1.05}>
                 <Link
                   href="/contact"
-                  className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
+                  className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-accent text-accent-foreground font-semibold rounded-xl hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
                 >
                   Get in Touch
                 </Link>
