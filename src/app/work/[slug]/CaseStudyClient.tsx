@@ -204,7 +204,7 @@ export default function CaseStudyClient({ slug }: { slug: string }) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.18 }}
-                className="mb-10 p-5 rounded-2xl bg-gradient-to-r from-accent/5 via-accent/3 to-transparent border border-accent/10"
+                className="mb-10 p-5 rounded-2xl bg-accent/5 border border-accent/10"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
@@ -308,7 +308,7 @@ export default function CaseStudyClient({ slug }: { slug: string }) {
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
-                className="absolute inset-y-0 left-0 right-0 bg-gradient-to-r from-accent via-accent/60 to-purple-500 origin-left"
+                className="absolute inset-y-0 left-0 right-0 bg-accent origin-left"
               />
             </div>
             {/* Year markers */}
@@ -354,7 +354,7 @@ export default function CaseStudyClient({ slug }: { slug: string }) {
               >
                 {/* Vertical connector */}
                 {idx < project.story!.length - 1 && (
-                  <div className="absolute left-5 top-full w-px h-16 sm:h-20 bg-gradient-to-b from-border to-transparent hidden sm:block" />
+                  <div className="absolute left-5 top-full w-px h-16 sm:h-20 bg-border/50 hidden sm:block" />
                 )}
 
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
@@ -420,7 +420,7 @@ export default function CaseStudyClient({ slug }: { slug: string }) {
                             className="p-4 rounded-xl bg-surface border border-border relative overflow-hidden"
                           >
                             {/* Accent top bar */}
-                            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-accent to-accent/0" />
+                            <div className="absolute top-0 left-0 right-0 h-0.5 bg-accent/50" />
                             <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-1">{item.label}</p>
                             <p className="text-xl font-bold text-foreground">{item.value}</p>
                           </motion.div>
@@ -440,7 +440,7 @@ export default function CaseStudyClient({ slug }: { slug: string }) {
                     className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4"
                   >
                     {chapter.aside?.map((m, mi) => (
-                      <div key={mi} className="text-center p-5 rounded-2xl bg-gradient-to-b from-accent/5 to-transparent border border-accent/10">
+                      <div key={mi} className="text-center p-5 rounded-2xl bg-accent/5 border border-accent/10">
                         <motion.p
                           initial={{ scale: 0.5, opacity: 0 }}
                           whileInView={{ scale: 1, opacity: 1 }}
@@ -530,7 +530,7 @@ export default function CaseStudyClient({ slug }: { slug: string }) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.22 }}
-              className="mb-10 p-5 rounded-2xl bg-gradient-to-r from-accent/5 via-accent/3 to-transparent border border-accent/10"
+              className="mb-10 p-5 rounded-2xl bg-accent/5 border border-accent/10"
             >
               <div className="flex items-center gap-2 mb-3">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent">

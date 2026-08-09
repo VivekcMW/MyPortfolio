@@ -412,329 +412,1739 @@ const principles = [
   },
 ];
 
-/* ─── Compiler Pipeline ─── */
-const pipelineStages = [
+/* ─── Design Studio Artifacts (8-Stage Research Paper Flow) ─── */
+const studioArtifacts = [
   {
-    id: "prd",
-    label: "PRD",
-    sublabel: "Requirements",
-    // Stage hues are read on the fixed-dark terminal (#0d1117), so they're the
-    // lighter tints — the base indigo/violet land at 4.24 and 4.47 there.
-    color: "#818CF8",
+    id: "discovery",
+    stage: "01",
+    type: "research-paper",
+    color: "#FFF9C4",
+    rotation: -1,
+    position: { col: 1, row: 1, colSpan: 4, rowSpan: 2 },
+    title: "Stage 01: Discovery & Problem Framing",
+    content: [
+      "Hypothesis: Mobile booking flow has 62% drop-off",
+      "Market: 450 daily bookings, 8.2min avg time",
+      "Problem: 14 form fields on mobile → user friction",
+      "Goal: Reduce drop-off by 20% in 3 months",
+    ],
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+        <path d="M11 8v6"/>
+        <path d="M8 11h6"/>
       </svg>
     ),
-    lines: [
-      "// user_needs.prd",
-      "GOAL: reduce booking drop-off",
-      "USER: ops manager, 34–45",
-      "METRIC: +20% task completion",
-      "CONSTRAINT: mobile-first",
-    ],
   },
   {
-    id: "ux",
-    label: "UX",
-    sublabel: "Information Architecture",
-    color: "#A78BFA",
+    id: "research",
+    stage: "02",
+    type: "research-paper",
+    color: "#E3F2FD",
+    rotation: 1,
+    position: { col: 5, row: 1, colSpan: 4, rowSpan: 2 },
+    title: "Stage 02: User & Market Research",
+    content: [
+      "Method: 32 in-depth interviews (22 hrs total)",
+      "Sample: Ops managers (n=32), age 34-45",
+      "Findings: 18/32 mention mobile form friction",
+      "Affinity clusters: 3 major pain themes",
+    ],
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>
     ),
-    lines: [
-      "// parsing user_needs.prd…",
-      "→ flow: dashboard → form → confirm",
-      "→ components: 12 identified",
-      "→ edge cases: 4 flagged",
-      "✓ IA compiled successfully",
-    ],
   },
   {
-    id: "design",
-    label: "Design",
-    sublabel: "Visual Layer",
-    color: "#EC4899",
+    id: "synthesis",
+    stage: "03",
+    type: "research-paper",
+    color: "#FFF3E0",
+    rotation: -1,
+    position: { col: 9, row: 1, colSpan: 4, rowSpan: 2 },
+    title: "Stage 03: Synthesis & Journey Mapping",
+    content: [
+      "5 journey stages, 12 touchpoints mapped",
+      "Pain #1: Mobile form (62% abandon rate)",
+      "Pain #2: No smart defaults (repeat data)",
+      "Opportunity: AI-assisted pre-fill",
+    ],
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C20.577 6.223 16.867 2 12 2z"/>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
       </svg>
     ),
-    lines: [
-      "// rendering visual_layer…",
-      "→ tokens: 42 design vars applied",
-      "→ components: Button, Card, Form…",
-      "→ states: default hover focus error",
-      "✓ Figma handoff ready",
-    ],
   },
   {
-    id: "code",
-    label: "Code",
-    sublabel: "Implementation",
-    color: "#06B6D4",
+    id: "fork",
+    stage: "04",
+    type: "fork-gate",
+    color: "#FCE4EC",
+    rotation: 0,
+    position: { col: 1, row: 3, colSpan: 6, rowSpan: 2 },
+    title: "⑂ Stage 04: Paradigm Gate (FORK)",
+    content: [
+      "Decision: Which interaction paradigm?",
+      "Option A: Stepped wizard (15/18 score)",
+      "Option B: Smart defaults (16/18) ✓ WINNER",
+      "Option C: Progressive disclosure (13/18)",
+    ],
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <line x1="12" y1="2" x2="12" y2="10"/>
+        <line x1="12" y1="10" x2="6" y2="18"/>
+        <line x1="12" y1="10" x2="18" y2="18"/>
+        <circle cx="12" cy="10" r="2"/>
       </svg>
     ),
-    lines: [
-      "// compiling components…",
-      "→ React 19 + TypeScript strict",
-      "→ bundle: 42kb gzipped",
-      "→ a11y: 0 violations",
-      "✓ build successful in 2.1s",
-    ],
   },
   {
-    id: "qa",
-    label: "QA",
-    sublabel: "Validation",
-    color: "#F59E0B",
+    id: "design-system",
+    stage: "05",
+    type: "research-paper",
+    color: "#FFFFFF",
+    rotation: 1,
+    position: { col: 7, row: 3, colSpan: 3, rowSpan: 2 },
+    title: "Stage 05: Design System",
+    content: [
+      "24 tokens (color, spacing, typography)",
+      "Primary: #2D3561 (8.2:1 AAA contrast)",
+      "Components: Button, Input, Card, Stepper",
+      "42 variants, fully accessible",
+    ],
+    colors: ["#2D3561", "#D4663E", "#FFB84D", "#FAFAF8"],
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="20 6 9 17 4 12"/>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="13.5" cy="6.5" r=".5"/>
+        <circle cx="17.5" cy="10.5" r=".5"/>
+        <circle cx="8.5" cy="7.5" r=".5"/>
+        <circle cx="6.5" cy="12.5" r=".5"/>
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C20.577 6.223 16.867 2 12 2z"/>
       </svg>
     ),
-    lines: [
-      "// running test suite…",
-      "→ unit: 48/48 passed",
-      "→ integration: 12/12 passed",
-      "→ lighthouse: 98/100",
-      "✓ all checks green",
-    ],
   },
   {
-    id: "prod",
-    label: "PROD",
-    sublabel: "Live",
-    color: "#10B981",
+    id: "prototype",
+    stage: "06",
+    type: "research-paper",
+    color: "#F5F5F5",
+    rotation: -2,
+    position: { col: 10, row: 3, colSpan: 3, rowSpan: 2 },
+    title: "Stage 06: Prototype & Test",
+    content: [
+      "8 flows × 3 fidelity = 24 screens",
+      "Lo-fi → Mid-fi → Hi-fi progression",
+      "Figma prototype tested with 12 users",
+      "Design decisions: 56px tap targets",
+    ],
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        <line x1="3" y1="9" x2="21" y2="9"/>
+        <line x1="9" y1="21" x2="9" y2="9"/>
       </svg>
     ),
-    lines: [
-      "// deploying to production…",
-      "→ CDN: 47 edge nodes",
-      "→ uptime: 99.98%",
-      "→ users: 2.4M sessions/mo",
-      "✓ [BUILD SUCCESSFUL] 🚀",
+  },
+  {
+    id: "validation",
+    stage: "07",
+    type: "research-paper",
+    color: "#E8F5E9",
+    rotation: 1,
+    position: { col: 1, row: 5, colSpan: 6, rowSpan: 2 },
+    title: "Stage 07: Launch & Validation",
+    content: [
+      "Launch: June 15, 2026 (6 weeks measured)",
+      "Primary: +22pp completion (62% → 84%)",
+      "Secondary: -45% time-on-task (8.2m → 4.4m)",
+      "Goodhart check: PASSED ✓",
     ],
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+        <polyline points="17 6 23 6 23 12"/>
+      </svg>
+    ),
+  },
+  {
+    id: "iteration",
+    stage: "08",
+    type: "loop-gate",
+    color: "#FFF9C4",
+    rotation: -2,
+    position: { col: 7, row: 5, colSpan: 6, rowSpan: 2 },
+    title: "↻ Stage 08: Iteration Cycle (LOOP)",
+    content: [
+      "Learning: Smart defaults work (+22pp)",
+      "Next opportunity: Voice input (hands-free)",
+      "New hypothesis: -30% more time saved",
+      "Loop to: Stage 02 (research) or 06 (prototype)",
+    ],
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <polyline points="23 4 23 10 17 10"/>
+        <polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>
+    ),
   },
 ];
 
-function CompilerPipeline() {
-  const [activeStage, setActiveStage] = useState<number | null>(null);
-  const [running, setRunning] = useState(false);
-  const [completedStages, setCompletedStages] = useState<number[]>([]);
-  const [lineIdx, setLineIdx] = useState<Record<number, number>>({});
+/* ─── Design Studio Canvas Component ─── */
+
+/* ─── Artifact Detail Views ─── */
+interface ArtifactDetailViewProps {
+  artifact: typeof studioArtifacts[0];
+}
+
+function ArtifactDetailView({ artifact }: ArtifactDetailViewProps) {
+  switch (artifact.id) {
+    case 'discovery':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-[#FFF9C4]/20 border border-[#FFF9C4]/50">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-xl font-bold text-primary">01</span>
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-bold text-primary">Discovery & Problem Framing</h3>
+                <p className="text-sm text-muted">Research Phase 1</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-surface border border-border">
+              <h4 className="font-bold text-primary mb-4">📊 Market Context</h4>
+              <ul className="space-y-3 text-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="text-accent mt-1">•</span>
+                  <span><strong>Volume:</strong> 450 booking transactions/day</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent mt-1">•</span>
+                  <span><strong>Current state:</strong> 62% mobile drop-off rate</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent mt-1">•</span>
+                  <span><strong>Time-on-task:</strong> 8.2 minutes average</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent mt-1">•</span>
+                  <span><strong>Device split:</strong> 70% mobile, 30% desktop</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-surface border border-border">
+              <h4 className="font-bold text-primary mb-4">🎯 Problem Hypothesis</h4>
+              <p className="text-lg font-display text-foreground mb-4">
+                Mobile booking flow has 62% drop-off due to excessive form complexity (14 fields on 5" screen)
+              </p>
+              <div className="p-4 rounded-xl bg-amber-50 border border-amber-200">
+                <p className="text-sm font-bold text-amber-900 mb-2">If validated, target:</p>
+                <p className="text-amber-800">Reduce drop-off by 20% within 3 months of launch</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h4 className="font-bold text-primary mb-4">📐 Research Sketch: User Flow (Current State)</h4>
+            <div className="bg-gray-50 rounded-xl p-6 border-2 border-dashed border-gray-300">
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-lg bg-green-200 mx-auto mb-2 flex items-center justify-center text-green-900 font-bold">1</div>
+                  <p className="text-sm font-bold">Browse</p>
+                  <p className="text-xs text-muted">100%</p>
+                </div>
+                <div className="flex-1 mx-4 h-1 bg-gray-300 relative">
+                  <div className="absolute top-1/2 -translate-y-1/2 right-0 w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-8 border-l-gray-300"/>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-lg bg-yellow-200 mx-auto mb-2 flex items-center justify-center text-yellow-900 font-bold">2</div>
+                  <p className="text-sm font-bold">Form</p>
+                  <p className="text-xs text-muted">75%</p>
+                </div>
+                <div className="flex-1 mx-4 h-1 bg-gray-300 relative">
+                  <div className="absolute top-1/2 -translate-y-1/2 right-0 w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-8 border-l-gray-300"/>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-lg bg-red-200 mx-auto mb-2 flex items-center justify-center text-red-900 font-bold">3</div>
+                  <p className="text-sm font-bold">Drop-off</p>
+                  <p className="text-xs text-red-700">62%</p>
+                </div>
+              </div>
+              <p className="text-sm text-center text-muted italic">38% conversion rate — below industry benchmark (55%)</p>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 'research':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-[#E3F2FD]/20 border border-[#E3F2FD]/50">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-xl font-bold text-primary">02</span>
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-bold text-primary">User & Market Research</h3>
+                <p className="text-sm text-muted">Qualitative Study</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h4 className="font-bold text-primary mb-4">🔬 Research Methodology</h4>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="p-4 rounded-xl bg-blue-50 border border-blue-200">
+                <p className="font-bold text-blue-900 mb-2">Sample</p>
+                <p className="text-sm text-blue-800">n=32 operations managers, age 34-45, 5+ years experience</p>
+              </div>
+              <div className="p-4 rounded-xl bg-blue-50 border border-blue-200">
+                <p className="font-bold text-blue-900 mb-2">Method</p>
+                <p className="text-sm text-blue-800">Semi-structured interviews (60 min each), contextual inquiry (8 field observations)</p>
+              </div>
+              <div className="p-4 rounded-xl bg-blue-50 border border-blue-200">
+                <p className="font-bold text-blue-900 mb-2">Duration</p>
+                <p className="text-sm text-blue-800">22 hours total interview time, 3 weeks data collection</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-blue-50 border border-blue-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-blue-200 flex items-center justify-center text-blue-900 font-bold text-xl">R</div>
+                <div>
+                  <h3 className="font-display text-lg font-bold text-blue-900">Rajesh (Persona 1)</h3>
+                  <p className="text-sm text-blue-700">Ops Manager, 38 years, high-volume user</p>
+                </div>
+              </div>
+              <blockquote className="text-blue-900 italic mb-4 text-lg border-l-4 border-blue-400 pl-4">
+                "I always switch to desktop for bookings - mobile form is impossible"
+              </blockquote>
+              <div>
+                <p className="font-bold text-blue-900 mb-2">Key Pain Points:</p>
+                <ul className="space-y-1 text-blue-800 text-sm">
+                  <li>• 14 form fields (overwhelming on mobile)</li>
+                  <li>• Tiny tap targets (28px avg, needs 44px)</li>
+                  <li>• No auto-fill or smart suggestions</li>
+                  <li>• Keyboard covers half the screen (iOS)</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-purple-50 border border-purple-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-purple-200 flex items-center justify-center text-purple-900 font-bold text-xl">P</div>
+                <div>
+                  <h3 className="font-display text-lg font-bold text-purple-900">Priya (Persona 2)</h3>
+                  <p className="text-sm text-purple-700">Team Lead, 42 years, efficiency-focused</p>
+                </div>
+              </div>
+              <blockquote className="text-purple-900 italic mb-4 text-lg border-l-4 border-purple-400 pl-4">
+                "Too many steps. Just let me scan & go — 90% of my bookings are the same"
+              </blockquote>
+              <div>
+                <p className="font-bold text-purple-900 mb-2">Key Pain Points:</p>
+                <ul className="space-y-1 text-purple-800 text-sm">
+                  <li>• No memory of previous bookings</li>
+                  <li>• Can't save templates or favorites</li>
+                  <li>• Slow validation (waits for server)</li>
+                  <li>• Repetitive data entry every time</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h4 className="font-bold text-primary mb-4">📊 Affinity Clustering: 3 Major Themes</h4>
+            <div className="space-y-3">
+              <div className="p-4 rounded-xl bg-red-50 border border-red-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">🔴</span>
+                  <h5 className="font-bold text-red-900">Theme 1: Mobile Friction (18/32 mentions)</h5>
+                </div>
+                <p className="text-sm text-red-800">"Mobile is impossible" • "14 fields too many" • "Tiny buttons" • "Keyboard covers form"</p>
+              </div>
+              <div className="p-4 rounded-xl bg-amber-50 border border-amber-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">🟡</span>
+                  <h5 className="font-bold text-amber-900">Theme 2: Speed & Repetition (24/32 mentions)</h5>
+                </div>
+                <p className="text-sm text-amber-800">"Too many steps" • "Repeating same info" • "Can't save defaults" • "Slow validation"</p>
+              </div>
+              <div className="p-4 rounded-xl bg-green-50 border border-green-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">🟢</span>
+                  <h5 className="font-bold text-green-900">Theme 3: Smart Suggestions (12/32 mentions)</h5>
+                </div>
+                <p className="text-sm text-green-800">"Just give me the usual" • "90% same bookings" • "AI should know by now"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 'synthesis':
+    case 'fork':
+    case 'design-system':
+    case 'prototype':
+    case 'validation':
+    case 'iteration':
+      // Reuse existing detail views with updated IDs
+      // Map to old artifact detail logic
+      return (
+        <div className="p-6 rounded-2xl bg-surface border border-border">
+          <div className="flex items-center gap-3 mb-4">
+            {artifact.stage && (
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-xl font-bold text-primary">{artifact.stage}</span>
+              </div>
+            )}
+            <h3 className="font-display text-xl font-bold text-primary">{artifact.title}</h3>
+          </div>
+          <div className="space-y-2">
+            {artifact.content.map((line, i) => (
+              <p key={`content-${i}`} className="text-foreground">{line}</p>
+            ))}
+          </div>
+          <p className="text-sm text-muted mt-6 italic">Detailed view in development...</p>
+        </div>
+      );
+
+    // Legacy artifact IDs for backward compatibility
+    case 'prd':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-[#FFF9C4]/20 border border-[#FFF9C4]/50">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-2xl">🎯</span>
+              <h3 className="font-display text-xl font-bold text-primary">Goal</h3>
+            </div>
+            <p className="text-lg text-foreground">Reduce booking drop-off by 20% within 3 months</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-surface border border-border">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-2xl">👥</span>
+                <h3 className="font-display text-lg font-bold text-primary">Target Users</h3>
+              </div>
+              <ul className="space-y-2 text-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="text-accent mt-1">•</span>
+                  <span><strong>Role:</strong> Operations Managers</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent mt-1">•</span>
+                  <span><strong>Age:</strong> 34-45 years</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent mt-1">•</span>
+                  <span><strong>Experience:</strong> 5+ years in logistics</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent mt-1">•</span>
+                  <span><strong>Device:</strong> 70% mobile, 30% desktop</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-surface border border-border">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-2xl">🚧</span>
+                <h3 className="font-display text-lg font-bold text-primary">Constraints</h3>
+              </div>
+              <ul className="space-y-2 text-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600">✓</span>
+                  <span>Mobile-first approach (responsive design)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600">✓</span>
+                  <span>Works offline (critical for field ops)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600">✓</span>
+                  <span>Sub-3s load time on 3G networks</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600">✓</span>
+                  <span>Accessible (WCAG 2.1 AA minimum)</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-2xl">📊</span>
+              <h3 className="font-display text-lg font-bold text-primary">Success Metrics</h3>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                <p className="text-sm font-accent font-bold text-primary mb-1 uppercase">Primary</p>
+                <p className="text-foreground">Task completion rate <span className="text-muted">(baseline: 62%)</span></p>
+              </div>
+              <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                <p className="text-sm font-accent font-bold text-primary mb-1 uppercase">Secondary</p>
+                <p className="text-foreground">Time-on-task <span className="text-muted">(baseline: 8.2 min)</span></p>
+              </div>
+              <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                <p className="text-sm font-accent font-bold text-primary mb-1 uppercase">Quality</p>
+                <p className="text-foreground">Error rate &lt;2% <span className="text-muted">(data accuracy)</span></p>
+              </div>
+              <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                <p className="text-sm font-accent font-bold text-primary mb-1 uppercase">Adoption</p>
+                <p className="text-foreground">80% team usage within 2 weeks</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-red-50 border border-red-200">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-2xl">🚨</span>
+              <h3 className="font-display text-lg font-bold text-red-700">Kill Criteria (When to stop)</h3>
+            </div>
+            <ul className="space-y-2 text-red-900">
+              <li className="flex items-start gap-2">
+                <span className="text-red-600 mt-1">×</span>
+                <span>Completion rate doesn't improve by 10% in 6 weeks</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-red-600 mt-1">×</span>
+                <span>Error rate exceeds 5% (data quality degrades)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-red-600 mt-1">×</span>
+                <span>User satisfaction drops below 6/10 (NPS)</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      );
+
+    case 'interviews':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-2xl">📊</span>
+              <h3 className="font-display text-lg font-bold text-primary">Research Summary</h3>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">32</div>
+                <div>
+                  <p className="font-bold text-foreground">Interview sessions</p>
+                  <p className="text-sm text-muted">22 hours total</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent font-bold">8</div>
+                <div>
+                  <p className="font-bold text-foreground">Field observations</p>
+                  <p className="text-sm text-muted">On-site research</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-blue-50 border border-blue-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-blue-200 flex items-center justify-center text-blue-900 font-bold text-xl">R</div>
+                <div>
+                  <h3 className="font-display text-lg font-bold text-blue-900">Rajesh</h3>
+                  <p className="text-sm text-blue-700">Ops Manager, 38 years</p>
+                </div>
+              </div>
+              <blockquote className="text-blue-900 italic mb-4 text-lg border-l-4 border-blue-400 pl-4">
+                "I always switch to desktop for bookings - mobile form is impossible"
+              </blockquote>
+              <div>
+                <p className="font-bold text-blue-900 mb-2">Pain Points:</p>
+                <ul className="space-y-1 text-blue-800">
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-600 mt-1">•</span>
+                    <span>14 form fields (overwhelming)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-600 mt-1">•</span>
+                    <span>Tiny tap targets</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-600 mt-1">•</span>
+                    <span>No auto-fill</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-purple-50 border border-purple-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-purple-200 flex items-center justify-center text-purple-900 font-bold text-xl">P</div>
+                <div>
+                  <h3 className="font-display text-lg font-bold text-purple-900">Priya</h3>
+                  <p className="text-sm text-purple-700">Team Lead, 42 years</p>
+                </div>
+              </div>
+              <blockquote className="text-purple-900 italic mb-4 text-lg border-l-4 border-purple-400 pl-4">
+                "Too many steps to complete a simple booking. Just let me scan & go!"
+              </blockquote>
+              <div>
+                <p className="font-bold text-purple-900 mb-2">Pain Points:</p>
+                <ul className="space-y-1 text-purple-800">
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 mt-1">•</span>
+                    <span>No smart defaults</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 mt-1">•</span>
+                    <span>Can't save drafts</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-purple-600 mt-1">•</span>
+                    <span>Slow validation</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-2xl">🔑</span>
+              <h3 className="font-display text-lg font-bold text-primary">Key Insights (Affinity Clusters)</h3>
+            </div>
+            <div className="space-y-4">
+              <div className="p-4 rounded-xl bg-red-50 border border-red-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">📱</span>
+                  <h4 className="font-bold text-red-900">Mobile Friction <span className="text-sm font-normal text-red-700">(18 mentions)</span></h4>
+                </div>
+                <p className="text-red-800 text-sm">"Mobile forms are impossible" • "I switch to desktop" • "Can't type on small keyboard" • "Too many fields"</p>
+              </div>
+              <div className="p-4 rounded-xl bg-amber-50 border border-amber-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">⏱️</span>
+                  <h4 className="font-bold text-amber-900">Speed & Efficiency <span className="text-sm font-normal text-amber-700">(24 mentions)</span></h4>
+                </div>
+                <p className="text-amber-800 text-sm">"Too many steps" • "Why can't it remember my choices?" • "Repeating same info every time" • "Slow, so slow"</p>
+              </div>
+              <div className="p-4 rounded-xl bg-green-50 border border-green-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">🎯</span>
+                  <h4 className="font-bold text-green-900">Smart Defaults <span className="text-sm font-normal text-green-700">(12 mentions)</span></h4>
+                </div>
+                <p className="text-green-800 text-sm">"Just give me the usual" • "90% of my bookings are same" • "AI should know by now what I need"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 'paradigm':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <p className="text-lg text-foreground mb-2"><strong>Problem:</strong> How should users complete bookings on mobile?</p>
+            <p className="text-muted">Evaluated 3 paradigms across 6 dimensions to find the optimal solution</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-2xl bg-surface border-2 border-border">
+              <h3 className="font-display text-xl font-bold text-primary mb-4">Option A: Stepped Wizard</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Mobile UX</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-border" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Speed</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-border" />
+                    <div className="w-3 h-3 rounded-full bg-border" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Error Resilience</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Familiarity</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Accessibility</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Feasibility</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 pt-4 border-t border-border">
+                <p className="font-bold text-foreground">Score: 15/18</p>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-green-50 border-2 border-green-400">
+              <div className="flex items-center gap-2 mb-4">
+                <h3 className="font-display text-xl font-bold text-green-900">Option B: Smart Defaults</h3>
+                <span className="text-2xl">✓</span>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-green-800">Mobile UX</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-green-800">Speed</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-green-800">Error Resilience</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-300" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-green-800">Familiarity</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-300" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-green-800">Accessibility</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-green-800">Feasibility</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-600" />
+                    <div className="w-3 h-3 rounded-full bg-green-300" />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 pt-4 border-t border-green-300">
+                <p className="font-bold text-green-900">Score: 16/18 ✓ WINNER</p>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-surface border-2 border-border">
+              <h3 className="font-display text-xl font-bold text-primary mb-4">Option C: Progressive</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Mobile UX</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-border" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Speed</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-border" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Error Resilience</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Familiarity</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-border" />
+                    <div className="w-3 h-3 rounded-full bg-border" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Accessibility</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-border" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted">Feasibility</span>
+                  <div className="flex gap-1">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 pt-4 border-t border-border">
+                <p className="font-bold text-foreground">Score: 13/18</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-green-50 border border-green-200">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-2xl">🏆</span>
+              <h3 className="font-display text-xl font-bold text-green-900">Winner: Smart Defaults (AI-Assisted)</h3>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-bold text-green-900 mb-3">Why this won:</h4>
+                <ul className="space-y-2 text-green-800">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>Fastest for 90% of repeat bookings (pre-filled)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>Mobile-optimized (fewer fields, bigger tap targets)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>Still allows manual override (flexibility)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>Accessible (ARIA labels, keyboard nav)</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-bold text-green-900 mb-3">Trade-offs accepted:</h4>
+                <ul className="space-y-2 text-green-800">
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600">⚠</span>
+                    <span>Slight learning curve (users must trust AI suggestions)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600">⚠</span>
+                    <span>Requires ML model (adds tech complexity)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600">⚠</span>
+                    <span>Fallback to manual if AI fails (graceful degradation)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 'palette':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h3 className="font-display text-xl font-bold text-primary mb-6">Color Palette</h3>
+            <div className="grid gap-6">
+              <div>
+                <h4 className="font-bold text-foreground mb-3">Primary (Indigo)</h4>
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="w-20 h-20 rounded-2xl shadow-lg" style={{ backgroundColor: '#2D3561' }} />
+                  <div className="w-20 h-20 rounded-2xl shadow-lg" style={{ backgroundColor: '#4A5584' }} />
+                  <div className="w-20 h-20 rounded-2xl shadow-lg" style={{ backgroundColor: '#1F2540' }} />
+                </div>
+                <p className="text-sm text-muted mt-2">Main: #2D3561 • Light: #4A5584 • Dark: #1F2540</p>
+                <p className="text-sm text-foreground mt-1"><strong>Usage:</strong> CTAs, headers, focus states</p>
+                <p className="text-sm text-green-700 mt-1"><strong>Contrast:</strong> 8.2:1 (AAA) on white background</p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-foreground mb-3">Accent (Burnt Sienna)</h4>
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="w-20 h-20 rounded-2xl shadow-lg" style={{ backgroundColor: '#D4663E' }} />
+                  <div className="w-20 h-20 rounded-2xl shadow-lg" style={{ backgroundColor: '#E88866' }} />
+                  <div className="w-20 h-20 rounded-2xl shadow-lg" style={{ backgroundColor: '#B34C2A' }} />
+                </div>
+                <p className="text-sm text-muted mt-2">Main: #D4663E • Light: #E88866 • Dark: #B34C2A</p>
+                <p className="text-sm text-foreground mt-1"><strong>Usage:</strong> Highlights, interactive elements</p>
+                <p className="text-sm text-green-700 mt-1"><strong>Contrast:</strong> 4.8:1 (AA) on white background</p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-foreground mb-3">Glow (Amber)</h4>
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="w-20 h-20 rounded-2xl shadow-lg" style={{ backgroundColor: '#FFB84D' }} />
+                </div>
+                <p className="text-sm text-muted mt-2">#FFB84D</p>
+                <p className="text-sm text-foreground mt-1"><strong>Usage:</strong> Hover states, energy/warmth</p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-foreground mb-3">Surface & Borders</h4>
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="w-20 h-20 rounded-2xl shadow-lg border border-border" style={{ backgroundColor: '#FAFAF8' }} />
+                  <div className="w-20 h-20 rounded-2xl shadow-lg border border-border" style={{ backgroundColor: '#FFFFFF' }} />
+                  <div className="w-20 h-20 rounded-2xl shadow-lg border border-border" style={{ backgroundColor: '#E8E6E1' }} />
+                  <div className="w-20 h-20 rounded-2xl shadow-lg border border-border" style={{ backgroundColor: '#6B6B6B' }} />
+                </div>
+                <p className="text-sm text-muted mt-2">Background: #FAFAF8 • Surface: #FFFFFF • Border: #E8E6E1 • Muted: #6B6B6B (5.8:1)</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h3 className="font-display text-xl font-bold text-primary mb-6">Typography Scale</h3>
+            <div className="space-y-6">
+              <div>
+                <p className="text-sm font-accent font-bold text-primary mb-2 uppercase">Display: Fraunces</p>
+                <p className="font-display text-4xl text-foreground mb-2">The quick brown fox</p>
+                <p className="text-sm text-muted">Serif, 300/400/600/700 weights • Hero headlines, section titles</p>
+              </div>
+              <div>
+                <p className="text-sm font-accent font-bold text-primary mb-2 uppercase">Accent: Syne</p>
+                <p className="font-accent text-2xl text-foreground mb-2">THE QUICK BROWN FOX</p>
+                <p className="text-sm text-muted">Geometric sans, 400/500/600/700 weights • Labels, metadata, tags</p>
+              </div>
+              <div>
+                <p className="text-sm font-accent font-bold text-primary mb-2 uppercase">Body: Inter</p>
+                <p className="text-base text-foreground mb-2">The quick brown fox jumps over the lazy dog. This is body text for paragraphs and long-form content.</p>
+                <p className="text-sm text-muted">Sans-serif, 400/500/600 weights • 16px base, 1.7 line-height</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 'journey':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h3 className="font-display text-xl font-bold text-primary mb-4">User Journey Map</h3>
+            <div className="flex items-center justify-between mb-8">
+              {['Discovery', 'Selection', 'Checkout', 'Confirm', 'Complete'].map((stage, i) => (
+                <div key={stage} className="flex-1 text-center">
+                  <div className="w-10 h-10 mx-auto rounded-full bg-primary text-white flex items-center justify-center font-bold mb-2">
+                    {i + 1}
+                  </div>
+                  <p className="text-sm font-bold text-foreground">{stage}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-muted text-center">12 touchpoints identified • 3 major pain points • 18 user quotes</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-red-50 border-2 border-red-300">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-2xl">🔴</span>
+              <h3 className="font-display text-xl font-bold text-red-900">Pain Point #1: Mobile Form Fields</h3>
+            </div>
+            <p className="text-sm text-red-700 mb-4"><strong>Stage:</strong> Checkout</p>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-bold text-red-900 mb-2">What happens:</h4>
+                <ul className="space-y-2 text-red-800">
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-600 mt-1">•</span>
+                    <span>14 required fields on a 5" mobile screen</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-600 mt-1">•</span>
+                    <span>Tiny tap targets (30px avg, should be 44px min)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-600 mt-1">•</span>
+                    <span>No smart defaults or auto-fill</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-red-600 mt-1">•</span>
+                    <span>Keyboard covers half the form on iOS</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="p-4 rounded-xl bg-red-100/50">
+                <h4 className="font-bold text-red-900 mb-2">User quote:</h4>
+                <blockquote className="text-red-900 italic border-l-4 border-red-400 pl-4">
+                  "I always switch to desktop for this step. Mobile form is impossible - I make too many mistakes and it's slow."
+                  <footer className="text-sm text-red-700 mt-2">— Rajesh, 38, Ops Manager (18 similar quotes)</footer>
+                </blockquote>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-red-900 mb-2">Impact:</h4>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="p-3 rounded-lg bg-red-100">
+                    <p className="text-2xl font-bold text-red-900">62%</p>
+                    <p className="text-sm text-red-700">Abandon on mobile</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-red-100">
+                    <p className="text-2xl font-bold text-red-900">8.2 min</p>
+                    <p className="text-sm text-red-700">Avg time-on-task</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-red-100">
+                    <p className="text-2xl font-bold text-red-900">12%</p>
+                    <p className="text-sm text-red-700">Error rate</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-green-50 border border-green-300">
+                <h4 className="font-bold text-green-900 mb-2">Solution → Paradigm B: Smart Defaults</h4>
+                <ul className="space-y-2 text-green-800">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>AI pre-fills based on history (90% accuracy)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>Reduced to 6 fields (only exceptions shown)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>56px tap targets (accessible, thumb-friendly)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 'wireframes':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h3 className="font-display text-xl font-bold text-primary mb-4">Wireframes V3 - Interactive Prototype</h3>
+            <div className="flex items-center gap-4 mb-4">
+              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">Hi-fi</span>
+              <span className="text-sm text-muted">Flow: Booking Happy Path</span>
+              <span className="text-sm text-muted">Screen 1/24</span>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-gray-100 border border-gray-300">
+              <div className="bg-white rounded-2xl p-6 shadow-xl">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-1 bg-gray-800 rounded" />
+                    <div className="w-6 h-1 bg-gray-800 rounded" />
+                    <div className="w-6 h-1 bg-gray-800 rounded" />
+                  </div>
+                  <div className="text-xl font-bold text-gray-800">Bookings</div>
+                  <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-xl">+</div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="p-4 rounded-xl bg-[#FFB84D]/20 border-2 border-[#FFB84D]">
+                    <p className="font-bold text-gray-800 mb-3">🎯 Quick Booking</p>
+                    <p className="text-sm text-gray-600 mb-3">(AI suggests your usual)</p>
+                    
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm">
+                        <span>📍</span>
+                        <span className="text-gray-700"><strong>Site:</strong> MG Road Hub (pre-fill)</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <span>📅</span>
+                        <span className="text-gray-700"><strong>Date:</strong> Tomorrow 9AM (pre-fill)</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <span>👤</span>
+                        <span className="text-gray-700"><strong>Team:</strong> Your Squad (pre-fill)</span>
+                      </div>
+                    </div>
+
+                    <button className="w-full mt-4 p-3 rounded-xl bg-primary text-white font-bold">
+                      Confirm Booking ✓
+                    </button>
+
+                    <p className="text-center text-sm text-gray-500 mt-3">or customize ↓</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-surface border border-border">
+              <h4 className="font-bold text-primary mb-4">📊 Design Decisions (this screen)</h4>
+              <ul className="space-y-3 text-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span>Smart defaults shown first (90% use case)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span>One-tap confirm for repeat bookings</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span>"Customize" expands to full form (10% edge case)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span>56px tap targets (thumb zone optimized)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span>Focus state: 4px primary border (WCAG compliant)</span>
+                </li>
+              </ul>
+
+              <div className="mt-6 pt-6 border-t border-border">
+                <p className="text-sm text-muted mb-2">Flow Coverage:</p>
+                <p className="font-bold text-foreground">8 flows × 3 fidelity levels = 24 screens</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+    case 'components':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h3 className="font-display text-xl font-bold text-primary mb-6">Component Library</h3>
+            <p className="text-muted mb-4">42 variants across 12 base components • React 19 + TypeScript + Tailwind CSS v4</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h4 className="font-bold text-primary mb-4">🔘 Button Component (6 variants)</h4>
+            <div className="flex flex-wrap gap-3 mb-6">
+              <button className="px-6 py-3 rounded-xl bg-primary text-white font-bold">Primary</button>
+              <button className="px-6 py-3 rounded-xl bg-accent text-white font-bold">Secondary</button>
+              <button className="px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold">Outline</button>
+              <button className="px-6 py-3 rounded-xl text-primary font-bold hover:bg-primary/10">Ghost</button>
+            </div>
+
+            <div className="space-y-3 text-sm text-foreground">
+              <div className="flex items-start gap-2">
+                <span className="font-bold min-w-[100px]">Sizes:</span>
+                <span>sm (32px) | md (44px) | lg (56px)</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="font-bold min-w-[100px]">States:</span>
+                <span>default, hover, active, disabled, loading</span>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 rounded-xl bg-green-50 border border-green-200">
+              <h5 className="font-bold text-green-900 mb-2">Accessibility:</h5>
+              <ul className="space-y-1 text-sm text-green-800">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600">✓</span>
+                  <span>44px min touch target (WCAG 2.5.5)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600">✓</span>
+                  <span>4px focus ring (primary color, WCAG 2.4.7)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600">✓</span>
+                  <span>aria-label when icon-only</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600">✓</span>
+                  <span>disabled=&#123;true&#125; with aria-disabled</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-4 p-4 rounded-xl bg-gray-100">
+              <p className="text-sm font-mono text-gray-800">&lt;Button variant="primary" size="lg"&gt;Confirm&lt;/Button&gt;</p>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h4 className="font-bold text-primary mb-4">📝 Input Component (8 variants)</h4>
+            <div className="space-y-3">
+              <input type="text" placeholder="Text input" className="w-full px-4 py-3 rounded-xl border-2 border-border focus:border-primary focus:outline-none" />
+              <input type="email" placeholder="Email input" className="w-full px-4 py-3 rounded-xl border-2 border-border focus:border-primary focus:outline-none" />
+              <select className="w-full px-4 py-3 rounded-xl border-2 border-border focus:border-primary focus:outline-none">
+                <option>Select option</option>
+              </select>
+            </div>
+            <p className="text-sm text-muted mt-4">Text | Email | Number | Date | Select | Textarea | Search | Tel</p>
+          </div>
+        </div>
+      );
+
+    case 'metrics':
+      return (
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-surface border border-border">
+            <h3 className="font-display text-xl font-bold text-primary mb-2">Impact Metrics Dashboard</h3>
+            <p className="text-sm text-muted">Launch: June 15, 2026 | Measured: 6 weeks post-launch</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-green-50 border-2 border-green-300">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-2xl">🎯</span>
+              <h3 className="font-display text-xl font-bold text-green-900">PRIMARY METRIC: Task Completion Rate</h3>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <p className="text-sm font-bold text-green-700 mb-2">Baseline (Before)</p>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-8 bg-green-200 rounded-lg relative overflow-hidden">
+                    <div className="absolute inset-0 bg-green-500" style={{ width: '62%' }} />
+                  </div>
+                  <span className="font-bold text-3xl text-green-900">62%</span>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-bold text-green-700 mb-2">After Smart Defaults</p>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-8 bg-green-200 rounded-lg relative overflow-hidden">
+                    <div className="absolute inset-0 bg-green-600" style={{ width: '84%' }} />
+                  </div>
+                  <span className="font-bold text-3xl text-green-900">84%</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 rounded-xl bg-green-100 border border-green-300">
+              <p className="text-green-900 font-bold">+22pp (+35% improvement) ✓</p>
+              <p className="text-sm text-green-800 mt-1">Goal: 74% | Actual: 84% | <strong>EXCEEDED GOAL by 10pp</strong></p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-blue-50 border border-blue-200">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-2xl">⏱️</span>
+                <h3 className="font-display text-lg font-bold text-blue-900">Time-on-Task</h3>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm text-blue-700 mb-1">Before:</p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-6 bg-blue-200 rounded" />
+                    <span className="font-bold text-2xl text-blue-900">8.2 min</span>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-blue-700 mb-1">After:</p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1/2 h-6 bg-blue-600 rounded" />
+                    <span className="font-bold text-2xl text-blue-900">4.4 min</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-blue-900 mt-4 font-bold">-45% improvement (-3.8 min saved) ✓</p>
+              <p className="text-xs text-blue-700 mt-2">450 bookings/day = 1,710 min/day saved (28.5 hrs)</p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-purple-50 border border-purple-200">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-2xl">✅</span>
+                <h3 className="font-display text-lg font-bold text-purple-900">Quality: Error Rate</h3>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm text-purple-700 mb-1">Before:</p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1/3 h-6 bg-red-400 rounded" />
+                    <span className="font-bold text-2xl text-purple-900">12%</span>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-purple-700 mb-1">After:</p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 bg-green-600 rounded" />
+                    <span className="font-bold text-2xl text-purple-900">1.8%</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-purple-900 mt-4 font-bold">-85% reduction ✓</p>
+              <p className="text-xs text-green-700 mt-2">Goal: &lt;2% | Status: PASSED ✓</p>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-amber-50 border-2 border-amber-300">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-2xl">🔍</span>
+              <h3 className="font-display text-xl font-bold text-amber-900">Goodhart's Law Check</h3>
+            </div>
+            <p className="text-amber-900 mb-4"><strong>Question:</strong> Did we improve completion by making it easier to submit incorrect bookings?</p>
+            
+            <div className="space-y-3">
+              <h4 className="font-bold text-amber-900">Evidence:</h4>
+              <ul className="space-y-2 text-amber-800">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span>Error rate DROPPED (12% → 1.8%)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span>User satisfaction UP (5.1 → 8.2 NPS)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span>No spike in cancellations (3.2% → 2.9%)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 mt-1">✓</span>
+                  <span>Qualitative feedback positive (18/20 interviews)</span>
+                </li>
+              </ul>
+
+              <div className="mt-4 p-4 rounded-xl bg-green-100 border border-green-300">
+                <p className="font-bold text-green-900 text-lg">Verdict: PASSED ✓ (Real improvement, not gaming)</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-primary/10 border-2 border-primary">
+            <p className="text-center font-display text-xl font-bold text-primary">
+              📈 Overall: 4/4 success criteria met • Ready for scale
+            </p>
+          </div>
+        </div>
+      );
+
+    default:
+      return (
+        <div className="p-6 rounded-2xl bg-surface border border-border">
+          <h3 className="font-display text-xl font-bold text-primary mb-4">{artifact.title}</h3>
+          <div className="space-y-2">
+            {artifact.content.map((line, i) => (
+              <p key={i} className="text-foreground">{line}</p>
+            ))}
+          </div>
+        </div>
+      );
+  }
+}
+
+function DesignStudioCanvas() {
+  const [visibleArtifacts, setVisibleArtifacts] = useState<string[]>([]);
+  const [selectedArtifact, setSelectedArtifact] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const hasRun = useRef(false);
-  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  const runPipeline = useCallback(() => {
-    if (hasRun.current) return;
-    hasRun.current = true;
-    setRunning(true);
-    setCompletedStages([]);
-    setActiveStage(null);
-    setLineIdx({});
-
-    pipelineStages.forEach((stage, stageIndex) => {
-      const stageDelay = stageIndex * 1000;
-
-      const t1 = setTimeout(() => {
-        setActiveStage(stageIndex);
-        stage.lines.forEach((_line, lineIndex) => {
-          const t = setTimeout(() => {
-            setLineIdx((prev) => ({ ...prev, [stageIndex]: lineIndex + 1 }));
-          }, lineIndex * 130);
-          timersRef.current.push(t);
-        });
-      }, stageDelay);
-      timersRef.current.push(t1);
-
-      const t2 = setTimeout(() => {
-        setCompletedStages((prev) => [...prev, stageIndex]);
-        if (stageIndex === pipelineStages.length - 1) {
-          setActiveStage(null);
-          setRunning(false);
-        }
-      }, stageDelay + stage.lines.length * 130 + 250);
-      timersRef.current.push(t2);
-    });
-  }, []);
-
-  // Trigger once when element scrolls into view using IntersectionObserver
   useEffect(() => {
     const el = containerRef.current;
-    if (!el) return;
+    if (!el || hasRun.current) return;
+    
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          runPipeline();
+          hasRun.current = true;
+          // Stagger artifact appearances
+          studioArtifacts.forEach((artifact, i) => {
+            setTimeout(() => {
+              setVisibleArtifacts(prev => [...prev, artifact.id]);
+            }, i * 150);
+          });
           observer.disconnect();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.2 }
     );
+    
     observer.observe(el);
     return () => observer.disconnect();
-  }, [runPipeline]);
-
-  // Cleanup timers on unmount
-  useEffect(() => {
-    return () => { timersRef.current.forEach(clearTimeout); };
   }, []);
 
-  const handleRerun = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-    hasRun.current = false;
-    setRunning(false);
-    setCompletedStages([]);
-    setActiveStage(null);
-    setLineIdx({});
-    // small delay so state clears before re-running
-    const t = setTimeout(() => runPipeline(), 50);
-    timersRef.current.push(t);
-  }, [runPipeline]);
+  // Keyboard navigation
+  useEffect(() => {
+    if (!selectedArtifact) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const currentIndex = studioArtifacts.findIndex(a => a.id === selectedArtifact);
+      
+      if (e.key === 'Escape') {
+        setSelectedArtifact(null);
+      } else if (e.key === 'ArrowRight') {
+        const nextIndex = (currentIndex + 1) % studioArtifacts.length;
+        setSelectedArtifact(studioArtifacts[nextIndex].id);
+      } else if (e.key === 'ArrowLeft') {
+        const prevIndex = (currentIndex - 1 + studioArtifacts.length) % studioArtifacts.length;
+        setSelectedArtifact(studioArtifacts[prevIndex].id);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedArtifact]);
+
+  const selectedArtifactData = studioArtifacts.find(a => a.id === selectedArtifact);
+  const selectedIndex = studioArtifacts.findIndex(a => a.id === selectedArtifact);
+
+  const handleNext = () => {
+    const nextIndex = (selectedIndex + 1) % studioArtifacts.length;
+    setSelectedArtifact(studioArtifacts[nextIndex].id);
+  };
+
+  const handlePrev = () => {
+    const prevIndex = (selectedIndex - 1 + studioArtifacts.length) % studioArtifacts.length;
+    setSelectedArtifact(studioArtifacts[prevIndex].id);
+  };
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Title bar */}
-      <div className="rounded-t-2xl border border-b-0 border-border bg-[#0d1117] flex items-center justify-between px-4 py-3">
+      {/* Flow Legend */}
+      <div className="mb-6 p-4 rounded-2xl bg-surface border border-border flex items-center justify-center gap-8 text-sm">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-          <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-          <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+            <span className="text-primary font-bold text-sm">01</span>
+          </div>
+          <span className="text-muted">8 Stages</span>
         </div>
-        <span className="text-xs font-mono text-white/60">design-pipeline.sh</span>
-        <button
-          type="button"
-          onClick={handleRerun}
-          disabled={running}
-          className="flex items-center gap-1.5 px-3 py-1 rounded-lg border text-xs font-mono transition-all disabled:opacity-40"
-          style={{ borderColor: "#10B981" + "40", color: "#10B981" }}
-        >
-          <span className={running ? "animate-pulse" : ""}>{running ? "▶ running…" : "↺ rerun"}</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="12" y1="2" x2="12" y2="10"/>
+            <line x1="12" y1="10" x2="6" y2="18"/>
+            <line x1="12" y1="10" x2="18" y2="18"/>
+            <circle cx="12" cy="10" r="2"/>
+          </svg>
+          <span className="text-muted">1 Fork (Stage 04)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          <span className="text-muted">1 Loop (Stage 08)</span>
+        </div>
       </div>
 
-      {/* Horizontal columns — scrollable on mobile */}
-      <div className="overflow-x-auto rounded-b-2xl border border-border bg-[#0d1117]">
-        <div className="flex min-w-[900px]">
-          {pipelineStages.map((stage, i) => {
-            const isDone = completedStages.includes(i);
-            const isActive = activeStage === i;
-            const visibleLines = lineIdx[i] ?? 0;
-            const isLast = i === pipelineStages.length - 1;
+      {/* Studio canvas grid */}
+      <div className="grid grid-cols-12 auto-rows-[80px] gap-4 p-8 bg-background/50 rounded-3xl border border-border relative">
+        {/* Stage flow connectors */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ zIndex: 0 }}>
+          {/* Flow lines connecting stages */}
+          <motion.path
+            d="M 15 15 L 40 15"
+            stroke="var(--color-primary)"
+            strokeWidth="2"
+            fill="none"
+            strokeDasharray="5,5"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: visibleArtifacts.length > 1 ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          />
+          <motion.path
+            d="M 40 15 L 65 15"
+            stroke="var(--color-primary)"
+            strokeWidth="2"
+            fill="none"
+            strokeDasharray="5,5"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: visibleArtifacts.length > 2 ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          />
+          {/* Fork indicator at Stage 04 */}
+          <motion.circle
+            cx="30%"
+            cy="42%"
+            r="16"
+            stroke="var(--color-accent)"
+            strokeWidth="3"
+            fill="none"
+            initial={{ scale: 0 }}
+            animate={{ scale: visibleArtifacts.length > 3 ? 1 : 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          />
+          <motion.text
+            x="30%"
+            y="42%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill="var(--color-accent)"
+            fontSize="20"
+            fontWeight="bold"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: visibleArtifacts.length > 3 ? 1 : 0 }}
+            transition={{ delay: 1 }}
+          >
+            ⑂
+          </motion.text>
+          {/* Loop indicator from Stage 08 */}
+          <motion.path
+            d="M 80 70 Q 90 50 80 30"
+            stroke="var(--color-accent)"
+            strokeWidth="3"
+            fill="none"
+            markerEnd="url(#arrowhead)"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: visibleArtifacts.length === studioArtifacts.length ? 1 : 0 }}
+            transition={{ duration: 1, delay: 1.5 }}
+          />
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-accent)" />
+            </marker>
+          </defs>
+        </svg>
 
-            return (
+        {studioArtifacts.map((artifact) => {
+          const isVisible = visibleArtifacts.includes(artifact.id);
+          const style = {
+            gridColumn: `${artifact.position.col} / span ${artifact.position.colSpan}`,
+            gridRow: `${artifact.position.row} / span ${artifact.position.rowSpan}`,
+          };
+
+          const isFork = artifact.id === 'fork';
+          const isLoop = artifact.id === 'iteration';
+
+          return (
+            <motion.div
+              key={artifact.id}
+              style={style}
+              initial={{ opacity: 0, y: 20, rotate: 0 }}
+              animate={{
+                opacity: isVisible ? 1 : 0,
+                y: isVisible ? 0 : 20,
+                rotate: isVisible ? artifact.rotation : 0,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 100,
+                damping: 15,
+                delay: 0,
+              }}
+              whileHover={{
+                y: -8,
+                rotate: 0,
+                transition: { type: "spring", stiffness: 300, damping: 20 },
+              }}
+              onClick={() => setSelectedArtifact(artifact.id)}
+              className="relative group cursor-pointer"
+            >
+              {/* Stage Number Badge */}
+              {artifact.stage && (
+                <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-lg z-20 group-hover:scale-110 transition-transform">
+                  {artifact.stage}
+                </div>
+              )}
+
+              {/* Fork/Loop Badge */}
+              {isFork && (
+                <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center text-xl shadow-lg z-20 group-hover:scale-110 transition-transform">
+                  ⑂
+                </div>
+              )}
+              {isLoop && (
+                <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center text-xl shadow-lg z-20 group-hover:scale-110 transition-transform">
+                  ↻
+                </div>
+              )}
+
+              {/* Artifact card */}
               <div
-                key={stage.id}
-                className={`flex-1 flex flex-col border-r border-white/5 ${isLast ? "border-r-0" : ""}`}
+                className={`h-full rounded-2xl border-2 p-4 shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col ${
+                  isFork || isLoop ? 'border-accent/50' : 'border-border'
+                }`}
+                style={{ backgroundColor: artifact.color }}
               >
-                {/* Column header */}
-                <div
-                  className="px-3 py-3 border-b border-white/5 relative"
-                  style={{
-                    opacity: !running && completedStages.length === 0 ? 0.4 : isDone || isActive ? 1 : 0.35,
-                    transition: "opacity 0.3s",
-                  }}
-                >
-                  {/* Active progress underline */}
-                  <motion.div
-                    className="absolute bottom-0 left-0 h-0.5"
-                    style={{ backgroundColor: stage.color }}
-                    initial={{ width: "0%" }}
-                    animate={{ width: isDone ? "100%" : isActive ? "55%" : "0%" }}
-                    transition={{ duration: isDone ? 0.4 : 1.2, ease: "easeInOut" }}
-                  />
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <div
-                      className="w-5 h-5 rounded flex items-center justify-center shrink-0 transition-all duration-300"
-                      style={{
-                        backgroundColor: isDone || isActive ? stage.color + "20" : "transparent",
-                        color: isDone || isActive ? stage.color : "rgba(255,255,255,0.25)",
-                      }}
-                    >
-                      {isDone ? (
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                      ) : stage.icon}
+                {/* Header */}
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="text-primary/70">
+                      {artifact.icon}
                     </div>
-                    <span
-                      className="text-xs font-mono font-bold"
-                      style={{ color: isDone || isActive ? stage.color : "rgba(255,255,255,0.6)" }}
-                    >
-                      {stage.label}
-                    </span>
+                    <h3 className="font-accent text-xs font-bold text-primary uppercase tracking-wider">
+                      {artifact.title.replace(/^Stage \d+: /, '').replace(/^[⑂↻] /, '')}
+                    </h3>
                   </div>
-                  <p className="text-[10px] text-white/60 pl-7">{stage.sublabel}</p>
                 </div>
 
-                {/* Column terminal body */}
-                <div className="p-3 flex-1 font-mono text-[10px] leading-relaxed space-y-0.5 min-h-[160px]">
-                  {/* Idle state */}
-                  {!isDone && !isActive && completedStages.length === 0 && (
-                    <span className="text-white/40">—</span>
+                {/* Content */}
+                <div className="flex-1 space-y-1.5 overflow-hidden">
+                  {artifact.type === "color-swatches" && artifact.colors ? (
+                    <div className="flex gap-2 flex-wrap">
+                      {artifact.colors.map((color, i) => (
+                        <div
+                          key={i}
+                          className="w-12 h-12 rounded-lg border-2 border-white shadow-sm"
+                          style={{ backgroundColor: color }}
+                          title={color}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    artifact.content.map((line, i) => (
+                      <motion.p
+                        key={i}
+                        initial={{ opacity: 0, x: -4 }}
+                        animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : -4 }}
+                        transition={{ delay: i * 0.1 + 0.3 }}
+                        className="text-sm text-foreground/80 leading-relaxed"
+                      >
+                        {line}
+                      </motion.p>
+                    ))
                   )}
+                </div>
 
-                  {/* Active: typewriter lines */}
-                  {(isActive || isDone) && stage.lines.slice(0, visibleLines).map((line, li) => (
-                    <motion.div
-                      key={`${stage.id}-${li}`}
-                      initial={{ opacity: 0, x: -4 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.12 }}
-                      style={{
-                        color: line.startsWith("✓")
-                          ? "#10B981"
-                          : line.startsWith("→")
-                          ? "rgba(255,255,255,0.65)"
-                          : "rgba(255,255,255,0.6)",
-                      }}
-                    >
-                      {line}
-                    </motion.div>
-                  ))}
+                {/* Hover indicator */}
+                <div className={`absolute inset-0 rounded-2xl border-2 ${
+                  isFork || isLoop ? 'border-accent/0 group-hover:border-accent/50' : 'border-accent/0 group-hover:border-accent/30'
+                } transition-colors pointer-events-none`} />
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
 
-                  {/* Blinking cursor on active stage */}
-                  {isActive && visibleLines < stage.lines.length && (
-                    <span className="inline-block w-1.5 h-3 bg-accent/70 animate-pulse" />
-                  )}
+      {/* Bottom note */}
+      {visibleArtifacts.length === studioArtifacts.length && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-6 text-center"
+        >
+          <p className="text-sm text-muted italic font-display">
+            8 Stages → 1 Fork (Paradigm Gate) → 1 Loop (Continuous Improvement) = Systematic Design Process
+          </p>
+        </motion.div>
+      )}
+
+      {/* Artifact Detail Side Popover */}
+      <AnimatePresence>
+        {selectedArtifactData && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-stretch justify-end"
+            onClick={() => setSelectedArtifact(null)}
+          >
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+            />
+            
+            {/* Side Panel Content */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="relative w-full max-w-2xl h-full overflow-auto bg-surface shadow-2xl border-l border-border"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="sticky top-0 z-10 flex items-center justify-between px-8 py-6 bg-surface/95 backdrop-blur-sm border-b border-border">
+                <div className="flex items-center gap-3">
+                  <div className="text-primary">
+                    {selectedArtifactData.icon}
+                  </div>
+                  <h2 className="font-display text-2xl font-bold text-primary">
+                    {selectedArtifactData.title}
+                  </h2>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handlePrev}
+                    className="p-2 rounded-lg hover:bg-primary/10 transition-colors"
+                    aria-label="Previous artifact"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                  </button>
+                  <span className="text-sm text-muted font-mono">
+                    {selectedIndex + 1} / {studioArtifacts.length}
+                  </span>
+                  <button
+                    onClick={handleNext}
+                    className="p-2 rounded-lg hover:bg-primary/10 transition-colors"
+                    aria-label="Next artifact"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setSelectedArtifact(null)}
+                    className="p-2 rounded-lg hover:bg-primary/10 transition-colors ml-2"
+                    aria-label="Close"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* Bottom status bar */}
-      <div className="mt-3 flex items-center gap-3 px-1">
-        {completedStages.length === pipelineStages.length && (
-          <motion.div
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-xs font-mono"
-            style={{ color: tintText("#10B981") }}
-          >
-            <span>✓</span>
-            <span>[BUILD SUCCESSFUL] — PRD to Production</span>
+              {/* Modal Body */}
+              <div className="p-8">
+                <ArtifactDetailView artifact={selectedArtifactData} />
+              </div>
+
+              {/* Progress Dots */}
+              <div className="sticky bottom-0 flex items-center justify-center gap-2 px-8 py-6 bg-surface/95 backdrop-blur-sm border-t border-border">
+                {studioArtifacts.map((artifact, i) => (
+                  <button
+                    key={artifact.id}
+                    onClick={() => setSelectedArtifact(artifact.id)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      artifact.id === selectedArtifact ? 'bg-primary w-8' : 'bg-border hover:bg-primary/50'
+                    }`}
+                    aria-label={`Go to ${artifact.title}`}
+                  />
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
         )}
-        {running && (
-          <div className="flex items-center gap-2 text-xs font-mono text-muted">
-            <span className="animate-pulse">▶</span>
-            <span>compiling stage {(activeStage ?? 0) + 1} of {pipelineStages.length}…</span>
-          </div>
-        )}
-      </div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -915,7 +2325,7 @@ export default function AboutPage() {
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
               Designer. Builder.
               <br />
-              <span className="text-gradient">Product Manager.</span>
+              <span className="text-accent">Product Manager.</span>
             </h1>
             <div className="space-y-4 text-base md:text-lg text-muted leading-relaxed">
               <p>
@@ -1078,16 +2488,16 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* Design Philosophy — Compiler Pipeline */}
+      {/* Design Philosophy — Studio Canvas */}
       <Section>
         <SectionHeader
-          eyebrow="Philosophy"
-          title="How I think about design."
-          description="Every product starts as requirements and compiles into reality — here's my pipeline."
+          eyebrow="Process"
+          title="From signal to impact."
+          description="My design process is a studio canvas — artifacts emerge, connect, and iterate toward measurable outcomes."
         />
-        <CompilerPipeline />
+        <DesignStudioCanvas />
 
-        {/* Principles below the pipeline */}
+        {/* Principles below the canvas */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
           {principles.map((p, i) => (
             <motion.div
@@ -1104,6 +2514,112 @@ export default function AboutPage() {
             </motion.div>
           ))}
         </div>
+      </Section>
+
+      {/* Leadership */}
+      <Section>
+        <SectionHeader
+          eyebrow="Leadership"
+          title="Building teams, not just products."
+          description="Design leadership is measured by the designers you grow, the systems you build, and the org velocity you unlock."
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="p-6 sm:p-8 rounded-2xl bg-surface border border-border"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-accent"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h3 className="text-xl font-bold">Team Building</h3>
+            </div>
+            <p className="text-muted leading-relaxed mb-4">
+              Hired and mentored 12 designers across 3 organizations — 6 progressed from mid to senior level under my coaching. Established design critique rituals, career ladders, and peer review processes that became org-wide standards.
+            </p>
+            <p className="text-sm text-muted/70">
+              Built a design org handbook documenting our hiring rubric, IC → manager transition criteria, and design review SLAs.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="p-6 sm:p-8 rounded-2xl bg-surface border border-border"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              </div>
+              <h3 className="text-xl font-bold">Design Systems at Scale</h3>
+            </div>
+            <p className="text-muted leading-relaxed mb-4">
+              Led the design system serving 40+ engineers and 8 product teams — reduced design-to-dev handoff time by 55%. Established governance: quarterly contribution cycles, RFC process for breaking changes, and automated Figma → code sync.
+            </p>
+            <p className="text-sm text-muted/70">
+              Design system adoption reached 92% with zero design-drift bugs in the final 18 months.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="p-6 sm:p-8 rounded-2xl bg-surface border border-border"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-accent"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <h3 className="text-xl font-bold">Stakeholder Alignment</h3>
+            </div>
+            <p className="text-muted leading-relaxed mb-4">
+              Ran bi-weekly design reviews with C-suite and product leadership across 7 products. Successfully killed 3 exec-driven feature requests by presenting user research + opportunity cost data — earned trust to say "no" backed by evidence.
+            </p>
+            <p className="text-sm text-muted/70">
+              Introduced a "design decision log" ritual that surfaced trade-offs early and reduced late-stage scope churn by 40%.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="p-6 sm:p-8 rounded-2xl bg-surface border border-border"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <h3 className="text-xl font-bold">Velocity Engineering</h3>
+            </div>
+            <p className="text-muted leading-relaxed mb-4">
+              Introduced design sprints, research ops tooling, and Figma-to-code workflows that cut feature delivery cycles from 8 weeks to 3 weeks. Established a "ship small, measure, iterate" culture with instrumented releases and weekly metric reviews.
+            </p>
+            <p className="text-sm text-muted/70">
+              Org shipped 3x more features per quarter without increasing headcount — velocity came from process, not bodies.
+            </p>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="mt-8 p-6 sm:p-8 rounded-2xl bg-primary/5 border border-primary/10"
+        >
+          <h3 className="text-lg font-bold mb-3">Hiring Philosophy</h3>
+          <p className="text-muted leading-relaxed">
+            I hire for <strong className="text-foreground">curiosity over credentials</strong> — the best designers I've brought in were career-changers, self-taught engineers, and product managers who could draw. My interview process tests judgment (trade-off scenarios), craft (portfolio deep-dive on decisions, not pixels), and collaboration (how they give/receive critique). Zero leetcode-style whiteboard exercises.
+          </p>
+        </motion.div>
       </Section>
 
       {/* Skills */}

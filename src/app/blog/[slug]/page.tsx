@@ -6,12 +6,13 @@ export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
-export default function BlogPostPage({
+export default async function BlogPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const post = getAllPosts().find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const post = getAllPosts().find((p) => p.slug === slug);
   const jsonLd = post
     ? {
         "@context": "https://schema.org",
@@ -37,7 +38,7 @@ export default function BlogPostPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <BlogPostClient slug={params.slug} />
+      <BlogPostClient slug={slug} />
     </>
   );
 }

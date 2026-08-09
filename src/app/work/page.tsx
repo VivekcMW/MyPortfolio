@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Section, SectionHeader } from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
+import { tintText } from "@/lib/tint";
 
 /*
  * Case study index. Slugs and metadata are the single source of truth here;
@@ -11,21 +12,45 @@ import ProjectCard from "@/components/ProjectCard";
  * add it to `caseStudies` below so it surfaces on this index.
  */
 
+type Domain =
+  | "AdTech"
+  | "Design Systems"
+  | "Construction"
+  | "Healthcare"
+  | "GovTech"
+  | "Entertainment";
+
+/* Domain hues double as filter-pill colors and per-card accent chips. */
+const domainColors: Record<Domain, string> = {
+  AdTech: "#6366F1",
+  "Design Systems": "#8B5CF6",
+  Construction: "#EAB308",
+  Healthcare: "#10B981",
+  GovTech: "#0EA5E9",
+  Entertainment: "#EC4899",
+};
+
+const domainList = Object.keys(domainColors) as Domain[];
+
 const caseStudies: Array<{
   slug: string;
   title: string;
   category: string;
+  domain: Domain;
   description: string;
   tags: string[];
   timeline: string;
   role: string;
   status?: "in-flight" | "shipped";
+  featured?: boolean;
+  metrics?: { label: string; value: string }[];
   image: React.ReactNode;
 }> = [
   {
     slug: "mw-activate",
     title: "Agentic Layer for a pDOOH DSP",
     category: "AI / AdTech (NDA)",
+    domain: "AdTech",
     description:
       "Designed the agentic UI for a programmatic Out-of-Home DSP — planner-first hybrid, diff-preview commits, evidence panel, guardrails matrix. In flight.",
     tags: ["Agentic UI", "AdTech", "AI Product Design", "React"],
@@ -47,6 +72,7 @@ const caseStudies: Array<{
     slug: "mw-cinema",
     title: "MW Cinema — Cinema as a Programmatic Asset Class",
     category: "AdTech / IMS (NDA)",
+    domain: "AdTech",
     description:
       "Authored the PRD onboarding cinema onto pDOOH — 5-level inventory model, dynamic slot generation from showtimes, real-time availability engine, DSP eligibility rules. In flight.",
     tags: ["pDOOH", "Cinema", "OpenRTB 2.6", "BDD Criteria"],
@@ -67,6 +93,7 @@ const caseStudies: Array<{
     slug: "mw-posterops",
     title: "MW PosterOps — Closed-Loop OOH Execution",
     category: "AdTech / OOH Ops (NDA)",
+    domain: "AdTech",
     description:
       "Defined the closed-loop static-OOH execution platform — no-login Magic Link portals for vendors, installers, and clients; geo-tagged offline-capable Proof-of-Play; payment-validation gates. In flight.",
     tags: ["OOH Ops", "Magic Link", "Proof-of-Play", "RBAC"],
@@ -84,6 +111,7 @@ const caseStudies: Array<{
     slug: "ai-strategy",
     title: "Hybrid UI / Agentic UI Roadmap through 2027",
     category: "Product Strategy (NDA)",
+    domain: "AdTech",
     description:
       "Platform-wide AI strategy across 7 DOOH products — four-paradigm framework, 6-criteria decision matrix, shared trust spine, three-horizon roadmap. Presented to product, engineering, and clients.",
     tags: ["Strategy", "Agentic UI", "Hybrid UI", "Roadmap"],
@@ -108,12 +136,19 @@ const caseStudies: Array<{
     slug: "nocode-platform",
     title: "NoCode / LowCode Platform",
     category: "Platform Design",
+    domain: "Design Systems",
     description:
       "A 4-year build of a visual builder for non-engineers — 60% less dev dependency, NPS 32 → 71, shipped across enterprise pilots.",
     tags: ["Design Systems", "React", "User Research", "4-Year Program"],
     timeline: "2018 — 2022",
     role: "Design Lead",
     status: "shipped",
+    featured: true,
+    metrics: [
+      { label: "Dev dependency", value: "−60%" },
+      { label: "Builder NPS", value: "32 → 71" },
+      { label: "Program length", value: "4 yrs" },
+    ],
     image: (
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="16 18 22 12 16 6" />
@@ -126,12 +161,19 @@ const caseStudies: Array<{
     slug: "ehr-platform",
     title: "EHR for Indian Daycare Surgery",
     category: "Healthcare UX",
+    domain: "Healthcare",
     description:
       "Purpose-built EHR for India's 28,000 daycare centres — 12 modules, 16 specialty overlays, ABDM-native from day one.",
     tags: ["Healthcare", "ABDM / ABHA", "16 Specialties", "NABH"],
     timeline: "2024 — 2026",
     role: "Design Lead",
     status: "shipped",
+    featured: true,
+    metrics: [
+      { label: "Daycare centres", value: "28,000" },
+      { label: "Modules", value: "12" },
+      { label: "Specialty overlays", value: "16" },
+    ],
     image: (
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
@@ -142,6 +184,7 @@ const caseStudies: Array<{
     slug: "construction-ai",
     title: "Construction AI Platform",
     category: "ConTech / AI",
+    domain: "Construction",
     description:
       "AI-powered construction intelligence — auto-linked schedules, RFIs, submittals, and material tracking across Procore / P6 / BIM.",
     tags: ["Construction", "AI/ML", "Predictive Analytics", "Procore"],
@@ -161,6 +204,7 @@ const caseStudies: Array<{
     slug: "iot-dashboard",
     title: "CPCB Air Quality Command Center",
     category: "IoT / GovTech",
+    domain: "GovTech",
     description:
       "Real-time ambient air quality monitoring for India's pollution control boards — CAAQMS stations, NAAQS compliance, machine health across 12 cities.",
     tags: ["IoT", "CAAQMS", "NAAQS", "GovTech"],
@@ -179,6 +223,7 @@ const caseStudies: Array<{
     slug: "design-systems-scale",
     title: "Design Systems at Scale — One Spine, Six Products",
     category: "Design Systems / Scale",
+    domain: "Design Systems",
     description:
       "A multi-domain token architecture spanning 6 product types and 6 palettes — let 3 concurrent design teams scale from 1 product to 7 without design fracture.",
     tags: ["Design Systems", "Tokens", "Figma", "Accessibility"],
@@ -198,6 +243,7 @@ const caseStudies: Array<{
     slug: "constructiviq-construction-cloud",
     title: "ConstructivIQ: Construction Cloud from Ground Up",
     category: "Construction Cloud / Design Systems",
+    domain: "Construction",
     description:
       "Shipped a construction cloud SaaS from inception — design system, Submittals & Materials workflows, and AI routing. $1.2M ARR and 15+ enterprise customers in year one.",
     tags: ["Design Systems", "SaaS", "Construction Tech", "AI Workflows"],
@@ -217,6 +263,7 @@ const caseStudies: Array<{
     slug: "ott-platform",
     title: "OTT Streaming Platform",
     category: "Entertainment / BigData",
+    domain: "Entertainment",
     description:
       "Redesigned content discovery for a video-on-demand platform with 50K+ titles — 40% faster time-to-play, 25% engagement lift.",
     tags: ["OTT", "BigData", "Content Strategy", "Performance"],
@@ -232,6 +279,16 @@ const caseStudies: Array<{
 ];
 
 export default function WorkIndexPage() {
+  const [activeDomain, setActiveDomain] = useState<Domain | "All">("All");
+
+  const showSpotlight = activeDomain === "All";
+  const featuredItems = caseStudies.filter((cs) => cs.featured);
+  const filtered =
+    activeDomain === "All"
+      ? caseStudies
+      : caseStudies.filter((cs) => cs.domain === activeDomain);
+  const gridItems = showSpotlight ? filtered.filter((cs) => !cs.featured) : filtered;
+
   return (
     <main className="min-h-screen pt-24 sm:pt-32">
       <Section>
@@ -256,14 +313,89 @@ export default function WorkIndexPage() {
           </p>
         </motion.div>
 
-        <SectionHeader eyebrow={`${caseStudies.length} Case Studies`} title="Products that made an impact." />
+        {/* Domain filter — single-select pills, colored per domain */}
+        <div className="flex flex-wrap gap-2 mb-10">
+          <button
+            type="button"
+            onClick={() => setActiveDomain("All")}
+            className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider border transition-colors cursor-pointer ${
+              activeDomain === "All"
+                ? "bg-primary/10 border-primary/30 text-primary"
+                : "bg-surface border-border text-muted hover:border-primary/30"
+            }`}
+          >
+            All <span className="opacity-60">({caseStudies.length})</span>
+          </button>
+          {domainList.map((d) => {
+            const active = activeDomain === d;
+            const color = domainColors[d];
+            const count = caseStudies.filter((cs) => cs.domain === d).length;
+            return (
+              <button
+                type="button"
+                key={d}
+                onClick={() => setActiveDomain(d)}
+                className="px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider border transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: active ? `${color}1F` : "var(--color-surface)",
+                  borderColor: active ? color : "var(--color-border)",
+                  color: active ? tintText(color) : "var(--color-muted)",
+                }}
+              >
+                {d} <span className="opacity-60">({count})</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Flagship spotlight — hidden while a domain filter narrows the grid */}
+        {showSpotlight && featuredItems.length > 0 && (
+          <div className="mb-16 space-y-8">
+            <p className="text-[10px] font-mono text-muted uppercase tracking-widest">
+              Flagship Case Studies
+            </p>
+            {featuredItems.map((cs, i) => (
+              <div key={cs.slug} className="relative">
+                {cs.status === "in-flight" && (
+                  <span className="absolute top-3 left-3 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 border border-border text-[10px] font-mono text-accent uppercase tracking-wider">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />{" "}
+                    In flight
+                  </span>
+                )}
+                <ProjectCard
+                  title={cs.title}
+                  category={cs.category}
+                  description={cs.description}
+                  tags={cs.tags}
+                  image={cs.image}
+                  href={`/work/${cs.slug}`}
+                  index={i}
+                  domain={cs.domain}
+                  domainColor={domainColors[cs.domain]}
+                  featured
+                  metrics={cs.metrics}
+                />
+                <div className="mt-3 flex items-center gap-3 text-xs text-muted font-mono px-1">
+                  <span>{cs.role}</span>
+                  <span className="w-1 h-1 rounded-full bg-muted/40" />
+                  <span>{cs.timeline}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <SectionHeader
+          eyebrow={`${gridItems.length} Case Stud${gridItems.length === 1 ? "y" : "ies"}`}
+          title="Products that made an impact."
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          {caseStudies.map((cs, i) => (
+          {gridItems.map((cs, i) => (
             <div key={cs.slug} className="relative">
               {cs.status === "in-flight" && (
                 <span className="absolute top-3 left-3 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 border border-border text-[10px] font-mono text-accent uppercase tracking-wider">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />{" "}
                   In flight
                 </span>
               )}
@@ -275,6 +407,8 @@ export default function WorkIndexPage() {
                 image={cs.image}
                 href={`/work/${cs.slug}`}
                 index={i}
+                domain={cs.domain}
+                domainColor={domainColors[cs.domain]}
               />
               <div className="mt-3 flex items-center gap-3 text-xs text-muted font-mono px-1">
                 <span>{cs.role}</span>
@@ -285,23 +419,11 @@ export default function WorkIndexPage() {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-16 p-6 sm:p-8 rounded-2xl bg-surface border border-border"
-        >
-          <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-2">
-            A note on the metrics
+        {gridItems.length === 0 && (
+          <p className="text-sm text-muted font-mono py-16 text-center">
+            No case studies in this domain yet — try another filter.
           </p>
-          <p className="text-sm text-foreground/80 leading-relaxed">
-            Numbers on these pages come from shipped releases at Moving Walls
-            and client engagements between 2018 and 2026. Methodology and
-            context are inline on each case study. Some product surfaces are
-            under NDA and shown as stylised recreations — happy to walk through
-            the actual product live in an interview.
-          </p>
-        </motion.div>
+        )}
       </Section>
     </main>
   );

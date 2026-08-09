@@ -1,10 +1,10 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { Section, SectionHeader } from "@/components/Section";
 import { tintText } from "@/lib/tint";
-import { ArrowRight, Check, Circle, Code, Dot, MapPin, Users, Shield, Store, Utensils, Car, Wallet, Building2, ChevronRight } from "lucide-react";
+import { Check, Circle, Code, Dot, MapPin, Users, Shield, Store, Utensils, Car, Wallet, Building2, ChevronRight, Smartphone } from "lucide-react";
 
 /* ─── Data ─── */
 
@@ -18,6 +18,14 @@ const tamCircles = [
   { name: "SAM", value: "28K societies", arr: "₹1,450 Cr/Yr", desc: "Urban gated societies in top-8 metros with RWA structures" },
   { name: "TAM", value: "180K localities", arr: "₹8,200 Cr/Yr", desc: "+ Urban non-gated neighborhoods + tier-2 city clusters" },
   { name: "Long-tail", value: "1.2M clusters", arr: "₹47,000 Cr/Yr", desc: "+ Rural gram panchayats + semi-urban pin codes across India" },
+];
+
+const flowSteps = [
+  { label: "Onboard", sub: "Phone OTP · PIN", icon: Smartphone, color: "#6366F1" },
+  { label: "KYC", sub: "Bronze → Silver → Gold", icon: Shield, color: "#8B5CF6" },
+  { label: "Locality", sub: "Society · Tower · 200m Radius", icon: MapPin, color: "#10B981" },
+  { label: "Engage", sub: "Feed · Chat · Communities", icon: Users, color: "#F59E0B" },
+  { label: "Transact", sub: "Marketplace · Peer Roles", icon: Wallet, color: "#EC4899" },
 ];
 
 const peerRoles = [
@@ -97,7 +105,7 @@ export default function LokulResearchPage() {
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
               <p className="text-accent font-mono text-sm uppercase tracking-widest mb-4">Research · Product · Architecture</p>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-                The <span className="text-gradient">Lokul</span> Project.
+                The <span className="text-accent">Lokul</span> Project.
               </h1>
               <p className="text-lg md:text-xl text-muted leading-relaxed max-w-2xl mx-auto mb-8">
                 The hyperlocal neighborhood economy platform for urban India — making 200 meters the most valuable radius in Indian commerce.
@@ -121,7 +129,7 @@ export default function LokulResearchPage() {
                 <div className="relative">
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border" style={{ borderColor: m.color + "30", color: tintText(m.color), backgroundColor: m.color + "10" }}>{m.year}</span>
                   <h3 className="text-lg font-bold mt-3 mb-1" style={{ color: tintText(m.color) }}>{m.phase}</h3>
-                  <p className="text-xs font-mono text-muted/70 mb-2">{m.label}</p>
+                  <p className="text-xs font-mono text-muted mb-2">{m.label}</p>
                   <p className="text-xs text-muted leading-relaxed">{m.desc}</p>
                 </div>
               </motion.div>
@@ -131,187 +139,43 @@ export default function LokulResearchPage() {
       </Section>
 
       {/* ════════════════════════════════════════ */}
-      {/* 2. ISOMETRIC WORKFLOW                  */}
+      {/* 2. ONBOARDING → TRANSACTION FLOW        */}
       {/* ════════════════════════════════════════ */}
       <Section>
         <div className="max-w-5xl mx-auto">
           <SectionHeader eyebrow="User Flow" title="From onboarding to transaction." description="How a user moves through the Lokul ecosystem — from first signup to active participation in the 200-meter economy." />
-          <div className="relative w-full overflow-x-auto">
-            <svg viewBox="0 0 960 340" className="min-w-[640px] md:min-w-0 md:w-full h-auto" fill="none">
-              {/* Defs */}
-              <defs>
-                <linearGradient id="flowGlow" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#6366F1" stopOpacity="0" />
-                  <stop offset="50%" stopColor="#8B5CF6" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#6366F1" stopOpacity="0" />
-                </linearGradient>
-                {[
-                  { id: "top1", color: "#6366F1" },
-                  { id: "left1", color: "#4F46E5" },
-                  { id: "right1", color: "#4338CA" },
-                  { id: "top2", color: "#8B5CF6" },
-                  { id: "left2", color: "#7C3AED" },
-                  { id: "right2", color: "#6D28D9" },
-                  { id: "top3", color: "#10B981" },
-                  { id: "left3", color: "#059669" },
-                  { id: "right3", color: "#047857" },
-                  { id: "top4", color: "#F59E0B" },
-                  { id: "left4", color: "#D97706" },
-                  { id: "right4", color: "#B45309" },
-                  { id: "top5", color: "#EC4899" },
-                  { id: "left5", color: "#DB2777" },
-                  { id: "right5", color: "#BE185D" },
-                ].map((g) => (
-                  <linearGradient key={g.id + "-g"} id={g.id}>
-                    <stop offset="0%" stopColor={g.color} stopOpacity="0.9" />
-                    <stop offset="100%" stopColor={g.color} stopOpacity="0.6" />
-                  </linearGradient>
-                ))}
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
-                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                </filter>
-              </defs>
-
-              {/* Connector paths with animated flow */}
-              {[
-                { d: "M225,170 Q280,130 340,115", color: "#8B5CF6", delay: 0 },
-                { d: "M415,110 Q470,150 530,170", color: "#10B981", delay: 0.3 },
-                { d: "M605,165 Q660,125 720,115", color: "#F59E0B", delay: 0.6 },
-                { d: "M795,110 Q840,165 870,220", color: "#EC4899", delay: 0.9 },
-              ].map((conn, i) => (
-                <g key={conn.d}>
-                  {/* Glow path */}
-                  <motion.path
-                    d={conn.d}
-                    stroke={conn.color}
-                    strokeWidth="6"
-                    strokeLinecap="round"
-                    fill="none"
-                    opacity="0.15"
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, delay: conn.delay + 0.5, ease: "easeInOut" }}
-                  />
-                  {/* Animated dashed flow line */}
-                  <motion.path
-                    d={conn.d}
-                    stroke={conn.color}
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeDasharray="6 8"
-                    fill="none"
-                    opacity="0.7"
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, delay: conn.delay + 0.5, ease: "easeInOut" }}
-                  />
-                  {/* Continuous flow dots */}
-                  <motion.circle
-                    r="3.5"
-                    fill={conn.color}
-                    filter="url(#glow)"
-                    initial={{ offsetDistance: "0%" }}
-                    animate={{ offsetDistance: "100%" }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear", delay: conn.delay }}
-                    style={{ offsetPath: `path('${conn.d}')` }}
-                  />
-                </g>
-              ))}
-
-              {/* Node 1 — Onboard */}
-              <motion.g initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-                <polygon points="128,177 180,157 232,177 180,197" fill="url(#top1)" />
-                <polygon points="128,177 180,197 180,224 128,204" fill="url(#left1)" />
-                <polygon points="180,197 232,177 232,204 180,224" fill="url(#right1)" />
-                {/* Icon group */}
-                <g transform="translate(180,193)" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                  <rect x="-8" y="-12" width="16" height="22" rx="2" />
-                  <line x1="-4" y1="-7" x2="4" y2="-7" />
-                  <line x1="-4" y1="-3" x2="4" y2="-3" />
-                  <line x1="-4" y1="1" x2="0" y2="1" />
-                  <line x1="0" y1="6" x2="0" y2="8" />
-                </g>
-                <motion.text x="180" y="258" textAnchor="middle" className="text-[11px] sm:text-[13px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">
-                  Onboard
-                </motion.text>
-                <text x="180" y="273" textAnchor="middle" className="text-[8px] sm:text-[10px]" fill="#94A3B8" fontFamily="var(--font-mono)">
-                  Phone OTP · PIN
-                </text>
-              </motion.g>
-
-              {/* Node 2 — KYC */}
-              <motion.g initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}>
-                <polygon points="308,112 360,92 412,112 360,132" fill="url(#top2)" />
-                <polygon points="308,112 360,132 360,159 308,139" fill="url(#left2)" />
-                <polygon points="360,132 412,112 412,139 360,159" fill="url(#right2)" />
-                <g transform="translate(360,128)" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  <path d="M9 12l2 2 4-4" />
-                </g>
-                <motion.text x="360" y="192" textAnchor="middle" className="text-[11px] sm:text-[13px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">
-                  KYC
-                </motion.text>
-                <text x="360" y="207" textAnchor="middle" className="text-[8px] sm:text-[10px]" fill="#94A3B8" fontFamily="var(--font-mono)">
-                  Bronze → Silver → Gold
-                </text>
-              </motion.g>
-
-              {/* Node 3 — Locality */}
-              <motion.g initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.4 }}>
-                <polygon points="498,177 550,157 602,177 550,197" fill="url(#top3)" />
-                <polygon points="498,177 550,197 550,224 498,204" fill="url(#left3)" />
-                <polygon points="550,197 602,177 602,204 550,224" fill="url(#right3)" />
-                <g transform="translate(550,193)" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                  <path d="M10 20S4 13.5 4 9a6 6 0 0 1 12 0c0 4.5-6 11-6 11z" />
-                  <circle cx="10" cy="9" r="2" />
-                </g>
-                <motion.text x="550" y="258" textAnchor="middle" className="text-[11px] sm:text-[13px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">
-                  Locality
-                </motion.text>
-                <text x="550" y="273" textAnchor="middle" className="text-[8px] sm:text-[10px]" fill="#94A3B8" fontFamily="var(--font-mono)">
-                  Society · Tower · 200m Radius
-                </text>
-              </motion.g>
-
-              {/* Node 4 — Engage */}
-              <motion.g initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.6 }}>
-                <polygon points="688,112 740,92 792,112 740,132" fill="url(#top4)" />
-                <polygon points="688,112 740,132 740,159 688,139" fill="url(#left4)" />
-                <polygon points="740,132 792,112 792,139 740,159" fill="url(#right4)" />
-                <g transform="translate(740,128)" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </g>
-                <motion.text x="740" y="192" textAnchor="middle" className="text-[11px] sm:text-[13px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">
-                  Engage
-                </motion.text>
-                <text x="740" y="207" textAnchor="middle" className="text-[8px] sm:text-[10px]" fill="#94A3B8" fontFamily="var(--font-mono)">
-                  Feed · Chat · Communities
-                </text>
-              </motion.g>
-
-              {/* Node 5 — Transact */}
-              <motion.g initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.8 }}>
-                <polygon points="838,227 890,207 942,227 890,247" fill="url(#top5)" />
-                <polygon points="838,227 890,247 890,274 838,254" fill="url(#left5)" />
-                <polygon points="890,247 942,227 942,254 890,274" fill="url(#right5)" />
-                <g transform="translate(890,243)" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                  <rect x="1" y="4" width="22" height="16" rx="2" />
-                  <line x1="1" y1="10" x2="23" y2="10" />
-                </g>
-                <motion.text x="890" y="308" textAnchor="middle" className="text-[11px] sm:text-[13px]" fill="white" fontWeight="700" fontFamily="var(--font-heading)">
-                  Transact
-                </motion.text>
-                <text x="890" y="323" textAnchor="middle" className="text-[8px] sm:text-[10px]" fill="#94A3B8" fontFamily="var(--font-mono)">
-                  Marketplace · Peer Roles
-                </text>
-              </motion.g>
-            </svg>
+          <div className="flex flex-col lg:flex-row items-stretch gap-3 lg:gap-2">
+            {flowSteps.map((step, i) => (
+              <Fragment key={step.label}>
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="flex-1 p-5 rounded-2xl border"
+                  style={{ borderColor: step.color + "25", backgroundColor: step.color + "04" }}
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <span
+                      className="text-[10px] font-mono px-1.5 py-0.5 rounded-full border shrink-0"
+                      style={{ borderColor: step.color + "30", color: tintText(step.color), backgroundColor: step.color + "10" }}
+                    >
+                      0{i + 1}
+                    </span>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: step.color + "15" }}>
+                      <step.icon size={16} style={{ color: tintText(step.color) }} />
+                    </div>
+                  </div>
+                  <h4 className="text-sm font-bold text-foreground mb-1">{step.label}</h4>
+                  <p className="text-[11px] font-mono text-muted leading-relaxed">{step.sub}</p>
+                </motion.div>
+                {i < flowSteps.length - 1 && (
+                  <div className="flex items-center justify-center shrink-0 py-1 lg:py-0">
+                    <ChevronRight size={18} className="text-muted rotate-90 lg:rotate-0" />
+                  </div>
+                )}
+              </Fragment>
+            ))}
           </div>
         </div>
       </Section>
@@ -718,7 +582,7 @@ export default function LokulResearchPage() {
         <div className="max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <p className="text-accent font-mono text-sm uppercase tracking-widest mb-4">Explore Further</p>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Dive into the <span className="text-gradient">Lokul ecosystem.</span></h2>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Dive into the <span className="text-accent">Lokul ecosystem.</span></h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {[

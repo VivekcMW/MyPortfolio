@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
@@ -29,7 +29,10 @@ export default function PageTransition({
 }) {
   const pathname = usePathname();
   const [hasMounted, setHasMounted] = useState(false);
-  const isFirstNavigation = useRef(true);
+  // Captured once on first render — used to detect the very first page
+  // (no entrance animation) vs. a subsequent client-side navigation
+  // (animate in). Comparing against state avoids mutating refs during render.
+  const [initialPathname] = useState(() => pathname);
 
   useEffect(() => {
     setHasMounted(true);
@@ -41,20 +44,12 @@ export default function PageTransition({
     return <div>{children}</div>;
   }
 
-  // First client-side mount: skip entrance animation
-  if (isFirstNavigation.current) {
-    isFirstNavigation.current = false;
-    return (
-      <motion.div key={pathname} animate="enter" variants={variants}>
-        {children}
-      </motion.div>
-    );
-  }
+  const isFirstPage = pathname === initialPathname;
 
   return (
     <motion.div
       key={pathname}
-      initial="hidden"
+      initial={isFirstPage ? false : "hidden"}
       animate="enter"
       exit="exit"
       variants={variants}

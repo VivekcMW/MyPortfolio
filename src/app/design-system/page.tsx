@@ -185,11 +185,7 @@ export default function DesignSystemPage() {
       <div 
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `
-            radial-gradient(ellipse 80% 60% at 50% -20%, ${theme.colors.primaryHex}15 0%, transparent 70%),
-            radial-gradient(ellipse 60% 50% at 80% 100%, ${theme.colors.secondaryHex}08 0%, transparent 60%),
-            radial-gradient(ellipse 50% 40% at 20% 80%, ${theme.colors.accentHex}06 0%, transparent 50%)
-          `,
+          background: `${theme.colors.primaryHex}08`,
         }}
       />
       <div 
@@ -210,7 +206,7 @@ export default function DesignSystemPage() {
           <div className="flex items-center gap-2 shrink-0">
             <div 
               className="w-6 h-6 rounded-md flex items-center justify-center"
-              style={{ background: `linear-gradient(135deg, ${theme.colors.primaryHex}, ${theme.colors.secondaryHex})` }}
+              style={{ backgroundColor: theme.colors.primaryHex }}
             >
               <Layers className="w-3 h-3 text-white" />
             </div>
@@ -378,7 +374,7 @@ export default function DesignSystemPage() {
               >
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ background: `linear-gradient(135deg, ${theme.colors.primaryHex}, ${theme.colors.secondaryHex})` }}
+                  style={{ backgroundColor: theme.colors.primaryHex }}
                 >
                   <Sparkles className="w-4 h-4 text-white" />
                 </div>
@@ -1195,7 +1191,7 @@ function OverviewSection({ theme, activeDomain }: Readonly<{ theme: DesignSystem
             <div className="flex items-center gap-2 mb-4">
               <div 
                 className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: `linear-gradient(135deg, ${theme.colors.primaryHex}, ${theme.colors.secondaryHex})` }}
+                style={{ backgroundColor: theme.colors.primaryHex }}
               >
                 <Icon className="w-5 h-5 text-white" />
               </div>

@@ -399,7 +399,7 @@ export default function ExperimentsPage() {
             </p>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
               Experiments &{" "}
-              <span className="text-gradient">Use Cases.</span>
+              <span className="text-accent">Use Cases.</span>
             </h1>
             <p className="text-base md:text-lg text-muted leading-relaxed max-w-xl mx-auto">
               A living collection of hands-on explorations — from AI agent

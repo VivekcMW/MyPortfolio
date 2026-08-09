@@ -114,14 +114,14 @@ export default function ContactPage() {
               Let&apos;s build
               <br />
               something{" "}
-              <span className="text-gradient">great.</span>
+              <span className="text-accent">great.</span>
             </h1>
             <p className="text-muted text-base md:text-lg leading-relaxed mb-4 max-w-lg">
               Whether you&apos;re working on a product that needs design leadership,
               looking for a design engineer, or just want to chat about design
               and tech — I&apos;d love to hear from you.
             </p>
-            <p className="text-sm text-muted/80 font-mono mb-8">
+            <p className="text-sm text-muted font-mono mb-8">
               I reply to every message within 24 hours.
             </p>
 
@@ -241,7 +241,7 @@ export default function ContactPage() {
                 Book a 30-min intro call
               </a>
               {!BOOKING_URL && (
-                <p className="mt-2 text-[11px] font-mono text-muted/70">
+                <p className="mt-2 text-[11px] font-mono text-muted">
                   Opens your mail app — I&apos;ll reply within 24h with a
                   calendar link.
                 </p>
@@ -274,7 +274,7 @@ export default function ContactPage() {
                     onChange={(e) =>
                       setFormState({ ...formState, name: e.target.value })
                     }
-                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors"
+                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
                     placeholder="Your name"
                   />
                 </div>
@@ -295,7 +295,7 @@ export default function ContactPage() {
                     onChange={(e) =>
                       setFormState({ ...formState, email: e.target.value })
                     }
-                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors"
+                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
                     placeholder="you@company.com"
                   />
                 </div>
@@ -305,7 +305,7 @@ export default function ContactPage() {
                     htmlFor="mobile"
                     className="block text-sm font-medium text-muted mb-2"
                   >
-                    Mobile Number <span className="text-muted/50">(optional)</span>
+                    Mobile Number <span className="text-muted">(optional)</span>
                   </label>
                   <input
                     id="mobile"
@@ -315,7 +315,7 @@ export default function ContactPage() {
                     onChange={(e) =>
                       setFormState({ ...formState, mobile: e.target.value })
                     }
-                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors"
+                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
                     placeholder="+91 98765 43210"
                   />
                 </div>
@@ -360,7 +360,7 @@ export default function ContactPage() {
                     onChange={(e) =>
                       setFormState({ ...formState, message: e.target.value })
                     }
-                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors resize-none"
+                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors resize-none"
                     placeholder="Tell me about your project or opportunity..."
                   />
                 </div>

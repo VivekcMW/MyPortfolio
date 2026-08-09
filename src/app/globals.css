@@ -1,39 +1,39 @@
 @import "tailwindcss";
 
-/* ── Theme tokens ──
-   `static` (not `inline`) is load-bearing: it emits every token as a :root custom
-   property AND compiles utilities to `var(--color-*)` rather than a baked-in hex.
-   That indirection is what lets `theme-context.tsx` repaint the whole site by
-   setting the same properties inline on <html>. With `inline`, `bg-background`
-   would compile to a literal and the theme toggle would only move `body`.
-   Values below are the LIGHT theme — the pre-hydration fallback, so they must
-   stay in sync with THEME_COLORS.light in src/lib/theme-context.tsx. */
+/* ── Design as Narrative Canvas Theme ──
+   Light-first, warm, sophisticated palette for UI/UX designer portfolio.
+   Deep indigo + burnt sienna accent system with premium spacing. */
 @theme static {
-  /* ── SIGNAL: Core ──
-     --color-muted passes WCAG 2.2 AA (≥ 4.5:1) against --color-background. */
-  --color-background: #FAFAFA;
-  --color-foreground: #1A1A1A;
-  --color-surface: #FFFFFF;
-  --color-surface-hover: #F5F5F5;
-  --color-border: #E5E5E5;
-  --color-muted: #5C5C5C;       /* 6.4:1 on background — was #737373 (4.0:1, AA fail) */
+  /* ── Core: Warm neutrals ── */
+  --color-background: #FAFAF8;      /* Warm off-white with cream tint */
+  --color-foreground: #2B2B2B;      /* Charcoal for text */
+  --color-surface: #FFFFFF;         /* Pure white cards */
+  --color-surface-hover: #F5F5F3;   /* Warm hover state */
+  --color-border: #E8E6E1;          /* Soft gray dividers */
+  --color-muted: #6B6B6B;           /* Muted text, 5.8:1 contrast */
 
-  /* ── SIGNAL: Three Pillar Accents ── */
-  --color-accent: #4F46E5;             /* Builder — Indigo */
-  --color-accent-foreground: #FFFFFF;  /* text on a filled accent surface */
-  --color-accent-designer: #A21CAF;    /* Designer — Fuchsia */
-  --color-accent-scaler: #B45309;      /* Scaler — Amber */
-  --color-accent-coral: #A21CAF;       /* alias → designer */
+  /* ── Primary: Deep Indigo (gravitas) ── */
+  --color-primary: #2D3561;         /* Deep indigo for headings */
+  --color-primary-hover: #1F2543;   /* Darker hover */
+  --color-primary-light: #4A5080;   /* Lighter variant */
 
-  /* ── Semantic status ──
-     Tailwind's -400 shades are tuned for dark surfaces and land near 2:1 on a
-     light one, so status text reads through these tokens instead. */
+  /* ── Accent: Burnt Sienna (energy) ── */
+  --color-accent: #D4663E;          /* Burnt sienna for CTAs */
+  --color-accent-foreground: #FFFFFF;
+  --color-accent-hover: #B85330;    /* Darker hover */
+  --color-accent-light: #E8977A;    /* Light variant */
+
+  /* ── Glow: Amber (hover effects) ── */
+  --color-glow-from: #FFB84D;       /* Warm amber */
+  --color-glow-to: #FF8A4D;         /* Orange amber */
+
+  /* ── Semantic status ── */
   --color-success: #047857;
-  --color-danger: #B91C1C;
-  --color-warning: #A16207;
+  --color-danger: #DC2626;
+  --color-warning: #D97706;
 
   /* ── Prose ── */
-  --color-prose-heading: #1A1A1A;
+  --color-prose-heading: #2B2B2B;
   --color-prose-body: #4B4B4B;
   --color-prose-code-bg: #F0F0F0;
 }
@@ -41,7 +41,8 @@
 /* Fonts stay `inline` — they reference other custom properties, which `inline` resolves. */
 @theme inline {
   --font-sans: var(--font-inter);
-  --font-heading: var(--font-dm-sans);
+  --font-display: var(--font-fraunces);  /* Serif for hero headlines */
+  --font-accent: var(--font-syne);       /* Geometric sans for labels */
   --font-mono: var(--font-jetbrains-mono);
 }
 
@@ -135,10 +136,62 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), system-ui, sans-serif;
+/* Display font (Fraunces) for hero headlines */
+h1 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+h4 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+h5 {
+  font-size: 1.125rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+/* Body headings (h2–h6) share the display font at smaller sizes than h1 */
+h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* Utility classes for font families */
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.font-accent {
+  font-family: var(--font-accent), system-ui, sans-serif;
+}
+
+.font-sans {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), monospace;
 }
 
 ::selection {
@@ -160,6 +213,153 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--color-muted);
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   LAYOUT SYSTEM
+   12-column grid with 8px base unit, premium spacing
+   ───────────────────────────────────────────────────────────────── */
+
+/* Container with premium margins */
+.container-premium {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 120px;
+}
+
+@media (max-width: 1024px) {
+  .container-premium {
+    padding: 0 48px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PAPER STACK CARD METAPHOR
+   Subtle rotation and depth for visual interest
+   ───────────────────────────────────────────────────────────────── */
+
+.card-paper-stack {
+  position: relative;
+  transform: rotate(calc(var(--card-rotation, 0) * 1deg));
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-paper-stack::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: var(--color-surface);
+  border-radius: inherit;
+  transform: rotate(-1deg) translateY(4px);
+  opacity: 0.3;
+  z-index: -1;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-paper-stack::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  background: var(--color-surface);
+  border-radius: inherit;
+  transform: rotate(-2deg) translateY(8px);
+  opacity: 0.15;
+  z-index: -2;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-paper-stack:hover {
+  transform: rotate(0deg) translateY(-8px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+}
+
+.card-paper-stack:hover::before,
+.card-paper-stack:hover::after {
+  transform: rotate(0deg) translateY(0);
+  opacity: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   INK SPREAD DIVIDER
+   Accent color bleeds across screen when entering viewport
+   ───────────────────────────────────────────────────────────────── */
+
+.ink-spread-divider {
+  position: relative;
+  height: 2px;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.ink-spread-divider::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: var(--color-accent);
+  animation: ink-spread 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes ink-spread {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   CURSOR-REACTIVE GRID
+   Background grid with subtle gravitational lensing effect
+   ───────────────────────────────────────────────────────────────── */
+
+.cursor-reactive-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+  background-image: 
+    linear-gradient(var(--color-primary) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, var(--color-primary) 1.5px, transparent 1.5px);
+  background-size: 80px 80px;
+}
+
+@media (max-width: 768px) {
+  .cursor-reactive-grid {
+    background-size: 40px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-premium {
+    padding: 0 24px;
+  }
+}
+
+/* 12-column bento grid */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Section spacing */
+.section-spacing {
+  padding: 120px 0;
+}
+
+@media (max-width: 768px) {
+  .section-spacing {
+    padding: 80px 0;
+  }
+}
+
+/* Grain texture */
 .grain::after {
   content: "";
   position: fixed;
@@ -220,11 +420,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-designer) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  /* Fallback for very old browsers */
   color: var(--color-accent);
 }
 

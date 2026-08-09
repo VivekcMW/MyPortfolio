@@ -668,7 +668,7 @@ function ZeroUIDemo() {
         )}
       </button>
       <p className="text-[11px] text-muted text-center leading-relaxed max-w-60">{label[state]}</p>
-      <p className="text-[10px] font-mono text-muted/70">tap the device to advance the state</p>
+      <p className="text-[10px] font-mono text-muted">tap the device to advance the state</p>
     </div>
   );
 }
@@ -883,7 +883,7 @@ export default function ProcessPage() {
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
           >
             From idea to shipped —<br />
-            <span className="text-gradient">same research, four interface futures.</span>
+            <span className="text-accent">same research, four interface futures.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

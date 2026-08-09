@@ -825,7 +825,7 @@ export function DemoChrome({ paradigm, children }: Readonly<{ paradigm: Paradigm
   const c = paradigmColors[paradigm];
   if (paradigm === "zero-ui") {
     return (
-      <div className="rounded-2xl border border-border overflow-hidden" style={{ background: `radial-gradient(ellipse 80% 90% at 50% 110%, color-mix(in srgb, ${c} 8%, transparent), var(--color-background))` }}>
+      <div className="rounded-2xl border border-border overflow-hidden" style={{ backgroundColor: 'color-mix(in srgb, var(--color-surface) 95%, var(--color-background))' }}>
         <div className="px-4 py-2 border-b border-border flex items-center justify-between">
           <span className="text-[10px] font-mono text-muted">companion · desk device rev-B</span>
           <span className="text-[10px] font-mono" style={{ color: c }}>hardware</span>

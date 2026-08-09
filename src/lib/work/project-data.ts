@@ -668,7 +668,7 @@ export const projectData: Record<string, ProjectDetail> = {
     title: "NoCode / LowCode Platform",
     category: "Platform Design",
     heroDesc:
-      "A 4-year journey from market signal to full-fledged product — designing an intuitive visual builder that empowered non-engineers to create complex applications, reducing development dependency by 60%.",
+      "Reduced dev dependency 60% and tripled go-to-market velocity — a 4-year design-led transformation from market signal to full-fledged visual builder serving 200+ teams, leading research, UX, UI, and a 4-designer team.",
     timeline: "2018 — 2022",
     tags: ["Design Systems", "React", "Figma", "User Research"],
     challenge:
@@ -695,8 +695,8 @@ export const projectData: Record<string, ProjectDetail> = {
     story: nocodeStory,
     role: {
       title: "Lead Product Designer",
-      scope: "End-to-end design ownership — research, UX, UI, design system, usability testing",
-      team: "Led 4 designers, collaborated with 2 UX researchers and 6 engineers; reported to CPO",
+      scope: "End-to-end design ownership — research, UX, UI, design system, usability testing. Led a 4-person design team (hired 3 of 4), established design critique rituals, ran bi-weekly stakeholder alignment with product and engineering leadership, and built the team's research practice from scratch.",
+      team: "Led 4 designers (hired 3, mentored 2 from mid to senior level), collaborated with 2 UX researchers and 6 engineers; reported to CPO. Introduced weekly design critiques and quarterly design system contribution cycles that became org-wide standards.",
       duration: "2018 — 2022 (4 years)",
     },
     decisions: [

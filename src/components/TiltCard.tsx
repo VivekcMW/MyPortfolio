@@ -46,7 +46,7 @@ export default function TiltCard({ children, className = "" }: TiltCardProps) {
       <div
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"
         style={{
-          background: `radial-gradient(circle at ${glareX}% ${glareY}%, color-mix(in srgb, var(--color-accent) 8%, transparent) 0%, transparent 60%)`,
+          backgroundColor: 'color-mix(in srgb, var(--color-accent) 4%, transparent)',
         }}
       />
     </motion.div>
