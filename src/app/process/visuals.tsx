@@ -159,22 +159,89 @@ export function GateChecklist({ gate }: Readonly<{ gate: string[] }>) {
 /* ─────────────────────────────────────────────────────────────
    Card Flip Method Map — 3D interactive cards showing the journey
 ────────────────────────────────────────────────────────────── */
+
+// SVG Icon Components
+const SignalIcon = () => (
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+  </svg>
+);
+
+const DocumentIcon = () => (
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="16" y1="13" x2="8" y2="13" />
+    <line x1="16" y1="17" x2="8" y2="17" />
+    <line x1="10" y1="9" x2="8" y2="9" />
+  </svg>
+);
+
+const SearchIcon = () => (
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="11" cy="11" r="8" />
+    <path d="m21 21-4.35-4.35" />
+  </svg>
+);
+
+const BrainIcon = () => (
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
+    <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
+  </svg>
+);
+
+const DiamondIcon = () => (
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z" />
+  </svg>
+);
+
+const FlowIcon = () => (
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 7c3-2 5-2 8 0s4 2 7 0" />
+    <path d="M3 12c3-2 5-2 8 0s4 2 7 0" />
+    <path d="M3 17c3-2 5-2 8 0s4 2 7 0" />
+  </svg>
+);
+
+const PaletteIcon = () => (
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
+    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
+    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
+    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" />
+    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" />
+  </svg>
+);
+
+const RocketIcon = () => (
+  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+  </svg>
+);
+
 interface StageCardData {
   id: string;
   num: string;
   title: string;
   description: string;
+  icon: React.FC;
 }
 
 const STAGE_CARDS: StageCardData[] = [
-  { id: "signal", num: "00", title: "Signal", description: "Filter noise from real user pain. Kill unfounded ideas early." },
-  { id: "prd", num: "01", title: "PRD", description: "Document assumptions, success metrics, and kill criteria upfront." },
-  { id: "research", num: "02", title: "Research", description: "Contextual inquiry with 24-32 participants. Observe behavior, not opinions." },
-  { id: "psychology", num: "03", title: "Psychology", description: "Map findings to principles. Every design decision needs a 'why'." },
-  { id: "paradigm", num: "04", title: "Paradigm Gate", description: "The fork: Agentic? Hybrid? Traditional? Zero-UI? Choose deliberately." },
-  { id: "flows", num: "05", title: "Flows", description: "Wireflows per paradigm. Show failure paths, not just happy paths." },
-  { id: "ui", num: "06", title: "UI", description: "Visual design + interactive prototypes. Test with real content." },
-  { id: "ship", num: "07", title: "Ship", description: "Launch with instrumentation. Shipped behavior becomes next signal." },
+  { id: "signal", num: "00", title: "Signal", description: "Filter noise from real user pain. Kill unfounded ideas early.", icon: SignalIcon },
+  { id: "prd", num: "01", title: "PRD", description: "Document assumptions, success metrics, and kill criteria upfront.", icon: DocumentIcon },
+  { id: "research", num: "02", title: "Research", description: "Contextual inquiry with 24-32 participants. Observe behavior, not opinions.", icon: SearchIcon },
+  { id: "psychology", num: "03", title: "Psychology", description: "Map findings to principles. Every design decision needs a 'why'.", icon: BrainIcon },
+  { id: "paradigm", num: "04", title: "Paradigm Gate", description: "The fork: Agentic? Hybrid? Traditional? Zero-UI? Choose deliberately.", icon: DiamondIcon },
+  { id: "flows", num: "05", title: "Flows", description: "Wireflows per paradigm. Show failure paths, not just happy paths.", icon: FlowIcon },
+  { id: "ui", num: "06", title: "UI", description: "Visual design + interactive prototypes. Test with real content.", icon: PaletteIcon },
+  { id: "ship", num: "07", title: "Ship", description: "Launch with instrumentation. Shipped behavior becomes next signal.", icon: RocketIcon },
 ];
 
 function StageCard({ stage, isFlipped, onFlip, isActive, href }: Readonly<{
@@ -197,6 +264,9 @@ function StageCard({ stage, isFlipped, onFlip, isActive, href }: Readonly<{
         className="absolute inset-0 rounded-2xl bg-surface border-2 border-border p-6 flex flex-col items-center justify-center gap-3"
         style={{ backfaceVisibility: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
       >
+        <div className="w-12 h-12 text-accent">
+          <stage.icon />
+        </div>
         <div className="text-center">
           <p className="text-xs font-mono text-muted mb-2">Stage {stage.num}</p>
           <h4 className="text-xl font-bold text-foreground">{stage.title}</h4>
@@ -216,9 +286,14 @@ function StageCard({ stage, isFlipped, onFlip, isActive, href }: Readonly<{
         style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
       >
         <div>
-          <div className="mb-3">
-            <p className="text-xs font-mono text-muted mb-1">Stage {stage.num}</p>
-            <h4 className="text-base font-bold text-foreground">{stage.title}</h4>
+          <div className="mb-3 flex items-center gap-2">
+            <div className="w-6 h-6 text-accent flex-shrink-0">
+              <stage.icon />
+            </div>
+            <div>
+              <p className="text-xs font-mono text-muted">Stage {stage.num}</p>
+              <h4 className="text-base font-bold text-foreground">{stage.title}</h4>
+            </div>
           </div>
           <p className="text-xs text-muted leading-relaxed">{stage.description}</p>
         </div>
