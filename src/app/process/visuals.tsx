@@ -491,7 +491,9 @@ export function PrdPaper() {
 /* ─────────────────────────────────────────────────────────────
    Stage 02 — Interview dot grid + sticky-note clusters
 ────────────────────────────────────────────────────────────── */
-const CLUSTER_COLORS = ["var(--color-accent)", "var(--color-accent-designer)", "var(--color-accent-scaler)", "#4ade80", "#f87171"];
+// All five read as label text, so every entry has to be a theme-aware token —
+// the raw #4ade80/#f87171 pair sat at 1.7:1 and 2.8:1 on the light surface.
+const CLUSTER_COLORS = ["var(--color-accent)", "var(--color-accent-designer)", "var(--color-accent-scaler)", "var(--color-success)", "var(--color-danger)"];
 const DOT_QUOTES = [
   "“I re-read everything it writes. Everything.”",
   "“I stopped asking after it invented a meeting.”",
@@ -823,7 +825,7 @@ export function DemoChrome({ paradigm, children }: Readonly<{ paradigm: Paradigm
   const c = paradigmColors[paradigm];
   if (paradigm === "zero-ui") {
     return (
-      <div className="rounded-2xl border border-border overflow-hidden" style={{ background: `radial-gradient(ellipse 80% 90% at 50% 110%, color-mix(in srgb, ${c} 8%, transparent), var(--color-background))` }}>
+      <div className="rounded-2xl border border-border overflow-hidden" style={{ backgroundColor: 'color-mix(in srgb, var(--color-surface) 95%, var(--color-background))' }}>
         <div className="px-4 py-2 border-b border-border flex items-center justify-between">
           <span className="text-[10px] font-mono text-muted">companion · desk device rev-B</span>
           <span className="text-[10px] font-mono" style={{ color: c }}>hardware</span>

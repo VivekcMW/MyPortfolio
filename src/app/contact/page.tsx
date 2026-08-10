@@ -103,8 +103,8 @@ export default function ContactPage() {
             </p>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface border border-border mb-6">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
               </span>
               <span className="text-xs font-mono text-foreground/80">
                 Available for select engagements
@@ -114,14 +114,14 @@ export default function ContactPage() {
               Let&apos;s build
               <br />
               something{" "}
-              <span className="text-gradient">great.</span>
+              <span className="text-accent">great.</span>
             </h1>
             <p className="text-muted text-base md:text-lg leading-relaxed mb-4 max-w-lg">
               Whether you&apos;re working on a product that needs design leadership,
               looking for a design engineer, or just want to chat about design
               and tech — I&apos;d love to hear from you.
             </p>
-            <p className="text-sm text-muted/80 font-mono mb-8">
+            <p className="text-sm text-muted font-mono mb-8">
               I reply to every message within 24 hours.
             </p>
 
@@ -221,7 +221,7 @@ export default function ContactPage() {
                 }
                 target={BOOKING_URL ? "_blank" : undefined}
                 rel={BOOKING_URL ? "noopener noreferrer" : undefined}
-                className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-accent text-white text-sm font-semibold hover:bg-accent/90 transition-all duration-200 hover:shadow-lg hover:shadow-accent/20"
+                className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-accent text-accent-foreground text-sm font-semibold hover:bg-accent/90 transition-all duration-200 hover:shadow-lg hover:shadow-accent/20"
               >
                 <svg
                   width="16"
@@ -241,7 +241,7 @@ export default function ContactPage() {
                 Book a 30-min intro call
               </a>
               {!BOOKING_URL && (
-                <p className="mt-2 text-[11px] font-mono text-muted/70">
+                <p className="mt-2 text-[11px] font-mono text-muted">
                   Opens your mail app — I&apos;ll reply within 24h with a
                   calendar link.
                 </p>
@@ -269,11 +269,12 @@ export default function ContactPage() {
                     id="name"
                     type="text"
                     required
+                    autoComplete="name"
                     value={formState.name}
                     onChange={(e) =>
                       setFormState({ ...formState, name: e.target.value })
                     }
-                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors"
+                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
                     placeholder="Your name"
                   />
                 </div>
@@ -289,11 +290,12 @@ export default function ContactPage() {
                     id="email"
                     type="email"
                     required
+                    autoComplete="email"
                     value={formState.email}
                     onChange={(e) =>
                       setFormState({ ...formState, email: e.target.value })
                     }
-                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors"
+                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
                     placeholder="you@company.com"
                   />
                 </div>
@@ -303,16 +305,17 @@ export default function ContactPage() {
                     htmlFor="mobile"
                     className="block text-sm font-medium text-muted mb-2"
                   >
-                    Mobile Number <span className="text-muted/50">(optional)</span>
+                    Mobile Number <span className="text-muted">(optional)</span>
                   </label>
                   <input
                     id="mobile"
                     type="tel"
+                    autoComplete="tel"
                     value={formState.mobile}
                     onChange={(e) =>
                       setFormState({ ...formState, mobile: e.target.value })
                     }
-                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors"
+                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
                     placeholder="+91 98765 43210"
                   />
                 </div>
@@ -357,7 +360,7 @@ export default function ContactPage() {
                     onChange={(e) =>
                       setFormState({ ...formState, message: e.target.value })
                     }
-                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:border-accent transition-colors resize-none"
+                    className="w-full px-4 py-3 min-h-11 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors resize-none"
                     placeholder="Tell me about your project or opportunity..."
                   />
                 </div>
@@ -365,12 +368,12 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={sending || sent}
-                  className="w-full px-8 py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-8 py-4 bg-accent text-accent-foreground font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {sending ? "Sending..." : sent ? "Sent! I'll get back to you." : "Send Message"}
                 </button>
                 {error && (
-                  <p className="text-red-400 text-sm text-center">{error}</p>
+                  <p className="text-danger text-sm text-center">{error}</p>
                 )}
 
               </form>

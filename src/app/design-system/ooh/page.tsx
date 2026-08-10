@@ -514,7 +514,7 @@ function BillboardPreview({ theme, setTheme, isPlaying, setIsPlaying }: {
       <div className="relative overflow-hidden rounded-2xl border" style={{ borderColor: C.borderBlue, aspectRatio: "16/9" }}>
         {/* Sky */}
         <div className="absolute inset-0" style={{
-          background: `linear-gradient(180deg, ${sky.top} 0%, ${sky.bottom} 100%)`,
+          backgroundColor: sky.top,
         }} />
 
         {/* City silhouette */}
@@ -589,7 +589,7 @@ function BillboardPreview({ theme, setTheme, isPlaying, setIsPlaying }: {
 
         {/* Ambient glow */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[15%]" style={{
-          background: `radial-gradient(ellipse at center, ${adContent[adIndex].color}33 0%, transparent 70%)`,
+          backgroundColor: `${adContent[adIndex].color}20`,
         }} />
       </div>
     </div>
@@ -632,10 +632,10 @@ export default function OOHDesignSystem() {
       {/* ─── Hero ─── */}
       <div className="relative overflow-hidden border-b" style={{ borderColor: C.borderBlue }}>
         <div className="absolute inset-0" style={{
-          background: `linear-gradient(135deg, ${C.energyBlue}11 0%, ${C.deepIndigo}22 50%, ${C.darkNavy} 100%)`,
+          backgroundColor: `${C.energyBlue}15`,
         }} />
         <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 30% 60%, ${C.energyBlue}22 0%, transparent 60%)`,
+          backgroundColor: `${C.energyBlue}08`,
         }} />
         <div className="relative max-w-7xl mx-auto px-4 lg:px-8 py-12 lg:py-16">
           <div className="max-w-2xl">

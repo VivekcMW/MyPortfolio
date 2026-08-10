@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { useEffect, useState, useCallback, useMemo, useRef } from "react";
-import FluidText from "@/components/FluidText";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { Section, SectionHeader } from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
@@ -46,6 +45,11 @@ const projects = [
     image: <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
     href: "/work/ott-platform",
   },
+];
+
+const heroStats = [
+  { value: "9+", label: "Years designing" },
+  { value: "2M+", label: "Users reached" },
 ];
 
 const featuredPosts = [
@@ -253,556 +257,411 @@ function StackedApproachCards() {
 }
 
 export default function HomePage() {
-  const terminalContent = useMemo(
-    () => ({
-      design: {
-        file: "design.figma",
-        lines: [
-          { type: "comment" as const, text: "// Component library structure" },
-          { type: "command" as const, text: "$ figma export --system" },
-          { type: "blank" as const, text: "" },
-          { type: "output" as const, text: "  ├── foundations/" },
-          { type: "output" as const, text: "  │   ├── colors.tokens    (24 vars)" },
-          { type: "output" as const, text: "  │   ├── typography        (8 scales)" },
-          { type: "output" as const, text: "  │   └── spacing           (12 steps)" },
-          { type: "output" as const, text: "  ├── components/" },
-          { type: "success" as const, text: "  │   ├── Button ✓         (6 variants)" },
-          { type: "success" as const, text: "  │   ├── Card ✓           (4 variants)" },
-          { type: "loading" as const, text: "  │   └── DataTable ◌      (building...)" },
-          { type: "accent" as const, text: "  └── 94% design system coverage" },
-        ],
-      },
-      build: {
-        file: "index.tsx",
-        lines: [
-          { type: "comment" as const, text: "// Production build pipeline" },
-          { type: "command" as const, text: "$ next build --turbopack" },
-          { type: "blank" as const, text: "" },
-          { type: "success" as const, text: "✓ Compiled successfully     (1.2s)" },
-          { type: "success" as const, text: "✓ TypeScript                (0 errors)" },
-          { type: "success" as const, text: "✓ Lint                      (0 warnings)" },
-          { type: "success" as const, text: "✓ Unit tests                (148 passed)" },
-          { type: "success" as const, text: "✓ Integration tests         (32 passed)" },
-          { type: "blank" as const, text: "" },
-          { type: "output" as const, text: "  Bundle size: 142kb (gzipped)" },
-          { type: "output" as const, text: "  First paint:  0.8s" },
-          { type: "accent" as const, text: "  Lighthouse:   98 / 100" },
-        ],
-      },
-      scale: {
-        file: "growth.ts",
-        lines: [
-          { type: "comment" as const, text: "// Measuring product impact" },
-          { type: "command" as const, text: "$ analyze --product growth" },
-          { type: "blank" as const, text: "" },
-          { type: "success" as const, text: "✓ User retention        +38% QoQ" },
-          { type: "success" as const, text: "✓ Time-to-ship          -60% vs prev" },
-          { type: "success" as const, text: "✓ Design system coverage  94%" },
-          { type: "loading" as const, text: "◌ Scaling to next market... ████░░ 72%" },
-          { type: "blank" as const, text: "" },
-          { type: "output" as const, text: "  Sessions: 2.4M / month" },
-          { type: "output" as const, text: "  Markets:  30+ countries" },
-          { type: "accent" as const, text: "  Impact:   measured, not assumed" },
-        ],
-      },
-    }),
-    []
-  );
-
-  const roles = [
-    { word: "design", color: "text-accent" },
-    { word: "build",  color: "text-accent-coral" },
-    { word: "scale",  color: "text-accent" },
-  ];
-
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayText, setDisplayText] = useState(roles[0].word);
-  const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-  const scrambleTo = useCallback(
-    (target: string) => {
-      let iteration = 0;
-      const totalIterations = 10;
-      const interval = setInterval(() => {
-        iteration++;
-        const revealed = Math.floor((iteration / totalIterations) * target.length);
-        let result = "";
-        for (let i = 0; i < target.length; i++) {
-          if (i < revealed) {
-            result += target[i];
-          } else {
-            result += scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-          }
-        }
-        setDisplayText(result);
-        if (iteration >= totalIterations) {
-          clearInterval(interval);
-          setDisplayText(target);
-        }
-      }, 40);
-    },
-    [scrambleChars]
-  );
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setRoleIndex((prev) => {
-        const next = (prev + 1) % roles.length;
-        scrambleTo(roles[next].word);
-        return next;
-      });
-    }, 2800);
-    return () => clearInterval(timer);
-  }, [scrambleTo, roles.length]);
-
-  const activeTerminal = terminalContent[roles[roleIndex].word as keyof typeof terminalContent];
-
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div
-            className="absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage: `linear-gradient(var(--color-accent) 1px, transparent 1px), linear-gradient(90deg, var(--color-accent) 1px, transparent 1px)`,
-              backgroundSize: "60px 60px",
-            }}
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--color-background)_70%)]" />
-          {/* Static ambient glows — motion is reserved for the terminal (one moment per screen) */}
-          <div className="absolute top-[15%] left-[20%] w-[28rem] h-[28rem] bg-accent/6 rounded-full blur-3xl" />
-          <div className="absolute bottom-[20%] right-[15%] w-[24rem] h-[24rem] bg-accent-coral/5 rounded-full blur-3xl" />
-        </div>
+      <section className="relative min-h-screen flex items-center overflow-hidden pt-32 pb-24">
+        {/* Cursor-reactive grid background */}
+        <div className="cursor-reactive-grid" />
+        
+        {/* Ambient glows */}
+        <div className="absolute top-[10%] left-[15%] w-[32rem] h-[32rem] bg-accent/8 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-[15%] right-[10%] w-[28rem] h-[28rem] bg-primary/6 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-            {/* Left: Word rotator */}
-            <div className="text-center lg:text-left order-2 lg:order-1">
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <h1
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.95]"
-                  aria-label="I build design organizations."
-                >
-                  <span aria-hidden="true" className="block">I</span>
-                  <span aria-hidden="true" className="block mt-1">
-                    <span className="inline-block font-mono transition-colors duration-300 text-accent">
-                      build
-                    </span>
-                  </span>
-                  <span aria-hidden="true" className="block mt-1 text-foreground/70 text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-                    <FluidText text="design organizations." minWeight={300} maxWeight={800} radius={100} />
-                  </span>
-                </h1>
-              </motion.div>
-
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.7 }}
-                className="mt-6 text-base md:text-lg text-muted max-w-lg mx-auto lg:mx-0 leading-relaxed"
-              >
-                <span className="text-foreground/90 font-medium">
-                  Senior Lead UX Designer & AI Product Manager
-                </span>{" "}
-                — I author the PRDs, personas, and roadmaps, then lead the design
-                systems and screens that ship them. 9+ years across AdTech,
-                Construction Cloud, Healthcare, AIOps, IIoT, and Big&nbsp;Data —
-                currently owning a 7-product DOOH portfolio at Moving Walls.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-                className="mt-8 flex items-center justify-center lg:justify-start gap-2"
-              >
-                {roles.map((role, i) => (
-                  <button
-                    key={role.word}
-                    onClick={() => { setRoleIndex(i); scrambleTo(roles[i].word); }}
-                    className="group flex items-center gap-1.5"
-                  >
-                    <motion.div
-                      animate={{
-                        width: roleIndex === i ? 24 : 8,
-                        backgroundColor: roleIndex === i ? "var(--color-accent)" : "var(--color-border)",
-                      }}
-                      className="h-1.5 rounded-full"
-                      transition={{ duration: 0.3 }}
-                    />
-                  </button>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Right: Terminal Window */}
+        <div className="relative z-10 container-premium w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            
+            {/* Left: Hero headline - 7 columns */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="order-1 lg:order-2"
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="lg:col-span-7"
             >
-              <div className="rounded-xl border border-border bg-surface/80 backdrop-blur-sm overflow-hidden shadow-2xl shadow-black/40">
-                {/* Title bar */}
-                <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-surface">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                    <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-                    <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-                  </div>
-                  <AnimatePresence mode="wait">
-                    <motion.span
-                      key={activeTerminal.file}
-                      initial={{ opacity: 0, y: -6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 6 }}
-                      transition={{ duration: 0.2 }}
-                      className="text-xs font-mono text-muted"
-                    >
-                      {activeTerminal.file}
-                    </motion.span>
-                  </AnimatePresence>
-                  <div className="w-4 h-4 text-muted">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                  </div>
-                </div>
-
-                {/* Terminal content */}
-                <div className="p-4 sm:p-5 font-mono text-xs sm:text-sm leading-relaxed min-h-80 sm:min-h-90">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={roleIndex}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {activeTerminal.lines.map((line, i) => (
-                        <motion.div
-                          key={`${roleIndex}-${i}`}
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.06, duration: 0.3 }}
-                          className={`py-0.5 ${
-                            line.type === "comment"
-                              ? "text-muted/50"
-                              : line.type === "command"
-                                ? "text-accent"
-                                : line.type === "success"
-                                  ? "text-green-400"
-                                  : line.type === "loading"
-                                    ? "text-yellow-400"
-                                    : line.type === "accent"
-                                      ? "text-accent font-medium"
-                                      : line.type === "blank"
-                                        ? "h-4"
-                                        : "text-foreground/70"
-                          }`}
-                        >
-                          {line.text}
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
+              <div className="mb-6">
+                <span className="font-accent text-sm font-bold text-accent uppercase tracking-widest">
+                  Design Leader Who Ships
+                </span>
               </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== IMPACT SPOTLIGHTS ===== */}
-      <section className="relative border-y border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
-            {[
-              {
-                value: "7",
-                label: "Shipped DOOH Products",
-                title: "Scaled from 3 → 7 at Moving Walls",
-                desc: "Own design strategy and product definition across the full DOOH portfolio — MW Activate (pDOOH DSP), MW Cinema (IMS), MW PosterOps (closed-loop execution), and four more.",
-                href: "/work/mw-activate",
-              },
-              {
-                value: "9+",
-                label: "Designers Led",
-                title: "Team Lead & Mentor",
-                desc: "Lead and mentor a team of 9+ UX designers with a shared design language — lifting usability and customer satisfaction by 25% across the portfolio.",
-                href: "/about",
-              },
-              {
-                value: "1M+",
-                label: "Users",
-                title: "9+ Years, B2B SaaS & AI",
-                desc: "Products used by over a million people across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data — from PRDs and roadmaps to shipped screens.",
-                href: "/work",
-              },
-            ].map((spot, i) => (
-              <motion.div
-                key={spot.label}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="px-6 py-7 sm:py-9 bg-background group"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="text-3xl sm:text-4xl font-heading font-bold text-foreground tabular-nums tracking-tight">
-                    {spot.value}
-                  </div>
-                  <div className="text-[11px] font-mono text-muted uppercase tracking-widest leading-tight">
-                    {spot.label}
-                  </div>
-                </div>
-                <h3 className="text-sm font-semibold text-foreground mb-1.5">
-                  {spot.title}
-                </h3>
-                <p className="text-xs text-muted leading-relaxed mb-3">
-                  {spot.desc}
-                </p>
-                <Link
-                  href={spot.href}
-                  className="inline-flex items-center gap-1 text-xs font-medium text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                >
-                  View case study
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-          <p className="mt-4 text-[11px] text-muted/70 font-mono">
-            * Metrics measured on shipped releases at Moving Walls and client engagements, 2018–2026. Methodology and context in each case study.
-          </p>
-        </div>
-      </section>
-
-      {/* ===== TRUSTED BY ===== */}
-      <Section>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <p className="text-muted text-sm font-mono uppercase tracking-widest mb-8">
-            Built products for teams at
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16">
-            {[
-              { name: "AI Agents for B2B Apps", highlight: true },
-              { name: "OOH/DOOH", highlight: false },
-              { name: "Construction Cloud", highlight: false },
-              { name: "IIoT Platforms", highlight: false },
-              { name: "Enterprise B2B", highlight: false },
-              { name: "NoCode/LowCode Startup", highlight: false },
-              { name: "Healthcare SaaS (India)", highlight: false },
-            ].map((company, i) => (
-              <motion.div
-                key={company.name}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className={`text-lg md:text-xl font-bold tracking-tight ${
-                  company.highlight ? "text-foreground" : "text-muted/40"
-                } hover:text-foreground/70 transition-colors`}
-              >
-                {company.name}
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </Section>
-
-      {/* ===== SELECTED WORK — one canonical render, viewport-aware ===== */}
-      <SelectedWorkSection projects={projects} />
-
-      {/* ===== APPROACH (Stacked Cards) ===== */}
-      <Section>
-        {/* Margin annotation */}
-        <div className="absolute left-0 top-0 bottom-0 hidden lg:flex items-center pl-2 pointer-events-none select-none">
-          <span
-            className="font-mono text-[9px] tracking-[0.2em] uppercase"
-            style={{ writingMode: "vertical-rl", color: "var(--color-border)" }}
-          >
-            [ 03 / PILLARS ]
-          </span>
-        </div>
-        <SectionHeader
-          eyebrow="The Three Pillars"
-          title="Three rare things. One person."
-          description="Most teams hire separately for design, engineering, and product strategy. Here's why you shouldn't have to."
-        />
-        <StackedApproachCards />
-      </Section>
-
-      {/* ===== WHAT I CAN HELP WITH ===== */}
-      <Section>
-        <SectionHeader
-          eyebrow="Services"
-          title="What I bring to the table."
-          description="Whether you need a design system, production code, or product thinking — I cover it end-to-end."
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              title: "Design Systems",
-              desc: "Token-driven component libraries that give teams velocity. One source of truth — design decisions encoded into code, zero handoff friction.",
-              icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-              ),
-            },
-            {
-              title: "Product Engineering",
-              desc: "Production-grade React, Next.js, and TypeScript that brings designs to life in the same sprint. Pixel-perfect, accessible, Lighthouse 98+ by default.",
-              icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-              ),
-            },
-            {
-              title: "Product Thinking",
-              desc: "Connecting UX decisions to business metrics. Identifying the 20% of work that drives 80% of growth — and knowing what not to build.",
-              icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-              ),
-            },
-            {
-              title: "Design Leadership",
-              desc: "Building design functions from scratch — systems, culture, hiring, and standards that compound over time and scale with the team.",
-              icon: (
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              ),
-            },
-          ].map((service, i) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="p-6 rounded-2xl bg-surface border border-border hover:border-accent/20 transition-all duration-500 group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-5 group-hover:bg-accent/20 transition-colors">
-                {service.icon}
-              </div>
-              <h3 className="text-lg font-bold mb-2">{service.title}</h3>
-              <p className="text-muted text-sm leading-relaxed">
-                {service.desc}
+              
+              <h1 className="font-display font-bold text-primary mb-8">
+                I turn ambiguity into clarity
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-muted leading-relaxed mb-10 max-w-2xl">
+                9 years building products and the teams behind them — currently leading design strategy and a cross-functional design org across a{" "}
+                <span className="text-primary font-semibold">7-product DOOH portfolio</span> at Moving Walls.
               </p>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
 
-      {/* ===== LATEST THINKING ===== */}
-      <Section>
-        <SectionHeader
-          eyebrow="Latest Thinking"
-          title="Insights & Ideas."
-          description="Writing about design systems, AdTech, AI-powered workflows, and the future of digital experiences."
-        />
-        <div className="space-y-8">
-          <BlogCard {...featuredPosts[0]} index={0} featured slug={featuredPosts[0].slug} />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {featuredPosts.slice(1).map((post, i) => (
-              <BlogCard key={post.slug} {...post} index={i + 1} />
-            ))}
+              {/* Proof stats — scannable at a glance instead of buried in copy */}
+              <div className="grid grid-cols-2 gap-6 max-w-sm mb-12 pt-6 border-t border-border">
+                {heroStats.map((stat) => (
+                  <div key={stat.label}>
+                    <div className="font-display font-bold text-3xl md:text-4xl text-primary">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-muted mt-1">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="flex flex-wrap gap-4">
+                <Magnetic strength={0.4}>
+                  <Link
+                    href="/work"
+                    className="magnetic-btn px-8 py-4 bg-accent text-white font-semibold rounded-full hover:shadow-xl hover:shadow-accent/30 transition-all duration-300 inline-flex items-center gap-2 group"
+                  >
+                    <span>View Work</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </Link>
+                </Magnetic>
+                
+                <Link
+                  href="/process"
+                  className="px-8 py-4 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300"
+                >
+                  My Process
+                </Link>
+              </div>
+            </motion.div>
+            
+            {/* Right: How I think - 5 columns */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="lg:col-span-5"
+            >
+              <PrinciplesPanel />
+            </motion.div>
           </div>
         </div>
+
+        {/* Scroll cue — orients first-time visitors */}
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-12 text-center"
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+          className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-muted"
         >
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium transition-colors"
+          <span className="font-mono text-xs uppercase tracking-widest">Scroll to explore</span>
+          <motion.svg
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            Read all posts
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M3 8H13M13 8L9 4M13 8L9 12"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Link>
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </motion.svg>
         </motion.div>
-      </Section>
+      </section>
 
-      {/* ===== CTA BANNER — the designed ending (peak‑end) ===== */}
-      <Section>
-        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-surface border border-border p-8 sm:p-12 md:p-20 text-center">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-150 h-50 sm:h-75 bg-accent/10 rounded-full blur-3xl" />
-          <div className="relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/60 border border-border mb-8"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
-              </span>
-              <span className="text-xs font-mono text-foreground/80">
-                Available for select engagements · responds within 24h
-              </span>
-            </motion.div>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
-            >
-              Let&apos;s build something{" "}
-              <span className="text-gradient">extraordinary.</span>
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-muted text-lg max-w-xl mx-auto mb-8"
-            >
-              Whether you&apos;re a startup looking for a design partner or a
-              FAANG team seeking a design engineer — I&apos;d love to chat.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              <Magnetic strength={0.4} scaleOnHover={1.05}>
-                <Link
-                  href="/contact"
-                  className="inline-block px-6 py-3 sm:px-8 sm:py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
-                >
-                  Get in Touch
-                </Link>
-              </Magnetic>
-              <a
-                href="mailto:vivekanand.design@gmail.com"
-                className="text-sm font-mono text-muted hover:text-foreground transition-colors underline underline-offset-4 decoration-border hover:decoration-accent"
-              >
-                vivekanand.design@gmail.com
-              </a>
-            </motion.div>
+      {/* Ink spread divider */}
+      <div className="ink-spread-divider my-24" />
+
+      {/* ===== SELECTED WORK ===== */}
+      <section className="section-spacing">
+        <div className="container-premium">
+          <div className="mb-16">
+            <span className="font-accent text-sm font-bold text-accent uppercase tracking-widest block mb-4">
+              Selected Work
+            </span>
+            <h2 className="font-display font-bold text-primary">
+              Products that made an impact
+            </h2>
+          </div>
+          
+          {/* Bento Grid */}
+          <div className="bento-grid">
+            {projects.map((project, i) => (
+              <BentoCard key={project.title} project={project} index={i} />
+            ))}
           </div>
         </div>
-      </Section>
+      </section>
+
+      {/* ===== APPROACH ===== */}
+      <section className="section-spacing bg-surface/50">
+        <div className="container-premium">
+          <div className="mb-16 text-center max-w-3xl mx-auto">
+            <span className="font-accent text-sm font-bold text-accent uppercase tracking-widest block mb-4">
+              How I Work
+            </span>
+            <h2 className="font-display font-bold text-primary mb-6">
+              Design × Build × Scale
+            </h2>
+            <p className="text-lg text-muted">
+              I don't just design screens — I build systems and scale impact.
+            </p>
+          </div>
+          <StackedApproachCards />
+        </div>
+      </section>
+
+      {/* ===== LATEST THINKING ===== */}
+      <section className="section-spacing">
+        <div className="container-premium">
+          <div className="mb-16">
+            <span className="font-accent text-sm font-bold text-accent uppercase tracking-widest block mb-4">
+              Latest Thinking
+            </span>
+            <h2 className="font-display font-bold text-primary">
+              From the blog
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {featuredPosts.map((post, i) => (
+              <motion.div
+                key={post.slug}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <BlogCard {...post} index={i} />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== CTA BANNER ===== */}
+      <section className="section-spacing">
+        <div className="container-premium">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative overflow-hidden rounded-3xl bg-primary p-12 md:p-16 text-center"
+          >
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl" />
+            </div>
+            
+            <div className="relative z-10">
+              <h2 className="font-display font-bold text-white mb-4 text-3xl md:text-4xl">
+                Let's build something remarkable
+              </h2>
+              <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
+                Available for full-time and consulting opportunities. Response within 24 hours.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary font-semibold rounded-full hover:scale-105 transition-transform duration-300"
+              >
+                <span>Start a Conversation</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
     </>
+  );
+}
+
+/* How I Think — interactive accordion: auto-advances, click/hover to pin, one clear focus at a time */
+function PrinciplesPanel() {
+  const principles = [
+    {
+      label: "Systems Thinking",
+      gist: "Tokens, not one-offs",
+      desc: "Every screen is a token; every flow anticipates the edge case.",
+      color: "var(--color-accent)",
+      icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>,
+    },
+    {
+      label: "Psychology-Led",
+      gist: "Perception over preference",
+      desc: "Decisions grounded in how people actually perceive and decide.",
+      color: "var(--color-primary)",
+      icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9.5 2a4.5 4.5 0 0 0-4.5 4.5c0 1.4.6 2.6 1.5 3.5v10a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V10a4.5 4.5 0 0 0 2-3.5V6"/><circle cx="9.5" cy="6.5" r="4.5"/></svg>,
+    },
+    {
+      label: "Data-Driven",
+      gist: "Evidence over opinion",
+      desc: "Instrumented from day one — opinions lose to evidence.",
+      color: "var(--color-accent)",
+      icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+    },
+    {
+      label: "Goodhart-Aware",
+      gist: "Metrics that resist gaming",
+      desc: "Metrics chosen to resist gaming, not just to move up and to the right.",
+      color: "var(--color-primary)",
+      icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>,
+    },
+  ];
+
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => setActive((a) => (a + 1) % principles.length), 3200);
+    return () => clearInterval(id);
+  }, [paused, principles.length]);
+
+  const activeColor = principles[active].color;
+
+  return (
+    <div
+      className="rounded-3xl border border-border bg-surface p-6 sm:p-8"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="flex items-center justify-between mb-6">
+        <span className="font-accent text-xs font-bold text-accent uppercase tracking-widest">
+          How I Think
+        </span>
+        <span className="font-mono text-xs text-muted">
+          {String(active + 1).padStart(2, "0")} / {String(principles.length).padStart(2, "0")}
+        </span>
+      </div>
+
+      <div className="space-y-1">
+        {principles.map((p, i) => {
+          const isActive = i === active;
+          return (
+            <button
+              key={p.label}
+              type="button"
+              onClick={() => setActive(i)}
+              onFocus={() => setActive(i)}
+              className="w-full text-left rounded-2xl cursor-pointer"
+              style={{ background: isActive ? `${p.color}12` : "transparent" }}
+            >
+              <div className="flex items-center gap-4 p-3">
+                <motion.div
+                  animate={{ scale: isActive ? 1.08 : 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: `${p.color}1F`, color: p.color }}
+                >
+                  {p.icon}
+                </motion.div>
+                <div className="flex-1 min-w-0">
+                  <div className={`font-semibold transition-colors duration-300 ${isActive ? "text-foreground" : "text-muted"}`}>
+                    {p.label}
+                  </div>
+                  {!isActive && (
+                    <div className="text-xs text-muted/70 mt-0.5 truncate">{p.gist}</div>
+                  )}
+                </div>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="flex-shrink-0 transition-transform duration-300"
+                  style={{ color: p.color, transform: isActive ? "rotate(90deg)" : "rotate(0deg)" }}
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </div>
+              <AnimatePresence initial={false}>
+                {isActive && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className="text-sm text-muted leading-relaxed pb-4 pl-[3.75rem] pr-3">
+                      {p.desc}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Progress dots — double as manual navigation */}
+      <div className="flex items-center gap-2 mt-6 pl-1">
+        {principles.map((p, i) => (
+          <button
+            key={p.label}
+            type="button"
+            aria-label={`Show ${p.label}`}
+            onClick={() => setActive(i)}
+            className="h-1.5 rounded-full transition-all duration-300 cursor-pointer"
+            style={{
+              width: i === active ? "1.5rem" : "0.375rem",
+              background: i === active ? activeColor : "var(--color-border)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* Bento Card Component */
+function BentoCard({ project, index }: { project: typeof projects[0]; index: number }) {
+  const cardRotations = [-2, 1, -1, 2];
+  const gridSpans = [
+    "lg:col-span-7 lg:row-span-2", // Large hero
+    "lg:col-span-5",
+    "lg:col-span-5",
+    "lg:col-span-7",
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className={`${gridSpans[index]} card-paper-stack`}
+      style={{ '--card-rotation': cardRotations[index] } as React.CSSProperties}
+    >
+      <Link
+        href={project.href}
+        className="block h-full p-8 rounded-2xl border border-border bg-surface hover:border-accent/30 transition-all duration-300 group"
+      >
+        <div className="flex flex-col h-full">
+          <div className="mb-4 text-accent">{project.image}</div>
+          <span className="font-accent text-xs font-bold text-accent uppercase tracking-wider mb-3">
+            {project.category}
+          </span>
+          <h3 className="font-display text-2xl font-bold text-primary mb-3 group-hover:text-accent transition-colors">
+            {project.title}
+          </h3>
+          <p className="text-muted leading-relaxed mb-4 flex-1">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-3 py-1 text-xs font-medium bg-surface-hover rounded-full text-muted"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Link>
+    </motion.div>
   );
 }

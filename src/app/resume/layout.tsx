@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Resume — Vivekanand Choudhari",
+  // Bare "Resume" — the root layout's `%s | Vivekanand Choudhari` template adds the
+  // name. Baking it in here produced "Resume — Vivekanand Choudhari | Vivekanand
+  // Choudhari". The openGraph/twitter titles below are NOT templated, so they keep
+  // the full form for social cards.
+  title: "Resume",
   description:
     "Senior Lead UX Designer & AI Product Manager. 9+ years building B2B SaaS and AI platforms. Expertise in product strategy, design systems, agentic UI, and design leadership.",
   openGraph: {

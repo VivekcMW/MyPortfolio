@@ -16,6 +16,8 @@ const caseStudySlugs = [
   "construction-ai",
   "iot-dashboard",
   "ott-platform",
+  "design-systems-scale",
+  "constructiviq-construction-cloud",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -61,6 +63,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/research/forma`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/resume`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
     {
       url: `${BASE_URL}/contact`,

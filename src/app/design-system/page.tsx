@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ReactNode, createElement } from "react";
+import { useState, useEffect, useId, ReactNode, createElement } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Palette, Type, Layers, Component, Layout, Accessibility, Code2,
@@ -185,11 +185,7 @@ export default function DesignSystemPage() {
       <div 
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `
-            radial-gradient(ellipse 80% 60% at 50% -20%, ${theme.colors.primaryHex}15 0%, transparent 70%),
-            radial-gradient(ellipse 60% 50% at 80% 100%, ${theme.colors.secondaryHex}08 0%, transparent 60%),
-            radial-gradient(ellipse 50% 40% at 20% 80%, ${theme.colors.accentHex}06 0%, transparent 50%)
-          `,
+          background: `${theme.colors.primaryHex}08`,
         }}
       />
       <div 
@@ -210,7 +206,7 @@ export default function DesignSystemPage() {
           <div className="flex items-center gap-2 shrink-0">
             <div 
               className="w-6 h-6 rounded-md flex items-center justify-center"
-              style={{ background: `linear-gradient(135deg, ${theme.colors.primaryHex}, ${theme.colors.secondaryHex})` }}
+              style={{ backgroundColor: theme.colors.primaryHex }}
             >
               <Layers className="w-3 h-3 text-white" />
             </div>
@@ -312,22 +308,28 @@ export default function DesignSystemPage() {
             {/* Mobile controls — visible below lg */}
             <div className="flex lg:hidden items-center gap-0.5 p-0.5 rounded-lg" style={{ backgroundColor: theme.colors.surfaceHover }}>
               <select
+                id="ds-mobile-domain"
+                name="domain"
                 value={activeDomain}
                 onChange={e => setActiveDomain(e.target.value as DesignSystemSlug)}
                 className="px-1.5 py-1 rounded-md text-[10px] bg-transparent outline-none max-w-[80px]"
                 style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
                 title="Domain"
+                aria-label="Domain"
               >
                 {designSystemList.map(({ slug, name }) => (
                   <option key={slug} value={slug}>{name}</option>
                 ))}
               </select>
               <select
+                id="ds-mobile-palette"
+                name="palette"
                 value={activePalette}
                 onChange={e => setActivePalette(e.target.value as PaletteSlug)}
                 className="px-1.5 py-1 rounded-md text-[10px] bg-transparent outline-none max-w-[70px]"
                 style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
                 title="Palette"
+                aria-label="Palette"
               >
                 {paletteList.map(({ slug, name }) => (
                   <option key={slug} value={slug}>{name}</option>
@@ -349,7 +351,10 @@ export default function DesignSystemPage() {
       </header>
 
       {/* ─── Canvas Area ─── */}
-      <div className="flex flex-1 relative z-10 overflow-hidden">
+      {/* Column on mobile so the section-scroll bar stacks ABOVE the canvas; row from md up,
+          where the vertical tool rail sits beside it. As a row on mobile the bar (shrink-0,
+          ~766px of pills) ate the entire width and squeezed the canvas to zero. */}
+      <div className="flex flex-col md:flex-row flex-1 relative z-10 overflow-hidden">
         {/* First-visit intro — what this is and why it matters */}
         <AnimatePresence>
           {!introSeen && (
@@ -369,7 +374,7 @@ export default function DesignSystemPage() {
               >
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ background: `linear-gradient(135deg, ${theme.colors.primaryHex}, ${theme.colors.secondaryHex})` }}
+                  style={{ backgroundColor: theme.colors.primaryHex }}
                 >
                   <Sparkles className="w-4 h-4 text-white" />
                 </div>
@@ -437,7 +442,7 @@ export default function DesignSystemPage() {
 
         {/* Mobile: Horizontal section scroll */}
         <div 
-          className="md:hidden flex items-center gap-1 px-3 py-2 overflow-x-auto border-b shrink-0"
+          className="md:hidden w-full min-w-0 flex items-center gap-1 px-3 py-2 overflow-x-auto border-b shrink-0"
           style={{ borderColor: theme.colors.border }}
         >
           {sidebarSections.map((section) => (
@@ -458,7 +463,7 @@ export default function DesignSystemPage() {
 
         {/* Canvas with CSS variable tokens */}
         <div
-          className="flex-1 flex min-w-0"
+          className="flex-1 flex min-w-0 min-h-0"
           style={{
             '--ds-radius': `${studioTokens.borderRadius}px`,
             '--ds-radius-sm': `${Math.max(4, studioTokens.borderRadius * 0.5)}px`,
@@ -504,10 +509,13 @@ export default function DesignSystemPage() {
               {/* Split controls */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-2 rounded-xl border shadow-lg" style={{ backgroundColor: theme.colors.surface, borderColor: theme.colors.border }}>
                 <select
+                  id="ds-split-domain"
+                  name="split-domain"
                   value={splitDomain}
                   onChange={e => setSplitDomain(e.target.value as DesignSystemSlug)}
                   className="text-[10px] px-2 py-1 rounded-md bg-transparent outline-none"
                   style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
+                  aria-label="Comparison domain"
                 >
                   {designSystemList.map(({ slug, name }) => (
                     <option key={slug} value={slug}>{name}</option>
@@ -515,10 +523,13 @@ export default function DesignSystemPage() {
                 </select>
                 <span className="text-muted text-[10px]">×</span>
                 <select
+                  id="ds-split-palette"
+                  name="split-palette"
                   value={splitPalette}
                   onChange={e => setSplitPalette(e.target.value as PaletteSlug)}
                   className="text-[10px] px-2 py-1 rounded-md bg-transparent outline-none"
                   style={{ color: theme.colors.text, border: `1px solid ${theme.colors.border}` }}
+                  aria-label="Comparison palette"
                 >
                   {paletteList.map(({ slug, name }) => (
                     <option key={slug} value={slug}>{name}</option>
@@ -854,16 +865,21 @@ function SliderControl({ label, icon, value, min, max, step, onChange, colors }:
   onChange: (v: number) => void;
   colors: DesignSystem["colors"];
 }) {
+  // useId keeps split view's two panels from minting duplicate ids for the same control.
+  const slug = label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const fieldId = `${useId()}${slug}`;
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-[11px]" style={{ color: colors.textMuted }}>
+        <label htmlFor={fieldId} className="flex items-center gap-1.5 text-[11px]" style={{ color: colors.textMuted }}>
           <span className="w-3.5 h-3.5">{icon}</span>
           <span>{label}</span>
-        </div>
+        </label>
         <span className="text-[10px] font-mono" style={{ color: colors.textMuted }}>{value}</span>
       </div>
       <input
+        id={fieldId}
+        name={slug}
         type="range"
         min={min}
         max={max}
@@ -914,6 +930,9 @@ function StudioPanelControls({ tokens, onChange, theme: t }: {
   onChange: <K extends keyof StudioTokens>(key: K, value: StudioTokens[K]) => void;
   theme: DesignSystem;
 }) {
+  // Prefix for this panel's field ids — the mobile sheet and the desktop panel
+  // both render these controls, so the ids have to stay unique per instance.
+  const panelId = useId();
   return (
     <>
       <SliderControl
@@ -929,10 +948,12 @@ function StudioPanelControls({ tokens, onChange, theme: t }: {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
             <TypeIcon className="w-3.5 h-3.5" />
-            <span>Heading Font</span>
+            <label htmlFor={`${panelId}heading-font`}>Heading Font</label>
           </div>
         </div>
         <select
+          id={`${panelId}heading-font`}
+          name="heading-font"
           value={tokens.fontHeading}
           onChange={e => onChange("fontHeading", e.target.value)}
           className="w-full px-2 py-1.5 rounded-md text-[11px] outline-none"
@@ -946,10 +967,12 @@ function StudioPanelControls({ tokens, onChange, theme: t }: {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-[11px]" style={{ color: t.colors.textMuted }}>
             <TypeIcon className="w-3.5 h-3.5" />
-            <span>Body Font</span>
+            <label htmlFor={`${panelId}body-font`}>Body Font</label>
           </div>
         </div>
         <select
+          id={`${panelId}body-font`}
+          name="body-font"
           value={tokens.fontBody}
           onChange={e => onChange("fontBody", e.target.value)}
           className="w-full px-2 py-1.5 rounded-md text-[11px] outline-none"
@@ -1168,7 +1191,7 @@ function OverviewSection({ theme, activeDomain }: Readonly<{ theme: DesignSystem
             <div className="flex items-center gap-2 mb-4">
               <div 
                 className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: `linear-gradient(135deg, ${theme.colors.primaryHex}, ${theme.colors.secondaryHex})` }}
+                style={{ backgroundColor: theme.colors.primaryHex }}
               >
                 <Icon className="w-5 h-5 text-white" />
               </div>
@@ -1434,7 +1457,7 @@ function ColorsSection({ theme, copyToClipboard, copiedToken }: Readonly<{ theme
               <div className="flex items-center gap-2">
                 <span 
                   className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
-                    check.pass ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
+                    check.pass ? "bg-green-500/20 text-success" : "bg-red-500/20 text-danger"
                   }`}
                 >
                   {check.pass ? "AA Pass" : "Fail"}

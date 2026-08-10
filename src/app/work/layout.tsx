@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Work",
+  // A plain-string title here would clear the root layout's template for every
+  // descendant, leaving case studies with a bare, suffix-less <title>. Restating
+  // the template keeps /work/[slug] consistent with the rest of the site.
+  title: {
+    default: "Work",
+    template: "%s | Vivekanand Choudhari",
+  },
   description: "Case studies and detailed project breakdowns across AdTech, Healthcare, IoT, and OTT.",
   alternates: {
     canonical: "/work",

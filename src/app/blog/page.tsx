@@ -46,7 +46,7 @@ export default function BlogPage() {
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeCategory === cat
-                  ? "bg-accent text-white"
+                  ? "bg-accent text-accent-foreground"
                   : "bg-surface border border-border text-muted hover:text-foreground hover:border-accent/20"
               }`}
             >
@@ -112,7 +112,7 @@ export default function BlogPage() {
             </p>
             <a
               href="mailto:vivekanand.design@gmail.com?subject=Newsletter%20Subscription"
-              className="inline-block px-8 py-4 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20"
+              className="inline-block px-8 py-4 bg-accent text-accent-foreground font-semibold rounded-xl hover:bg-accent/90 transition-all hover:shadow-lg hover:shadow-accent/20"
             >
               Subscribe via Email
             </a>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Inter, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono, Syne } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,7 +10,6 @@ import SmoothScroll from "@/components/SmoothScroll";
 import StatusBar from "@/components/StatusBar";
 import BackToTop from "@/components/BackToTop";
 import MotionProvider from "@/components/MotionProvider";
-import { ThemeProvider } from "@/lib/theme-context";
 import { SITE_URL } from "@/lib/site";
 
 const inter = Inter({
@@ -18,10 +17,20 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+// Fraunces: Display serif for hero headlines
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["300", "400", "600", "700"],
+  display: "swap",
+});
+
+// Syne: Geometric sans for labels/metadata
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -131,7 +140,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`        ${inter.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${fraunces.variable} ${syne.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col grain">
         <script
@@ -141,22 +150,20 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
-        <ThemeProvider>
-          <MotionProvider>
-            <div className="relative overflow-x-clip">
-              <SmoothScroll />
-              <ScrollProgress />
-              <CursorGlow />
-              <Navbar />
-              <main id="main-content" className="flex-1">
-                <PageTransition>{children}</PageTransition>
-              </main>
-              <Footer />
-              <BackToTop />
-              <StatusBar />
-            </div>
-          </MotionProvider>
-        </ThemeProvider>
+        <MotionProvider>
+          <div className="relative overflow-x-clip">
+            <SmoothScroll />
+            <ScrollProgress />
+            <CursorGlow />
+            <Navbar />
+            <main id="main-content" className="flex-1">
+              <PageTransition>{children}</PageTransition>
+            </main>
+            <Footer />
+            <BackToTop />
+            <StatusBar />
+          </div>
+        </MotionProvider>
       </body>
     </html>
   );
