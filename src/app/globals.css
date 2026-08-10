@@ -132,6 +132,11 @@ html.lenis body {
   }
 }
 
+/* ── 3D Card Flip Perspective ── */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-foreground);

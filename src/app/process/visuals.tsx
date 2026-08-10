@@ -157,7 +157,297 @@ export function GateChecklist({ gate }: Readonly<{ gate: string[] }>) {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Method map — the animated journey spine with the fork
+   Card Flip Method Map — 3D interactive cards showing the journey
+────────────────────────────────────────────────────────────── */
+interface StageCardData {
+  id: string;
+  num: string;
+  title: string;
+  icon: string;
+  description: string;
+}
+
+const STAGE_CARDS: StageCardData[] = [
+  { id: "signal", num: "00", title: "Signal", icon: "🔔", description: "Filter noise from real user pain. Kill unfounded ideas early." },
+  { id: "prd", num: "01", title: "PRD", icon: "📋", description: "Document assumptions, success metrics, and kill criteria upfront." },
+  { id: "research", num: "02", title: "Research", icon: "🔍", description: "Contextual inquiry with 24-32 participants. Observe behavior, not opinions." },
+  { id: "psychology", num: "03", title: "Psychology", icon: "🧠", description: "Map findings to principles. Every design decision needs a 'why'." },
+  { id: "paradigm", num: "04", title: "Paradigm Gate", icon: "💎", description: "The fork: Agentic? Hybrid? Traditional? Zero-UI? Choose deliberately." },
+  { id: "flows", num: "05", title: "Flows", icon: "🌊", description: "Wireflows per paradigm. Show failure paths, not just happy paths." },
+  { id: "ui", num: "06", title: "UI", icon: "🎨", description: "Visual design + interactive prototypes. Test with real content." },
+  { id: "ship", num: "07", title: "Ship", icon: "🚀", description: "Launch with instrumentation. Shipped behavior becomes next signal." },
+];
+
+function StageCard({ stage, isFlipped, onFlip, isActive, href }: Readonly<{
+  stage: StageCardData;
+  isFlipped: boolean;
+  onFlip: () => void;
+  isActive?: boolean;
+  href?: string;
+}>) {
+  const cardContent = (
+    <motion.div
+      className="relative w-full h-full cursor-pointer"
+      style={{ transformStyle: "preserve-3d" }}
+      animate={{ rotateY: isFlipped ? 180 : 0 }}
+      transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
+      onClick={onFlip}
+    >
+      {/* Front */}
+      <div
+        className="absolute inset-0 rounded-2xl bg-surface border-2 border-border p-6 flex flex-col items-center justify-center gap-3"
+        style={{ backfaceVisibility: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
+      >
+        <div className="text-5xl" role="img" aria-label={stage.title}>{stage.icon}</div>
+        <div className="text-center">
+          <p className="text-xs font-mono text-muted mb-1">Stage {stage.num}</p>
+          <h4 className="text-lg font-bold text-foreground">{stage.title}</h4>
+        </div>
+        {isActive && (
+          <motion.div
+            className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-accent"
+            animate={{ scale: [1, 1.3, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        )}
+      </div>
+
+      {/* Back */}
+      <div
+        className="absolute inset-0 rounded-2xl bg-linear-to-br from-accent/10 to-primary/10 border-2 border-accent/30 p-5 flex flex-col justify-between"
+        style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
+      >
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-2xl">{stage.icon}</span>
+            <div>
+              <p className="text-xs font-mono text-muted">Stage {stage.num}</p>
+              <h4 className="text-sm font-bold text-foreground">{stage.title}</h4>
+            </div>
+          </div>
+          <p className="text-xs text-muted leading-relaxed">{stage.description}</p>
+        </div>
+        {href && (
+          <a
+            href={href}
+            onClick={(e) => e.stopPropagation()}
+            className="text-xs font-mono text-accent hover:text-accent/80 transition-colors flex items-center gap-1 mt-4"
+          >
+            Jump to stage →
+          </a>
+        )}
+        {stage.id === "ship" && (
+          <div className="mt-4 pt-4 border-t border-border/50">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                document.getElementById("stage-signal")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="w-full py-2 rounded-lg bg-accent/10 border border-accent/30 text-xs font-mono text-accent hover:bg-accent/20 transition-colors"
+            >
+              ↻ Loop back to Signal
+            </button>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+
+  return (
+    <div className="w-full h-64 perspective-1000">
+      {cardContent}
+    </div>
+  );
+}
+
+function ParadigmForkCards({ paradigm, onSelect }: Readonly<{ paradigm: Paradigm; onSelect: (p: Paradigm) => void }>) {
+  const [flippedIndex, setFlippedIndex] = useState<number | null>(null);
+
+  const paradigmCards = paradigmList.map((p, i) => ({
+    paradigm: p,
+    label: paradigmShort[p],
+    color: paradigmColors[p],
+    description: {
+      agentic: "AI makes decisions autonomously. User reviews and overrides.",
+      hybrid: "AI + human work together. Transparent collaboration UI.",
+      traditional: "User-driven with AI assistance. Manual controls prominent.",
+      "zero-ui": "No screen. Voice, haptics, or ambient signals only.",
+    }[p],
+  }));
+
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {paradigmCards.map((card, i) => (
+        <motion.div
+          key={card.paradigm}
+          initial={{ opacity: 0, y: 20, rotateX: -15 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          transition={{ delay: i * 0.1, type: "spring" }}
+          className="relative h-48 cursor-pointer perspective-1000"
+          onClick={() => onSelect(card.paradigm)}
+        >
+          <motion.div
+            className="relative w-full h-full"
+            style={{ transformStyle: "preserve-3d" }}
+            animate={{ rotateY: flippedIndex === i ? 180 : 0 }}
+            transition={{ duration: 0.6, type: "spring" }}
+            onHoverStart={() => setFlippedIndex(i)}
+            onHoverEnd={() => setFlippedIndex(null)}
+          >
+            {/* Front */}
+            <div
+              className="absolute inset-0 rounded-xl border-2 p-4 flex flex-col items-center justify-center gap-2"
+              style={{
+                backfaceVisibility: "hidden",
+                borderColor: card.color,
+                backgroundColor: `color-mix(in srgb, ${card.color} 5%, var(--color-surface))`,
+                boxShadow: paradigm === card.paradigm ? `0 0 0 2px ${card.color}` : "0 4px 16px rgba(0,0,0,0.08)",
+              }}
+            >
+              <h5 className="text-sm font-bold" style={{ color: card.color }}>{card.label}</h5>
+              {paradigm === card.paradigm && (
+                <span className="text-xs font-mono text-muted">✓ Active</span>
+              )}
+            </div>
+
+            {/* Back */}
+            <div
+              className="absolute inset-0 rounded-xl border-2 p-3 flex flex-col justify-center"
+              style={{
+                backfaceVisibility: "hidden",
+                transform: "rotateY(180deg)",
+                borderColor: card.color,
+                backgroundColor: `color-mix(in srgb, ${card.color} 8%, var(--color-surface))`,
+                boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
+              }}
+            >
+              <p className="text-xs text-muted leading-relaxed">{card.description}</p>
+            </div>
+          </motion.div>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+export function MethodMap({ paradigm, onSelect }: Readonly<{ paradigm: Paradigm; onSelect: (p: Paradigm) => void }>) {
+  const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
+
+  const toggleCard = (id: string) => {
+    setFlippedCards((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.25, duration: 0.6 }}
+      className="rounded-2xl bg-surface border border-border p-4 sm:p-6"
+    >
+      <div className="flex items-center justify-between gap-3 mb-6">
+        <p className="text-[10px] font-mono text-muted uppercase tracking-widest">
+          The method — 8 stages · one fork · one loop
+        </p>
+        <p className="text-[10px] font-mono hidden sm:block" style={{ color: paradigmColors[paradigm] }}>
+          Click cards to flip · Active: {paradigmShort[paradigm]}
+        </p>
+      </div>
+
+      {/* Stages 00-03 */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {STAGE_CARDS.slice(0, 4).map((stage, i) => (
+          <motion.div
+            key={stage.id}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: i * 0.1, type: "spring", stiffness: 150 }}
+          >
+            <StageCard
+              stage={stage}
+              isFlipped={flippedCards.has(stage.id)}
+              onFlip={() => toggleCard(stage.id)}
+              href={`#stage-${stage.id}`}
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Fork: Stage 04 - Paradigm Gate */}
+      <div className="mb-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, type: "spring" }}
+          className="mb-4"
+        >
+          <StageCard
+            stage={STAGE_CARDS[4]}
+            isFlipped={flippedCards.has("paradigm")}
+            onFlip={() => toggleCard("paradigm")}
+            isActive
+            href="#stage-paradigm"
+          />
+        </motion.div>
+
+        {/* 4 Paradigm Choice Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-xs font-mono text-muted px-2">Choose your paradigm</span>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+          <ParadigmForkCards paradigm={paradigm} onSelect={onSelect} />
+        </motion.div>
+      </div>
+
+      {/* Stages 05-07 */}
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        {STAGE_CARDS.slice(5).map((stage, i) => (
+          <motion.div
+            key={stage.id}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.7 + i * 0.1, type: "spring", stiffness: 150 }}
+          >
+            <StageCard
+              stage={stage}
+              isFlipped={flippedCards.has(stage.id)}
+              onFlip={() => toggleCard(stage.id)}
+              href={`#stage-${stage.id}`}
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Loop annotation */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="mt-6 pt-6 border-t border-border text-center"
+      >
+        <p className="text-xs text-muted font-mono">
+          Shipped behavior → next quarter&apos;s research signal → continuous improvement loop
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   [LEGACY] Old SVG Method Map (kept for reference, not used)
 ────────────────────────────────────────────────────────────── */
 const MAIN_NODES = [
   { id: "signal", num: "00", x: 50 },
@@ -168,7 +458,7 @@ const MAIN_NODES = [
 ];
 const LANE_YS: Record<Paradigm, number> = { agentic: 45, hybrid: 95, traditional: 145, "zero-ui": 195 };
 
-export function MethodMap({ paradigm, onSelect }: Readonly<{ paradigm: Paradigm; onSelect: (p: Paradigm) => void }>) {
+export function MethodMapLegacy({ paradigm, onSelect }: Readonly<{ paradigm: Paradigm; onSelect: (p: Paradigm) => void }>) {
   const draw = {
     hidden: { pathLength: 0, opacity: 0 },
     visible: (d: number) => ({
