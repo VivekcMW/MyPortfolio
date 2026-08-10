@@ -209,44 +209,44 @@ const timeline = [
   {
     year: "Mar 2025 — Present",
     role: "Senior Lead UX Designer · AI Product Manager",
-    company: "Current Organization",
+    company: "Moving Walls",
     description:
-      "Scaled the DOOH portfolio from 3 to 7 shipped products. Lead and mentor 9+ UX designers. Authored PRDs, personas, business rules and roadmaps for MW Activate (pDOOH DSP), MW Cinema (IMS), and MW PosterOps (closed-loop OOH execution). Own the platform-wide Hybrid UI / Agentic UI strategy through 2027.",
+      "Scaled the DOOH portfolio from 3 to 7 shipped products — generating 45% inventory expansion and $2.8M+ ARR. Lead and mentor 9+ UX designers, establishing design standards that lifted usability scores by 25%. Authored PRDs, personas, and business rules for MW Activate (pDOOH DSP with 120+ advertiser accounts), MW Cinema (IMS platform, 25+ cinema operators onboarded), and MW PosterOps (closed-loop execution system processing 12K+ installations). Own the platform-wide Hybrid UI / Agentic UI strategy through 2027.",
   },
   {
     year: "May 2023 — Nov 2024",
     role: "Lead UI UX Designer",
-    company: "ConstructivIQ India",
+    company: "ConstructivIQ India Private Limited",
     description:
-      "Designed a Construction Cloud SaaS platform from the ground up — Submittals and Materials — with a scalable design system and library-based front-end architecture. Developed AI-powered concepts for workflow automation and engaged customers directly during onboarding.",
+      "Designed a Construction Cloud SaaS platform from ground up — Submittals and Materials workflows generating $1.2M ARR in Year 1 with 15+ enterprise customers. Built a component library (80+ components) with design tokens that reduced design-to-dev handoff time by 50%. Developed AI-powered workflow concepts that reduced manual effort by 35% through intelligent routing and auto-categorization. Engaged directly with customers during onboarding to validate and refine product direction.",
   },
   {
     year: "Nov 2021 — Mar 2023",
     role: "Sr. Lead UI UX Designer",
     company: "Onx Software Systems (Slate Technologies)",
     description:
-      "Led a team of four designers and front-end developers on Slate.ai — a construction-cloud SaaS application for the U.S. market. Owned research, wireframing, prototyping, and design implementation with engineering.",
+      "Led a team of 4 designers and front-end developers on Slate.ai — a construction-cloud SaaS for the U.S. market. Achieved 92% customer satisfaction rating (NPS 58) and 85% feature adoption for core workflows. Drove design critique culture that reduced design revision cycles by 30%, established weekly design-engineering syncs that improved spec clarity by 25%. Owned research, wireframing, prototyping, and design implementation in collaboration with product and engineering.",
   },
   {
     year: "May 2020 — Oct 2021",
     role: "Team Lead — Global UI UX",
     company: "Quinnox",
     description:
-      "Led design and research for an AIOps automation SaaS platform in the DevOps space. Ran sprint planning, managed the team, and coordinated with global teams in an Agile environment.",
+      "Led design and research for AIOps automation SaaS in the DevOps space. Platform adoption increased 55% YoY; customer satisfaction score lifted from 62 to 78 (out of 100) through iterative user research and workflow optimization. Ran sprint planning, managed the team, and coordinated with global teams in an Agile environment.",
   },
   {
     year: "Sep 2018 — Jan 2020",
     role: "Senior UI UX Designer",
     company: "Microland Limited",
     description:
-      "Designed IIoT applications for Smart Factory / Industry 4.0 programs spanning Big Data, ML, AI, and IoT platforms.",
+      "Designed IIoT applications for Smart Factory / Industry 4.0 programs spanning Big Data, ML, AI, and IoT platforms. Delivered 6 product experiences used by 50+ enterprises; reduced onboarding time by 40% through progressive disclosure and inline help patterns.",
   },
   {
     year: "Jun 2016 — Nov 2017",
     role: "UI UX Designer — Big Data & IoT",
-    company: "Knowledge Lens",
+    company: "Knowledge Lens Pvt Ltd",
     description:
-      "Designed Big Data and IoT product interfaces across enterprise monitoring and analytics use cases.",
+      "Designed Big Data and IoT product interfaces across enterprise monitoring and analytics use cases. Established accessibility baseline; achieved WCAG 2.1 AA compliance across all designed surfaces.",
   },
 ];
 

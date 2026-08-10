@@ -221,59 +221,210 @@ Build the system, but more importantly, build the community around it.
   },
   {
     slug: "ai-changing-design",
-    title: "AI is Changing How We Design — Here's How I Use It",
+    title: "How I Use 20+ AI Tools to 10x My Design Output",
     excerpt:
-      "From AI-assisted prototyping to intelligent layout suggestions, here's how I've integrated AI into my design and development workflow.",
+      "From AI-assisted coding to generative design exploration, here's the complete AI toolkit I use daily to design, build, and ship products faster than ever.",
     date: "2026-01-10",
-    readTime: "5 min read",
+    readTime: "12 min read",
     category: "AI × Design",
-    tags: ["AI", "Design", "Workflow", "Productivity"],
+    tags: ["AI", "Design", "Workflow", "Productivity", "Tools"],
+    featured: true,
     content: `
-# AI is Changing How We Design — Here's How I Use It
+# How I Use 20+ AI Tools to 10x My Design Output
 
 I was skeptical about AI in design at first. "It'll never replace human creativity," I thought. I still believe that — but I've discovered that AI isn't here to replace designers. It's here to amplify us.
 
-## My AI-Enhanced Workflow
+After 18 months of experimenting, I now use 20+ AI tools daily across my design and development workflow. This post breaks down exactly how I use each one, what problems they solve, and how they fit together into a coherent system.
 
-### 1. Research & Discovery
+## The Full Stack: 20+ Tools Across 5 Categories
 
-**Before AI**: Spend days reading industry reports, analyzing competitor products, and synthesizing insights manually.
+Here's my complete AI toolkit, organized by function:
 
-**With AI**: I use AI to quickly synthesize research — summarizing user interview transcripts, identifying patterns across competitive analyses, and generating initial hypothesis maps.
+### 🛠️ Coding & Development (6 tools)
 
-### 2. Ideation & Wireframing
+**Cursor** — Primary IDE  
+My main development environment. AI-powered code generation, multi-file editing, refactoring. Replaced VS Code entirely. Use it for building this portfolio, design system work, and production React/TypeScript projects.
 
-AI helps me generate layout variations I wouldn't have considered. I describe a component's requirements, and use AI to explore 10+ approaches in minutes instead of hours.
+**Claude Code** — Terminal Agent  
+Long-horizon coding tasks from the CLI. Repo-wide refactors, spec-driven implementation, agentic tool use. Perfect for "implement this PRD" tasks that span multiple files and require context across the codebase.
 
-The key: **AI generates options, I curate and refine.** My design judgment is still the filter.
+**GitHub Copilot** — Inline Completion  
+Pair programming in every project. Inline code suggestions, test generation, boilerplate elimination. Works alongside Cursor for autocomplete on steroids.
 
-### 3. Design-to-Code
+**Emergent** — Agentic App Builder  
+End-to-end agentic app scaffolding. Turns a product brief into a running app with iterative agent-led builds. Great for MVPs and proof-of-concepts.
 
-This is where AI has the biggest impact on my workflow:
+**Replit** — Cloud Coding  
+Quick prototypes, collaborative coding sessions, deploying small AI-powered tools. When I need to test an idea in minutes, not hours.
 
-- **Copy generation**: First drafts of UI copy, error messages, and empty states
-- **Code generation**: Converting Figma designs to React components as a starting point
-- **Accessibility checks**: AI flags potential accessibility issues in my designs
+**v0** — UI Prototyping  
+Generate production-ready React/Tailwind components from prompts. Replaced "build 5 layout variations manually" with "describe it once, iterate on the best one."
 
-### 4. Documentation
+### 🤖 AI Assistants & Research (5 tools)
 
-AI helps me write better component documentation, generate usage guidelines, and create API references for the design system.
+**Claude** — Complex Reasoning  
+My thinking partner for research synthesis, PRD writing, product documentation, architecture decisions. When I need to decompose a complex problem or synthesize 50 pages of research into actionable insights.
 
-## What AI Can't Do (Yet)
+**ChatGPT** — General Assistant  
+Brainstorming, content drafting, data analysis, exploring ideas across domains. Quick iterations, voice mode for thinking out loud, plugin ecosystem for specialized tasks.
 
-- **Understand business context deeply** — it can analyze data, but it can't feel the organizational politics that shape product decisions
-- **Judge emotional resonance** — a design that "feels right" still requires human intuition
-- **Navigate ambiguity** — when requirements are unclear, experienced designers ask the right questions. AI tries to answer with assumptions
+**Gemini** — Multi-modal Analysis  
+Long document processing, Google ecosystem integrations, analyzing images alongside text. Best for when I need to upload 10 PDFs and ask "what patterns do you see?"
 
-## My Prediction
+**Perplexity** — AI Search  
+Real-time research with citations. Technical docs, competitive analysis, fact-checking. Replaced 80% of my Google searches — answers instead of links.
 
-In 3 years, every designer will use AI daily — just like we all use auto-layout and component libraries today. The designers who thrive won't be the ones who resist AI, but the ones who learn to orchestrate it.
+**NotebookLM** — Document Analysis  
+Study guides, turning research papers into actionable insights. Upload user interview transcripts, get structured insights and quotes organized by theme.
 
-**The future isn't AI vs. Designers. It's AI × Designers.**
+### 🎨 Design AI (3 tools)
+
+**Figma Make** — Concept to Prototype  
+Rapid design direction exploration. Pushes screens straight into Figma libraries for iteration. When I need to explore 10 visual directions in an hour.
+
+**UX Pilot** — AI UX Co-pilot  
+AI-augmented user flow exploration, wireframe iteration, lightweight usability heuristics review. Spots accessibility issues and flow problems I'd miss in a rush.
+
+**Figma AI** — In-tool Assistant  
+Auto-layout suggestions, content generation, AI-powered design iterations directly in Figma. Native integration makes it frictionless.
+
+### ⚙️ Automation & Workflow (5 tools)
+
+**n8n** — Self-hosted Automation  
+Custom automation pipelines — data sync, notifications, CI/CD hooks, API orchestration. I run it on my own server for complete control.
+
+**Make** — Visual Workflows  
+Complex multi-step business workflows — CRM to Slack to Notion pipelines with error handling. When I need enterprise-grade automation without writing code.
+
+**Zapier** — Quick Integrations  
+Lightweight trigger-based automations — form submissions, email routing, calendar sync. Set it and forget it.
+
+**Bolt.new** — Full-stack Builder  
+Full-stack app scaffolding from natural language. MVPs and proof-of-concepts in minutes. When a client says "can you mock up how this would work?" I use Bolt.
+
+**Claude + n8n** — Agentic Workflows  
+I connect Claude to n8n for workflows that require reasoning — like "watch this folder, classify documents by type, extract key data, route to the right person, log to Notion." Human judgment + machine speed.
+
+### 🎨 Generative Creative (3 tools)
+
+**Midjourney** — Image Generation  
+Concept art, design exploration, hero visuals, mood boards for client presentations. Best-in-class for photorealistic and stylized imagery.
+
+**DALL·E** — Quick Images  
+Quick image generation within ChatGPT workflows. Icons, illustrations, social assets. Not as good as Midjourney but integrated into my ChatGPT flow.
+
+**Figma AI** (again) — Design Iteration  
+Generate variations of existing designs, background removal, smart resize. In-context generation beats copy-paste from external tools.
 
 ---
 
-*What's your experience with AI in design? I'd love to hear — reach out on LinkedIn or Twitter.*
+## How They Connect: My Workflow in Practice
+
+These tools don't work in isolation — they form an **AI-augmented workflow** where output from one feeds into another.
+
+### Example: Building a New Feature
+
+**1. Research & Discovery (Perplexity + NotebookLM + Claude)**
+- Search competitive landscape with Perplexity (citations for credibility)
+- Upload competitor teardowns to NotebookLM, get structured comparison
+- Feed insights to Claude: "Based on this research, draft a PRD for feature X"
+
+**2. PRD Authoring (Claude + ChatGPT)**
+- Claude writes the core PRD (personas, user stories, acceptance criteria)
+- ChatGPT helps refine tone, generate edge cases, write user-facing copy
+
+**3. Design Exploration (Figma Make + UX Pilot + Midjourney)**
+- Figma Make generates 5 layout directions from the PRD
+- UX Pilot reviews flows for accessibility and usability issues
+- Midjourney creates hero images and empty state illustrations
+
+**4. Prototyping (v0 + Cursor)**
+- v0 generates React components for the chosen direction
+- Cursor helps refactor, add interactions, integrate with design system
+
+**5. Build & Ship (Cursor + Claude Code + GitHub Copilot)**
+- Cursor for main development
+- Claude Code for repo-wide refactors when architecture changes
+- GitHub Copilot for autocomplete and test generation
+
+**6. Automation (n8n + Make + Zapier)**
+- n8n workflow: new feature ships → notify Slack → update roadmap in Notion → email stakeholders
+- Make handles CRM updates
+- Zapier triggers calendar invites for feature launch demos
+
+---
+
+## What AI Does Well (and What It Doesn't)
+
+### ✅ Where AI Excels
+
+**Speed**: Generate 10 layout variations in the time it used to take to sketch 1  
+**Breadth**: Explore directions I wouldn't have thought of  
+**Grunt Work**: Boilerplate code, repetitive design tasks, content drafts  
+**Research Synthesis**: Turn 100 pages of research into 5 key insights  
+**Documentation**: Write better docs than I'd write manually (and faster)
+
+### ❌ Where AI Falls Short
+
+**Business Context**: Can't understand organizational politics or unstated requirements  
+**Emotional Resonance**: A design that "feels right" still requires human intuition  
+**Strategic Decisions**: Can analyze options but can't make the final call on direction  
+**Ambiguity**: Needs clear prompts; struggles when requirements are unclear  
+**Taste**: Can generate aesthetically pleasing work but lacks a coherent point of view
+
+---
+
+## The 10x Claim: Is It Real?
+
+**Yes, but with caveats.**
+
+AI doesn't make me 10x better at design thinking. It makes me 10x faster at:
+- Generating variations to explore
+- Prototyping ideas to validate
+- Building the thing I designed
+- Documenting what I built
+- Automating repetitive tasks
+
+This frees up 60-70% of my time to focus on:
+- Understanding user problems deeply
+- Making strategic product decisions
+- Mentoring other designers
+- Thinking about what to build next
+
+**The real 10x: I ship 10x more ideas in the same time because AI handles the execution layer.**
+
+---
+
+## My Prediction for 2027
+
+In 18 months, **every designer will use AI daily** — just like we all use auto-layout and component libraries today.
+
+The designers who thrive won't be the ones who resist AI, but the ones who learn to orchestrate it.
+
+**The future isn't AI vs. Designers. It's AI × Designers.**
+
+Three skills to invest in:
+1. **Prompt engineering** — learn to describe what you want precisely
+2. **Tool orchestration** — connect tools into workflows, not one-off uses
+3. **Judgment** — get better at curating AI output, not generating more of it
+
+---
+
+## Try It Yourself
+
+Start small:
+- **Week 1**: Use ChatGPT to draft UI copy and error messages
+- **Week 2**: Use v0 to generate component variations
+- **Week 3**: Use Perplexity for competitive research
+- **Week 4**: Connect two tools (e.g., ChatGPT summary → Notion via Zapier)
+
+By month 2, you'll wonder how you ever worked without it.
+
+---
+
+**Want to see my AI tools in action?** Check out the [AI Tools section on my About page](/about#ai-tools) for an interactive breakdown of my full stack, including how each tool connects to the others.
+
+*Questions? Reach out — I'm always happy to talk AI × Design workflows.*
     `,
   },
   {

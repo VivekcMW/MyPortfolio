@@ -48,8 +48,10 @@ const projects = [
 ];
 
 const heroStats = [
-  { value: "9+", label: "Years designing" },
-  { value: "2M+", label: "Users reached" },
+  { value: "9+", label: "Years leading design" },
+  { value: "2M+", label: "Daily active users across 30+ countries" },
+  { value: "7", label: "Products launched" },
+  { value: "60%", label: "Faster go-to-market" },
 ];
 
 const featuredPosts = [
@@ -63,6 +65,15 @@ const featuredPosts = [
     slug: "psychology-of-design-tokens",
   },
   {
+    title: "How I Use 20+ AI Tools to 10x My Design Output",
+    excerpt:
+      "From AI-assisted coding to generative design exploration, here's the complete AI toolkit I use daily to design, build, and ship products faster than ever.",
+    date: "Jan 2026",
+    readTime: "12 min read",
+    category: "AI × Design",
+    slug: "ai-changing-design",
+  },
+  {
     title: "Design Thinking in AdTech: How OOH is Going Digital",
     excerpt:
       "The OOH advertising industry is undergoing a massive digital transformation — how design thinking is reshaping how brands connect with audiences in physical spaces.",
@@ -70,15 +81,6 @@ const featuredPosts = [
     readTime: "8 min read",
     category: "Industry Insights",
     slug: "design-thinking-adtech-ooh",
-  },
-  {
-    title: "Building Design Systems That Scale",
-    excerpt:
-      "Lessons from building component libraries across multiple products and teams.",
-    date: "Feb 2026",
-    readTime: "6 min read",
-    category: "Design Systems",
-    slug: "building-design-systems-scale",
   },
 ];
 
@@ -293,8 +295,26 @@ export default function HomePage() {
                 <span className="text-primary font-semibold">7-product programmatic DOOH portfolio</span>.
               </p>
 
+              {/* Contact info - make it visible */}
+              <div className="flex flex-wrap items-center gap-4 mb-8 text-sm">
+                <a href="mailto:vivekanandchoudhari.work@gmail.com" className="flex items-center gap-2 text-muted hover:text-accent transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+                  vivekanandchoudhari.work@gmail.com
+                </a>
+                <span className="text-border">·</span>
+                <a href="tel:+919071933517" className="flex items-center gap-2 text-muted hover:text-accent transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  +91 907 193 3517
+                </a>
+                <span className="text-border">·</span>
+                <span className="flex items-center gap-2 text-muted">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Bengaluru, India
+                </span>
+              </div>
+
               {/* Proof stats — scannable at a glance instead of buried in copy */}
-              <div className="grid grid-cols-2 gap-6 max-w-sm mb-12 pt-6 border-t border-border">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-12 pt-6 border-t border-border">
                 {heroStats.map((stat) => (
                   <div key={stat.label}>
                     <div className="font-display font-bold text-3xl md:text-4xl text-primary">
@@ -307,22 +327,32 @@ export default function HomePage() {
               
               <div className="flex flex-wrap gap-4">
                 <Magnetic strength={0.4}>
-                  <Link
-                    href="/work"
+                  <a
+                    href="mailto:vivekanandchoudhari.work@gmail.com?subject=Let's collaborate&body=Hi Vivekanand,%0D%0A%0D%0AI'd love to discuss..."
                     className="magnetic-btn px-8 py-4 bg-accent text-white font-semibold rounded-full hover:shadow-xl hover:shadow-accent/30 transition-all duration-300 inline-flex items-center gap-2 group"
                   >
-                    <span>View Work</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/>
                     </svg>
-                  </Link>
+                    <span>Get in Touch</span>
+                  </a>
                 </Magnetic>
                 
                 <Link
-                  href="/process"
-                  className="px-8 py-4 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300"
+                  href="/work"
+                  className="px-8 py-4 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-all duration-300 inline-flex items-center gap-2 group"
                 >
-                  My Process
+                  <span>View Work</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </Link>
+                
+                <Link
+                  href="/contact"
+                  className="px-8 py-4 border border-border text-foreground font-semibold rounded-full hover:border-accent hover:text-accent transition-all duration-300"
+                >
+                  Book a Call
                 </Link>
               </div>
             </motion.div>
