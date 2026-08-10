@@ -2607,19 +2607,6 @@ export default function AboutPage() {
             </p>
           </motion.div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-8 p-6 sm:p-8 rounded-2xl bg-primary/5 border border-primary/10"
-        >
-          <h3 className="text-lg font-bold mb-3">Hiring Philosophy</h3>
-          <p className="text-muted leading-relaxed">
-            I hire for <strong className="text-foreground">curiosity over credentials</strong> — the best designers I've brought in were career-changers, self-taught engineers, and product managers who could draw. My interview process tests judgment (trade-off scenarios), craft (portfolio deep-dive on decisions, not pixels), and collaboration (how they give/receive critique). Zero leetcode-style whiteboard exercises.
-          </p>
-        </motion.div>
       </Section>
 
       {/* Skills */}
