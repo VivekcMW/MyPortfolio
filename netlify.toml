@@ -3,23 +3,15 @@
 
 [build]
   command = "npm run build"
-  publish = ".next"
+  # Do not set publish directory - Netlify auto-detects Next.js
 
 # Environment variables for build
 [build.environment]
   NODE_VERSION = "20"
   NEXT_TELEMETRY_DISABLED = "1"
 
-# Use Netlify's built-in Next.js Runtime (no plugin needed for Next.js 13+)
-# Automatically detects Next.js and enables server features
-
-# Redirect rules for client-side routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
-  conditions = {Role = ["not-serverless"]}
+# Netlify automatically enables Next.js Runtime for App Router
+# No manual redirects needed - Next.js handles all routing
 
 # Headers for security and performance
 [[headers]]
