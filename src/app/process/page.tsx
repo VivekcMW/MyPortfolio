@@ -10,6 +10,7 @@ import { companion } from "@/lib/process/companion";
 import { paradigms, paradigmList, verdict } from "@/lib/process/paradigms";
 import { FrameworkAlignment } from "./FrameworkAlignment";
 import { ProcessSummaryCard } from "./ProcessSummaryCard";
+import { EmpathyMap, JourneyMap, DesignPrinciples } from "./deliverables";
 import {
   PrincipleChip, DocsPanel, GateChecklist, MethodMap, SignalFunnel, PrdPaper,
   InterviewGrid, PipelinePath, ParadigmPosters, RadarChart, FlowSpine,
@@ -196,6 +197,12 @@ function ResearchArtifact() {
           ))}
         </div>
       </div>
+
+      {/* Empathy Map */}
+      <EmpathyMap />
+
+      {/* Journey Map */}
+      <JourneyMap />
     </div>
   );
 }
@@ -986,6 +993,7 @@ export default function ProcessPage() {
 
       <StageShell stage={stage("psychology")}>
         <PipelinePath />
+        <DesignPrinciples />
       </StageShell>
 
       {/* Stage 04 — the fork */}
