@@ -8,6 +8,8 @@ export const stages: StageMeta[] = [
     id: "signal",
     title: "Signal & Framing",
     eyebrow: "Most products die here",
+    industryLabel: "Problem Discovery",
+    methodTags: ["Qualitative", "Stakeholder Interviews", "Documentation"],
     method:
       "Before anything is designed, the problem gets interrogated. What is the observed pain (not the requested feature)? Why is now the moment — what changed in technology, behavior, or market? And crucially: what would make us walk away? A problem framed as an outcome ('give back 45 minutes a day') survives contact with reality; a problem framed as a technology ('add AI') never does.",
     psychology: ["framing-effect", "survivorship-bias"],
@@ -22,6 +24,8 @@ export const stages: StageMeta[] = [
     id: "prd",
     title: "PRD & Alignment",
     eyebrow: "Hypotheses, not specs",
+    industryLabel: "Requirements Definition",
+    methodTags: ["Documentation", "Workshop", "Stakeholder Alignment"],
     method:
       "The PRD is written as a falsifiable document: every requirement is a hypothesis with a measurement attached. Success metrics are outcomes users would notice, not outputs teams can game. Non-goals get equal billing with goals — what we refuse to build shapes the product more than what we accept. The document is short enough that everyone actually reads it, and signed hypotheses prevent the goal drift that kills projects in month four.",
     psychology: ["commitment-consistency", "goodharts-law"],
@@ -36,6 +40,8 @@ export const stages: StageMeta[] = [
     id: "research",
     title: "User Research",
     eyebrow: "Watch, don't ask",
+    industryLabel: "Contextual Inquiry",
+    methodTags: ["Qualitative", "Field Study", "Interviews"],
     method:
       "Contextual inquiry over interviews, interviews over surveys — because the say–do gap is real and expensive. We watch actual work in actual workspaces, capture verbatims, and cluster observations into themes only after fieldwork ends (clustering early contaminates what you're able to see). Personas are built from behavioral patterns, not demographics — what people do under pressure, what they distrust, what they've silently abandoned.",
     psychology: ["say-do-gap", "mental-models"],
@@ -50,6 +56,8 @@ export const stages: StageMeta[] = [
     id: "psychology",
     title: "Psychology Mapping",
     eyebrow: "Findings become constraints",
+    industryLabel: "Insight Synthesis",
+    methodTags: ["Analysis", "Workshop", "Design Principles"],
     method:
       "This is the translation layer most teams skip: each research finding is mapped to the cognitive principle that explains it, and the principle generates a design constraint — a rule the design must obey regardless of aesthetics. 'Users over-trust fluent output' isn't a note in a report; it becomes 'confidence must be shown per claim and must be calibrated,' which every subsequent screen must satisfy. Constraints written here are cheaper than redesigns discovered in usability testing.",
     psychology: ["automation-bias", "hicks-law", "locus-of-control", "doherty-threshold"],
@@ -64,6 +72,8 @@ export const stages: StageMeta[] = [
     id: "paradigm",
     title: "The Paradigm Gate",
     eyebrow: "Chat, dashboard, or no screen at all?",
+    industryLabel: "Concept Selection",
+    methodTags: ["Workshop", "Decision Matrix", "Comparative Analysis"],
     method:
       "The most consequential decision in modern product design, and it is not a style preference — it's a consequence of the research. Four questions decide it: Who holds the plan — the user or the system? Where does truth live — persistent visual state, conversation memory, or ambient context? What's the blast radius of a wrong action? And how mature is user trust in this domain? The same product built agentic, hybrid, traditional, or zero-UI is four different products. Choose deliberately, with a written verdict — then let the losing paradigms inform the roadmap.",
     psychology: ["mental-models", "locus-of-control", "automation-bias"],
@@ -78,6 +88,8 @@ export const stages: StageMeta[] = [
     id: "flows",
     title: "Architecture & Flows",
     eyebrow: "Design the failures first",
+    industryLabel: "Information Architecture",
+    methodTags: ["Wireframing", "User Flows", "IA Design"],
     method:
       "Red routes get wireflows before any screen gets pixels — and every flow is designed failure-first: what happens on ambiguity, latency, misrecognition, partial success? The happy path is easy; products earn trust in the branches. Information architecture follows the paradigm: agentic flows are approval loops, hybrid flows are diff-and-apply cycles, traditional flows are navigate-and-configure paths, zero-UI flows are risk-gated voice envelopes.",
     psychology: ["error-prevention", "progressive-disclosure", "recognition-recall"],
@@ -92,6 +104,8 @@ export const stages: StageMeta[] = [
     id: "ui",
     title: "UI & System",
     eyebrow: "Tokens are claims with evidence",
+    industryLabel: "Visual Design & Prototyping",
+    methodTags: ["UI Design", "Design Systems", "Prototyping"],
     method:
       "Only now do pixels happen — and they happen as a system, not as screens. Tokens encode the psychology constraints from stage 03: contrast ratios that pass for the median eye, one accent per surface, motion in three speeds. Components are built once and themed; the paradigm decides the component vocabulary (plan cards and receipts for agentic, diff overlays for hybrid, signal grammar for hardware). Craft lives here — the micro-interactions that make the system feel inevitable.",
     psychology: ["hicks-law", "doherty-threshold", "peak-end"],
@@ -106,6 +120,8 @@ export const stages: StageMeta[] = [
     id: "ship",
     title: "Validate, Ship, Loop",
     eyebrow: "Metrics that can't lie",
+    industryLabel: "Usability Testing & Launch",
+    methodTags: ["Usability Testing", "Quantitative", "A/B Testing", "Analytics"],
     method:
       "Usability rounds validate the constraints (not the aesthetics), instrumentation ships with the feature (not after), and the metrics are chosen to resist Goodhart's law — time saved, not time spent; delegation depth, not chat volume. Launch is tiered: internal → design-partner cohort → percentage rollout, each tier with a named kill threshold. Then the loop closes: shipped behavior becomes next quarter's research signal, and the retro writes down what we'd do differently while it still stings.",
     psychology: ["goodharts-law", "peak-end", "commitment-consistency"],

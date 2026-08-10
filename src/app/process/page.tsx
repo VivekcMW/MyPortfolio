@@ -8,6 +8,8 @@ import { Paradigm, FlowStep, StageMeta } from "@/lib/process/types";
 import { stages } from "@/lib/process/stages";
 import { companion } from "@/lib/process/companion";
 import { paradigms, paradigmList, verdict } from "@/lib/process/paradigms";
+import { FrameworkAlignment } from "./FrameworkAlignment";
+import { ProcessSummaryCard } from "./ProcessSummaryCard";
 import {
   PrincipleChip, DocsPanel, GateChecklist, MethodMap, SignalFunnel, PrdPaper,
   InterviewGrid, PipelinePath, ParadigmPosters, RadarChart, FlowSpine,
@@ -56,20 +58,36 @@ function StageShell({ stage, children }: Readonly<{ stage: StageMeta; children: 
             <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
               <Icon className="w-5 h-5" />
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-xs font-mono text-accent uppercase tracking-widest">
                 Stage {stage.num} — {stage.eyebrow}
               </p>
             </div>
           </div>
-          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 mb-3">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{stage.title}</h2>
-            <div className="flex flex-wrap gap-2">
-              {stage.psychology.map((pid) => (
-                <PrincipleChip key={pid} id={pid} />
+          
+          {/* Title + Industry Label */}
+          <div className="mb-4">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1">{stage.title}</h2>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm text-primary font-semibold uppercase tracking-wide">
+                {stage.industryLabel}
+              </span>
+              <span className="text-muted">·</span>
+              {stage.methodTags.map((tag, i) => (
+                <span key={tag} className="text-xs text-muted">
+                  {tag}{i < stage.methodTags.length - 1 && " ·"}
+                </span>
               ))}
             </div>
           </div>
+
+          {/* Psychology Chips */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {stage.psychology.map((pid) => (
+              <PrincipleChip key={pid} id={pid} />
+            ))}
+          </div>
+
           <DocsPanel method={stage.method} />
           {children}
           <GateChecklist gate={stage.gate} />
@@ -908,6 +926,48 @@ export default function ProcessPage() {
         </div>
         <div className="mt-10">
           <MethodMap paradigm={paradigm} onSelect={changeParadigm} />
+        </div>
+      </Section>
+
+      {/* Framework Alignment */}
+      <Section>
+        <FrameworkAlignment />
+      </Section>
+
+      {/* Process Overview with Summary Card */}
+      <Section>
+        <div className="grid lg:grid-cols-[1fr_380px] gap-8">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">The Complete Method</h2>
+            <p className="text-muted leading-relaxed mb-6">
+              Each stage below has entry criteria, a research method, psychology principles that inform design decisions, deliverables, and exit gates. No stage gets skipped; every decision is documented with a &ldquo;why.&rdquo;
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="rounded-xl bg-surface border border-border p-4">
+                <p className="text-xs text-muted font-mono uppercase tracking-wider mb-1">Research Phase</p>
+                <p className="font-semibold text-lg">Stages 00-03</p>
+                <p className="text-sm text-muted mt-1">Discovery, framing, field research, synthesis</p>
+              </div>
+              <div className="rounded-xl bg-surface border border-border p-4">
+                <p className="text-xs text-muted font-mono uppercase tracking-wider mb-1">Design Phase</p>
+                <p className="font-semibold text-lg">Stages 04-06</p>
+                <p className="text-sm text-muted mt-1">Paradigm choice, flows, UI system</p>
+              </div>
+              <div className="rounded-xl bg-surface border border-border p-4">
+                <p className="text-xs text-muted font-mono uppercase tracking-wider mb-1">Delivery Phase</p>
+                <p className="font-semibold text-lg">Stage 07</p>
+                <p className="text-sm text-muted mt-1">Validation testing, metrics, launch</p>
+              </div>
+              <div className="rounded-xl bg-surface border border-border p-4">
+                <p className="text-xs text-muted font-mono uppercase tracking-wider mb-1">Gate Discipline</p>
+                <p className="font-semibold text-lg">24 Criteria</p>
+                <p className="text-sm text-muted mt-1">3 kill criteria per stage (8 stages × 3)</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <ProcessSummaryCard />
+          </div>
         </div>
       </Section>
 

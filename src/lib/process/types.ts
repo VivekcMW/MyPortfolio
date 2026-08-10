@@ -76,6 +76,8 @@ export interface StageMeta {
   id: string;
   title: string;
   eyebrow: string;
+  industryLabel: string; // Recruiter-friendly UX label
+  methodTags: string[]; // Qualitative, Quantitative, Workshop, etc.
   method: string;
   /** Principle ids surfaced in this stage */
   psychology: string[];
