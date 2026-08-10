@@ -401,6 +401,7 @@ function ParadigmForkCards({ paradigm, onSelect }: Readonly<{ paradigm: Paradigm
 }
 
 export function MethodMap({ paradigm, onSelect }: Readonly<{ paradigm: Paradigm; onSelect: (p: Paradigm) => void }>) {
+  // Card flip interaction state
   const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set());
 
   const toggleCard = (id: string) => {
@@ -528,7 +529,7 @@ const MAIN_NODES = [
 ];
 const LANE_YS: Record<Paradigm, number> = { agentic: 45, hybrid: 95, traditional: 145, "zero-ui": 195 };
 
-export function MethodMapLegacy({ paradigm, onSelect }: Readonly<{ paradigm: Paradigm; onSelect: (p: Paradigm) => void }>) {
+function MethodMapLegacy({ paradigm, onSelect }: Readonly<{ paradigm: Paradigm; onSelect: (p: Paradigm) => void }>) {
   const draw = {
     hidden: { pathLength: 0, opacity: 0 },
     visible: (d: number) => ({
@@ -543,14 +544,14 @@ export function MethodMapLegacy({ paradigm, onSelect }: Readonly<{ paradigm: Par
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.25, duration: 0.6 }}
-      className="rounded-2xl bg-surface border border-border p-4 sm:p-6 overflow-x-auto"
+      className="rounded-2xl bg-surface border border-border p-4 sm:p-6"
     >
-      <div className="flex items-center justify-between gap-3 mb-2 min-w-155">
+      <div className="flex items-center justify-between gap-3 mb-6">
         <p className="text-[10px] font-mono text-muted uppercase tracking-widest">
           The method — 8 stages · one fork · one loop
         </p>
         <p className="text-[10px] font-mono hidden sm:block" style={{ color: paradigmColors[paradigm] }}>
-          lane: {paradigmShort[paradigm]} — click a lane to switch
+          Click cards to flip · Active: {paradigmShort[paradigm]}
         </p>
       </div>
       <svg viewBox="0 0 960 260" className="w-full min-w-155" role="img" aria-label="Method map: stages 00 to 03 in sequence, forking at stage 04 into four paradigm lanes, converging at stage 07 and looping back">
