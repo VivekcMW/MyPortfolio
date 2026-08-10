@@ -1,0 +1,29 @@
+# humanstxt.org
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Designer & Developer: Vivekanand Choudhari
+    Site: https://uxvivek.netlify.app
+    LinkedIn: https://www.linkedin.com/in/vivekanand-choudhari-817829118/
+    Location: Bengaluru, India
+
+# THANKS
+
+    To all the teams and users who've trusted me with their products
+
+# TECHNOLOGY COLOPHON
+
+    Framework: Next.js 16
+    Language: TypeScript, React 19
+    Styling: Tailwind CSS v4
+    Animation: Framer Motion
+    Fonts: Inter, Fraunces, Syne, JetBrains Mono
+    Hosting: Netlify
+    Version Control: Git, GitHub
+    Design: Figma
+
+# LAST UPDATE
+
+    Date: 2026-08-10
+    Version: 2.0
