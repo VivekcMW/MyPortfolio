@@ -68,12 +68,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <span className="font-bold text-xl tracking-tight font-mono text-accent">
-                &#9670;
-              </span>
-              <span className="font-display font-bold text-lg tracking-tight text-primary">
-                VC
+            <Link href="/" className="group flex items-center gap-0 mb-4">
+              <span className="font-display font-bold text-lg tracking-tight">
+                <span className="text-primary group-hover:text-accent transition-colors duration-200">
+                  V
+                </span>
+                <span className="text-accent group-hover:text-primary transition-colors duration-200">
+                  C
+                </span>
               </span>
             </Link>
             <p className="text-muted text-sm leading-relaxed mb-4">
@@ -96,12 +98,11 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-muted hover:text-accent transition-colors text-sm font-medium inline-flex items-center gap-2 group"
+                      className="text-muted hover:text-accent transition-colors text-sm font-medium group"
                       {...(link.href.startsWith("http")
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}
                     >
-                      <span className="w-1 h-1 rounded-full bg-muted group-hover:bg-accent transition-colors" />
                       {link.label}
                     </Link>
                   </li>

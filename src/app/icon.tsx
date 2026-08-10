@@ -18,17 +18,18 @@ export default function Icon() {
           borderRadius: 6,
         }}
       >
-        <span
+        <div
           style={{
-            color: "#06B6D4",
-            fontSize: 22,
+            display: "flex",
+            fontSize: 18,
             fontWeight: 700,
             fontFamily: "sans-serif",
             lineHeight: 1,
           }}
         >
-          V
-        </span>
+          <span style={{ color: "#1D65AF" }}>V</span>
+          <span style={{ color: "#D4663E" }}>C</span>
+        </div>
       </div>
     ),
     { ...size }
