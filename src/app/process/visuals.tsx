@@ -163,19 +163,18 @@ interface StageCardData {
   id: string;
   num: string;
   title: string;
-  icon: string;
   description: string;
 }
 
 const STAGE_CARDS: StageCardData[] = [
-  { id: "signal", num: "00", title: "Signal", icon: "🔔", description: "Filter noise from real user pain. Kill unfounded ideas early." },
-  { id: "prd", num: "01", title: "PRD", icon: "📋", description: "Document assumptions, success metrics, and kill criteria upfront." },
-  { id: "research", num: "02", title: "Research", icon: "🔍", description: "Contextual inquiry with 24-32 participants. Observe behavior, not opinions." },
-  { id: "psychology", num: "03", title: "Psychology", icon: "🧠", description: "Map findings to principles. Every design decision needs a 'why'." },
-  { id: "paradigm", num: "04", title: "Paradigm Gate", icon: "💎", description: "The fork: Agentic? Hybrid? Traditional? Zero-UI? Choose deliberately." },
-  { id: "flows", num: "05", title: "Flows", icon: "🌊", description: "Wireflows per paradigm. Show failure paths, not just happy paths." },
-  { id: "ui", num: "06", title: "UI", icon: "🎨", description: "Visual design + interactive prototypes. Test with real content." },
-  { id: "ship", num: "07", title: "Ship", icon: "🚀", description: "Launch with instrumentation. Shipped behavior becomes next signal." },
+  { id: "signal", num: "00", title: "Signal", description: "Filter noise from real user pain. Kill unfounded ideas early." },
+  { id: "prd", num: "01", title: "PRD", description: "Document assumptions, success metrics, and kill criteria upfront." },
+  { id: "research", num: "02", title: "Research", description: "Contextual inquiry with 24-32 participants. Observe behavior, not opinions." },
+  { id: "psychology", num: "03", title: "Psychology", description: "Map findings to principles. Every design decision needs a 'why'." },
+  { id: "paradigm", num: "04", title: "Paradigm Gate", description: "The fork: Agentic? Hybrid? Traditional? Zero-UI? Choose deliberately." },
+  { id: "flows", num: "05", title: "Flows", description: "Wireflows per paradigm. Show failure paths, not just happy paths." },
+  { id: "ui", num: "06", title: "UI", description: "Visual design + interactive prototypes. Test with real content." },
+  { id: "ship", num: "07", title: "Ship", description: "Launch with instrumentation. Shipped behavior becomes next signal." },
 ];
 
 function StageCard({ stage, isFlipped, onFlip, isActive, href }: Readonly<{
@@ -198,10 +197,9 @@ function StageCard({ stage, isFlipped, onFlip, isActive, href }: Readonly<{
         className="absolute inset-0 rounded-2xl bg-surface border-2 border-border p-6 flex flex-col items-center justify-center gap-3"
         style={{ backfaceVisibility: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
       >
-        <div className="text-5xl" role="img" aria-label={stage.title}>{stage.icon}</div>
         <div className="text-center">
-          <p className="text-xs font-mono text-muted mb-1">Stage {stage.num}</p>
-          <h4 className="text-lg font-bold text-foreground">{stage.title}</h4>
+          <p className="text-xs font-mono text-muted mb-2">Stage {stage.num}</p>
+          <h4 className="text-xl font-bold text-foreground">{stage.title}</h4>
         </div>
         {isActive && (
           <motion.div
@@ -218,12 +216,9 @@ function StageCard({ stage, isFlipped, onFlip, isActive, href }: Readonly<{
         style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
       >
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-2xl">{stage.icon}</span>
-            <div>
-              <p className="text-xs font-mono text-muted">Stage {stage.num}</p>
-              <h4 className="text-sm font-bold text-foreground">{stage.title}</h4>
-            </div>
+          <div className="mb-3">
+            <p className="text-xs font-mono text-muted mb-1">Stage {stage.num}</p>
+            <h4 className="text-base font-bold text-foreground">{stage.title}</h4>
           </div>
           <p className="text-xs text-muted leading-relaxed">{stage.description}</p>
         </div>
