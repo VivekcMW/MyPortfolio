@@ -3,7 +3,6 @@ import { Fraunces, Inter, JetBrains_Mono, Syne } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CursorGlow from "@/components/CursorGlow";
 import PageTransition from "@/components/PageTransition";
 import ScrollProgress from "@/components/ScrollProgress";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -154,7 +153,6 @@ export default function RootLayout({
           <div className="relative overflow-x-clip">
             <SmoothScroll />
             <ScrollProgress />
-            <CursorGlow />
             <Navbar />
             <main id="main-content" className="flex-1">
               <PageTransition>{children}</PageTransition>
