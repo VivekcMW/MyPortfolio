@@ -132,7 +132,7 @@ function BrandIdentity() {
             <div>
               <h3 className="text-sm font-semibold mb-1" style={{ color: C.textWhite }}>Brand Story</h3>
               <p className="text-xs leading-relaxed" style={{ color: C.textMuted }}>
-                Moving Walls was born from a simple insight: people spend 70% of their time outside their homes,
+                The DOOH industry was built on a simple insight: people spend 70% of their time outside their homes,
                 yet advertising technology had largely ignored the physical world. We set out to build the operating
                 system for out-of-home — connecting digital screens, audience data, and programmatic buying into
                 a seamless platform that makes OOH as measurable and targeted as digital.

@@ -290,7 +290,7 @@ export default function HomePage() {
               
               <p className="text-xl md:text-2xl text-muted leading-relaxed mb-10 max-w-2xl">
                 9 years building products and the teams behind them — currently leading design strategy and a cross-functional design org across a{" "}
-                <span className="text-primary font-semibold">7-product DOOH portfolio</span> at Moving Walls.
+                <span className="text-primary font-semibold">7-product programmatic DOOH portfolio</span>.
               </p>
 
               {/* Proof stats — scannable at a glance instead of buried in copy */}

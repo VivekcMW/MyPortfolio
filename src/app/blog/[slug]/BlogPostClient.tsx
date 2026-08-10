@@ -294,7 +294,7 @@ export default function BlogPostClient({ slug }: { slug: string }) {
             <div>
               <p className="font-bold">Designer. Builder. Product Scaler.</p>
               <p className="text-muted text-sm">
-                Design Engineer at Moving Walls
+                Lead Design Engineer specializing in AdTech
               </p>
             </div>
           </div>

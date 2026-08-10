@@ -85,7 +85,7 @@ export default function ResumePage() {
           </p>
 
           <p className="text-base text-muted leading-relaxed">
-            Currently own design strategy and product definition across a 7-product DOOH (Digital Out-of-Home) portfolio at Moving Walls, mentoring 9+ designers. Strategic focus: designing agentic and hybrid-UI product experiences; building design systems that scale across product lines; defining go-to-market and product positioning alongside engineering and leadership.
+            Currently own design strategy and product definition across a 7-product DOOH (Digital Out-of-Home) portfolio, mentoring 9+ designers. Strategic focus: designing agentic and hybrid-UI product experiences; building design systems that scale across product lines; defining go-to-market and product positioning alongside engineering and leadership.
           </p>
         </motion.section>
 
@@ -155,7 +155,7 @@ export default function ResumePage() {
           {[
             {
               role: "Senior Lead UX Designer · Product Designer",
-              company: "Moving Walls India Pvt Ltd",
+              company: "AdTech Platform Company",
               period: "03/2025 – Present",
               location: "Bengaluru",
               highlights: [

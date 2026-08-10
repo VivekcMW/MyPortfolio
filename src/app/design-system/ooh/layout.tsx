@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "OOH Advertising — Design System",
   description:
-    "A movement-first design system for Out-of-Home advertising. Inspired by Moving Walls — Energy Blue palette, DOOH components, audience-driven patterns.",
+    "A movement-first design system for Out-of-Home advertising. Energy Blue palette, DOOH components, audience-driven patterns.",
   openGraph: {
     title: "OOH Advertising Design System",
     description:

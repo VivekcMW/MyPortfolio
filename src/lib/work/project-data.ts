@@ -905,7 +905,7 @@ export const projectData: Record<string, ProjectDetail> = {
     timeline: "2023 — 2025",
     tags: ["Design Systems", "Tokens", "Figma", "Accessibility", "WCAG AAA", "Semantic Design"],
     challenge:
-      "Moving Walls' product portfolio was growing: one DOOH platform became two, then four, then seven. Each product had different users, visual goals, and constraints — OOH billboards need extreme contrast (13.2:1), AI chat interfaces need low-glare purples, analytics dashboards need muted info-dense layouts. Without a shared system, teams would ship seven incompatible design languages, fragment the brand, and force customers to relearn the UI between products. The design job was to build one token architecture that *adapts* to each domain without requiring seven separate component libraries.",
+      "The product portfolio was growing: one DOOH platform became two, then four, then seven. Each product had different users, visual goals, and constraints — OOH billboards need extreme contrast (13.2:1), AI chat interfaces need low-glare purples, analytics dashboards need muted info-dense layouts. Without a shared system, teams would ship seven incompatible design languages, fragment the brand, and force customers to relearn the UI between products. The design job was to build one token architecture that *adapts* to each domain without requiring seven separate component libraries.",
     approach: [
       "Mapped the user contexts for all 6 product types — OOH (outdoor glance-and-go), AI (long-form chat, low-glare), Data (hours-long analytical sessions), FinTech (high-stakes trust), Design Tools (developer sessions), Consumer (social/play). Each has different contrast, saturation, and typography needs.",
       "Designed a 6×6 token matrix — 6 domains (product types) × 6 palettes (light/dark/high-contrast/warm/cool/sepia). One token set per domain (e.g., 'ooh', 'ai', 'data-science'); one theme per palette. Composable, not multiplicative.",
@@ -918,7 +918,7 @@ export const projectData: Record<string, ProjectDetail> = {
       "Zero design system handoff delays — teams don't wait for shared components; they use tokens and build. Design-to-engineering handoff time dropped 50% because specs are now token variables, not pixel values.",
       "Design review cycles cut by 40% — consistency violations are now obvious (using 'ai' domain colors in 'fintech' domain surfaces). Reviewers spot them in seconds.",
       "Accessibility compliance improved to 99% WCAG AA, 95% WCAG AAA across all 7 products — no product launched with contrast violations because tokens enforce it at the source.",
-      "Brand coherence maintained across 7 products while allowing each domain its own visual identity — customers recognize Moving Walls' DNA but understand each product's distinct purpose.",
+      "Brand coherence maintained across 7 products while allowing each domain its own visual identity — customers recognize the brand DNA but understand each product's distinct purpose.",
       "New product launches now use the system out of the box — team can design in Figma using tokens from day 1, cutting discovery and system-building time from 8 weeks to 1 week.",
     ],
     features: [
@@ -940,14 +940,14 @@ export const projectData: Record<string, ProjectDetail> = {
     decisions: [
       {
         title: "6 Domains, not 1 universal palette",
-        context: "We could have built one 'Moving Walls Gray & Blue' palette and shipped it to all 7 products. It would ship faster. But OOH billboards and AI chat interfaces have fundamentally different visual goals — one needs maximum contrast, the other needs low-glare. Forcing them into one palette would compromise both.",
+        context: "We could have built one universal palette and shipped it to all 7 products. It would ship faster. But OOH billboards and AI chat interfaces have fundamentally different visual goals — one needs maximum contrast, the other needs low-glare. Forcing them into one palette would compromise both.",
         options: [
           "One universal palette — fastest, consistent, but wrong for OOH and wrong for AI chat",
           "Seven separate design systems — each product gets its own, full independence, but no shared vocabulary across portfolio",
           "6 semantic domains, 6 composable palettes — one token architecture that adapts to context; slower upfront, compounding payoff over 7 products",
         ],
         choice: "6 domains with semantic tokens. OOH gets extreme contrast (#FACC15 on #050505, 13.2:1). AI gets low-glare purples (#D946EF on #0A0515, 8.1:1). Data gets muted calm (#14B8A6 on #030712, 6.3:1). Each is defensible on user research.",
-        result: "All 7 products shipped on time. No product felt like it was compromising its visual language for brand consistency. Customers report cohesion (they recognize Moving Walls) AND differentiation (they immediately know which product they're in).",
+        result: "All 7 products shipped on time. No product felt like it was compromising its visual language for brand consistency. Customers report cohesion (they recognize the brand) AND differentiation (they immediately know which product they're in).",
         principle: "Semantic design systems adapt to context, not the other way around. Universal palettes are the right answer when all products serve the same users. These don't. (Mateo Gomez, design tokens.studio)",
       },
       {

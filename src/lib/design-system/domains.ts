@@ -8,7 +8,7 @@ export const designSystems: Record<DesignSystemSlug, DesignSystem> = {
     fontHeading: "Inter",
     fontBody: "Inter",
     fontMono: "JetBrains Mono",
-    rationale: "Blue-forward palette inspired by Moving Walls' brand identity. Energy Blue (#1E76BB) primary with flowing teal accents creates a movement-first visual language for digital out-of-home advertising. Dark navy backgrounds ensure high legibility on outdoor displays.",
+    rationale: "Blue-forward palette for DOOH advertising platforms. Energy Blue (#1E76BB) primary with flowing teal accents creates a movement-first visual language for digital out-of-home advertising. Dark navy backgrounds ensure high legibility on outdoor displays.",
     colors: {
       primary: "from-blue-600 to-blue-500",
       primaryHex: "#1E76BB",

@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     template: "%s | Vivekanand Choudhari",
   },
   description:
-    "Product design leader with 9+ years building B2B SaaS and AI platforms for over a million users. Currently owning design strategy and product definition across a 7-product programmatic DOOH portfolio at Moving Walls — MW Activate (pDOOH DSP), MW Cinema (IMS), MW PosterOps (closed-loop OOH), and the Hybrid / Agentic UI roadmap through 2027.",
+    "Product design leader with 9+ years building B2B SaaS and AI platforms for over a million users. Currently owning design strategy and product definition across a 7-product programmatic DOOH portfolio — pDOOH DSP, Cinema IMS, Closed-loop OOH operations, and the Hybrid / Agentic UI roadmap through 2027.",
   keywords: [
     "AI Product Manager",
     "Senior Lead UX Designer",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     "Design Systems",
     "Design Engineer",
     "AdTech",
-    "Moving Walls",
+    "DOOH AdTech",
     "OOH DOOH",
     "Portfolio",
   ],
@@ -108,7 +108,7 @@ export default function RootLayout({
     url: SITE_URL,
     jobTitle: "Senior Lead UX Designer & AI Product Manager",
     description:
-      "Product design leader with 9+ years across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data. Owns design strategy and product definition across a 7-product programmatic DOOH portfolio at Moving Walls.",
+      "Product design leader with 9+ years across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data. Owns design strategy and product definition across a 7-product programmatic DOOH portfolio.",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Bengaluru",

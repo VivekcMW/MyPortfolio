@@ -92,8 +92,7 @@ export default function Footer() {
               I turn ambiguity into clarity through design rigor and systems thinking.
             </p>
             <p className="text-muted text-xs">
-              Leading design at{" "}
-              <span className="text-primary font-semibold">Moving Walls</span>
+              Leading product design & strategy
             </p>
           </div>
 

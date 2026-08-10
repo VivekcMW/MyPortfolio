@@ -209,7 +209,7 @@ const timeline = [
   {
     year: "Mar 2025 — Present",
     role: "Senior Lead UX Designer · AI Product Manager",
-    company: "Moving Walls",
+    company: "Current Organization",
     description:
       "Scaled the DOOH portfolio from 3 to 7 shipped products. Lead and mentor 9+ UX designers. Authored PRDs, personas, business rules and roadmaps for MW Activate (pDOOH DSP), MW Cinema (IMS), and MW PosterOps (closed-loop OOH execution). Own the platform-wide Hybrid UI / Agentic UI strategy through 2027.",
   },
@@ -2342,7 +2342,7 @@ export default function AboutPage() {
               <p>
                 Currently I own design strategy and product definition across a{" "}
                 <span className="text-foreground font-medium">7-product DOOH portfolio</span>
-                {" "}at Moving Walls, mentoring{" "}
+                {" "}mentoring{" "}
                 <span className="text-foreground font-medium">9+ designers</span>, and running an
                 AI-augmented practice — Claude, Figma Make, UX Pilot, and Cursor alongside
                 Figma, Sketch, and Adobe XD.

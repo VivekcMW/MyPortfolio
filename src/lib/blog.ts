@@ -110,7 +110,7 @@ The challenge isn't just technological — it's experiential. Media planners who
 
 ### Understanding the User
 
-Through extensive user research at Moving Walls, we discovered three critical insights:
+Through extensive user research at a major DOOH platform, we discovered three critical insights:
 
 1. **Planners think spatially** — they want to see inventory on a map, not in spreadsheets
 2. **Campaign logic is visual** — decision trees and audience flows need visual representation
@@ -134,7 +134,7 @@ The companies that win won't be the ones with the most data — they'll be the o
 
 ---
 
-*Vivekanand Choudhari is a Lead Design Engineer at Moving Walls, working at the intersection of design and technology in the OOH advertising space.*
+*Vivekanand Choudhari is a Lead Design Engineer specializing in AdTech, working at the intersection of design and technology in the OOH advertising space.*
     `,
   },
   {
