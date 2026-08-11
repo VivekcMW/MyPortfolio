@@ -776,8 +776,11 @@ function ShipArtifact({ paradigm }: { paradigm: Paradigm }) {
           <Link href="/work/nocode-platform" className="px-4 py-2.5 rounded-xl bg-accent text-accent-foreground text-xs font-semibold hover:bg-accent/90 transition-colors">
             NoCode Platform — 4-year case study
           </Link>
-          <Link href="/design-system" className="px-4 py-2.5 rounded-xl bg-surface-hover border border-border text-xs font-medium text-foreground hover:border-accent/30 transition-colors">
-            DS Lab — live token studio
+          <Link href="/design-system-v2/agentic" className="px-4 py-2.5 rounded-xl bg-surface-hover border border-border text-xs font-medium text-foreground hover:border-accent/30 transition-colors">
+            Agentic UI Patterns — 5 demos
+          </Link>
+          <Link href="/design-system-v2/hybrid" className="px-4 py-2.5 rounded-xl bg-surface-hover border border-border text-xs font-medium text-foreground hover:border-accent/30 transition-colors">
+            Hybrid UI — density modes
           </Link>
           <Link href="/craft" className="px-4 py-2.5 rounded-xl bg-surface-hover border border-border text-xs font-medium text-foreground hover:border-accent/30 transition-colors">
             Craft — interaction studies

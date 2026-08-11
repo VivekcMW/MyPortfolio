@@ -35,13 +35,23 @@ export default function ResumePage() {
           <Link href="/" className="text-lg font-bold text-accent hover:text-accent/80 transition-colors">
             VC
           </Link>
-          <button
-            onClick={handlePrint}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent transition-colors text-sm font-medium"
-          >
-            <Download size={16} />
-            Print to PDF
-          </button>
+          <div className="flex items-center gap-3">
+            <a
+              href="/VivekanandChoudhari(UIUX-PM).pdf"
+              download="Vivekanand-Choudhari-Resume.pdf"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-white transition-colors text-sm font-medium"
+            >
+              <Download size={16} />
+              Download PDF
+            </a>
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent transition-colors text-sm font-medium"
+            >
+              <Download size={16} />
+              Print to PDF
+            </button>
+          </div>
         </div>
       </motion.div>
 

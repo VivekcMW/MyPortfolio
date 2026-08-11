@@ -571,6 +571,34 @@ export default function FormaResearchPage() {
                 </motion.a>
               ))}
             </div>
+            
+            {/* CTA to DS Lab */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="mt-10 rounded-2xl border border-border bg-surface p-8 text-center"
+            >
+              <p className="text-sm text-muted mb-4">
+                Interested in multi-platform design systems?
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href="/design-system-v2"
+                  className="px-5 py-2.5 rounded-xl bg-accent text-accent-foreground text-sm font-semibold hover:bg-accent/90 transition-colors"
+                >
+                  Multi-Platform Design System — 10+ platforms
+                </a>
+                <a
+                  href="/design-system-v2/platforms"
+                  className="px-5 py-2.5 rounded-xl bg-surface-hover border border-border text-sm font-medium text-foreground hover:border-accent/30 transition-colors"
+                >
+                  Platform Adapters
+                </a>
+              </div>
+            </motion.div>
+
             <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mt-10 text-xs font-mono text-muted">Forma — Software that takes your shape.</motion.p>
           </div>
         </div>

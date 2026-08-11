@@ -10,6 +10,15 @@ import Magnetic from "@/components/Magnetic";
 
 const projects = [
   {
+    title: "Intelligence-Native Design System",
+    category: "Systems Research / AI",
+    description:
+      "A publishable multi-platform design system with 96-page research documentation, 10+ platform adapters, 5 AI-first interaction patterns, and 3 B2B density modes — intellectual property that demonstrates lived domain judgment AI cannot replicate.",
+    tags: ["Published Research", "Multi-Platform", "AI Patterns", "B2B SaaS"],
+    image: <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
+    href: "/design-system-v2",
+  },
+  {
     title: "NoCode / LowCode Platform",
     category: "Platform Design",
     description:
@@ -59,7 +68,7 @@ const featuredPosts = [
     title: "The Psychology Behind My Design Tokens: 8 Decisions, Explained",
     excerpt:
       "This portfolio is case study zero. Every color, motion curve, and contrast ratio on this site encodes a perception principle — here are the eight decisions and the evidence behind each one.",
-    date: "Jul 2026",
+    date: "Dec 2024",
     readTime: "10 min read",
     category: "Design Systems",
     slug: "psychology-of-design-tokens",
@@ -68,7 +77,7 @@ const featuredPosts = [
     title: "How I Use 20+ AI Tools to 10x My Design Output",
     excerpt:
       "From AI-assisted coding to generative design exploration, here's the complete AI toolkit I use daily to design, build, and ship products faster than ever.",
-    date: "Jan 2026",
+    date: "Mar 2025",
     readTime: "12 min read",
     category: "AI × Design",
     slug: "ai-changing-design",
@@ -77,7 +86,7 @@ const featuredPosts = [
     title: "Design Thinking in AdTech: How OOH is Going Digital",
     excerpt:
       "The OOH advertising industry is undergoing a massive digital transformation — how design thinking is reshaping how brands connect with audiences in physical spaces.",
-    date: "Mar 2026",
+    date: "Jun 2025",
     readTime: "8 min read",
     category: "Industry Insights",
     slug: "design-thinking-adtech-ooh",
@@ -104,7 +113,14 @@ function HorizontalScrollProjects({ projects }: { projects: Array<{ title: strin
         </div>
         <motion.div style={{ x }} className="flex gap-8 pl-4 sm:pl-8">
           {projects.map((project, i) => (
-            <div key={project.title} className="w-[85vw] sm:w-[70vw] md:w-[50vw] lg:w-[40vw] flex-shrink-0">
+            <div 
+              key={project.title} 
+              className={`flex-shrink-0 ${
+                project.title === "OTT Streaming Platform"
+                  ? "w-[90vw] sm:w-[80vw] md:w-[60vw] lg:w-[50vw]"
+                  : "w-[85vw] sm:w-[70vw] md:w-[50vw] lg:w-[40vw]"
+              }`}
+            >
               <ProjectCard {...project} index={i} />
             </div>
           ))}
@@ -187,7 +203,7 @@ const approachSteps = [
   {
     num: "01",
     title: "Designer",
-    desc: "Systems thinker, not screen pusher. I design with the builder's mind — every component is a token, every layout anticipates edge cases. Design systems that 10 engineers use without asking questions.",
+    desc: "Every interface decision is backed by shipped product evidence. I design with 500+ tokens, psychology principles, and multi-platform constraints — frameworks that engineers trust and AI can't replicate because they encode 10 years of B2B judgment.",
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
     color: "var(--color-accent-designer)",
   },
@@ -287,12 +303,13 @@ export default function HomePage() {
               </div>
               
               <h1 className="font-display font-bold text-primary mb-8">
-                I turn ambiguity into clarity
+                I architect design languages that make complexity feel simple
               </h1>
               
               <p className="text-xl md:text-2xl text-muted leading-relaxed mb-10 max-w-2xl">
-                9 years building products and the teams behind them — currently leading design strategy and a cross-functional design org across a{" "}
-                <span className="text-primary font-semibold">7-product programmatic DOOH portfolio</span>.
+                Leading design strategy across a{" "}
+                <span className="text-primary font-semibold">7-product programmatic DOOH portfolio</span>
+                {" "}— building frameworks, systems, and research artifacts that AI cannot generate because they require lived B2B product decisions.
               </p>
 
               {/* Contact info - make it visible */}

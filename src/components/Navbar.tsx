@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { Download } from "lucide-react";
 import Magnetic from "./Magnetic";
 
 const navLinks = [
@@ -20,14 +21,27 @@ const researchLinks = [
   { href: "/research/lokul", label: "Lokul.club" },
 ];
 
+const dsLabLinks = [
+  { href: "/design-system", label: "Token Studio" },
+  { href: "/design-system-v2/color-system", label: "Color System" },
+  { href: "/design-system-v2/platforms", label: "Platform Adapters" },
+  { href: "/design-system-v2/frameworks", label: "Framework Comparison" },
+  { href: "/design-system-v2/agentic", label: "Agentic UI" },
+  { href: "/design-system-v2/hybrid", label: "Hybrid UI" },
+  { href: "/design-system-v2/download", label: "Download" },
+];
+
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [researchOpen, setResearchOpen] = useState(false);
   const [mobileResearchOpen, setMobileResearchOpen] = useState(false);
+  const [dsLabOpen, setDsLabOpen] = useState(false);
+  const [mobileDsLabOpen, setMobileDsLabOpen] = useState(false);
 
   const isResearchActive = pathname.startsWith("/research/");
+  const isDsLabActive = pathname.startsWith("/design-system");
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -38,6 +52,7 @@ export default function Navbar() {
   useEffect(() => {
     setIsOpen(false);
     setMobileResearchOpen(false);
+    setMobileDsLabOpen(false);
   }, [pathname]);
 
   return (
@@ -153,6 +168,73 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
+            {/* DS Lab Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setDsLabOpen(true)}
+              onMouseLeave={() => setDsLabOpen(false)}
+            >
+              <button
+                className={`relative px-4 py-2 text-sm font-semibold transition-colors rounded-lg flex items-center gap-1 ${
+                  isDsLabActive
+                    ? "text-primary"
+                    : "text-muted hover:text-foreground"
+                }`}
+              >
+                {isDsLabActive && (
+                  <motion.div
+                    layoutId="navbar-active"
+                    className="absolute inset-0 bg-accent/10 border border-accent/20 rounded-lg"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10">DS Lab</span>
+                <motion.svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="relative z-10"
+                  animate={{ rotate: dsLabOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </motion.svg>
+              </button>
+              <AnimatePresence>
+                {dsLabOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute top-full right-0 mt-1 w-56 bg-background/95 backdrop-blur-xl border border-border rounded-xl shadow-xl overflow-hidden"
+                  >
+                    <div className="p-1.5">
+                      {dsLabLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={`flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-colors ${
+                            pathname === link.href
+                              ? "text-foreground bg-surface-hover"
+                              : "text-muted hover:text-foreground hover:bg-surface"
+                          }`}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {navLinks.slice(3).map((link) => (
               <Link
                 key={link.href}
@@ -177,6 +259,16 @@ export default function Navbar() {
 
           {/* CTA + Social */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Resume Download */}
+            <a
+              href="/VivekanandChoudhari(UIUX-PM).pdf"
+              download="Vivekanand-Choudhari-Resume.pdf"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-border hover:border-accent/30 hover:bg-accent/10 text-muted hover:text-accent transition-all duration-300"
+              aria-label="Download Resume"
+            >
+              <Download size={18} />
+            </a>
+            
             {/* LinkedIn Icon */}
             <a
               href="https://www.linkedin.com/in/vivekanand-choudhari-817829118/"
@@ -318,6 +410,65 @@ export default function Navbar() {
                 </AnimatePresence>
               </motion.div>
 
+              {/* Mobile DS Lab */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 4 * 0.05 }}
+              >
+                <button
+                  onClick={() => setMobileDsLabOpen(!mobileDsLabOpen)}
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-base font-semibold transition-colors ${
+                    isDsLabActive
+                      ? "text-primary bg-accent/10 border border-accent/20"
+                      : "text-muted hover:text-foreground hover:bg-surface"
+                  }`}
+                >
+                  <span>DS Lab</span>
+                  <motion.svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    animate={{ rotate: mobileDsLabOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </motion.svg>
+                </button>
+                <AnimatePresence>
+                  {mobileDsLabOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pl-6 flex flex-col gap-1 pb-2">
+                        {dsLabLinks.map((link) => (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            className={`block px-4 py-2.5 rounded-lg text-base font-medium transition-colors ${
+                              pathname === link.href
+                                ? "text-foreground bg-surface-hover"
+                                : "text-muted hover:text-foreground hover:bg-surface"
+                            }`}
+                          >
+                            {link.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
               {navLinks.slice(3).map((link, i) => (
                 <motion.div
                   key={link.href}
@@ -337,6 +488,23 @@ export default function Navbar() {
                   </Link>
                 </motion.div>
               ))}
+
+              {/* Mobile Resume Download */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navLinks.length * 0.05 }}
+                className="mt-2"
+              >
+                <a
+                  href="/VivekanandChoudhari(UIUX-PM).pdf"
+                  download="Vivekanand-Choudhari-Resume.pdf"
+                  className="flex items-center justify-center gap-2 px-4 py-3 border border-accent/30 text-accent text-center rounded-full font-semibold hover:bg-accent/10 transition-colors"
+                >
+                  <Download size={18} />
+                  Download Resume
+                </a>
+              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
