@@ -572,7 +572,7 @@ export default function FormaResearchPage() {
               ))}
             </div>
             
-            {/* CTA to DS Lab */}
+            {/* CTA to research + work */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -585,16 +585,16 @@ export default function FormaResearchPage() {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <a
-                  href="/design-system-v2"
+                  href="/work"
                   className="px-5 py-2.5 rounded-xl bg-accent text-accent-foreground text-sm font-semibold hover:bg-accent/90 transition-colors"
                 >
-                  Multi-Platform Design System — 10+ platforms
+                  View Case Studies
                 </a>
                 <a
-                  href="/design-system-v2/platforms"
+                  href="/research/lokul"
                   className="px-5 py-2.5 rounded-xl bg-surface-hover border border-border text-sm font-medium text-foreground hover:border-accent/30 transition-colors"
                 >
-                  Platform Adapters
+                  Lokul.club Research
                 </a>
               </div>
             </motion.div>

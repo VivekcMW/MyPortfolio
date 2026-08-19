@@ -70,7 +70,7 @@ Most token documentation tells you *what* the values are. Almost none tells you 
 
 ## 8. The peak-end audit
 
-**Decision:** Each page gets exactly one engineered "peak" (the terminal hero, the DS Lab canvas, the decision records) and a designed ending (an availability signal and a single clear ask).
+**Decision:** Each page gets exactly one engineered "peak" (the terminal hero, the craft studies, the decision records) and a designed ending (an availability signal and a single clear ask).
 
 **Why:** Kahneman's peak-end rule — experiences are remembered by their most intense moment and their final one, not their average. A portfolio that's uniformly "pretty good" is forgotten. One genuine peak plus a deliberate ending outperforms ten competent sections.
 
@@ -246,7 +246,7 @@ Here's my complete AI toolkit, organized by function:
 My main development environment. AI-powered code generation, multi-file editing, refactoring. Replaced VS Code entirely. Use it for building this portfolio, design system work, and production React/TypeScript projects.
 
 **Claude Code** — Terminal Agent  
-Long-horizon coding tasks from the CLI. Repo-wide refactors, spec-driven implementation, agentic tool use. Perfect for "implement this PRD" tasks that span multiple files and require context across the codebase.
+Long-horizon coding tasks from the CLI. Repo-wide refactors, spec-driven implementation, agentic tool use. Perfect for "implement this spec" tasks that span multiple files and require context across the codebase.
 
 **GitHub Copilot** — Inline Completion  
 Pair programming in every project. Inline code suggestions, test generation, boilerplate elimination. Works alongside Cursor for autocomplete on steroids.
@@ -263,7 +263,7 @@ Generate production-ready React/Tailwind components from prompts. Replaced "buil
 ### 🤖 AI Assistants & Research (5 tools)
 
 **Claude** — Complex Reasoning  
-My thinking partner for research synthesis, PRD writing, product documentation, architecture decisions. When I need to decompose a complex problem or synthesize 50 pages of research into actionable insights.
+My thinking partner for research synthesis, design brief writing, design documentation, architecture decisions. When I need to decompose a complex problem or synthesize 50 pages of research into actionable insights.
 
 **ChatGPT** — General Assistant  
 Brainstorming, content drafting, data analysis, exploring ideas across domains. Quick iterations, voice mode for thinking out loud, plugin ecosystem for specialized tasks.
@@ -327,14 +327,14 @@ These tools don't work in isolation — they form an **AI-augmented workflow** w
 **1. Research & Discovery (Perplexity + NotebookLM + Claude)**
 - Search competitive landscape with Perplexity (citations for credibility)
 - Upload competitor teardowns to NotebookLM, get structured comparison
-- Feed insights to Claude: "Based on this research, draft a PRD for feature X"
+- Feed insights to Claude: "Based on this research, draft a design brief for feature X"
 
-**2. PRD Authoring (Claude + ChatGPT)**
-- Claude writes the core PRD (personas, user stories, acceptance criteria)
+**2. Design Brief Authoring (Claude + ChatGPT)**
+- Claude writes the core brief (personas, user stories, acceptance criteria)
 - ChatGPT helps refine tone, generate edge cases, write user-facing copy
 
 **3. Design Exploration (Figma Make + UX Pilot + Midjourney)**
-- Figma Make generates 5 layout directions from the PRD
+- Figma Make generates 5 layout directions from the brief
 - UX Pilot reviews flows for accessibility and usability issues
 - Midjourney creates hero images and empty state illustrations
 
@@ -594,7 +594,7 @@ The salon industry is massive — millions of small businesses worldwide — yet
 
 This wasn't a project where I handed off a Figma file and moved on. I owned the entire lifecycle:
 
-- **Product strategy** — PRD, feature prioritization, phased roadmap
+- **UX strategy** — design brief, feature prioritization, phased rollout
 - **User research** — interviews with salon owners, receptionists, and stylists
 - **UX/UI design** — information architecture, wireframes, high-fidelity designs, prototypes
 - **Frontend development** — React.js with Tailwind CSS, responsive and mobile-first

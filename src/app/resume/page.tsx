@@ -69,7 +69,7 @@ export default function ResumePage() {
               Vivekanand Choudhari
             </h1>
             <p className="text-xl text-accent font-medium">
-              Senior Lead UX Designer — AI & Agentic Products · AI Product Manager
+              Senior UI/UX Designer — AI & Agentic Products · AI Product Designer
             </p>
           </div>
 
@@ -91,11 +91,11 @@ export default function ResumePage() {
           </div>
 
           <p className="text-lg text-muted leading-relaxed max-w-3xl">
-            Product design leader with 9+ years building B2B SaaS and AI platforms used by over 1M users across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data. I operate at the intersection of design and product management — authoring PRDs, personas, business rules, and roadmaps, then leading the design systems and screens that ship them.
+            Design leader with 9+ years building B2B SaaS and AI platforms used by over 1M users across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data. I operate at the intersection of design and engineering — turning deep user research, personas, and journey maps into the design systems and screens that ship.
           </p>
 
           <p className="text-base text-muted leading-relaxed">
-            Currently own design strategy and product definition across a 7-product DOOH (Digital Out-of-Home) portfolio, mentoring 9+ designers. Strategic focus: designing agentic and hybrid-UI product experiences; building design systems that scale across product lines; defining go-to-market and product positioning alongside engineering and leadership.
+            Currently lead design strategy across a 7-product DOOH (Digital Out-of-Home) portfolio, mentoring 9+ designers. Strategic focus: designing agentic and hybrid-UI product experiences; building design systems that scale across product lines; partnering with engineering and leadership to ship end-to-end.
           </p>
         </motion.section>
 
@@ -115,8 +115,8 @@ export default function ResumePage() {
                 metrics: ["6 domains", "6 palettes", "40% faster reviews", "WCAG AAA"],
               },
               {
-                title: "MW Activate: Programmatic DSP from PRD to 120+ Adoption",
-                desc: "Authored end-to-end PRD (personas, workflows, OpenRTB/IAB alignment) and designed against programmatic standards. Influenced pricing/integration strategy that drove 45% inventory expansion and 92% activation rate.",
+                title: "MW Activate: Programmatic DSP Designed to 120+ Adoption",
+                desc: "Led end-to-end product design (personas, workflows, OpenRTB/IAB alignment) and designed against programmatic standards. Design decisions drove 45% inventory expansion and 92% activation rate.",
                 href: "/work/mw-activate",
                 metrics: ["120+ advertisers", "92% activation", "45% expansion", "18 integration partners"],
               },
@@ -164,14 +164,14 @@ export default function ResumePage() {
 
           {[
             {
-              role: "Senior Lead UX Designer · Product Designer",
+              role: "Senior UI/UX Designer · AI Product Designer",
               company: "AdTech Platform Company",
               period: "03/2025 – Present",
               location: "Bengaluru",
               highlights: [
                 "Scaled design portfolio from 3 to 7 shipped DOOH products; implemented shared design language lifting team usability by 25% and reducing handoff time by 35%",
                 "Led & mentored 9+ UX designers; established design standards, critique culture, component library reducing redlines by 40%",
-                "Authored platform-wide Hybrid UI/Agentic UI strategy & roadmap (2025–2027); presented to product, engineering, and external clients",
+                "Authored platform-wide Hybrid UI/Agentic UI design strategy (2025–2027); presented to product, engineering, and external clients",
                 "Designed 3 flagship platforms: MW Activate (Programmatic DSP, 120+ advertisers), MW Cinema (Cinema Inventory, 18% revenue uplift), MW PosterOps (Closed-loop OOH, NPS 42→71)",
               ],
             },
@@ -182,7 +182,7 @@ export default function ResumePage() {
               location: "Bengaluru",
               highlights: [
                 "Designed Construction Cloud SaaS from inception; established scalable design system (80+ components) & library-based front-end architecture with engineering",
-                "Developed AI-based concepts for Submittals workflow (auto-categorization reducing manual effort 35%, intelligent routing); engaged customers during onboarding validating product-market fit",
+                "Developed AI-based concepts for Submittals workflow (auto-categorization reducing manual effort 35%, intelligent routing); engaged customers during onboarding to validate design direction",
                 "Generated $1.2M ARR with 15+ enterprise customers in 6 months; average customer implementation time reduced 45% through optimized onboarding",
                 "Built component library enabling 3 concurrent feature teams to ship independently; reduced design-to-dev handoff by 50%, design review cycles by 40%",
               ],
@@ -242,8 +242,8 @@ export default function ResumePage() {
           <div className="grid sm:grid-cols-2 gap-6">
             {[
               {
-                category: "Product Strategy & Execution",
-                items: ["PRD Authoring & Specs", "Roadmapping & Prioritization (RICE)", "Product Decisions & Trade-offs", "Go-to-Market & Positioning", "User Story Mapping & BDD", "Personas & Jobs-to-be-Done", "Metrics & KPI Definition", "Business Case & ROI"],
+                category: "UX Strategy & Research",
+                items: ["UX Strategy & Vision", "Personas & Jobs-to-be-Done", "User Story Mapping", "User Journey Mapping", "Usability Testing & Validation", "UX Metrics & KPI Definition", "Stakeholder Workshops & Alignment", "Design Decisions & Trade-offs"],
               },
               {
                 category: "Domain Expertise (AdTech / OOH)",

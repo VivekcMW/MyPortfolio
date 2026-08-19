@@ -1,1021 +1,141 @@
-"use client";
-
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { Section } from "@/components/Section";
-import { Paradigm, FlowStep, StageMeta } from "@/lib/process/types";
 import { stages } from "@/lib/process/stages";
-import { companion } from "@/lib/process/companion";
-import { paradigms, paradigmList, verdict } from "@/lib/process/paradigms";
-import { FrameworkAlignment } from "./FrameworkAlignment";
-import { ProcessSummaryCard } from "./ProcessSummaryCard";
-import { EmpathyMap, JourneyMap, DesignPrinciples } from "./deliverables";
+import { getPrinciple } from "@/lib/process/principles";
 import {
-  PrincipleChip, DocsPanel, GateChecklist, MethodMap, SignalFunnel, PrdPaper,
-  InterviewGrid, PipelinePath, ParadigmPosters, RadarChart, FlowSpine,
-  DemoChrome, LaunchFunnel, Sparkline,
-} from "./visuals";
-import {
-  Bot, LayoutDashboard, MousePointerClick, Radio, Check,
-  AlertTriangle, ArrowRight, RotateCcw, Play, Sparkles, FileText, Users,
-  Brain, GitBranch, Workflow, Palette, Rocket, CircleDot, Mic, Ear,
+  Sparkles, FileText, Users, Brain, Workflow, Palette, Rocket,
+  Check, ArrowUpRight, ArrowRight, CircleDot,
 } from "lucide-react";
 
-/* ─────────────────────────────────────────────────────────────
-   Paradigm visual identity
-────────────────────────────────────────────────────────────── */
-const paradigmMeta: Record<Paradigm, { icon: typeof Bot; color: string; short: string }> = {
-  agentic: { icon: Bot, color: "var(--color-accent-designer)", short: "Agentic" },
-  hybrid: { icon: LayoutDashboard, color: "var(--color-accent)", short: "Hybrid" },
-  traditional: { icon: MousePointerClick, color: "#A3A3A3", short: "Traditional" },
-  "zero-ui": { icon: Radio, color: "var(--color-accent-scaler)", short: "Zero-UI" },
-};
-
-const stageIcons: Record<string, typeof Bot> = {
+const stageIcons: Record<string, typeof Sparkles> = {
   signal: Sparkles, prd: FileText, research: Users, psychology: Brain,
-  paradigm: GitBranch, flows: Workflow, ui: Palette, ship: Rocket,
+  flows: Workflow, ui: Palette, ship: Rocket,
 };
 
-/* ─────────────────────────────────────────────────────────────
-   Shared chrome (PrincipleChip, DocsPanel, GateChecklist) → ./visuals
-────────────────────────────────────────────────────────────── */
-
-/* ─────────────────────────────────────────────────────────────
-   Stage shell — identical anatomy for every stage
-────────────────────────────────────────────────────────────── */
-function StageShell({ stage, children }: Readonly<{ stage: StageMeta; children: React.ReactNode }>) {
+function StageSection({ stage }: Readonly<{ stage: (typeof stages)[number] }>) {
   const Icon = stageIcons[stage.id] ?? CircleDot;
+
   return (
     <Section>
-      <div id={`stage-${stage.id}`} data-stage={stage.id} className="scroll-mt-28">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
-              <Icon className="w-5 h-5" />
-            </div>
-            <div className="flex-1">
-              <p className="text-xs font-mono text-accent uppercase tracking-widest">
-                Stage {stage.num} — {stage.eyebrow}
-              </p>
-            </div>
+      <div className="max-w-3xl">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0">
+            <Icon className="w-5 h-5" />
           </div>
-          
-          {/* Title + Industry Label */}
-          <div className="mb-4">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1">{stage.title}</h2>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm text-primary font-semibold uppercase tracking-wide">
-                {stage.industryLabel}
-              </span>
-              <span className="text-muted">·</span>
-              {stage.methodTags.map((tag, i) => (
-                <span key={tag} className="text-xs text-muted">
-                  {tag}{i < stage.methodTags.length - 1 && " ·"}
-                </span>
-              ))}
-            </div>
-          </div>
+          <p className="text-xs font-mono text-accent uppercase tracking-widest">
+            Stage {stage.num} — {stage.eyebrow}
+          </p>
+        </div>
 
-          {/* Psychology Chips */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {stage.psychology.map((pid) => (
-              <PrincipleChip key={pid} id={pid} />
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1">{stage.title}</h2>
+        <div className="flex flex-wrap items-center gap-2 mb-5">
+          <span className="text-sm text-primary font-semibold uppercase tracking-wide">
+            {stage.industryLabel}
+          </span>
+          <span className="text-muted">·</span>
+          <span className="text-xs text-muted">{stage.methodTags.join(" · ")}</span>
+        </div>
+
+        <p className="text-muted leading-relaxed mb-6">{stage.method}</p>
+
+        {/* Psychology principles */}
+        <div className="mb-6">
+          <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-2">
+            Psychology applied
+          </p>
+          <div className="space-y-2">
+            {stage.psychology.map((pid) => {
+              const p = getPrinciple(pid);
+              return (
+                <div key={pid} className="text-sm">
+                  <span className="font-semibold text-foreground">{p.name}</span>
+                  <span className="text-muted"> — {p.definition}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Exit gate */}
+        <div className="rounded-2xl bg-surface border border-border p-5 mb-6">
+          <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-3">
+            Exit gate — what must be true to proceed
+          </p>
+          <ul className="space-y-2">
+            {stage.gate.map((g) => (
+              <li key={g} className="flex gap-2 text-sm text-foreground/80">
+                <Check className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                {g}
+              </li>
             ))}
-          </div>
+          </ul>
+        </div>
 
-          <DocsPanel method={stage.method} />
-          {children}
-          <GateChecklist gate={stage.gate} />
-        </motion.div>
+        {/* Evidence */}
+        <Link
+          href={stage.caseStudy.href}
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:gap-2.5 transition-all"
+        >
+          See it shipped — {stage.caseStudy.label}
+          <ArrowUpRight className="w-4 h-4" />
+        </Link>
       </div>
     </Section>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Stage 00/01 — PRD artifact
-────────────────────────────────────────────────────────────── */
-/* ─────────────────────────────────────────────────────────────
-   Stage 02 — Research artifact: personas + clusters + JTBD
-────────────────────────────────────────────────────────────── */
-function ResearchArtifact() {
-  const [active, setActive] = useState(0);
-  const persona = companion.personas[active];
-
-  return (
-    <div className="space-y-6">
-      {/* Interview grid + sticky-note clusters */}
-      <InterviewGrid />
-
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Personas */}
-        <div className="rounded-2xl bg-surface border border-border p-5 sm:p-6">
-          <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-4">
-            Personas — behavioral, not demographic
-          </p>
-          <div className="flex gap-2 mb-5" role="tablist" aria-label="Personas">
-            {companion.personas.map((p, i) => (
-              <button
-                key={p.name}
-                role="tab"
-                aria-selected={active === i}
-                onClick={() => setActive(i)}
-                className={`flex-1 px-3 py-2 rounded-lg text-xs font-medium transition-all border ${
-                  active === i
-                    ? "bg-accent/10 border-accent/40 text-foreground"
-                    : "bg-transparent border-border text-muted hover:text-foreground"
-                }`}
-              >
-                {p.name}
-              </button>
-            ))}
-          </div>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={persona.name}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-            >
-              <p className="text-sm font-semibold text-foreground mb-1">{persona.label}</p>
-              <p className="text-sm text-accent italic mb-4">&ldquo;{persona.quote}&rdquo;</p>
-              <div className="space-y-3">
-                <div>
-                  <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-1.5">Observed behavior</p>
-                  <ul className="space-y-1">
-                    {persona.behaviors.map((b) => (
-                      <li key={b} className="flex gap-2 text-xs text-foreground/70 leading-relaxed">
-                        <span className="mt-1.5 w-1 h-1 rounded-full bg-muted shrink-0" />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-1.5">Needs</p>
-                  <ul className="space-y-1">
-                    {persona.needs.map((n) => (
-                      <li key={n} className="flex gap-2 text-xs text-foreground/70 leading-relaxed">
-                        <Check className="w-3 h-3 text-accent shrink-0 mt-0.5" />
-                        {n}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="p-3 rounded-lg bg-background border border-border">
-                  <p className="text-[10px] font-mono text-accent-scaler uppercase tracking-wider mb-1">Specific distrust</p>
-                  <p className="text-xs text-foreground/75">{persona.distrust}</p>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Key insight */}
-        <div className="rounded-2xl border border-accent/20 bg-accent/4 p-5 h-fit lg:sticky lg:top-32">
-          <p className="text-[10px] font-mono text-accent uppercase tracking-widest mb-2">The key insight</p>
-          <p className="text-sm text-foreground/85 leading-relaxed">{companion.research.keyInsight}</p>
-        </div>
-      </div>
-
-      {/* JTBD */}
-      <div className="rounded-2xl bg-surface border border-border p-5 sm:p-6">
-        <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-4">Jobs to be done</p>
-        <div className="grid md:grid-cols-3 gap-4">
-          {companion.jtbd.map((j, i) => (
-            <div key={j} className="p-4 rounded-xl bg-background border border-border">
-              <span className="text-xs font-mono text-accent">JTBD {String(i + 1).padStart(2, "0")}</span>
-              <p className="text-xs text-foreground/75 leading-relaxed mt-2">{j}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Empathy Map */}
-      <EmpathyMap />
-
-      {/* Journey Map */}
-      <JourneyMap />
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Stage 03 — Psychology mapping table
-────────────────────────────────────────────────────────────── */
-/* ─────────────────────────────────────────────────────────────
-   Stage 04 — Paradigm switcher + posters + radar + verdict
-────────────────────────────────────────────────────────────── */
-function ParadigmSwitcher({ value, onChange, size = "md" }: {
-  value: Paradigm;
-  onChange: (p: Paradigm) => void;
-  size?: "md" | "sm";
-}) {
-  return (
-    <div
-      className={`inline-flex items-center gap-1 p-1 rounded-xl bg-surface border border-border ${size === "sm" ? "" : "flex-wrap"}`}
-      role="tablist"
-      aria-label="Interface paradigm"
-    >
-      {paradigmList.map((p) => {
-        const meta = paradigmMeta[p];
-        const Icon = meta.icon;
-        const isActive = value === p;
-        return (
-          <button
-            key={p}
-            role="tab"
-            aria-selected={isActive}
-            onClick={() => onChange(p)}
-            className={`flex items-center gap-1.5 rounded-lg font-medium transition-all ${
-              size === "sm" ? "px-2.5 py-1.5 text-[11px]" : "px-3.5 py-2 text-xs sm:text-sm"
-            }`}
-            style={{
-              backgroundColor: isActive ? `color-mix(in srgb, ${meta.color} 15%, transparent)` : "transparent",
-              color: isActive ? meta.color : "var(--color-muted)",
-              boxShadow: isActive ? `inset 0 0 0 1px color-mix(in srgb, ${meta.color} 35%, transparent)` : "none",
-            }}
-          >
-            <Icon className={size === "sm" ? "w-3.5 h-3.5" : "w-4 h-4"} />
-            {meta.short}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-function ParadigmGateArtifact({ paradigm, onChange }: { paradigm: Paradigm; onChange: (p: Paradigm) => void }) {
-  const active = paradigms[paradigm];
-  const meta = paradigmMeta[paradigm];
-
-  return (
-    <div className="space-y-6">
-      {/* Posters — the switcher */}
-      <div className="flex flex-col gap-3">
-        <p className="text-xs text-muted">
-          Same research. Four interface futures. Pick a poster — stages 05–07 below re-render for it.
-        </p>
-        <ParadigmPosters value={paradigm} onChange={onChange} />
-      </div>
-
-      {/* Active paradigm profile */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={paradigm}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.25 }}
-          className="rounded-2xl bg-surface border overflow-hidden"
-          style={{ borderColor: `color-mix(in srgb, ${meta.color} 25%, transparent)` }}
-        >
-          <div className="p-5 sm:p-6 border-b border-border">
-            <div className="flex items-center gap-3 mb-2">
-              <div
-                className="w-9 h-9 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: `color-mix(in srgb, ${meta.color} 12%, transparent)`, color: meta.color }}
-              >
-                <meta.icon className="w-4.5 h-4.5" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold">{active.name}</h3>
-                <p className="text-xs font-mono" style={{ color: meta.color }}>{active.tagline}</p>
-              </div>
-            </div>
-            <p className="text-sm text-muted leading-relaxed">{active.model}</p>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-px bg-border">
-            <div className="bg-surface p-4">
-              <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-1">Who holds the plan</p>
-              <p className="text-sm text-foreground/80">{active.holdsPlan}</p>
-            </div>
-            <div className="bg-surface p-4">
-              <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-1">Where truth lives</p>
-              <p className="text-sm text-foreground/80">{active.truthLives}</p>
-            </div>
-          </div>
-          <div className="p-5 sm:p-6 grid md:grid-cols-2 gap-6 border-t border-border">
-            <div>
-              <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-3">Signature patterns</p>
-              <div className="space-y-2.5">
-                {active.patterns.map((pt) => (
-                  <div key={pt.name}>
-                    <p className="text-xs font-semibold text-foreground">{pt.name}</p>
-                    <p className="text-xs text-muted leading-relaxed">{pt.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-5">
-              <div>
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-3">Failure modes to design for</p>
-                <ul className="space-y-1.5">
-                  {active.failureModes.map((f) => (
-                    <li key={f} className="flex gap-2 text-xs text-foreground/70 leading-relaxed">
-                      <AlertTriangle className="w-3 h-3 text-accent-scaler shrink-0 mt-0.5" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="text-[10px] font-mono text-muted uppercase tracking-widest mb-2">Choose when</p>
-                <ul className="space-y-1.5">
-                  {active.chooseWhen.map((c) => (
-                    <li key={c} className="flex gap-2 text-xs text-foreground/70 leading-relaxed">
-                      <Check className="w-3 h-3 shrink-0 mt-0.5" style={{ color: meta.color }} />
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="px-5 sm:px-6 py-4 bg-background/50 border-t border-border">
-            <p className="text-xs text-muted leading-relaxed">
-              <span className="font-mono text-[10px] uppercase tracking-wider mr-2" style={{ color: meta.color }}>
-                Honest weakness
-              </span>
-              {active.weakness}
-            </p>
-          </div>
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Fit radar + verdict */}
-      <div className="grid lg:grid-cols-2 gap-6 items-start">
-        <RadarChart paradigm={paradigm} />
-        <div className="rounded-2xl border border-accent/25 bg-accent/5 p-5 sm:p-6 h-full">
-          <p className="text-[10px] font-mono text-accent uppercase tracking-widest mb-2">The verdict — a paradigm choice must have spine</p>
-          <p className="text-base font-bold text-foreground mb-2">{verdict.headline}</p>
-          <p className="text-sm text-muted leading-relaxed">{verdict.reasoning}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Stage 05 — Wireflow per paradigm
-────────────────────────────────────────────────────────────── */
-function WireflowArtifact({ paradigm }: { paradigm: Paradigm }) {
-  const flow = paradigms[paradigm].flow;
-  const meta = paradigmMeta[paradigm];
-  const [openStep, setOpenStep] = useState<string | null>(null);
-
-  const kindStyle: Record<FlowStep["kind"], { border: string; label: string }> = {
-    start: { border: meta.color, label: "entry" },
-    step: { border: "var(--color-border)", label: "step" },
-    decision: { border: "var(--color-accent-scaler)", label: "gate" },
-    failure: { border: "var(--color-danger)", label: "failure" },
-    end: { border: meta.color, label: "outcome" },
-  };
-
-  return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={paradigm}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.25 }}
-        className="rounded-2xl bg-surface border border-border p-5 sm:p-6"
-      >
-        <p className="text-[10px] font-mono uppercase tracking-widest mb-1" style={{ color: meta.color }}>
-          {paradigms[paradigm].name} — red route wireflow
-        </p>
-        <p className="text-xs text-muted mb-6">
-          Failure branches designed first. Click any node for its reasoning.
-        </p>
-        <FlowSpine paradigm={paradigm} kinds={flow.map((s) => s.kind)} />
-        <div className="flex flex-col lg:flex-row lg:items-stretch gap-2">
-          {flow.map((step, i) => {
-            const isOpen = openStep === step.id;
-            const ks = kindStyle[step.kind];
-            return (
-              <div key={step.id} className="flex flex-col lg:flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setOpenStep(isOpen ? null : step.id)}
-                    aria-expanded={isOpen}
-                    className="flex-1 text-left p-3 rounded-xl bg-background border transition-all hover:border-accent/40 min-w-0"
-                    style={{ borderColor: isOpen ? meta.color : "var(--color-border)" }}
-                  >
-                    <p className="text-[9px] font-mono uppercase tracking-wider mb-1" style={{ color: ks.border === "var(--color-border)" ? "var(--color-muted)" : ks.border }}>
-                      {ks.label}
-                    </p>
-                    <p className="text-xs font-semibold text-foreground truncate">{step.label}</p>
-                  </button>
-                  {i < flow.length - 1 && (
-                    <ArrowRight className="w-4 h-4 text-muted shrink-0 hidden lg:block" />
-                  )}
-                </div>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="mt-2 p-3 rounded-xl bg-background border border-border">
-                        <p className="text-xs text-foreground/75 leading-relaxed">{step.desc}</p>
-                        {step.branches?.map((b) => (
-                          <div key={b.label} className="mt-2 p-2.5 rounded-lg border border-dashed border-accent-scaler/30 bg-accent-scaler/4">
-                            <p className="text-[10px] font-mono text-accent-scaler uppercase tracking-wider mb-0.5">
-                              ↳ {b.label}
-                            </p>
-                            <p className="text-[11px] text-muted leading-relaxed">{b.desc}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Stage 06 — Live mini demos per paradigm
-────────────────────────────────────────────────────────────── */
-function AgenticDemo() {
-  const [phase, setPhase] = useState<"idle" | "planning" | "await" | "running" | "done">("idle");
-  const [visibleSteps, setVisibleSteps] = useState(0);
-  const planSteps = [
-    "Read 47 unread threads across 3 channels",
-    "Cluster into decisions-needed (4) vs FYI (43)",
-    "Draft one-line summaries with source links",
-  ];
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
-
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
-
-  const start = () => {
-    setPhase("planning");
-    setVisibleSteps(0);
-    planSteps.forEach((_, i) => {
-      timers.current.push(setTimeout(() => setVisibleSteps(i + 1), 350 * (i + 1)));
-    });
-    timers.current.push(setTimeout(() => setPhase("await"), 350 * (planSteps.length + 1)));
-  };
-
-  const approve = () => {
-    setPhase("running");
-    timers.current.push(setTimeout(() => setPhase("done"), 1600));
-  };
-
-  const reset = () => {
-    timers.current.forEach(clearTimeout);
-    setPhase("idle");
-    setVisibleSteps(0);
-  };
-
-  return (
-    <div className="rounded-xl bg-background border border-border p-4 h-full flex flex-col">
-      <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-3">Plan preview → approval → receipt</p>
-      {phase === "idle" && (
-        <button
-          onClick={start}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold w-fit"
-          style={{ backgroundColor: "color-mix(in srgb, var(--color-accent-designer) 15%, transparent)", color: "var(--color-accent-designer)" }}
-        >
-          <Play className="w-3.5 h-3.5" />
-          &ldquo;Triage my inbox from the last two days&rdquo;
-        </button>
-      )}
-      {phase !== "idle" && (
-        <div className="space-y-2 flex-1">
-          <p className="text-xs text-foreground/80 font-medium">Plan — 3 steps, read-only blast radius:</p>
-          {planSteps.slice(0, visibleSteps).map((s, i) => (
-            <motion.div
-              key={s}
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-2 text-xs text-muted"
-            >
-              {phase === "done" || (phase === "running" && i === 0) ? (
-                <Check className="w-3.5 h-3.5 text-success shrink-0" />
-              ) : (
-                <span className="w-3.5 h-3.5 rounded-full border border-border shrink-0 flex items-center justify-center text-[8px] font-mono text-muted">{i + 1}</span>
-              )}
-              {s}
-            </motion.div>
-          ))}
-          {phase === "await" && (
-            <div className="flex gap-2 pt-2">
-              <button onClick={approve} className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-success/15 text-success">
-                Approve
-              </button>
-              <button onClick={reset} className="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-surface border border-border text-muted">
-                Cancel
-              </button>
-            </div>
-          )}
-          {phase === "running" && <p className="text-[11px] font-mono text-accent-designer pt-1">executing · step 1/3 · reading #product-updates…</p>}
-          {phase === "done" && (
-            <div className="mt-2 p-3 rounded-lg border border-success/25 bg-success/6">
-              <p className="text-[10px] font-mono text-success uppercase tracking-wider mb-1">Receipt</p>
-              <p className="text-[11px] text-muted leading-relaxed">47 threads triaged · 4 need decisions · 0 items modified · <button onClick={reset} className="text-foreground/70 underline underline-offset-2 inline-flex items-center gap-1"><RotateCcw className="w-2.5 h-2.5" />undo / replay</button></p>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function HybridDemo() {
-  const [state, setState] = useState<"idle" | "preview" | "applied">("idle");
-  const rows = [
-    { name: "Q3 status draft", tag: "stale", fixed: "updated · numbers pulled from source" },
-    { name: "Vendor follow-up", tag: "overdue", fixed: "drafted · awaiting your review" },
-    { name: "Sprint notes", tag: "ok", fixed: "" },
-  ];
-  return (
-    <div className="rounded-xl bg-background border border-border p-4 h-full">
-      <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-3">Dashboard truth + agent diff preview</p>
-      <div className="space-y-1.5 mb-3">
-        {rows.map((r) => {
-          const affected = r.tag !== "ok";
-          const highlight = state === "preview" && affected;
-          const applied = state === "applied" && affected;
-          return (
-            <div
-              key={r.name}
-              className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border text-xs transition-all"
-              style={{
-                borderColor: highlight ? "var(--color-accent)" : "var(--color-border)",
-                backgroundColor: highlight ? "color-mix(in srgb, var(--color-accent) 6%, transparent)" : "var(--color-surface)",
-              }}
-            >
-              <span className="text-foreground/80 truncate">{r.name}</span>
-              {applied ? (
-                <span className="text-[10px] font-mono text-success shrink-0">{r.fixed}</span>
-              ) : (
-                <span className={`text-[10px] font-mono shrink-0 ${r.tag === "ok" ? "text-muted" : "text-accent-scaler"}`}>{r.tag}</span>
-              )}
-            </div>
-          );
-        })}
-      </div>
-      {state === "idle" && (
-        <button
-          onClick={() => setState("preview")}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] font-semibold bg-accent/10 text-accent border border-accent/25"
-        >
-          <Sparkles className="w-3 h-3" />
-          Ask Companion: &ldquo;fix what&apos;s stale&rdquo;
-        </button>
-      )}
-      {state === "preview" && (
-        <div className="flex items-center gap-2">
-          <p className="text-[11px] text-muted flex-1">2 changes proposed — highlighted above.</p>
-          <button onClick={() => setState("applied")} className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-success/15 text-success">Apply</button>
-          <button onClick={() => setState("idle")} className="px-3 py-1.5 rounded-lg text-[11px] bg-surface border border-border text-muted">Reject</button>
-        </div>
-      )}
-      {state === "applied" && (
-        <p className="text-[11px] text-muted flex items-center gap-2">
-          <Check className="w-3 h-3 text-success" /> Applied · both entries in the shared ledger ·{" "}
-          <button onClick={() => setState("idle")} className="underline underline-offset-2 inline-flex items-center gap-1 text-foreground/70">
-            <RotateCcw className="w-2.5 h-2.5" /> undo
-          </button>
-        </p>
-      )}
-    </div>
-  );
-}
-
-function TraditionalDemo() {
-  const [view, setView] = useState<"all" | "overdue">("all");
-  const rows = [
-    { name: "Q3 status draft", due: "Today", overdue: false },
-    { name: "Vendor follow-up", due: "3 days ago", overdue: true },
-    { name: "Sprint notes", due: "Tomorrow", overdue: false },
-    { name: "Budget review", due: "1 week ago", overdue: true },
-  ];
-  const visible = view === "all" ? rows : rows.filter((r) => r.overdue);
-  return (
-    <div className="rounded-xl bg-background border border-border p-4 h-full">
-      <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-3">Saved views + deterministic rules</p>
-      <div className="flex items-center gap-1.5 mb-3">
-        {(["all", "overdue"] as const).map((v) => (
-          <button
-            key={v}
-            onClick={() => setView(v)}
-            aria-pressed={view === v}
-            className={`px-2.5 py-1 rounded-md text-[11px] font-medium border transition-colors ${
-              view === v ? "bg-surface-hover border-border text-foreground" : "border-transparent text-muted hover:text-foreground"
-            }`}
-          >
-            {v === "all" ? "All items" : "⚑ Overdue (saved view)"}
-          </button>
-        ))}
-      </div>
-      <div className="space-y-1.5 mb-3">
-        {visible.map((r) => (
-          <div key={r.name} className="flex items-center justify-between px-3 py-2 rounded-lg bg-surface border border-border text-xs">
-            <span className="text-foreground/80">{r.name}</span>
-            <span className={`text-[10px] font-mono ${r.overdue ? "text-accent-scaler" : "text-muted"}`}>{r.due}</span>
-          </div>
-        ))}
-      </div>
-      <p className="text-[10px] font-mono text-muted">
-        rule: when item overdue &gt; 2d → move to ⚑ · same input, same output, forever
-      </p>
-    </div>
-  );
-}
-
-function ZeroUIDemo() {
-  const [state, setState] = useState<"ambient" | "listening" | "confirm" | "done">("ambient");
-  const ledColor: Record<typeof state, string> = {
-    ambient: "#3f3f46",
-    listening: "var(--color-accent)",
-    confirm: "var(--color-accent-scaler)",
-    done: "var(--color-success)",
-  };
-  const label: Record<typeof state, string> = {
-    ambient: "Ambient — peripheral, silent",
-    listening: "Listening — LED breathes, unambiguous",
-    confirm: "Risk gate — reads the action back, awaits spoken confirm",
-    done: "Done earcon — full summary deferred to your next screen",
-  };
-  const next: Record<typeof state, typeof state> = {
-    ambient: "listening",
-    listening: "confirm",
-    confirm: "done",
-    done: "ambient",
-  };
-  const stateIcons: Record<typeof state, typeof Mic> = {
-    ambient: Radio,
-    listening: Mic,
-    confirm: Ear,
-    done: Radio,
-  };
-  const StateIcon = stateIcons[state];
-  return (
-    <div className="rounded-xl bg-background border border-border p-4 h-full flex flex-col items-center justify-center gap-4">
-      <p className="text-[10px] font-mono text-muted uppercase tracking-wider self-start">The signal grammar — a token system for hardware</p>
-      {/* Device puck */}
-      <button
-        onClick={() => setState(next[state])}
-        aria-label={`Device state: ${label[state]}. Tap to advance.`}
-        className="relative w-20 h-20 rounded-full border-2 flex items-center justify-center transition-colors"
-        style={{ borderColor: ledColor[state], backgroundColor: "var(--color-surface)" }}
-      >
-        <motion.span
-          key={state}
-          className="absolute inset-0 rounded-full"
-          style={{ boxShadow: `0 0 24px ${ledColor[state]}` }}
-          animate={state === "listening" ? { opacity: [0.3, 0.8, 0.3] } : { opacity: 0.5 }}
-          transition={state === "listening" ? { duration: 1.4, repeat: Infinity } : { duration: 0.3 }}
-        />
-        {state === "listening" ? (
-          <Mic className="w-6 h-6 relative z-10" style={{ color: ledColor[state] }} />
-        ) : (
-          <StateIcon className="w-6 h-6 relative z-10" style={{ color: ledColor[state] }} />
-        )}
-      </button>
-      <p className="text-[11px] text-muted text-center leading-relaxed max-w-60">{label[state]}</p>
-      <p className="text-[10px] font-mono text-muted">tap the device to advance the state</p>
-    </div>
-  );
-}
-
-function DemoArtifact({ paradigm }: { paradigm: Paradigm }) {
-  const meta = paradigmMeta[paradigm];
-  return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={paradigm}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.25 }}
-        className="rounded-2xl bg-surface border border-border p-5 sm:p-6"
-      >
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-          <p className="text-[10px] font-mono uppercase tracking-widest" style={{ color: meta.color }}>
-            {paradigms[paradigm].name} — interactive vignette
-          </p>
-          <Link href="/craft" className="text-[11px] font-mono text-muted hover:text-foreground transition-colors underline underline-offset-4 decoration-border">
-            execution quality lives in /craft →
-          </Link>
-        </div>
-        <div className="min-h-60">
-          <DemoChrome paradigm={paradigm}>
-            {paradigm === "agentic" && <AgenticDemo />}
-            {paradigm === "hybrid" && <HybridDemo />}
-            {paradigm === "traditional" && <TraditionalDemo />}
-            {paradigm === "zero-ui" && <ZeroUIDemo />}
-          </DemoChrome>
-        </div>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Stage 07 — Metrics per paradigm + loop
-────────────────────────────────────────────────────────────── */
-function ShipArtifact({ paradigm }: { paradigm: Paradigm }) {
-  const active = paradigms[paradigm];
-  const meta = paradigmMeta[paradigm];
-  return (
-    <div className="space-y-6">
-      <LaunchFunnel />
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={paradigm}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.25 }}
-        >
-          <p className="text-[10px] font-mono uppercase tracking-widest mb-3" style={{ color: meta.color }}>
-            What we measure if we ship {active.name} — metrics that resist Goodhart
-          </p>
-          <div className="grid sm:grid-cols-2 gap-3">
-            {active.metrics.map((m, mi) => (
-              <div key={m.label} className="p-4 rounded-xl bg-surface border border-border">
-                <div className="flex items-start justify-between gap-3 mb-1">
-                  <p className="text-sm font-semibold text-foreground">{m.label}</p>
-                  <Sparkline seed={mi + 1} color={meta.color} />
-                </div>
-                <p className="text-xs text-muted leading-relaxed">{m.desc}</p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </AnimatePresence>
-
-      {/* The loop */}
-      <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8 text-center">
-        <RotateCcw className="w-5 h-5 text-accent mx-auto mb-3" />
-        <p className="text-sm text-foreground/85 max-w-xl mx-auto leading-relaxed mb-6">
-          Shipped behavior becomes next quarter&apos;s research signal, and the loop closes at Stage 00.
-          This is the method. Here it is applied to real, shipped products:
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link href="/work/nocode-platform" className="px-4 py-2.5 rounded-xl bg-accent text-accent-foreground text-xs font-semibold hover:bg-accent/90 transition-colors">
-            NoCode Platform — 4-year case study
-          </Link>
-          <Link href="/design-system-v2/agentic" className="px-4 py-2.5 rounded-xl bg-surface-hover border border-border text-xs font-medium text-foreground hover:border-accent/30 transition-colors">
-            Agentic UI Patterns — 5 demos
-          </Link>
-          <Link href="/design-system-v2/hybrid" className="px-4 py-2.5 rounded-xl bg-surface-hover border border-border text-xs font-medium text-foreground hover:border-accent/30 transition-colors">
-            Hybrid UI — density modes
-          </Link>
-          <Link href="/craft" className="px-4 py-2.5 rounded-xl bg-surface-hover border border-border text-xs font-medium text-foreground hover:border-accent/30 transition-colors">
-            Craft — interaction studies
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Stage rail — scroll-synced
-────────────────────────────────────────────────────────────── */
-function StageRail({ activeId }: { activeId: string }) {
-  return (
-    <nav
-      aria-label="Process stages"
-      className="hidden xl:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col gap-1"
-    >
-      {stages.map((s) => {
-        const isActive = activeId === s.id;
-        return (
-          <a
-            key={s.id}
-            href={`#stage-${s.id}`}
-            aria-current={isActive ? "true" : undefined}
-            className="group flex items-center gap-2.5 py-1.5"
-          >
-            <span
-              className="w-2 h-2 rounded-full transition-all"
-              style={{
-                backgroundColor: isActive ? "var(--color-accent)" : "var(--color-border)",
-                transform: isActive ? "scale(1.4)" : "scale(1)",
-              }}
-            />
-            <span
-              className={`text-[10px] font-mono uppercase tracking-wider transition-all ${
-                isActive ? "text-foreground opacity-100" : "text-muted opacity-0 group-hover:opacity-100"
-              }`}
-            >
-              {s.num} {s.title}
-            </span>
-          </a>
-        );
-      })}
-    </nav>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Page
-────────────────────────────────────────────────────────────── */
 export default function ProcessPage() {
-  const [paradigm, setParadigm] = useState<Paradigm>("hybrid");
-  const [activeStage, setActiveStage] = useState("signal");
-  const [showStickySwitcher, setShowStickySwitcher] = useState(false);
-
-  /* URL state */
-  useEffect(() => {
-    const p = new URLSearchParams(globalThis.location.search).get("paradigm") as Paradigm | null;
-    if (p && paradigmList.includes(p)) setParadigm(p);
-  }, []);
-
-  const changeParadigm = useCallback((p: Paradigm) => {
-    setParadigm(p);
-    const url = new URL(globalThis.location.href);
-    url.searchParams.set("paradigm", p);
-    globalThis.history.replaceState(null, "", url.toString());
-  }, []);
-
-  /* Scroll sync for rail + sticky switcher */
-  useEffect(() => {
-    const els = document.querySelectorAll("[data-stage]");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            const id = e.target.getAttribute("data-stage");
-            if (id) {
-              setActiveStage(id);
-              setShowStickySwitcher(["paradigm", "flows", "ui", "ship"].includes(id));
-            }
-          }
-        });
-      },
-      { rootMargin: "-30% 0px -55% 0px" }
-    );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  const stage = (id: string) => stages.find((s) => s.id === id)!;
-
   return (
     <div className="pt-24">
-      <StageRail activeId={activeStage} />
-
-      {/* Sticky paradigm switcher — appears from the Paradigm Gate down */}
-      <AnimatePresence>
-        {showStickySwitcher && (
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            className="fixed top-16 lg:top-20 left-1/2 -translate-x-1/2 z-40 mt-2"
-          >
-            <div className="rounded-xl bg-background/85 border border-border shadow-2xl px-1.5 py-1" style={{ backdropFilter: "blur(16px)" }}>
-              <ParadigmSwitcher value={paradigm} onChange={changeParadigm} size="sm" />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Hero */}
       <Section>
         <div className="max-w-3xl">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-accent font-mono text-sm uppercase tracking-widest mb-4"
-          >
+          <p className="text-accent font-mono text-sm uppercase tracking-widest mb-4">
             The Process
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
-          >
-            From idea to shipped —<br />
-            <span className="text-accent">same research, four interface futures.</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-muted leading-relaxed mb-6"
-          >
-            The complete method I run — PRD, research, psychology mapping, and the decision most
-            teams never make deliberately: <strong className="text-foreground/90">should this product be
-            agentic, hybrid, traditional, or have no screen at all?</strong> Demonstrated end-to-end on{" "}
-            <strong className="text-foreground/90">Companion</strong>, a generative AI assistant for
-            millions of knowledge workers&apos; daily work.
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-xs font-mono text-muted"
-          >
-            Companion is a fictional teaching artifact — designed openly so every stage can show a real deliverable. 8 stages · every stage gated · psychology chips are clickable.
-          </motion.p>
-        </div>
-        <div className="mt-10">
-          <MethodMap paradigm={paradigm} onSelect={changeParadigm} />
+          </p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            From idea to shipped.
+          </h1>
+          <p className="text-lg text-muted leading-relaxed mb-4">
+            The method I run on every product: frame the problem, write a falsifiable brief,
+            go watch real users, map findings to psychology, design the architecture and
+            failure paths, build the system, then validate and ship with metrics that resist
+            gaming.
+          </p>
+          <p className="text-xs font-mono text-muted">
+            7 stages · every stage has a written exit gate · every stage links to real shipped work
+          </p>
         </div>
       </Section>
 
-      {/* Framework Alignment */}
-      <Section>
-        <FrameworkAlignment />
-      </Section>
+      {stages.map((stage) => (
+        <StageSection key={stage.id} stage={stage} />
+      ))}
 
-      {/* Process Overview with Summary Card */}
+      {/* Closing CTA */}
       <Section>
-        <div className="grid lg:grid-cols-[1fr_380px] gap-8">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">The Complete Method</h2>
-            <p className="text-muted leading-relaxed mb-6">
-              Each stage below has entry criteria, a research method, psychology principles that inform design decisions, deliverables, and exit gates. No stage gets skipped; every decision is documented with a &ldquo;why.&rdquo;
-            </p>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="rounded-xl bg-surface border border-border p-4">
-                <p className="text-xs text-muted font-mono uppercase tracking-wider mb-1">Research Phase</p>
-                <p className="font-semibold text-lg">Stages 00-03</p>
-                <p className="text-sm text-muted mt-1">Discovery, framing, field research, synthesis</p>
-              </div>
-              <div className="rounded-xl bg-surface border border-border p-4">
-                <p className="text-xs text-muted font-mono uppercase tracking-wider mb-1">Design Phase</p>
-                <p className="font-semibold text-lg">Stages 04-06</p>
-                <p className="text-sm text-muted mt-1">Paradigm choice, flows, UI system</p>
-              </div>
-              <div className="rounded-xl bg-surface border border-border p-4">
-                <p className="text-xs text-muted font-mono uppercase tracking-wider mb-1">Delivery Phase</p>
-                <p className="font-semibold text-lg">Stage 07</p>
-                <p className="text-sm text-muted mt-1">Validation testing, metrics, launch</p>
-              </div>
-              <div className="rounded-xl bg-surface border border-border p-4">
-                <p className="text-xs text-muted font-mono uppercase tracking-wider mb-1">Gate Discipline</p>
-                <p className="font-semibold text-lg">24 Criteria</p>
-                <p className="text-sm text-muted mt-1">3 kill criteria per stage (8 stages × 3)</p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <ProcessSummaryCard />
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">This is the method, applied.</h2>
+          <p className="text-muted leading-relaxed mb-8">
+            Every stage above is demonstrated in shipped, real-world work — not a hypothetical.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/work"
+              className="px-5 py-2.5 rounded-xl bg-accent text-accent-foreground text-sm font-semibold hover:bg-accent/90 transition-colors inline-flex items-center gap-1.5"
+            >
+              View Case Studies
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/contact"
+              className="px-5 py-2.5 rounded-xl bg-surface-hover border border-border text-sm font-medium text-foreground hover:border-accent/30 transition-colors"
+            >
+              Get in Touch
+            </Link>
           </div>
         </div>
       </Section>
-
-      {/* Stages 00–03 — paradigm-agnostic */}
-      <StageShell stage={stage("signal")}>
-        <SignalFunnel />
-      </StageShell>
-
-      <StageShell stage={stage("prd")}>
-        <PrdPaper />
-      </StageShell>
-
-      <StageShell stage={stage("research")}>
-        <ResearchArtifact />
-      </StageShell>
-
-      <StageShell stage={stage("psychology")}>
-        <PipelinePath />
-        <DesignPrinciples />
-      </StageShell>
-
-      {/* Stage 04 — the fork */}
-      <StageShell stage={stage("paradigm")}>
-        <ParadigmGateArtifact paradigm={paradigm} onChange={changeParadigm} />
-      </StageShell>
-
-      {/* Stages 05–07 — re-render per paradigm */}
-      <StageShell stage={stage("flows")}>
-        <WireflowArtifact paradigm={paradigm} />
-      </StageShell>
-
-      <StageShell stage={stage("ui")}>
-        <DemoArtifact paradigm={paradigm} />
-      </StageShell>
-
-      <StageShell stage={stage("ship")}>
-        <ShipArtifact paradigm={paradigm} />
-      </StageShell>
     </div>
   );
 }

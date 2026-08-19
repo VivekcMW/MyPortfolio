@@ -74,10 +74,10 @@ const caseStudies: Array<{
     category: "AdTech / IMS (NDA)",
     domain: "AdTech",
     description:
-      "Authored the PRD onboarding cinema onto pDOOH — 5-level inventory model, dynamic slot generation from showtimes, real-time availability engine, DSP eligibility rules. In flight.",
+      "Designed the inventory experience onboarding cinema onto pDOOH — 5-level inventory model, dynamic slot generation from showtimes, real-time availability engine, DSP eligibility rules. In flight.",
     tags: ["pDOOH", "Cinema", "OpenRTB 2.6", "BDD Criteria"],
     timeline: "2025 — present",
-    role: "Sr. Lead UX Designer & Product",
+    role: "Sr. UI/UX Designer",
     status: "in-flight",
     image: (
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -98,7 +98,7 @@ const caseStudies: Array<{
       "Defined the closed-loop static-OOH execution platform — no-login Magic Link portals for vendors, installers, and clients; geo-tagged offline-capable Proof-of-Play; payment-validation gates. In flight.",
     tags: ["OOH Ops", "Magic Link", "Proof-of-Play", "RBAC"],
     timeline: "2025 — present",
-    role: "Sr. Lead UX Designer & Product",
+    role: "Sr. UI/UX Designer",
     status: "in-flight",
     image: (
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -110,13 +110,13 @@ const caseStudies: Array<{
   {
     slug: "ai-strategy",
     title: "Hybrid UI / Agentic UI Roadmap through 2027",
-    category: "Product Strategy (NDA)",
+    category: "Design Strategy (NDA)",
     domain: "AdTech",
     description:
       "Platform-wide AI strategy across 7 DOOH products — four-paradigm framework, 6-criteria decision matrix, shared trust spine, three-horizon roadmap. Presented to product, engineering, and clients.",
     tags: ["Strategy", "Agentic UI", "Hybrid UI", "Roadmap"],
     timeline: "2025 — 2027",
-    role: "Author (Sr. Lead UX & AI PM)",
+    role: "Author (Sr. UI/UX & AI Product Designer)",
     status: "in-flight",
     image: (
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -228,7 +228,7 @@ const caseStudies: Array<{
       "A multi-domain token architecture spanning 6 product types and 6 palettes — let 3 concurrent design teams scale from 1 product to 7 without design fracture.",
     tags: ["Design Systems", "Tokens", "Figma", "Accessibility"],
     timeline: "2023 — 2025",
-    role: "Senior Lead UX Designer & Design Systems Architect",
+    role: "Senior UI/UX Designer & Design Systems Architect",
     status: "shipped",
     image: (
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

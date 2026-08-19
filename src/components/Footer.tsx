@@ -14,7 +14,6 @@ const footerLinks = {
   "Latest Work": [
     { href: "/work/nocode-platform", label: "NoCode Platform" },
     { href: "/work/forma-research", label: "Forma Research" },
-    { href: "/design-system", label: "Design System Lab" },
   ],
   Philosophy: [
     { href: "/process", label: "My Process" },

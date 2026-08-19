@@ -40,33 +40,32 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Vivekanand Choudhari — Senior Lead UX Designer & AI Product Manager | Portfolio",
+    default: "Vivekanand Choudhari — Senior UI/UX Designer & AI Product Designer | Portfolio",
     template: "%s | Vivekanand Choudhari",
   },
   description:
-    "Vivekanand Choudhari: Senior Lead UX Designer & AI Product Manager in Bengaluru, India. 9+ years designing AI-powered products, agentic interfaces, and programmatic DOOH platforms for 1M+ users. Expert in product strategy, PRDs, design systems, OpenRTB, and design engineering. Portfolio of B2B SaaS, AdTech, Healthcare, Construction, and IoT solutions.",
+    "Vivekanand Choudhari: Senior UI/UX Designer & AI Product Designer in Bengaluru, India. 9+ years designing AI-powered products, agentic interfaces, and programmatic DOOH platforms for 1M+ users. Expert in UX research, design systems, OpenRTB, and design engineering. Portfolio of B2B SaaS, AdTech, Healthcare, Construction, and IoT solutions.",
   keywords: [
     // Name variations for search
     "Vivekanand Choudhari",
     "Vivekanand Choudhari UX Designer",
-    "Vivekanand Choudhari Product Manager",
+    "Vivekanand Choudhari Product Designer",
     "Vivekanand Choudhari Portfolio",
     "Vivekanand Choudhari Bengaluru",
     "Vivekanand Choudhari India",
     // Job titles and roles
-    "AI Product Manager",
-    "Senior Lead UX Designer",
+    "Senior UI/UX Designer",
     "UX Design Lead",
     "Product Design Leader",
     "Design Strategist",
     "AI Product Designer",
-    "Product Manager Designer",
+    "UI/UX Designer",
     "Design Engineering",
     // Specializations
     "Agentic UI Design",
     "AI Interface Design",
     "Conversational AI Design",
-    "AI Product Strategy",
+    "AI Product Design",
     "Machine Learning UX",
     "LLM Product Design",
     // DOOH & AdTech
@@ -80,14 +79,11 @@ export const metadata: Metadata = {
     "Programmatic Advertising",
     "RTB Platform",
     "IAB Standards",
-    // Product Management
-    "PRD Authoring",
-    "Product Roadmapping",
-    "RICE Framework",
-    "Product Strategy",
-    "Product Definition",
-    "0-to-1 Product",
-    "Product Launch",
+    // Product Design
+    "0-to-1 Product Design",
+    "Product Discovery",
+    "UX Strategy",
+    "End-to-End Product Design",
     // Design Systems & Engineering
     "Design Systems",
     "Component Libraries",
@@ -112,8 +108,8 @@ export const metadata: Metadata = {
     "Lean UX",
     // Location
     "UX Designer Bengaluru",
-    "Product Manager Bangalore",
-    "India AI Product Manager",
+    "Product Designer Bangalore",
+    "India AI Product Designer",
   ],
   authors: [
     {
@@ -125,16 +121,16 @@ export const metadata: Metadata = {
   publisher: "Vivekanand Choudhari",
   category: "Design & Technology",
   openGraph: {
-    title: "Vivekanand Choudhari — Senior Lead UX Designer & AI Product Manager | Portfolio",
+    title: "Vivekanand Choudhari — Senior UI/UX Designer & AI Product Designer | Portfolio",
     description:
-      "9+ years designing AI-powered products, agentic interfaces, and programmatic DOOH platforms for 1M+ users. Expert in product strategy, design systems, OpenRTB, and PRD authoring. Portfolio featuring B2B SaaS, AdTech, Healthcare, Construction, and IoT solutions.",
+      "9+ years designing AI-powered products, agentic interfaces, and programmatic DOOH platforms for 1M+ users. Expert in UX research, design systems, OpenRTB, and design engineering. Portfolio featuring B2B SaaS, AdTech, Healthcare, Construction, and IoT solutions.",
     url: SITE_URL,
     images: [
       {
-        url: "/api/og?title=Senior%20Lead%20UX%20Designer%20%26%20AI%20Product%20Manager&category=Portfolio",
+        url: "/api/og?title=Senior%20UI%2FUX%20Designer%20%26%20AI%20Product%20Designer&category=Portfolio",
         width: 1200,
         height: 630,
-        alt: "Vivekanand Choudhari — Senior Lead UX Designer & AI Product Manager in Bengaluru, India",
+        alt: "Vivekanand Choudhari — Senior UI/UX Designer & AI Product Designer in Bengaluru, India",
       },
     ],
     siteName: "Vivekanand Choudhari Portfolio",
@@ -145,11 +141,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@vivekanand",
     creator: "@vivekanand",
-    title: "Vivekanand Choudhari — Senior Lead UX Designer & AI Product Manager",
+    title: "Vivekanand Choudhari — Senior UI/UX Designer & AI Product Designer",
     description:
       "9+ years designing AI-powered products, agentic interfaces, and programmatic DOOH platforms for 1M+ users. Portfolio of B2B SaaS, AdTech, Healthcare, and IoT solutions.",
     images: [
-      "/api/og?title=Senior%20Lead%20UX%20Designer%20%26%20AI%20Product%20Manager&category=Portfolio",
+      "/api/og?title=Senior%20UI%2FUX%20Designer%20%26%20AI%20Product%20Designer&category=Portfolio",
     ],
   },
   robots: {
@@ -174,15 +170,15 @@ export default function RootLayout({
     alternateName: ["Vivekanand", "Vivek Choudhari"],
     url: SITE_URL,
     image: `${SITE_URL}/api/og?title=Vivekanand%20Choudhari&category=Portfolio`,
-    jobTitle: "Senior Lead UX Designer & AI Product Manager",
+    jobTitle: "Senior UI/UX Designer & AI Product Designer",
     worksFor: {
       "@type": "Organization",
       name: "Moving Walls",
       sameAs: "https://www.movingwalls.com",
     },
     description:
-      "Product design leader with 9+ years across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data. Specializes in AI-powered products, agentic interfaces, programmatic DOOH platforms, and design systems. Owns design strategy and product definition across a 7-product programmatic DOOH portfolio.",
-    email: "vivekanandchoudhari.work@gmail.com",
+      "Design leader with 9+ years across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data. Specializes in AI-powered products, agentic interfaces, programmatic DOOH platforms, and design systems. Leads UX and design systems across a 7-product programmatic DOOH portfolio.",
+    email: "vivekanand.design@gmail.com",
     telephone: "+919071933517",
     address: {
       "@type": "PostalAddress",
@@ -195,7 +191,7 @@ export default function RootLayout({
       name: "India",
     },
     knowsAbout: [
-      "Product Management",
+      "UI/UX Design",
       "AI Product Design",
       "Agentic UI",
       "Conversational Interfaces",
@@ -208,9 +204,7 @@ export default function RootLayout({
       "Design Systems",
       "Component Libraries",
       "Design Tokens",
-      "PRD Authoring",
-      "Product Roadmapping",
-      "RICE Framework",
+      "UX Strategy",
       "Design Leadership",
       "User Research",
       "Contextual Inquiry",
@@ -238,8 +232,8 @@ export default function RootLayout({
       },
       skills: [
         "User Experience Design",
-        "Product Management",
-        "AI Product Strategy",
+        "UI Design",
+        "AI Product Design",
         "Design Systems",
         "Frontend Development",
         "User Research",
@@ -269,9 +263,9 @@ export default function RootLayout({
   const professionalServiceJsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: "Vivekanand Choudhari - UX Design & AI Product Consulting",
+    name: "Vivekanand Choudhari - UI/UX & AI Product Design Consulting",
     description:
-      "Expert UX design and AI product management services for B2B SaaS, AdTech, Healthcare, and Enterprise platforms. Specializing in agentic interfaces, design systems, and 0-to-1 product development.",
+      "Expert UI/UX and AI product design services for B2B SaaS, AdTech, Healthcare, and Enterprise platforms. Specializing in agentic interfaces, design systems, and 0-to-1 product design.",
     provider: {
       "@type": "Person",
       name: "Vivekanand Choudhari",
@@ -279,11 +273,11 @@ export default function RootLayout({
     areaServed: ["IN", "US", "SG", "Global"],
     serviceType: [
       "UX Design",
-      "Product Management",
-      "AI Product Strategy",
+      "UI Design",
+      "AI Product Design",
       "Design Systems",
       "User Research",
-      "Product Roadmapping",
+      "Interaction Design",
       "Design Engineering",
     ],
     url: SITE_URL,
@@ -299,7 +293,7 @@ export default function RootLayout({
         name: "What does Vivekanand Choudhari do?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Vivekanand Choudhari is a Senior Lead UX Designer and AI Product Manager with 9+ years of experience designing AI-powered products, agentic interfaces, and programmatic DOOH platforms for over 1 million users. He specializes in product strategy, design systems, and user research.",
+          text: "Vivekanand Choudhari is a Senior UI/UX Designer and AI Product Designer with 9+ years of experience designing AI-powered products, agentic interfaces, and programmatic DOOH platforms for over 1 million users. He specializes in UX strategy, design systems, and user research.",
         },
       },
       {
@@ -307,7 +301,7 @@ export default function RootLayout({
         name: "What is Vivekanand Choudhari's expertise?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Vivekanand specializes in AI product design, agentic UI, programmatic DOOH (Digital Out-of-Home advertising), OpenRTB 2.6, design systems, PRD authoring, product roadmapping, and design engineering. He has expertise across AdTech, Healthcare, Construction, IoT, and B2B SaaS industries.",
+          text: "Vivekanand specializes in AI product design, agentic UI, programmatic DOOH (Digital Out-of-Home advertising), OpenRTB 2.6, design systems, user research, interaction design, and design engineering. He has expertise across AdTech, Healthcare, Construction, IoT, and B2B SaaS industries.",
         },
       },
       {
@@ -331,7 +325,7 @@ export default function RootLayout({
         name: "How can I contact Vivekanand Choudhari?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "You can reach Vivekanand Choudhari via email at vivekanandchoudhari.work@gmail.com, phone/WhatsApp at +919071933517, or through his website contact form at " + SITE_URL + "/contact",
+          text: "You can reach Vivekanand Choudhari via email at vivekanand.design@gmail.com, phone/WhatsApp at +919071933517, or through his website contact form at " + SITE_URL + "/contact",
         },
       },
     ],

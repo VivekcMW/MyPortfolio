@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Process — From Idea to Shipped",
   description:
-    "The full method: PRD → research → psychology mapping → the Paradigm Gate (agentic vs hybrid vs traditional vs zero-UI) → flows → system → ship. Demonstrated end-to-end on a generative AI product for millions of daily users.",
+    "The full method: signal & framing → design brief → research → psychology mapping → architecture & flows → UI & system → validate, ship, loop. Every stage links to real shipped work.",
   openGraph: {
     title: "Process — From Idea to Shipped",
     description:
-      "Same research, four interface futures. A complete product design method demonstrated on an AI workspace assistant.",
+      "A 7-stage product design method — every stage gated, every stage demonstrated in real shipped work.",
     images: [
       {
         url: "/api/og?title=From%20Idea%20to%20Shipped&category=The%20Process",

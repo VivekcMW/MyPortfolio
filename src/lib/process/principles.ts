@@ -19,7 +19,7 @@ export const principles: Record<string, Principle> = {
     id: "commitment-consistency",
     name: "Commitment & consistency",
     definition:
-      "People align future behavior with prior written commitments. A PRD with explicit hypotheses and kill criteria prevents goal drift better than any status meeting.",
+      "People align future behavior with prior written commitments. A design brief with explicit hypotheses and kill criteria prevents goal drift better than any status meeting.",
   },
   "say-do-gap": {
     id: "say-do-gap",
@@ -86,18 +86,6 @@ export const principles: Record<string, Principle> = {
     name: "Goodhart's law",
     definition:
       "When a measure becomes a target, it stops being a good measure. Engagement metrics on an AI assistant reward addiction, not usefulness — measure time saved, not time spent.",
-  },
-  "calm-technology": {
-    id: "calm-technology",
-    name: "Calm technology",
-    definition:
-      "Weiser's principle: technology should inform without demanding attention — moving between the periphery and the center of awareness. The measure of a good ambient device is how rarely you look at it.",
-  },
-  "paradox-of-choice": {
-    id: "paradox-of-choice",
-    name: "Paradox of choice",
-    definition:
-      "More options increase anxiety and decrease satisfaction with the chosen one. Zero-UI's constraint — one interaction, one outcome — is a feature, not a limitation.",
   },
 };
 

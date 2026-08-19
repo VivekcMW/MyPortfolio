@@ -50,6 +50,10 @@ export interface ProjectDetail {
   role?: RoleContext;
   decisions?: DecisionRecord[];
   retro?: string[];
+  /** Real design screenshot, exported from Figma — public/work/<slug>/hero.webp */
+  heroImage?: string;
+  /** Additional real screens shown as a gallery below the hero image */
+  gallery?: { src: string; alt: string; caption?: string }[];
 }
 
 /* ─── NoCode Story Chapters ─── */
@@ -102,7 +106,7 @@ const nocodeStory: StoryChapter[] = [
     details: [
       "Distilled research into 3 design principles: Progressive Disclosure, Visible Logic, and Instant Feedback",
       "Defined information architecture through tree testing with 32 participants — 89% task completion on first attempt",
-      "Prioritized features using a weighted RICE framework aligned to user pain severity",
+      "Prioritized features using a weighted scoring framework aligned to user pain severity",
       "Established success metrics: Time-to-first-app < 30 min, Builder NPS > 60, Zero-code coverage for 80% of use cases",
       "Created a product requirements document co-authored with engineering to ensure feasibility from day one",
     ],
@@ -533,7 +537,7 @@ export const projectData: Record<string, ProjectDetail> = {
     title: "MW Cinema — Cinema as a Programmatic Asset Class",
     category: "AdTech / IMS (NDA)",
     heroDesc:
-      "Authored the PRD that onboards cinema onto a programmatic Out-of-Home stack — a Media Owner → Cinema → Screen → Showtime → Slot entity model, dynamic slot generation from showtimes, and DSP programmatic-eligibility rules that make cinema a first-class asset class alongside DOOH.",
+      "Designed the inventory experience that onboards cinema onto a programmatic Out-of-Home stack — a Media Owner → Cinema → Screen → Showtime → Slot entity model, dynamic slot generation from showtimes, and DSP programmatic-eligibility rules that make cinema a first-class asset class alongside DOOH.",
     timeline: "2025 — present (in flight)",
     tags: [
       "AdTech / pDOOH",
@@ -568,9 +572,9 @@ export const projectData: Record<string, ProjectDetail> = {
       { title: "DSP Programmatic-Eligibility Rules", desc: "Creative-spec normalisation, audience metadata, and brand-safety rules that let DSPs bid against cinema inventory with the same OpenRTB 2.6 shape as DOOH." },
     ],
     role: {
-      title: "Senior Lead UX Designer & Product (PRD Author)",
-      scope: "Product definition (PRD, entity model, business rules), operator workflow design, DSP eligibility spec, BDD acceptance criteria",
-      team: "Solo PRD author; partnered with 1 PM, 3 platform engineers, and cinema domain SMEs; reported to VP Product",
+      title: "Senior UI/UX Designer (Design Lead)",
+      scope: "Experience definition (entity model, business rules), operator workflow design, DSP eligibility spec, BDD acceptance criteria",
+      team: "Solo design lead; partnered with 1 PM, 3 platform engineers, and cinema domain SMEs; reported to VP Product",
       duration: "2025 — present",
     },
   },
@@ -613,20 +617,20 @@ export const projectData: Record<string, ProjectDetail> = {
       { title: "Payment-Validation Gates", desc: "Notification engine + workflow rules block dispatch, install, and payout until upstream steps are complete and countersigned — payment disputes drop to structural minimum." },
     ],
     role: {
-      title: "Senior Lead UX Designer & Product (PRD Author)",
-      scope: "Product definition, closed-loop system design, Magic Link access model, RBAC, offline-capable installer flows, PoP evidence spec, payment-gate business rules",
-      team: "Solo PRD + design lead; partnered with 1 PM, 3 platform engineers, 2 mobile engineers, and OOH ops SMEs; reported to VP Product",
+      title: "Senior UI/UX Designer (Design Lead)",
+      scope: "Closed-loop system design, Magic Link access model, RBAC, offline-capable installer flows, PoP evidence spec, payment-gate business rules",
+      team: "Solo design lead; partnered with 1 PM, 3 platform engineers, 2 mobile engineers, and OOH ops SMEs; reported to VP Product",
       duration: "2025 — present",
     },
   },
   "ai-strategy": {
     title: "Platform AI Strategy — Hybrid UI / Agentic UI Roadmap through 2027",
-    category: "Product Strategy (NDA)",
+    category: "Design Strategy (NDA)",
     heroDesc:
       "Authored the platform-wide Hybrid UI / Agentic UI strategy and phased roadmap through 2027 across a 7-product DOOH portfolio — presented to product leadership, engineering, and external clients. A shared paradigm framework, per-product paradigm choice, and a maturity model that keeps every product on the same trajectory without forcing every product into the same paradigm.",
     timeline: "2025 — 2027 (roadmap in flight)",
     tags: [
-      "Product Strategy",
+      "Design Strategy",
       "Agentic UI",
       "Hybrid UI",
       "AI Product Design",
@@ -658,7 +662,7 @@ export const projectData: Record<string, ProjectDetail> = {
       { title: "Paradigm-Drift Kill Criteria", desc: "Named trust-metric thresholds that hold a product on its current horizon if breached — the roadmap does not move a product forward on a schedule, it moves on evidence." },
     ],
     role: {
-      title: "Senior Lead UX Designer & AI Product Manager (Author)",
+      title: "Senior UI/UX Designer & AI Product Designer (Author)",
       scope: "Portfolio-wide AI paradigm framework, per-product paradigm decisions, shared spine spec, three-horizon roadmap, executive + engineering + client communication",
       team: "Solo author; presented to product leadership, engineering leadership, and external clients; coordinated 7 product designers and 7 PMs on adoption",
       duration: "2025 — 2027 (roadmap in flight)",
@@ -892,7 +896,7 @@ export const projectData: Record<string, ProjectDetail> = {
     ],
     role: {
       title: "Product Design Consultant",
-      scope: "AI/ML product strategy, data integration UX, risk visualization, stakeholder workshops with construction firms",
+      scope: "AI/ML experience design, data integration UX, risk visualization, stakeholder workshops with construction firms",
       team: "2-person design team (lead + 1 researcher); collaborated with 3 ML engineers and 2 domain SMEs; reported to CEO",
       duration: "2025 — 2026 (in progress)",
     },
@@ -932,7 +936,7 @@ export const projectData: Record<string, ProjectDetail> = {
       { title: "Figma + Code Parity", desc: "Design system defined in both Figma (source of truth for visuals) and TypeScript (source of truth for implementation). Tokens sync between systems." },
     ],
     role: {
-      title: "Senior Lead UX Designer & Design Systems Architect",
+      title: "Senior UI/UX Designer & Design Systems Architect",
       scope: "System architecture (6 domains, 6 palettes), token naming & strategy, accessibility compliance, Figma documentation, team alignment & education",
       team: "Solo architect; partnered with 3 product designers, 6 engineers, and design ops; presented to all 7 product teams",
       duration: "2023 — 2025 (ongoing evolution)",

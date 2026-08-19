@@ -10,15 +10,6 @@ import Magnetic from "@/components/Magnetic";
 
 const projects = [
   {
-    title: "Intelligence-Native Design System",
-    category: "Systems Research / AI",
-    description:
-      "A publishable multi-platform design system with 96-page research documentation, 10+ platform adapters, 5 AI-first interaction patterns, and 3 B2B density modes — intellectual property that demonstrates lived domain judgment AI cannot replicate.",
-    tags: ["Published Research", "Multi-Platform", "AI Patterns", "B2B SaaS"],
-    image: <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
-    href: "/design-system-v2",
-  },
-  {
     title: "NoCode / LowCode Platform",
     category: "Platform Design",
     description:
@@ -314,9 +305,9 @@ export default function HomePage() {
 
               {/* Contact info - make it visible */}
               <div className="flex flex-wrap items-center gap-4 mb-8 text-sm">
-                <a href="mailto:vivekanandchoudhari.work@gmail.com" className="flex items-center gap-2 text-muted hover:text-accent transition-colors">
+                <a href="mailto:vivekanand.design@gmail.com" className="flex items-center gap-2 text-muted hover:text-accent transition-colors">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-                  vivekanandchoudhari.work@gmail.com
+                  vivekanand.design@gmail.com
                 </a>
                 <span className="text-border">·</span>
                 <a href="tel:+919071933517" className="flex items-center gap-2 text-muted hover:text-accent transition-colors">
@@ -345,7 +336,7 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-4">
                 <Magnetic strength={0.4}>
                   <a
-                    href="mailto:vivekanandchoudhari.work@gmail.com?subject=Let's collaborate&body=Hi Vivekanand,%0D%0A%0D%0AI'd love to discuss..."
+                    href="mailto:vivekanand.design@gmail.com?subject=Let's collaborate&body=Hi Vivekanand,%0D%0A%0D%0AI'd love to discuss..."
                     className="magnetic-btn px-8 py-4 bg-accent text-white font-semibold rounded-full hover:shadow-xl hover:shadow-accent/30 transition-all duration-300 inline-flex items-center gap-2 group"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

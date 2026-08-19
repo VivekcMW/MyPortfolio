@@ -1,5 +1,5 @@
 # VIVEKANAND CHOUDHARI
-Senior Lead UX Designer — AI & Agentic Products · AI Product Manager
+Senior UI/UX Designer — AI & Agentic Products · AI Product Designer
 
 vivekanand.design@gmail.com · (+91) 9071933517 · Bengaluru, India
 [uxvivek.netlify.app](https://uxvivek.netlify.app) · [linkedin.com/in/vivekanand-choudhari](https://linkedin.com/in/vivekanand-choudhari-817829118) · [dribbble.com/VivekanandChoudhari](https://dribbble.com/VivekanandChoudhari)
@@ -8,48 +8,48 @@ vivekanand.design@gmail.com · (+91) 9071933517 · Bengaluru, India
 
 ## PROFILE SUMMARY
 
-Product design leader with 9+ years building B2B SaaS and AI platforms used by over 1M users across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data. I operate at the intersection of design and product management — authoring PRDs, personas, business rules, and roadmaps, then leading the design systems and screens that ship them.
+Design leader with 9+ years building B2B SaaS and AI platforms used by over 1M users across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big Data. I operate at the intersection of design and engineering — turning deep user research, personas, and journey maps into the design systems and screens that ship.
 
-**Current role:** Own design strategy and product definition across a 7-product DOOH (Digital Out-of-Home) portfolio at Moving Walls, mentoring 9+ designers to lift team capabilities and customer satisfaction by 25%.
+**Current role:** Lead design strategy across a 7-product DOOH (Digital Out-of-Home) portfolio at Moving Walls, mentoring 9+ designers to lift team capabilities and customer satisfaction by 25%.
 
-**Strategic focus:** Designing agentic and hybrid-UI product experiences; building design systems that scale across product lines; defining go-to-market and product positioning alongside engineering and leadership.
+**Strategic focus:** Designing agentic and hybrid-UI product experiences; building design systems that scale across product lines; partnering with engineering and leadership to ship end-to-end.
 
 ---
 
 ## WORK EXPERIENCE
 
-### Senior Lead UX Designer · Product Designer
+### Senior UI/UX Designer · AI Product Designer
 **Moving Walls India Pvt Ltd** | 03/2025 – Present | Bengaluru
 
 **Portfolio Scaling & Leadership**
 - Scaled design portfolio from 3 product lines to 7 shipped DOOH products, implementing a shared design language that lifted team usability assessment scores by 25% and reduced design-to-engineering handoff time by 35%.
 - Led and mentored 9+ UX designers, establishing design standards, critique practices, and a component library that reduced design redlines by 40%.
-- Authored platform-wide Hybrid UI / Agentic UI strategy and phased roadmap through 2027; presented to product leadership, engineering, and external clients; influenced adoption across all future product launches.
+- Authored platform-wide Hybrid UI / Agentic UI design strategy with a phased rollout through 2027; presented to product leadership, engineering, and external clients; influenced adoption across all future product launches.
 
 #### **MW Activate — Programmatic DOOH Demand-Side Platform (DSP)**
 [→ View detailed case study](https://uxvivek.netlify.app/work/mw-activate)
 
-*Personal ownership: PRD authoring, persona & journey mapping, workflow architecture, OpenRTB/IAB alignment*
+*Personal ownership: end-to-end product design, persona & journey mapping, workflow architecture, OpenRTB/IAB alignment*
 
-- **Product Strategy:** Authored end-to-end PRD covering functional requirements (planning → administration), business rules (pacing, forecasting, deals, impression accounting), and financial logic; defined 13 personas with journey maps and six core workflow architectures driving platform differentiation.
-- **Business Impact:** PRD framework adopted by product & engineering teams; enabled SSP integrations (Broadsign Reach, VIOOH, Place Exchange, LMX) that expanded addressable inventory by 45%; DSP onboarded 120+ advertiser accounts in first 8 months with 92% activation rate.
+- **Design Strategy:** Led end-to-end product design covering functional flows (planning → administration), business rules (pacing, forecasting, deals, impression accounting), and financial logic; defined 13 personas with journey maps and six core workflow architectures driving platform differentiation.
+- **Business Impact:** Design framework adopted by product & engineering teams; enabled SSP integrations (Broadsign Reach, VIOOH, Place Exchange, LMX) that expanded addressable inventory by 45%; DSP onboarded 120+ advertiser accounts in first 8 months with 92% activation rate.
 - **Design Outcomes:** Produced design inventory across 8 workflow areas in 4 delivery waves; designed against OpenRTB 2.6 DOOH objects and IAB taxonomies; 8+ internal design reviews drove 18 major workflow refinements that reduced advertiser training time by 30%.
 - **Influenced:** Championed outcome-based metrics approach (CTR, pacing efficiency, deal fill rates) over vanity metrics; influenced pricing & margin strategy that improved deal velocity by 28%.
 
 #### **MW Cinema — IMS Cinema Inventory** 
-*Personal ownership: PRD definition, operator experience design, slot availability logic, acceptance criteria specification*
+*Personal ownership: experience definition, operator experience design, slot availability logic, acceptance criteria specification*
 
-- **Strategic Innovation:** Defined PRD that onboards cinema as a first-class programmatic asset class—a paradigm shift for Moving Walls' product portfolio. Specified entity model (Media Owner → Cinema → Screen → Showtime → Slot), dynamic slot generation from showtimes, real-time availability & reservation engines, CPM/CPS selling terms, and DSP programmatic-eligibility rules.
+- **Strategic Innovation:** Designed the experience that onboards cinema as a first-class programmatic asset class—a paradigm shift for Moving Walls' product portfolio. Specified entity model (Media Owner → Cinema → Screen → Showtime → Slot), dynamic slot generation from showtimes, real-time availability & reservation engines, CPM/CPS selling terms, and DSP programmatic-eligibility rules.
 - **Business Impact:** Introduced cinema as new revenue stream; contributed to 18% uplift in overall platform inventory diversity; 25+ cinema operators onboarded in pilot; average advertiser spend per cinema context increased 32% YoY.
 - **Operator Experience:** Specified end-to-end operator experience—bulk Excel/CSV onboarding, near-real-time schedule APIs, field-level tooltips, error handling, and BDD acceptance criteria—reducing operator support tickets by 40%.
-- **Influenced:** Advocated for outcome-based cinema metrics (screen dwell time, audience reach per showing) that shaped product roadmap prioritization; led cross-functional alignment on cinema-specific compliance & verification workflows.
+- **Influenced:** Advocated for outcome-based cinema metrics (screen dwell time, audience reach per showing) that shaped platform prioritization; led cross-functional alignment on cinema-specific compliance & verification workflows.
 
 #### **MW PosterOps — Closed-loop OOH Execution Platform**
 [→ View detailed case study](https://uxvivek.netlify.app/work/mw-posterops)
 
 *Personal ownership: System architecture, Magic Link design, field vendor UX, RBAC & notifications, client portal*
 
-- **Product Definition:** Defined closed-loop execution system covering full static-OOH campaign lifecycle—pre-production creative validation, printer-vendor management, three-layer QC, dispatch, field installation, and Proof-of-Play approval with client delivery portal.
+- **Experience Definition:** Designed closed-loop execution system covering full static-OOH campaign lifecycle—pre-production creative validation, printer-vendor management, three-layer QC, dispatch, field installation, and Proof-of-Play approval with client delivery portal.
 - **Innovation:** Designed no-login Magic Link access model (geo-tagged, timestamped, offline-capable flows) for vendors, installers, and clients. Reduced vendor onboarding time from 5 days to 2 hours; drove 85% field compliance rate (vs. 60% industry baseline).
 - **Business Impact:** Platform processed 12,000+ installations in Year 1 with 94% on-time delivery; reduced admin overhead by 50%; client satisfaction NPS increased from 42 to 71 post-launch.
 - **Influenced:** Championed severity-based issue management model that shaped support prioritization; influenced payment-validation gate design that reduced payment disputes by 35%.
@@ -67,7 +67,7 @@ Product design leader with 9+ years building B2B SaaS and AI platforms used by o
 
 #### **Platform AI Strategy**
 - Authored platform-wide Hybrid UI / Agentic UI strategy defining phased rollout through 2027.
-- Designed agentic plan-preview streaming experience (MW Activate planning module) showcasing real-time recommendation UI; influenced product roadmap to prioritize AI-assisted workflow features.
+- Designed agentic plan-preview streaming experience (MW Activate planning module) showcasing real-time recommendation UI; made the case for prioritizing AI-assisted workflow features.
 - Influenced broader product org thinking on AI integration; led cross-functional workshops to identify high-impact agentic use cases across all 7 products.
 
 ---
@@ -75,13 +75,13 @@ Product design leader with 9+ years building B2B SaaS and AI platforms used by o
 ### Lead UI UX Designer
 **ConstructivIQ India Private Limited** | 05/2023 – 11/2024
 
-*Personal ownership: Product definition, design system architecture, submittals & materials workflows, cross-functional alignment*
+*Personal ownership: experience design, design system architecture, submittals & materials workflows, cross-functional alignment*
 
-- **Product From Ground Up:** Designed a Construction Cloud SaaS platform from inception—focused on Submittals and Materials workflows. Owned product definition, user research, and wireframing; established a scalable design system and library-based front-end architecture in partnership with engineering.
+- **Product From Ground Up:** Designed a Construction Cloud SaaS platform from inception—focused on Submittals and Materials workflows. Owned user research, experience definition, and wireframing; established a scalable design system and library-based front-end architecture in partnership with engineering.
 - **Business Impact:** Platform launched with 15+ enterprise customers in 6 months; generated $1.2M ARR by end of tenure; average customer implementation time reduced 45% through optimized onboarding flows and self-service docs.
 - **Design System:** Built component library (80+ components) with design tokens for spacing, typography, color, and animation; reduced design-to-dev handoff time by 50%; enabled 3 concurrent feature teams to ship independently.
 - **AI-Powered Workflows:** Developed AI-based concepts to streamline Submittals workflow—intelligent routing based on document type, auto-categorization reducing manual effort by 35%, and surface intelligent insights (bottleneck detection, approval latency analysis). Engaged directly with customers during onboarding to validate and refine.
-- **Influenced:** Advocated for mobile-first Materials workflow design; influenced product roadmap to prioritize field-level offline access, improving on-site worker adoption by 40%.
+- **Influenced:** Advocated for mobile-first Materials workflow design; made the case for prioritizing field-level offline access, improving on-site worker adoption by 40%.
 
 ---
 
@@ -124,15 +124,15 @@ Product design leader with 9+ years building B2B SaaS and AI platforms used by o
 
 ## KEY SKILLS
 
-**Product Strategy & Execution**
-- PRD Authoring & Functional Specs
-- Roadmapping & Prioritization (RICE, weighted scoring)
-- Product Decision-Making & Trade-off Analysis
-- Go-to-Market & Positioning
-- User Story Mapping & BDD Acceptance Criteria
+**UX Strategy & Research**
+- UX Strategy & Vision
+- User Story Mapping & Acceptance Criteria
+- Design Decision-Making & Trade-off Analysis
 - Personas, Jobs-to-be-Done, Journey Mapping
-- Success Metrics & KPI Definition
-- Business Case Development & ROI Analysis
+- Usability Testing & Validation
+- UX Metrics & KPI Definition
+- Stakeholder Workshops & Alignment
+- Contextual Inquiry & Research Synthesis
 
 **Domain Expertise (AdTech / OOH)**
 - Programmatic DOOH & DSP/SSP Ecosystems
@@ -163,7 +163,7 @@ Product design leader with 9+ years building B2B SaaS and AI platforms used by o
 
 **Tools & Technologies**
 - Figma (comprehensive); Sketch; Adobe XD
-- Claude, Claude Code, Claude Design (for research, product specs, prototyping)
+- Claude, Claude Code, Claude Design (for research, design specs, prototyping)
 - Figma Make, UX Pilot, GitHub Copilot
 - Jira, Confluence, Miro, UserTesting, Maze
 - Google Analytics, Intercom, Pape.design
@@ -175,8 +175,8 @@ Product design leader with 9+ years building B2B SaaS and AI platforms used by o
 **[Design Systems at Scale: One Spine, Six Products](https://uxvivek.netlify.app/work/design-systems-scale)**
 How I architected a multi-domain design system (6 product types × 6 palettes) with semantic token naming, WCAG AAA accessibility, and domain-specific design principles. Enabled 3 concurrent teams to scale from 1 product to 7 without design fracture; reduced design review cycles by 40% and accessibility violations to 1%.
 
-**[MW Activate: Programmatic DSP from PRD to 120+ Advertiser Adoption](https://uxvivek.netlify.app/work/mw-activate)**
-How I authored the product strategy (PRD, personas, workflows), designed against OpenRTB/IAB standards, and influenced pricing/integration decisions that drove 45% inventory expansion and 92% activation rate.
+**[MW Activate: Programmatic DSP Designed to 120+ Advertiser Adoption](https://uxvivek.netlify.app/work/mw-activate)**
+How I led the end-to-end product design (personas, workflows, business rules), designed against OpenRTB/IAB standards, and made design decisions that drove 45% inventory expansion and 92% activation rate.
 
 **[MW PosterOps: Magic Link Design & Closed-Loop Execution System](https://uxvivek.netlify.app/work/mw-posterops)**
 How I designed a no-login vendor experience that reduced onboarding from 5 days to 2 hours, improved field compliance to 85%, and lifted client NPS from 42 to 71.
@@ -190,7 +190,7 @@ How I scaled a ground-up Construction Cloud platform with a design system (80+ c
 
 **Moonmart (moonmart.ai)** — Global SaaS marketplace. Built complete brand identity, design system (logo system, color tokens, typography, dark theme), and defined product vision & positioning.
 
-**Lokul.club** — Hyperlocal neighborhood commerce platform (founder-led). Defined product vision, brand identity, positioning ("Own Your Neighborhood"), and bilingual go-to-market narrative for India's Tier 2/3 markets.
+**Lokul.club** — Hyperlocal neighborhood commerce platform (founder-led). Defined brand identity, positioning ("Own Your Neighborhood"), and bilingual brand narrative for India's Tier 2/3 markets.
 
 **Flexbuild.io** — Spearheaded adoption of Flexbuild LowCode/NoCode platform; enabled 80% faster concept-to-delivery cycles.
 

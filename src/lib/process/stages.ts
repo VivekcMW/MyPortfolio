@@ -1,6 +1,6 @@
 import { StageMeta } from "./types";
 
-/* ─── The 8 stages of the method ─── */
+/* ─── The 7 stages of the method ─── */
 
 export const stages: StageMeta[] = [
   {
@@ -18,22 +18,24 @@ export const stages: StageMeta[] = [
       "The 'why now' names a specific shift — not general enthusiasm",
       "Kill criteria are written before anyone is emotionally invested",
     ],
+    caseStudy: { label: "NoCode Platform — a 4-year market-signal case study", href: "/work/nocode-platform" },
   },
   {
     num: "01",
     id: "prd",
-    title: "PRD & Alignment",
+    title: "Design Brief & Alignment",
     eyebrow: "Hypotheses, not specs",
     industryLabel: "Requirements Definition",
     methodTags: ["Documentation", "Workshop", "Stakeholder Alignment"],
     method:
-      "The PRD is written as a falsifiable document: every requirement is a hypothesis with a measurement attached. Success metrics are outcomes users would notice, not outputs teams can game. Non-goals get equal billing with goals — what we refuse to build shapes the product more than what we accept. The document is short enough that everyone actually reads it, and signed hypotheses prevent the goal drift that kills projects in month four.",
+      "The design brief is written as a falsifiable document: every requirement is a hypothesis with a measurement attached. Success metrics are outcomes users would notice, not outputs teams can game. Non-goals get equal billing with goals — what we refuse to build shapes the product more than what we accept. The document is short enough that everyone actually reads it, and signed hypotheses prevent the goal drift that kills projects in month four.",
     psychology: ["commitment-consistency", "goodharts-law"],
     gate: [
       "Every success metric has a measurement method named — no vanity metrics survive",
       "Non-goals are explicit and stakeholder-signed",
       "At least one kill criterion could realistically fire",
     ],
+    caseStudy: { label: "MW Activate — brief to shipped agentic layer", href: "/work/mw-activate" },
   },
   {
     num: "02",
@@ -50,6 +52,7 @@ export const stages: StageMeta[] = [
       "Each persona names a specific distrust — trust design starts here",
       "The key insight surprises at least one stakeholder (if nothing surprised anyone, the research just confirmed biases)",
     ],
+    caseStudy: { label: "EHR Platform — research across 16 clinical specialties", href: "/work/ehr-platform" },
   },
   {
     num: "03",
@@ -66,57 +69,44 @@ export const stages: StageMeta[] = [
       "Constraints are phrased so a designer can violate them detectably",
       "The constraint list fits on one page — more than ~8 and none get enforced",
     ],
+    caseStudy: { label: "Craft — 5 interaction studies, each with its principle", href: "/craft" },
   },
   {
     num: "04",
-    id: "paradigm",
-    title: "The Paradigm Gate",
-    eyebrow: "Chat, dashboard, or no screen at all?",
-    industryLabel: "Concept Selection",
-    methodTags: ["Workshop", "Decision Matrix", "Comparative Analysis"],
-    method:
-      "The most consequential decision in modern product design, and it is not a style preference — it's a consequence of the research. Four questions decide it: Who holds the plan — the user or the system? Where does truth live — persistent visual state, conversation memory, or ambient context? What's the blast radius of a wrong action? And how mature is user trust in this domain? The same product built agentic, hybrid, traditional, or zero-UI is four different products. Choose deliberately, with a written verdict — then let the losing paradigms inform the roadmap.",
-    psychology: ["mental-models", "locus-of-control", "automation-bias"],
-    gate: [
-      "The paradigm is derived from the decision matrix, not from what's fashionable",
-      "The verdict names what each rejected paradigm contributes to the roadmap",
-      "The choice is falsifiable — a metric is named that would prove it wrong",
-    ],
-  },
-  {
-    num: "05",
     id: "flows",
     title: "Architecture & Flows",
     eyebrow: "Design the failures first",
     industryLabel: "Information Architecture",
     methodTags: ["Wireframing", "User Flows", "IA Design"],
     method:
-      "Red routes get wireflows before any screen gets pixels — and every flow is designed failure-first: what happens on ambiguity, latency, misrecognition, partial success? The happy path is easy; products earn trust in the branches. Information architecture follows the paradigm: agentic flows are approval loops, hybrid flows are diff-and-apply cycles, traditional flows are navigate-and-configure paths, zero-UI flows are risk-gated voice envelopes.",
+      "Red routes get wireflows before any screen gets pixels — and every flow is designed failure-first: what happens on ambiguity, latency, misrecognition, partial success? The happy path is easy; products earn trust in the branches. Every step is checked against one question: does this depend on the user remembering something the system already knows?",
     psychology: ["error-prevention", "progressive-disclosure", "recognition-recall"],
     gate: [
       "Every red route has explicit failure branches with recovery designed",
       "No flow step depends on the user remembering system state",
       "A new team member can trace any flow without a walkthrough",
     ],
+    caseStudy: { label: "MW PosterOps — closed-loop execution flows", href: "/work/mw-posterops" },
   },
   {
-    num: "06",
+    num: "05",
     id: "ui",
     title: "UI & System",
     eyebrow: "Tokens are claims with evidence",
     industryLabel: "Visual Design & Prototyping",
     methodTags: ["UI Design", "Design Systems", "Prototyping"],
     method:
-      "Only now do pixels happen — and they happen as a system, not as screens. Tokens encode the psychology constraints from stage 03: contrast ratios that pass for the median eye, one accent per surface, motion in three speeds. Components are built once and themed; the paradigm decides the component vocabulary (plan cards and receipts for agentic, diff overlays for hybrid, signal grammar for hardware). Craft lives here — the micro-interactions that make the system feel inevitable.",
+      "Only now do pixels happen — and they happen as a system, not as screens. Tokens encode the psychology constraints from stage 03: contrast ratios that pass for the median eye, one accent per surface, motion in three speeds. Components are built once and themed across the product line, not redrawn per screen. Craft lives here — the micro-interactions that make the system feel inevitable.",
     psychology: ["hicks-law", "doherty-threshold", "peak-end"],
     gate: [
       "Every token value can be defended with a reason, not a preference",
       "The accessibility audit is live and computed, not claimed",
       "One deliberate peak moment exists per red route",
     ],
+    caseStudy: { label: "Design Systems at Scale — one spine, six products", href: "/work/design-systems-scale" },
   },
   {
-    num: "07",
+    num: "06",
     id: "ship",
     title: "Validate, Ship, Loop",
     eyebrow: "Metrics that can't lie",
@@ -130,5 +120,6 @@ export const stages: StageMeta[] = [
       "Novelty effect is discounted — no metric read before week 3",
       "The retro produces at least one change to this very process",
     ],
+    caseStudy: { label: "Platform AI Strategy — horizon-gated launch", href: "/work/ai-strategy" },
   },
 ];

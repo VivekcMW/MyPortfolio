@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   // the full form for social cards.
   title: "Resume",
   description:
-    "Senior Lead UX Designer & AI Product Manager. 9+ years building B2B SaaS and AI platforms. Expertise in product strategy, design systems, agentic UI, and design leadership.",
+    "Senior UI/UX Designer & AI Product Designer. 9+ years building B2B SaaS and AI platforms. Expertise in UX strategy, design systems, agentic UI, and design leadership.",
   openGraph: {
     title: "Resume — Vivekanand Choudhari",
     description:
-      "Senior Lead UX Designer & AI Product Manager. 9+ years building B2B SaaS and AI platforms.",
+      "Senior UI/UX Designer & AI Product Designer. 9+ years building B2B SaaS and AI platforms.",
     url: "https://uxvivek.netlify.app/resume",
     type: "profile",
     images: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Resume — Vivekanand Choudhari",
     description:
-      "Senior Lead UX Designer & AI Product Manager. 9+ years building B2B SaaS and AI platforms.",
+      "Senior UI/UX Designer & AI Product Designer. 9+ years building B2B SaaS and AI platforms.",
   },
 };
 

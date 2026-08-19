@@ -242,7 +242,7 @@ AI-powered products and programmatic DOOH platforms. He specializes in
 agentic UI design, OpenRTB 2.6, design systems, and has worked across 
 industries including AdTech, Healthcare, Construction, and IoT.
 
-You can contact him at vivekanandchoudhari.work@gmail.com or 
+You can contact him at vivekanand.design@gmail.com or 
 +919071933517.
 
 Source: uxvivek.netlify.app

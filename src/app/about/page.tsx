@@ -20,7 +20,7 @@ const innerRing: AITool[] = [
   { name: "Cursor", abbr: "Cu", color: "#0066FF", category: "Coding Agent", desc: "AI-powered IDE", useCase: "Primary development environment — code generation, refactoring, and multi-file editing with AI context." },
   { name: "Claude Code", abbr: "CC", color: "#D97706", category: "Coding Agent", desc: "Terminal coding agent", useCase: "Long-horizon coding tasks from the CLI — repo-wide refactors, spec-driven implementation, agentic tool use." },
   { name: "GitHub Copilot", abbr: "GC", color: "#6E40C9", category: "Coding Agent", desc: "Code completion", useCase: "Inline code suggestions, test generation, and pair-programming across all projects." },
-  { name: "Claude", abbr: "Cl", color: "#D97706", category: "AI Reasoning", desc: "Complex reasoning", useCase: "Research synthesis, PRDs, product documentation, architecture decisions, and complex problem decomposition." },
+  { name: "Claude", abbr: "Cl", color: "#D97706", category: "AI Reasoning", desc: "Complex reasoning", useCase: "Research synthesis, design documentation, architecture decisions, and complex problem decomposition." },
   { name: "Emergent", abbr: "Em", color: "#7C3AED", category: "AI IDE", desc: "Agentic app builder", useCase: "End-to-end agentic app scaffolding — turns a product brief into a running app with iterative agent-led builds." },
   { name: "Replit", abbr: "Re", color: "#F26207", category: "AI IDE", desc: "Cloud AI coding", useCase: "Quick prototypes, collaborative coding sessions, and deploying small AI-powered tools." },
 ];
@@ -208,10 +208,10 @@ function ConnectedGrid({
 const timeline = [
   {
     year: "Mar 2025 — Present",
-    role: "Senior Lead UX Designer · AI Product Manager",
+    role: "Senior UI/UX Designer · AI Product Designer",
     company: "Moving Walls",
     description:
-      "Scaled the DOOH portfolio from 3 to 7 shipped products — generating 45% inventory expansion and $2.8M+ ARR. Lead and mentor 9+ UX designers, establishing design standards that lifted usability scores by 25%. Authored PRDs, personas, and business rules for MW Activate (pDOOH DSP with 120+ advertiser accounts), MW Cinema (IMS platform, 25+ cinema operators onboarded), and MW PosterOps (closed-loop execution system processing 12K+ installations). Own the platform-wide Hybrid UI / Agentic UI strategy through 2027.",
+      "Scaled the DOOH portfolio from 3 to 7 shipped products — generating 45% inventory expansion and $2.8M+ ARR. Lead and mentor 9+ UX designers, establishing design standards that lifted usability scores by 25%. Led end-to-end product design — research, personas, and user flows — for MW Activate (pDOOH DSP with 120+ advertiser accounts), MW Cinema (IMS platform, 25+ cinema operators onboarded), and MW PosterOps (closed-loop execution system processing 12K+ installations). Own the platform-wide Hybrid UI / Agentic UI design strategy through 2027.",
   },
   {
     year: "May 2023 — Nov 2024",
@@ -332,7 +332,7 @@ const skills = [
     ],
   },
   {
-    category: "Product / PM",
+    category: "UX Strategy & Ops",
     color: "#F97316",
     accent: "#F9731680",
     icon: (
@@ -341,12 +341,12 @@ const skills = [
       </svg>
     ),
     items: [
-      { name: "PRD Authoring", level: 5 },
-      { name: "Roadmapping (RICE)", level: 5 },
       { name: "Personas & JTBD", level: 5 },
-      { name: "BDD Acceptance Criteria", level: 4 },
-      { name: "KPI / Success Metrics", level: 4 },
-      { name: "Go-to-Market", level: 4 },
+      { name: "User Journey Mapping", level: 5 },
+      { name: "UX Strategy", level: 5 },
+      { name: "Usability Testing", level: 4 },
+      { name: "UX Metrics & KPIs", level: 4 },
+      { name: "Stakeholder Workshops", level: 4 },
       { name: "Jira / Confluence", level: 5 },
       { name: "Miro / Intercom / GA", level: 4 },
     ],
@@ -2320,27 +2320,27 @@ export default function AboutPage() {
             transition={{ duration: 0.7 }}
           >
             <p className="text-accent font-mono text-sm uppercase tracking-widest mb-4">
-              Senior Lead UX Designer · AI Product Manager · Bengaluru
+              Senior UI/UX Designer · AI Product Designer · Bengaluru
             </p>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              Designer. Builder.
+              UI/UX Designer.
               <br />
-              <span className="text-accent">Product Manager.</span>
+              <span className="text-accent">AI Product Designer.</span>
             </h1>
             <div className="space-y-4 text-base md:text-lg text-muted leading-relaxed">
               <p>
-                I&apos;m a <span className="text-foreground font-medium">product design leader</span> with
+                I&apos;m a <span className="text-foreground font-medium">design leader</span> with
                 9+ years building B2B SaaS and AI platforms used by over a million
                 people across AdTech, Construction Cloud, Healthcare, AIOps, IIoT, and Big&nbsp;Data.
               </p>
               <p>
                 I operate at the intersection of{" "}
-                <span className="text-foreground font-medium">design and product management</span>
-                {" "}— authoring PRDs, personas, business rules, and roadmaps, then leading the
-                design systems and screens that ship them.
+                <span className="text-foreground font-medium">design and engineering</span>
+                {" "}— turning deep user research, personas, and journey maps into the
+                design systems and screens that ship.
               </p>
               <p>
-                Currently I own design strategy and product definition across a{" "}
+                Currently I lead design strategy across a{" "}
                 <span className="text-foreground font-medium">7-product DOOH portfolio</span>
                 {" "}mentoring{" "}
                 <span className="text-foreground font-medium">9+ designers</span>, and running an
@@ -2348,7 +2348,7 @@ export default function AboutPage() {
                 Figma, Sketch, and Adobe XD.
               </p>
               <p>
-                Recent product-defining work: <span className="text-foreground font-medium">MW Activate</span>
+                Recent flagship design work: <span className="text-foreground font-medium">MW Activate</span>
                 {" "}(pDOOH DSP designed against OpenRTB 2.6 and IAB standards),{" "}
                 <span className="text-foreground font-medium">MW Cinema</span>
                 {" "}(cinema as a first-class programmatic asset class), and{" "}
