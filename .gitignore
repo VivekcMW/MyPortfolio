@@ -38,6 +38,9 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# local agent tooling (worktrees, settings) — never deploy-relevant
+.claude/
 next-env.d.ts
 
 # superpowers brainstorming companion
