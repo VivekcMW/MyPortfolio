@@ -1,78 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import {
   projectData,
   type DecisionRecord,
 } from "@/lib/work/project-data";
-
-
-/* ─── Real design gallery ─ hero screenshot + supporting screens, exported from Figma ─── */
-function CaseStudyGallery({
-  heroImage,
-  gallery,
-}: {
-  heroImage?: string;
-  gallery?: { src: string; alt: string; caption?: string }[];
-}) {
-  if (!heroImage && !gallery?.length) return null;
-
-  return (
-    <Section>
-      <div className="max-w-5xl mx-auto space-y-6">
-        {heroImage && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="rounded-2xl border border-border bg-surface overflow-hidden">
-              <Image
-                src={heroImage}
-                alt="Product screenshot"
-                width={1600}
-                height={1000}
-                sizes="(min-width: 1024px) 1024px, 100vw"
-                className="w-full h-auto"
-                priority
-              />
-            </div>
-          </motion.div>
-        )}
-        {gallery && gallery.length > 0 && (
-          <div className="grid sm:grid-cols-2 gap-6">
-            {gallery.map((img, i) => (
-              <motion.figure
-                key={img.src}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-              >
-                <div className="rounded-2xl border border-border bg-surface overflow-hidden">
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    width={1200}
-                    height={800}
-                    sizes="(min-width: 1024px) 512px, 100vw"
-                    className="w-full h-auto"
-                  />
-                </div>
-                {img.caption && (
-                  <figcaption className="text-xs text-muted mt-2">{img.caption}</figcaption>
-                )}
-              </motion.figure>
-            ))}
-          </div>
-        )}
-      </div>
-    </Section>
-  );
-}
 
 
 /* ─── Decision Records — context → options → choice → result ─── */
@@ -399,8 +333,6 @@ export default function CaseStudyClient({ slug }: { slug: string }) {
           </motion.div>
         </Section>
 
-        <CaseStudyGallery heroImage={project.heroImage} gallery={project.gallery} />
-
         {/* ─── Story Chapters ─── */}
         {project.story.map((chapter, idx) => {
           /* Visual icon per chapter type */
@@ -629,8 +561,6 @@ export default function CaseStudyClient({ slug }: { slug: string }) {
 
         </div>
       </Section>
-
-      <CaseStudyGallery heroImage={project.heroImage} gallery={project.gallery} />
 
       {/* Challenge */}
       <Section>
