@@ -831,6 +831,102 @@ export const projectData: Record<string, ProjectDetail> = {
       duration: "2023 (8 months)",
     },
   },
+  "ev-bike-platform": {
+    title: "EV Bike OEM & Sales Platform",
+    category: "EV / OEM Platform (NDA)",
+    heroDesc:
+      "Foundation persona and use-case mapping for a low-speed EV bike OEM — a single platform spanning multi-plant factory MES, dealer + D2C sales, in-house EMI financing, and field service dispatch.",
+    timeline: "Feb 2026 — present (in flight)",
+    tags: ["EV", "OEM", "MES", "Field Dispatch", "EMI", "NDA"],
+    challenge:
+      "The OEM needed one platform to run a low-speed EV bike business end to end — multi-plant assembly and QC, a dealer network alongside direct-to-consumer sales, an in-house EMI scheme with no bank or NBFC involved, and a field-service model that could dispatch roaming technicians instead of relying on fixed workshops. No off-the-shelf category playbook covers all four at once: automotive MES, fintech-style installment lending, and gig-style field dispatch each carry their own conventions, and getting the seams wrong (e.g. an EMI customer who becomes eligible with no delivery trigger, or a service ticket nobody accepts) breaks trust at the exact moments that matter most.",
+    approach: [
+      "Mapped 30 personas across 5 groups — Manufacturing & Factory, Corporate/HQ, Channel & Field, Promoters & Partners, and End Customers — against 10 platform modules, then built a persona-to-module heat map to catch coverage gaps before scoping began",
+      "Simplified the channel model from a 3-tier OEM → Distributor → Dealer structure to single-tier OEM → Dealer with D2C running in parallel, removing an entire distributor persona and its use cases once the business decision was confirmed",
+      "Designed the in-house EMI & eligibility engine: customers enroll with no bank/NBFC, and the platform continuously evaluates accumulated payments against a threshold, auto-firing a \"you're now eligible\" alert that converts the payment record directly into a delivery workflow",
+      "Designed the alert-and-accept field dispatch model — a service ticket alerts the central office and every nearby field technician simultaneously; the first technician to accept owns the job, with automatic central-office fallback if nobody accepts inside the SLA window",
+      "Specified a full MES-grade, multi-plant factory module from day one — production planning, BOM with revision control, stage-gate QC, final PDI sign-off — built around VIN-level component genealogy so every chassis, battery, motor, and controller is serialized and bound at assembly for lifetime traceability, warranty triggers, and recall campaigns",
+      "Designed a single commission engine covering three distinct beneficiary types — referral promoters, dealer sales executives, and field technicians — with configurable accrual triggers, clawback rules, and a dispute-resolution flow",
+      "Surfaced 10 open product questions (EMI regulatory structure, dispatch radius assumptions, technician employment model, D2C fulfillment routing, commission accrual triggers) to legal, finance, and operations stakeholders before locking the full PRD",
+    ],
+    impact: [
+      "Collapsed the channel model from 3 tiers to 1, eliminating an entire distributor persona and its use cases before engineering estimation began",
+      "Closed 10 cross-functional open questions with legal, finance, and operations ahead of full PRD sign-off — including flagging the EMI scheme's regulatory structure for formal legal review before any refund/lapse logic gets built",
+      "Produced a persona-to-module heat map across 30 personas and 10 modules that became the shared reference for scoping conversations across factory, channel, and platform engineering teams",
+    ],
+    features: [
+      { title: "Full MES Factory Module", desc: "Production planning, BOM with revision control, work orders, stage-gate QC, and final PDI sign-off — built multi-plant from day one, not bolted on later." },
+      { title: "VIN-Level Asset Genealogy", desc: "Chassis, battery, motor, and controller are serialized and bound at assembly, giving every vehicle a full build-to-custody record for warranty, battery health, and recall traceability." },
+      { title: "In-House EMI & Eligibility Engine", desc: "A no-bank installment scheme where crossing a payment threshold auto-fires an eligibility alert that converts straight into the delivery workflow — no manual step in between." },
+      { title: "Alert-and-Accept Field Dispatch", desc: "Service tickets alert the central office and nearby technicians at once; first-to-accept owns the job, with SLA-based fallback if no one claims it in time." },
+      { title: "Three-Way Commission Engine", desc: "One rules engine covering referral promoters, dealer sales executives, and field technicians — configurable accrual triggers, clawbacks, and a shared dispute flow." },
+      { title: "Dealer + D2C Hybrid Channel", desc: "Home delivery and dealer showroom sales draw from one inventory pool instead of running as separate, conflicting channels." },
+    ],
+    role: {
+      title: "Senior UI/UX Designer & AI Product Designer",
+      scope: "Persona research, use-case inventory across 10 modules, platform scope decisions, cross-functional facilitation with legal/finance/operations",
+      team: "Foundation-phase design lead; working directly with business, finance, and operations stakeholders ahead of engineering scoping",
+      duration: "Feb 2026 — present",
+    },
+  },
+  "iiot-smart-factory": {
+    title: "IIoT Smart Factory Platform",
+    category: "IIoT / Industry 4.0",
+    heroDesc:
+      "Designed IIoT applications for Smart Factory and Industry 4.0 programs — spanning Big Data, ML, AI, and IoT platforms for industrial enterprise customers.",
+    timeline: "Sep 2018 — Jan 2020",
+    tags: ["IIoT", "Industry 4.0", "Smart Factory", "Progressive Disclosure"],
+    challenge:
+      "Industrial enterprises adopting Smart Factory and Industry 4.0 programs needed interfaces that could surface dense machine, sensor, and production data without overwhelming plant operators who weren't software-native users.",
+    approach: [
+      "Designed 6 distinct product experiences spanning IIoT monitoring, ML-driven insights, and AI-assisted diagnostics across Big Data and IoT platforms",
+      "Applied progressive disclosure and inline help patterns to keep dense industrial telemetry approachable for non-technical plant operators",
+      "Worked across Big Data, ML, AI, and IoT platform teams to establish consistent interaction patterns for sensor and production dashboards",
+    ],
+    impact: [
+      "6 product experiences shipped, used by 50+ enterprises across Smart Factory / Industry 4.0 programs",
+      "Reduced onboarding time by 40% through progressive disclosure and inline help patterns",
+    ],
+    features: [
+      { title: "Progressive Disclosure Dashboards", desc: "Dense sensor and production telemetry revealed in layers — summary first, drill-down on demand — so plant operators aren't overwhelmed on first use." },
+      { title: "Inline Help Patterns", desc: "Contextual guidance embedded directly in industrial monitoring screens, cutting the learning curve for non-technical operators." },
+    ],
+    role: {
+      title: "Senior UI UX Designer",
+      scope: "IIoT product design across 6 Smart Factory / Industry 4.0 experiences",
+      team: "Design lead within Microland's IIoT practice, partnered with ML and platform engineering teams",
+      duration: "Sep 2018 — Jan 2020",
+    },
+  },
+  "bigdata-analytics": {
+    title: "Big Data Analytics Platform",
+    category: "BigData / Enterprise Analytics",
+    heroDesc:
+      "Designed Big Data and IoT product interfaces for enterprise monitoring and analytics — establishing an accessibility baseline across all surfaces.",
+    timeline: "Jun 2016 — Nov 2017",
+    tags: ["BigData", "IoT", "Enterprise Analytics", "Accessibility"],
+    challenge:
+      "Enterprise monitoring and analytics use cases demanded interfaces for Big Data and IoT product lines that could handle large, dense datasets — while most designs in this space shipped without any real accessibility consideration.",
+    approach: [
+      "Designed interfaces for Big Data and IoT enterprise monitoring and analytics products",
+      "Established an accessibility baseline from scratch across all designed surfaces — contrast, keyboard navigation, and semantic structure",
+      "Validated every shipped screen against WCAG 2.1 AA before release",
+    ],
+    impact: [
+      "Achieved WCAG 2.1 AA compliance across all designed surfaces",
+      "Set the accessibility baseline the design org carried into future Big Data and IoT product lines",
+    ],
+    features: [
+      { title: "Accessibility Baseline", desc: "A from-scratch WCAG 2.1 AA standard applied across every enterprise analytics and monitoring surface." },
+      { title: "Dense Data Visualization", desc: "Enterprise-scale Big Data and IoT dashboards designed for clarity at high data density." },
+    ],
+    role: {
+      title: "UI UX Designer — Big Data & IoT",
+      scope: "Enterprise monitoring and analytics interface design",
+      team: "Design contributor at Knowledge Lens Pvt Ltd",
+      duration: "Jun 2016 — Nov 2017",
+    },
+  },
   "ott-platform": {
     title: "OTT Streaming Platform",
     category: "Entertainment / BigData",

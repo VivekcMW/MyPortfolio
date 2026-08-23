@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { Section, SectionHeader } from "@/components/Section";
@@ -28,13 +28,31 @@ const projects = [
     href: "/work/ehr-platform",
   },
   {
-    title: "IoT Command Center",
-    category: "IoT / BigData",
+    title: "IIoT Smart Factory Platform",
+    category: "IIoT / Industry 4.0",
     description:
-      "Built a real-time monitoring dashboard for connected devices, making complex sensor data elegant and actionable at scale.",
-    tags: ["IoT", "Real-time", "Dashboard", "D3.js"],
-    image: <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
-    href: "/work/iot-dashboard",
+      "Designed IIoT applications for Smart Factory and Industry 4.0 programs — 6 product experiences shipped for industrial enterprise customers.",
+    tags: ["IIoT", "Industry 4.0", "Smart Factory", "Progressive Disclosure"],
+    image: <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>,
+    href: "/work/iiot-smart-factory",
+  },
+  {
+    title: "Big Data Analytics Platform",
+    category: "BigData / Enterprise Analytics",
+    description:
+      "Designed Big Data and IoT product interfaces for enterprise monitoring and analytics — with an accessibility baseline built in from the first screen.",
+    tags: ["BigData", "IoT", "Enterprise Analytics", "Accessibility"],
+    image: <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>,
+    href: "/work/bigdata-analytics",
+  },
+  {
+    title: "EV Bike OEM & Sales Platform",
+    category: "EV / OEM Platform (NDA)",
+    description:
+      "Foundation persona and use-case mapping for a low-speed EV bike OEM — multi-plant factory MES, dealer + D2C sales, in-house EMI financing, and field service dispatch in one platform.",
+    tags: ["EV", "OEM", "MES", "Field Dispatch", "EMI"],
+    image: <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
+    href: "/work/ev-bike-platform",
   },
   {
     title: "OTT Streaming Platform",
@@ -45,13 +63,6 @@ const projects = [
     image: <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
     href: "/work/ott-platform",
   },
-];
-
-const heroStats = [
-  { value: "9+", label: "Years leading design" },
-  { value: "2M+", label: "Daily active users across 30+ countries" },
-  { value: "7", label: "Products launched" },
-  { value: "60%", label: "Faster go-to-market" },
 ];
 
 const featuredPosts = [
@@ -269,7 +280,7 @@ export default function HomePage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-32 pb-24">
+      <section className="relative overflow-hidden pt-40 pb-28">
         {/* Cursor-reactive grid background */}
         <div className="cursor-reactive-grid" />
         
@@ -278,14 +289,13 @@ export default function HomePage() {
         <div className="absolute bottom-[15%] right-[10%] w-[28rem] h-[28rem] bg-primary/6 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 container-premium w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          <div className="max-w-4xl mx-auto text-center">
             
-            {/* Left: Hero headline - 7 columns */}
+            {/* Hero headline */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="lg:col-span-7"
             >
               <div className="mb-6">
                 <span className="font-accent text-sm font-bold text-accent uppercase tracking-widest">
@@ -297,14 +307,14 @@ export default function HomePage() {
                 I architect design languages that make complexity feel simple
               </h1>
               
-              <p className="text-xl md:text-2xl text-muted leading-relaxed mb-10 max-w-2xl">
+              <p className="text-xl md:text-2xl text-muted leading-relaxed mb-10 max-w-2xl mx-auto">
                 Leading design strategy across a{" "}
                 <span className="text-primary font-semibold">7-product programmatic DOOH portfolio</span>
                 {" "}— building frameworks, systems, and research artifacts that AI cannot generate because they require lived B2B product decisions.
               </p>
 
               {/* Contact info - make it visible */}
-              <div className="flex flex-wrap items-center gap-4 mb-8 text-sm">
+              <div className="flex flex-wrap items-center justify-center gap-4 mb-8 text-sm">
                 <a href="mailto:vivekanand.design@gmail.com" className="flex items-center gap-2 text-muted hover:text-accent transition-colors">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
                   vivekanand.design@gmail.com
@@ -321,19 +331,7 @@ export default function HomePage() {
                 </span>
               </div>
 
-              {/* Proof stats — scannable at a glance instead of buried in copy */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-12 pt-6 border-t border-border">
-                {heroStats.map((stat) => (
-                  <div key={stat.label}>
-                    <div className="font-display font-bold text-3xl md:text-4xl text-primary">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-muted mt-1">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap justify-center gap-4">
                 <Magnetic strength={0.4}>
                   <a
                     href="mailto:vivekanand.design@gmail.com?subject=Let's collaborate&body=Hi Vivekanand,%0D%0A%0D%0AI'd love to discuss..."
@@ -364,42 +362,8 @@ export default function HomePage() {
                 </Link>
               </div>
             </motion.div>
-            
-            {/* Right: How I think - 5 columns */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="lg:col-span-5"
-            >
-              <PrinciplesPanel />
-            </motion.div>
           </div>
         </div>
-
-        {/* Scroll cue — orients first-time visitors */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-muted"
-        >
-          <span className="font-mono text-xs uppercase tracking-widest">Scroll to explore</span>
-          <motion.svg
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 5v14M5 12l7 7 7-7" />
-          </motion.svg>
-        </motion.div>
       </section>
 
       {/* Ink spread divider */}
@@ -510,150 +474,6 @@ export default function HomePage() {
   );
 }
 
-/* How I Think — interactive accordion: auto-advances, click/hover to pin, one clear focus at a time */
-function PrinciplesPanel() {
-  const principles = [
-    {
-      label: "Systems Thinking",
-      gist: "Tokens, not one-offs",
-      desc: "Every screen is a token; every flow anticipates the edge case.",
-      color: "var(--color-accent)",
-      icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>,
-    },
-    {
-      label: "Psychology-Led",
-      gist: "Perception over preference",
-      desc: "Decisions grounded in how people actually perceive and decide.",
-      color: "var(--color-primary)",
-      icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9.5 2a4.5 4.5 0 0 0-4.5 4.5c0 1.4.6 2.6 1.5 3.5v10a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V10a4.5 4.5 0 0 0 2-3.5V6"/><circle cx="9.5" cy="6.5" r="4.5"/></svg>,
-    },
-    {
-      label: "Data-Driven",
-      gist: "Evidence over opinion",
-      desc: "Instrumented from day one — opinions lose to evidence.",
-      color: "var(--color-accent)",
-      icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
-    },
-    {
-      label: "Goodhart-Aware",
-      gist: "Metrics that resist gaming",
-      desc: "Metrics chosen to resist gaming, not just to move up and to the right.",
-      color: "var(--color-primary)",
-      icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>,
-    },
-  ];
-
-  const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (paused) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % principles.length), 3200);
-    return () => clearInterval(id);
-  }, [paused, principles.length]);
-
-  const activeColor = principles[active].color;
-
-  return (
-    <div
-      className="rounded-3xl border border-border bg-surface p-6 sm:p-8"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      <div className="flex items-center justify-between mb-6">
-        <span className="font-accent text-xs font-bold text-accent uppercase tracking-widest">
-          How I Think
-        </span>
-        <span className="font-mono text-xs text-muted">
-          {String(active + 1).padStart(2, "0")} / {String(principles.length).padStart(2, "0")}
-        </span>
-      </div>
-
-      <div className="space-y-1">
-        {principles.map((p, i) => {
-          const isActive = i === active;
-          return (
-            <button
-              key={p.label}
-              type="button"
-              onClick={() => setActive(i)}
-              onFocus={() => setActive(i)}
-              className="w-full text-left rounded-2xl cursor-pointer"
-              style={{ background: isActive ? `${p.color}12` : "transparent" }}
-            >
-              <div className="flex items-center gap-4 p-3">
-                <motion.div
-                  animate={{ scale: isActive ? 1.08 : 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: `${p.color}1F`, color: p.color }}
-                >
-                  {p.icon}
-                </motion.div>
-                <div className="flex-1 min-w-0">
-                  <div className={`font-semibold transition-colors duration-300 ${isActive ? "text-foreground" : "text-muted"}`}>
-                    {p.label}
-                  </div>
-                  {!isActive && (
-                    <div className="text-xs text-muted/70 mt-0.5 truncate">{p.gist}</div>
-                  )}
-                </div>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="flex-shrink-0 transition-transform duration-300"
-                  style={{ color: p.color, transform: isActive ? "rotate(90deg)" : "rotate(0deg)" }}
-                >
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </div>
-              <AnimatePresence initial={false}>
-                {isActive && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="overflow-hidden"
-                  >
-                    <p className="text-sm text-muted leading-relaxed pb-4 pl-[3.75rem] pr-3">
-                      {p.desc}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Progress dots — double as manual navigation */}
-      <div className="flex items-center gap-2 mt-6 pl-1">
-        {principles.map((p, i) => (
-          <button
-            key={p.label}
-            type="button"
-            aria-label={`Show ${p.label}`}
-            onClick={() => setActive(i)}
-            className="h-1.5 rounded-full transition-all duration-300 cursor-pointer"
-            style={{
-              width: i === active ? "1.5rem" : "0.375rem",
-              background: i === active ? activeColor : "var(--color-border)",
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* Bento Card Component */
 function BentoCard({ project, index }: { project: typeof projects[0]; index: number }) {
   const cardRotations = [-2, 1, -1, 2];
@@ -663,6 +483,8 @@ function BentoCard({ project, index }: { project: typeof projects[0]; index: num
     "lg:col-span-5",
     "lg:col-span-7",
   ];
+  const rotation = cardRotations[index % cardRotations.length];
+  const span = gridSpans[index % gridSpans.length];
 
   return (
     <motion.div
@@ -670,8 +492,8 @@ function BentoCard({ project, index }: { project: typeof projects[0]; index: num
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className={`${gridSpans[index]} card-paper-stack`}
-      style={{ '--card-rotation': cardRotations[index] } as React.CSSProperties}
+      className={`${span} card-paper-stack`}
+      style={{ '--card-rotation': rotation } as React.CSSProperties}
     >
       <Link
         href={project.href}

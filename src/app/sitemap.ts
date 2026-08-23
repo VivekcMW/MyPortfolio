@@ -18,6 +18,9 @@ const caseStudySlugs = [
   "ott-platform",
   "design-systems-scale",
   "constructiviq-construction-cloud",
+  "iiot-smart-factory",
+  "bigdata-analytics",
+  "ev-bike-platform",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

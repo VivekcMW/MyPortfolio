@@ -18,7 +18,10 @@ type Domain =
   | "Construction"
   | "Healthcare"
   | "GovTech"
-  | "Entertainment";
+  | "Entertainment"
+  | "IIoT"
+  | "BigData"
+  | "EV";
 
 /* Domain hues double as filter-pill colors and per-card accent chips. */
 const domainColors: Record<Domain, string> = {
@@ -28,6 +31,9 @@ const domainColors: Record<Domain, string> = {
   Healthcare: "#10B981",
   GovTech: "#0EA5E9",
   Entertainment: "#EC4899",
+  IIoT: "#F97316",
+  BigData: "#14B8A6",
+  EV: "#84CC16",
 };
 
 const domainList = Object.keys(domainColors) as Domain[];
@@ -256,6 +262,60 @@ const caseStudies: Array<{
         <rect x="14" y="3" width="7" height="7" />
         <rect x="14" y="14" width="7" height="7" />
         <rect x="3" y="14" width="7" height="7" />
+      </svg>
+    ),
+  },
+  {
+    slug: "ev-bike-platform",
+    title: "EV Bike OEM & Sales Platform",
+    category: "EV / OEM Platform (NDA)",
+    domain: "EV",
+    description:
+      "Foundation persona & use-case mapping for a low-speed EV bike OEM — multi-plant factory MES, dealer + D2C sales, in-house EMI financing, and alert-and-accept field service dispatch.",
+    tags: ["EV", "OEM", "MES", "Field Dispatch", "EMI", "NDA"],
+    timeline: "Feb 2026 — present",
+    role: "Senior UI/UX Designer & AI Product Designer",
+    status: "in-flight",
+    image: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
+      </svg>
+    ),
+  },
+  {
+    slug: "iiot-smart-factory",
+    title: "IIoT Smart Factory Platform",
+    category: "IIoT / Industry 4.0",
+    domain: "IIoT",
+    description:
+      "IIoT applications for Smart Factory / Industry 4.0 programs spanning Big Data, ML, AI, and IoT platforms — 6 product experiences shipped for industrial enterprise customers.",
+    tags: ["IIoT", "Industry 4.0", "Smart Factory", "Progressive Disclosure"],
+    timeline: "Sep 2018 — Jan 2020",
+    role: "Senior UI UX Designer",
+    status: "shipped",
+    image: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+      </svg>
+    ),
+  },
+  {
+    slug: "bigdata-analytics",
+    title: "Big Data Analytics Platform",
+    category: "BigData / Enterprise Analytics",
+    domain: "BigData",
+    description:
+      "Big Data and IoT product interfaces for enterprise monitoring and analytics — with an accessibility baseline built in from the first screen.",
+    tags: ["BigData", "IoT", "Enterprise Analytics", "Accessibility"],
+    timeline: "Jun 2016 — Nov 2017",
+    role: "UI UX Designer — Big Data & IoT",
+    status: "shipped",
+    image: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
       </svg>
     ),
   },
